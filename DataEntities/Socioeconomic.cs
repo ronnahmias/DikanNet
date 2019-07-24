@@ -13,8 +13,10 @@ namespace DataEntities
     [Table("Socioeconomic")]
     public class Socioeconomic
     {
-        [Key]
+        [Key, Column(Order = 0)]
         public int? ScholarshipId { get; set; }
+
+        [Key, Column(Order = 1)]
         public string StudentId { get; set; }
 
         [Display(Name = "שנת לימוד")]

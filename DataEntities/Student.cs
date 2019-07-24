@@ -47,7 +47,8 @@ namespace DataEntities
 
         [Display(Name = "תאריך לידה")]
         [DataType(DataType.Date)]
-        public DateTime? BirthDay { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime BirthDay { get; set; }
 
         [Display(Name = "מגדר")]
         public string Gender { get; set; }

@@ -13,10 +13,10 @@ namespace Common
     {
        public enum Gender
             {
-            גבר,
-            אישה,
+            גבר = 0,
+            אישה = 1,
             [Display(Name = "לא מוגדר")]
-            מסרב
+            מסרב = 2
             }
         public enum MatrialStatus
         {

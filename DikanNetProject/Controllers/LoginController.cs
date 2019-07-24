@@ -15,6 +15,7 @@ namespace DikanNetProject.Controllers
     [RequireHttps] // only https requests
     public class LoginController : Controller
     {
+        #region Login
         [HttpGet]
         public ActionResult Login()
         {
@@ -85,6 +86,10 @@ namespace DikanNetProject.Controllers
             return View(loginuser);
         }
 
+        #endregion
+
+        #region Registration
+
         [HttpGet]
         public ActionResult Registration()
         {
@@ -129,6 +134,89 @@ namespace DikanNetProject.Controllers
             return View();
         }
 
+        #endregion
+
+        #region Forgot Pass
+
+        [HttpGet]
+        public ActionResult ForgotPass()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ForgotPass(Users user)
+        {
+            using (DikanDbContext ctx = new DikanDbContext())
+            {
+                var account = ctx.Users.Where(u => u.Email == user.Email).Where(u => u.UserId == user.UserId).FirstOrDefault();
+                if (account != null)
+                {
+                    account.ResetPasswordCode = Guid.NewGuid();
+                    ctx.Configuration.ValidateOnSaveEnabled = false;
+                    ctx.SaveChanges();
+
+                    // send reset code email to user
+                    var body = "על מנת לאפס את הסיסמא עלייך ללחוץ על התמונה";
+                    var username = account.FirstName + " " + account.LastName;
+                    var verifyUrl = "/Login/" + "ResetPassword/" + account.ResetPasswordCode.ToString();
+                    var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, verifyUrl);
+                    body = SendMail.CreateBodyEmail(username, link, body);
+                    SendMail.SendEmailLink(account.Email, body, "איפוס סיסמא - דיקאנט");
+                    // return message of sending email
+                }
+            }
+            return View(user); // add message that the email has been send 
+        }
+
+        #endregion
+
+        #region Reset Password
+
+        [HttpGet]
+        public ActionResult ResetPassword(string id)
+        {
+            using (DikanDbContext ctx = new DikanDbContext())
+            {
+                var account = ctx.Users.Where(u => u.ResetPasswordCode == new Guid(id)).FirstOrDefault();
+                if (account != null)
+                {
+                    ResetPasswordModel model = new ResetPasswordModel();
+                    model.ResetPasswordCode = new Guid(id);
+                    ctx.Configuration.ValidateOnSaveEnabled = false;
+                    ctx.SaveChanges();
+                    return View(model);
+                }
+                else
+                    return HttpNotFound();
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ResetPassword(ResetPasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                using (DikanDbContext ctx = new DikanDbContext())
+                {
+                    var user = ctx.Users.Where(u => u.ResetPasswordCode == model.ResetPasswordCode).FirstOrDefault();
+                    if (user != null)
+                    {
+                        user.Password = Crypto.Hash(model.Password);
+                        user.ResetPasswordCode = null;
+                        ctx.Configuration.ValidateOnSaveEnabled = false;
+                        ctx.SaveChanges();
+                        // return feedback of change password with button to login
+                    }
+                }
+            }
+            return View(model);
+        }
+
+        #endregion
+
         [HttpPost]
         public ActionResult CheckIfUserExist(string UserId, string Email) // ajax call
         {
@@ -161,79 +249,6 @@ namespace DikanNetProject.Controllers
             return View();
         }
 
-
-        [HttpGet]
-        public ActionResult ForgotPass()
-        {
-                return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult ForgotPass(Users user)
-        {
-            using (DikanDbContext ctx = new DikanDbContext())
-            {
-                var account = ctx.Users.Where(u => u.Email == user.Email).Where(u=>u.UserId==user.UserId).FirstOrDefault();
-                if(account!=null)
-                {
-                    account.ResetPasswordCode = Guid.NewGuid();
-                    ctx.Configuration.ValidateOnSaveEnabled = false;
-                    ctx.SaveChanges();
-
-                    // send reset code email to user
-                    var body = "על מנת לאפס את הסיסמא עלייך ללחוץ על התמונה";
-                    var username = account.FirstName + " " + account.LastName;
-                    var verifyUrl = "/Login/" + "ResetPassword/" + account.ResetPasswordCode.ToString();
-                    var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, verifyUrl);
-                    body = SendMail.CreateBodyEmail(username, link, body);
-                    SendMail.SendEmailLink(account.Email, body, "איפוס סיסמא - דיקאנט");
-                    // return message of sending email
-                }
-            }
-                return View(user); // add message that the email has been send 
-        }
-
-        [HttpGet]
-        public ActionResult ResetPassword(string id)
-        {
-            using (DikanDbContext ctx = new DikanDbContext())
-            {
-                var account = ctx.Users.Where(u => u.ResetPasswordCode == new Guid(id)).FirstOrDefault();
-                if (account != null)
-                {
-                    ResetPasswordModel model = new ResetPasswordModel();
-                    model.ResetPasswordCode = new Guid(id);
-                    ctx.Configuration.ValidateOnSaveEnabled = false;
-                    ctx.SaveChanges();
-                    return View(model);
-                }
-                else
-                    return HttpNotFound();
-            }
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult ResetPassword(ResetPasswordModel model)
-        {
-            if(ModelState.IsValid)
-            {
-                using (DikanDbContext ctx = new DikanDbContext())
-                {
-                    var user = ctx.Users.Where(u => u.ResetPasswordCode == model.ResetPasswordCode).FirstOrDefault();
-                    if(user!=null)
-                    {
-                        user.Password = Crypto.Hash(model.Password);
-                        user.ResetPasswordCode = null;
-                        ctx.Configuration.ValidateOnSaveEnabled = false;
-                        ctx.SaveChanges();
-                        // return feedback of change password with button to login
-                    }
-                }
-            }
-            return View(model);
-        }
 
         public ActionResult Disconnect() // disconnect from user
         {

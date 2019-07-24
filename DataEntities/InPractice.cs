@@ -12,8 +12,10 @@ namespace DataEntities
     [Table("InPractice")]
     public class InPractice
     {
-        [Key]
+        [Key , Column(Order = 0)]
         public int? ScholarshipId { get; set; }
+
+        [Key, Column(Order = 1)]
         public string StudentId { get; set; }
 
         [Display(Name = "שנת לימוד"),Required(ErrorMessage ="חובה למלא שנת לימוד")]

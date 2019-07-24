@@ -21,9 +21,9 @@ namespace DataEntities
         public int Type { get; set; }
         public DateTime DateOpenScholarship { get; set; }
         public DateTime DateDeadLine { get; set; }
-        public virtual Socioeconomic Socioeconomic { get; set; }
-        public virtual InPractice InPractice { get; set; }
-        public virtual ExcellenceStudent ExcellenceStudent { get; set; }
+        public virtual ICollection<Socioeconomic> Socioeconomicc { get; set; }
+        public virtual ICollection<InPractice> InPractices { get; set; }
+        public virtual ICollection<ExcellenceStudent> ExcellenceStudents { get; set; }
 
     }
 }

@@ -19,16 +19,19 @@ namespace DataEntities.DB
                 .HasForeignKey(s => s.CountryBirthId);
 
             modelBuilder.Entity<ScholarshipDefinition>()
-            .HasOptional(f => f.Socioeconomic)
-            .WithRequired(s => s.ScholarshipDefinition);
+             .HasMany(s => s.Socioeconomicc)
+            .WithRequired(s => s.ScholarshipDefinition)
+            .HasForeignKey(s => s.ScholarshipId);
 
             modelBuilder.Entity<ScholarshipDefinition>()
-           .HasOptional(f => f.ExcellenceStudent)
-           .WithRequired(s => s.ScholarshipDefinition);
+           .HasMany(f => f.ExcellenceStudents)
+           .WithRequired(s => s.ScholarshipDefinition)
+           .HasForeignKey(s => s.ScholarshipId);
 
             modelBuilder.Entity<ScholarshipDefinition>()
-           .HasOptional(f => f.InPractice)
-           .WithRequired(s => s.ScholarshipDefinition);
+           .HasMany(f => f.InPractices)
+           .WithRequired(s => s.ScholarshipDefinition)
+           .HasForeignKey(s => s.ScholarshipId);
 
             modelBuilder.Entity<VolunteerPlaces>()
                 .HasMany(s => s.InPracticess)

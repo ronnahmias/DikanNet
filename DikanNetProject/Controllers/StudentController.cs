@@ -71,9 +71,11 @@ namespace DikanNetProject.Controllers
                 Student student;
                 using (DikanDbContext ctx = new DikanDbContext())
                 {
+                    ViewBag.GendersList = new SelectList(genderlist(), "Value", "Text");
                     ViewBag.MajorsList = new SelectList(ctx.Majors.ToList(), "MajorId", "MajorName"); // to show majors list in drop down
                     ViewBag.CountriesList = new SelectList(ctx.Countries.ToList(), "CountryId", "CountryName"); // to show countries list in drop down
                     ViewBag.CitiesList = new SelectList(ctx.Cities.ToList(), "Id", "Name"); // to show cities list in drop down
+                    
                     student = ctx.Students.Where(z => z.StudentId == StudentId).FirstOrDefault();
                     if (student == null) // didnt found in student table -> first login -> update basic info
                     {
@@ -344,5 +346,6 @@ namespace DikanNetProject.Controllers
             }
             return years;
         }
+    
     }
 }
