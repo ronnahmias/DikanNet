@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html lang="HE" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title @ViewBag.StudentName</title>
+    <link rel="icon" href="~/Content/Pic/Logo.png" type="image/x-icon" />
+    @Styles.Render("~/Content/css")
+
+</head>
+<body class="text-right" style="background-color:#fcfbe3">
+    <div class="col-12 text-center">
+        <a href="@Url.Action("Index","Student")">
+            <img src="~/Content/Pic/Logo.png" alt="דיקאנט לוגו" class="logo img-fluid " />
+        </a>
+        <a href="@Url.Action("UpdateStudent","Student")" class="btn btn-primary">עדכון פרטים
+        </a>
+    </div>
+    <div class="row p-2">
+        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 pb-3">
+            <h1 class="text-center">שלום @ViewBag.StudentName </h1>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8">
+            <!-- Nav pills -->
+            <ul class="nav nav-pills nav-justified">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="pill" href="#reqStatuses">סטטוסי בקשות</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="pill" href="#reqScholarship">הגשת מלגות</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="pill" href="#reqUpdate">עדכון בקשות</a>
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("התנתק","Disconnect","Login",null,new { @class="nav-link btn-danger" })
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="container-fluid body-content mt-4">
+        @RenderBody()
+    </div>
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+
+</body>
+</html>

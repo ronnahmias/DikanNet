@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "אימות חשבון";
+    Layout = "~/Views/Login/_Layout.cshtml";
+}
+
+<h2>אימות חשבון</h2>
+
+@if (Convert.ToBoolean(ViewBag.Status))
+{
+<div class="alert alert-success">
+    <strong>האימות הצליח</strong>
+    <br />
+    @Html.ActionLink("לחץ להתחברות", "Login", null, new { @class = "btn btn-info", type = "button", id = "Login" })
+</div>
+}
+else
+{
+    <div class="alert alert-danger">
+        <strong>האימות כשל</strong> @ViewBag.Message
+        <p>נסה שנית או פנה למנהל המערכת</p>
+    </div>
+}
+

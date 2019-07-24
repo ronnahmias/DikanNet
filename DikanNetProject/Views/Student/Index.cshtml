@@ -1,0 +1,251 @@
+﻿@using DataEntities;
+@using System.Data.Entity;
+@model DataEntities.StudentMain
+@{
+    ViewBag.Title = "דף סטודנט - ";
+    Layout = "~/Views/Student/_Layout.cshtml";
+    ViewBag.StudentName = ((Users)Session["Student"]).FirstName + " " + ((Users)Session["Student"]).LastName;
+}
+@{ var id = ((Users)Session["Student"]).UserId;}
+<!-- Tab panes -->
+    <div class="tab-content container text-center">
+        <div class="tab-pane active " id="reqStatuses">
+            <div class="row bg-dark text-white py-3 d-none d-md-flex">
+                <!--Scholarship No-->
+                <div class="col-lg-3 col-xl-3">
+                    #
+                </div>
+                <!--Scholarship Name-->
+                <div class="col-lg-3 col-xl-3">
+                    שם מלגה
+                </div>
+                <!--Scholarship Last Date Update-->
+                <div class="col-lg-3 col-xl-3">
+                    תאריך עדכון סטטוס
+                </div>
+                <!--Scholarship Status-->
+                <div class="col-lg-3 col-xl-3">
+                    סטטוס
+                </div>
+            </div>
+
+            @{ var counterUpdates = 1;
+                foreach (var sp in Model.InPracticeList.Where(s => s.DateSubmitScholarship != null).ToList())
+                {
+                    <div class="row py-3 border border-secondary">
+                        <!--Scholarship No-->
+                        <div class="col-lg-3 col-xl-3">
+                            @counterUpdates
+                        </div>
+                        <!--Scholarship Name-->
+                        <div class="col-lg-3 col-xl-3">
+                            @sp.ScholarshipDefinition.ScholarshipName
+                        </div>
+                        <!--Scholarship Last Date Update-->
+                        <div class="col-lg-3 col-xl-3">
+                            @DateTime.Parse(@sp.StatusUpdateDate.ToString()).ToString("dd/MM/yyyy")
+                        </div>
+                        <!--Scholarship Status-->
+                        <div class="col-lg-3 col-xl-3">
+                            @sp.Statuss
+                        </div>
+                    </div>
+                    counterUpdates = counterUpdates + 1;
+                }
+            }
+
+            @{
+                foreach (var sp in Model.ExcelList.Where(s => s.DateSubmitScholarship != null).ToList())
+                {
+                    <div class="row py-3 border border-secondary">
+                        <!--Scholarship No-->
+                        <div class="col-lg-3 col-xl-3">
+                            @counterUpdates
+                        </div>
+                        <!--Scholarship Name-->
+                        <div class="col-lg-3 col-xl-3">
+                            @sp.ScholarshipDefinition.ScholarshipName
+                        </div>
+                        <!--Scholarship Last Date Update-->
+                        <div class="col-lg-3 col-xl-3">
+                            @DateTime.Parse(@sp.StatusUpdateDate.ToString()).ToString("dd/MM/yyyy")
+                        </div>
+                        <!--Scholarship Status-->
+                        <div class="col-lg-3 col-xl-3">
+                            @sp.Statuss
+                        </div>
+                    </div>
+                    counterUpdates = counterUpdates + 1;
+                }
+            }
+
+            @{
+                foreach (var sp in Model.SocioList.Where(s => s.DateSubmitScholarship != null).ToList())
+                {
+                    <div class="row py-3 border border-secondary">
+                        <!--Scholarship No-->
+                        <div class="col-lg-3 col-xl-3">
+                            @counterUpdates
+                        </div>
+                        <!--Scholarship Name-->
+                        <div class="col-lg-3 col-xl-3">
+                            @sp.ScholarshipDefinition.ScholarshipName
+                        </div>
+                        <!--Scholarship Last Date Update-->
+                        <div class="col-lg-3 col-xl-3">
+                            @DateTime.Parse(@sp.StatusUpdateDate.ToString()).ToString("dd/MM/yyyy")
+                        </div>
+                        <!--Scholarship Status-->
+                        <div class="col-lg-3 col-xl-3">
+                            @sp.Statuss
+                        </div>
+                    </div>
+                    counterUpdates = counterUpdates + 1;
+                }
+            }
+        </div>
+        <div class="tab-pane container fade bg-white p-0" id="reqScholarship">
+            <!-- Nav pills -->
+            <ul class="nav nav-pills nav-justified pt-2 px-0" style="background-color:#808080;">
+                @{ foreach (var sp in Model.ScholarshipDefinitions.ToList())
+                    {
+                        String idd = "#sp" + sp.ScholarshipID;
+                        int i = 0;
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="pill" href=@idd>@sp.ScholarshipName</a>
+                        </li>
+                    }
+                }
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content pt-4 bg-white px-4">
+                @foreach (var sp in Model.ScholarshipDefinitions.ToList())
+                {
+                    int i = 0;
+                    String idd = "sp" + sp.ScholarshipID;
+                    if (i == 0)
+                    {
+                        <div class="tab-pane container active" id=@idd>
+                            <h3>@sp.ScholarshipName</h3>
+                            <p>@sp.ScholarshipDetails</p>
+                            <p>המלגה מיועדת לסטודנטים מיעוטי יכולת בהתאם לדרישות מטה</p>
+                            <p>ללא מקורות מימון נוספים</p>
+                            <p>@sp.ScholarshipAmount ש"ח</p>
+
+                            @Html.ActionLink("להגשת בקשת מלגה", "RedirectToScholarship", new { scholarshipid = sp.ScholarshipID }, new { @class = "btn btn-primary" })
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="tab-pane container" id=@idd>
+                            <h3>@sp.ScholarshipName</h3>
+                            <p>@sp.ScholarshipDetails</p>
+                            <p>המלגה מיועדת לסטודנטים מיעוטי יכולת בהתאם לדרישות מטה</p>
+                            <p>ללא מקורות מימון נוספים</p>
+                            <p>@sp.ScholarshipAmount ש"ח</p>
+
+                            <a href="#" class="btn btn-primary">להגשת בקשת מלגה</a>
+                        </div>
+                    }
+                }
+                </>
+            </div>
+
+        </div>
+
+        <div class="tab-pane container fade" id="reqUpdate">
+            <div class="row bg-dark text-white py-3 d-none d-md-flex">
+                <!--Scholarship No-->
+                <div class="col-lg-1 col-xl-1">
+                    #
+                </div>
+                <!--Scholarship Name-->
+                <div class="col-lg-4 col-xl-4">
+                    שם מלגה
+                </div>
+                <!--Scholarship Last Date Submit-->
+                <div class="col-lg-4 col-xl-4">
+                    תאריך אחרון להגשת בקשה למלגה
+                </div>
+                <!--Scholarship Go Submit-->
+                <div class="col-lg-3 col-xl-3">
+                    המשך בקשת מלגה
+                </div>
+            </div>
+            @{ var counter = 1;
+                foreach (var sp in Model.InPracticeList.Where(s => s.DateSubmitScholarship == null && (s.ScholarshipDefinition.DateDeadLine > DateTime.Now) && (s.ScholarshipDefinition.DateOpenScholarship < DateTime.Now)).ToList())
+                {
+                    <div class="row bg-dark text-white py-3 d-none d-md-flex">
+                        <!--Scholarship No-->
+                        <div class="col-lg-3 col-xl-3">
+                            @counter
+                        </div>
+                        <!--Scholarship Name-->
+                        <div class="col-lg-3 col-xl-3">
+                            @sp.ScholarshipDefinition.ScholarshipName
+                        </div>
+                        <!--Scholarship Last Date Submit-->
+                        <div class="col-lg-3 col-xl-3">
+                            @sp.ScholarshipDefinition.DateDeadLine.ToString("dd/MM/yyyy")
+                        </div>
+                        <!--Scholarship Go Submit-->
+                        <div class="col-lg-3 col-xl-3">
+                            @Html.ActionLink("להמשך שליחת המלגה", "RedirectToScholarship", new { scholarshipid = sp.ScholarshipDefinition.ScholarshipID }, new { @class = "btn btn-warning" })
+                        </div>
+                    </div>
+                    counter = counter + 1;
+                }
+            }
+
+            @{
+                foreach (var sp in Model.ExcelList.Where(s => s.DateSubmitScholarship == null && (s.ScholarshipDefinition.DateDeadLine > DateTime.Now) && (s.ScholarshipDefinition.DateOpenScholarship < DateTime.Now)).ToList())
+                {
+                    <div class="row bg-dark text-white py-3 d-none d-md-flex">
+                        <!--Scholarship No-->
+                        <div class="col-lg-3 col-xl-3">
+                            @counter
+                        </div>
+                        <!--Scholarship Name-->
+                        <div class="col-lg-3 col-xl-3">
+                            @sp.ScholarshipDefinition.ScholarshipName
+                        </div>
+                        <!--Scholarship Last Date Submit-->
+                        <div class="col-lg-3 col-xl-3">
+                            @sp.ScholarshipDefinition.DateDeadLine.ToString("dd/MM/yyyy")
+                        </div>
+                        <!--Scholarship Go Submit-->
+                        <div class="col-lg-3 col-xl-3">
+                            @Html.ActionLink("להמשך שליחת המלגה", "RedirectToScholarship", new { scholarshipid = sp.ScholarshipDefinition.ScholarshipID }, new { @class = "btn btn-warning" })
+                        </div>
+                    </div>
+                }
+            }
+
+            @{
+                foreach (var sp in Model.SocioList.Where(s => s.DateSubmitScholarship == null && (s.ScholarshipDefinition.DateDeadLine > DateTime.Now) && (s.ScholarshipDefinition.DateOpenScholarship < DateTime.Now)).ToList())
+                {
+                    <div class="row bg-dark text-white py-3 d-none d-md-flex">
+                        <!--Scholarship No-->
+                        <div class="col-lg-3 col-xl-3">
+                            @counter
+                        </div>
+                        <!--Scholarship Name-->
+                        <div class="col-lg-3 col-xl-3">
+                            @sp.ScholarshipDefinition.ScholarshipName
+                        </div>
+                        <!--Scholarship Last Date Submit-->
+                        <div class="col-lg-3 col-xl-3">
+                            @sp.ScholarshipDefinition.DateDeadLine.ToString("dd/MM/yyyy")
+                        </div>
+                        <!--Scholarship Go Submit-->
+                        <div class="col-lg-3 col-xl-3">
+                            @Html.ActionLink("להמשך שליחת המלגה", "RedirectToScholarship", new { scholarshipid = sp.ScholarshipDefinition.ScholarshipID }, new { @class = "btn btn-warning" })
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+
+

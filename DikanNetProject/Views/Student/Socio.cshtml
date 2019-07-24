@@ -1,0 +1,237 @@
+﻿@using DataEntities;
+@model DataEntities.SocioAdd
+
+@{
+    ViewBag.Title = "מלגת סוציואקונומית - ";
+    Layout = "~/Views/Login/_Layout.cshtml";
+    ViewBag.StudentName = ((Users)HttpContext.Current.Session["Student"]).FirstName + " " + ((Users)HttpContext.Current.Session["Student"]).LastName;
+}
+
+<h2>סוציואקונומי</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    <hr />
+    @Html.HiddenFor(model => model.Socioeconomic1.ScholarshipId, new { @class = "control-label col-md-2" })
+
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Socioeconomic1.SchoolYear, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.Socioeconomic1.SchoolYear,
+            new SelectList(Enum.GetNames(typeof(Common.Enums.SchoolYear))), "שנת לימוד", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Socioeconomic1.SchoolYear, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Socioeconomic1.Apartment, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Socioeconomic1.Apartment)
+                @Html.ValidationMessageFor(model => model.Socioeconomic1.Apartment, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Socioeconomic1.ApartmentLeaseFile, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.Socioeconomic1.ApartmentLeaseFile, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
+            @Html.ValidationMessageFor(model => model.Socioeconomic1.ApartmentLeaseFile, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Socioeconomic1.Newcomer, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Socioeconomic1.Newcomer)
+                @Html.ValidationMessageFor(model => model.Socioeconomic1.Newcomer, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Socioeconomic1.DateImmigration, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Socioeconomic1.DateImmigration, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Socioeconomic1.DateImmigration, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Socioeconomic1.NewcomerFile, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.Socioeconomic1.NewcomerFile, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
+            @Html.ValidationMessageFor(model => model.Socioeconomic1.NewcomerFile, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Socioeconomic1.SingleParent, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Socioeconomic1.SingleParent)
+                @Html.ValidationMessageFor(model => model.Socioeconomic1.SingleParent, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Socioeconomic1.SingleParentFile, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.Socioeconomic1.SingleParentFile, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
+            @Html.ValidationMessageFor(model => model.Socioeconomic1.SingleParentFile, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Socioeconomic1.BereavedFam, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Socioeconomic1.BereavedFam)
+                @Html.ValidationMessageFor(model => model.Socioeconomic1.BereavedFam, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Socioeconomic1.BereavedFamFile, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.Socioeconomic1.BereavedFamFile, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
+            @Html.ValidationMessageFor(model => model.Socioeconomic1.BereavedFamFile, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Socioeconomic1.ReceiveScholarship, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Socioeconomic1.ReceiveScholarship)
+                @Html.ValidationMessageFor(model => model.Socioeconomic1.ReceiveScholarship, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Socioeconomic1.MilitaryService, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Socioeconomic1.MilitaryService, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Socioeconomic1.MilitaryService, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Socioeconomic1.MilitaryServiceFile, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.Socioeconomic1.MilitaryServiceFile, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
+            @Html.ValidationMessageFor(model => model.Socioeconomic1.MilitaryServiceFile, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Socioeconomic1.ReserveMilitaryService, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Socioeconomic1.ReserveMilitaryService)
+                @Html.ValidationMessageFor(model => model.Socioeconomic1.ReserveMilitaryService, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Socioeconomic1.ReserveMilitaryServiceFile, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.Socioeconomic1.ReserveMilitaryServiceFile, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
+            @Html.ValidationMessageFor(model => model.Socioeconomic1.ReserveMilitaryServiceFile, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Socioeconomic1.HasFunding, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Socioeconomic1.HasFunding)
+                @Html.ValidationMessageFor(model => model.Socioeconomic1.HasFunding, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Socioeconomic1.CarOwner, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Socioeconomic1.CarOwner)
+                @Html.ValidationMessageFor(model => model.Socioeconomic1.CarOwner, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row text-center">
+        <!--labels for table of car student-->
+        @Html.LabelFor(model => model.CarStudent1[0].CarNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.CarStudent1[0].CarCompany, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.CarStudent1[0].CarModel, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.CarStudent1[0].CarYear, htmlAttributes: new { @class = "control-label col-md-1" })
+        @Html.LabelFor(model => model.CarStudent1[0].CarComment, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.CarStudent1[0].CarLicenseFile, htmlAttributes: new { @class = "control-label col-md-2" })
+        <label class="col-md-1">מחיקה</label>
+    </div>
+    @Html.HiddenFor(m => m.CarStudent1.Count, new {@id="carstdcount" });
+    <div class="" id="carsdiv">
+        @for (int i = 0; i < Model.CarStudent1.Count(); i++)
+        {
+        <div class="form-group row text-center">
+            @Html.EditorFor(model => model.CarStudent1[i].CarNumber, new { htmlAttributes = new { @class = "control-label col-md-2" } })
+            @Html.EditorFor(model => model.CarStudent1[i].CarCompany, new { htmlAttributes = new { @class = "control-label col-md-2" } })
+            @Html.EditorFor(model => model.CarStudent1[i].CarModel, new { htmlAttributes = new { @class = "control-label col-md-2" } })
+            @Html.DropDownListFor(model => model.CarStudent1[i].CarYear, (IEnumerable<SelectListItem>)ViewBag.YearsList, "שנת ייצור", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.EditorFor(model => model.CarStudent1[i].CarComment, new { htmlAttributes = new { @class = "control-label col-md-2" } })
+            @Html.TextBoxFor(model => model.CarStudent1[i].CarLicenseFile, new { @class = "control-label col-md-1", @type = "file" })
+            @Html.HiddenFor(model => model.CarStudent1[i].StudentId)
+            <div class="col-md-1">
+                <button class="btn btn-danger" type="button">X</button>
+            </div>
+        </div>
+            <div class="form-group row">
+                @Html.ValidationMessageFor(model => model.CarStudent1[i].CarNumber, "", new { @class = "control-label col-md-2" })
+                @Html.ValidationMessageFor(model => model.CarStudent1[i].CarCompany, "", new { @class = "control-label col-md-2" })
+                @Html.ValidationMessageFor(model => model.CarStudent1[i].CarModel, "", new { @class = "control-label col-md-2" })
+                @Html.ValidationMessageFor(model => model.CarStudent1[i].CarYear, "", new { @class = "control-label col-md-2" })
+                @Html.ValidationMessageFor(model => model.CarStudent1[i].CarComment, "", new { @class = "control-label col-md-2" })
+                @Html.ValidationMessageFor(model => model.CarStudent1[i].CarLicenseFile, "", new { @class = "control-label col-md-2" })
+            </div>
+        }
+    </div>
+    <button class="btn btn-outline-success" id="addCar" type="button">+</button>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Socioeconomic1.DisabilityType, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Socioeconomic1.DisabilityType, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Socioeconomic1.DisabilityType, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Socioeconomic1.FileDisabilityType, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.Socioeconomic1.FileDisabilityType, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
+            @Html.ValidationMessageFor(model => model.Socioeconomic1.FileDisabilityType, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="הגש מלגה" class="btn btn-success" name="uploadmethod" />
+            <input type="submit" value="שמור טיוטה" class="btn btn-warning" name="uploadmethod" />
+        </div>
+    </div>
+</div>
+}

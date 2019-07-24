@@ -1,0 +1,79 @@
+﻿@using DataEntities;
+@model DataEntities.InPractice
+
+@{
+    ViewBag.Title = "מלגת הלכה למעשה - ";
+    Layout = "~/Views/Student/_Layout.cshtml";
+    ViewBag.StudentName = ((Users)HttpContext.Current.Session["Student"]).FirstName + " " + ((Users)HttpContext.Current.Session["Student"]).LastName;
+}
+
+<h2>מלגת הלכה למעשה</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    @Html.HiddenFor(model => model.ScholarshipId, new { @class = "control-label col-md-2" }
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.SchoolYear, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.SchoolYear,
+           new SelectList(Enum.GetNames(typeof(Common.Enums.SchoolYear))), "בחר שנת לימוד", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.SchoolYear, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.VolunteerExp, htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.VolunteerExp, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.VolunteerExp, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.VoluntaryAvailability, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.VoluntaryAvailability, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.VoluntaryAvailability, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.AboutMe, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.AboutMe, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.AboutMe, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Volunteer1Id, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.Volunteer1Id, ViewBag.VolunteerPlacesList as SelectList, "אופציה ראשונה למקום התנדבות", htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Volunteer1Id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Volunteer2Id, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+           @Html.DropDownListFor(model => model.Volunteer2Id, (IEnumerable<SelectListItem>)ViewBag.VolunteerPlacesList, "אופציה שנייה למקום התנדבות", htmlAttributes: new { @class = "form-control" })
+           @Html.ValidationMessageFor(model => model.Volunteer2Id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <p>חתימה</p>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="הגש מלגה" class="btn btn-success" name="uploadmethod"/>
+            <input type="submit" value="שמור טיוטה" class="btn btn-warning" name="uploadmethod" />
+        </div>
+    </div>
+</div>
+}

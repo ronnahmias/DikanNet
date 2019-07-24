@@ -1,0 +1,133 @@
+﻿@model DataEntities.Users
+@{
+    ViewBag.Title = "הרשמה";
+    ViewBag.Message = "הרשמה";
+    ViewBag.ModelTitle = "שגיאה";
+    ViewBag.ModelMessageBody = "אחד הפרטים או יותר לא נכונים";
+    Layout = "~/Views/Login/_Layout.cshtml";
+}
+
+<p class="text-center">
+    אנא מלא את הפרטים כפי שרשומים במערכת מוסד הלימודים
+</p>
+
+@using (Html.BeginForm("Registration","Login",FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row container-fluid">
+        <div class="row col-12 form-group justify-content-center text-center">
+            @Html.LabelFor(model => model.UserId, htmlAttributes: new { @class = "col-sm-12 col-md-3 col-lg-2 col-xl-1" })
+            <div class="col-sm-12 col-md-8 col-lg-6 col-xl-5">
+                @Html.EditorFor(model => model.UserId, new { htmlAttributes = new { @class = "form-control only-numbers",maxlength="9", placeholder = @Html.DisplayNameFor(m => m.UserId), pattern = "[0-9]{9}", type = "text", name = @Html.DisplayNameFor(m => m.UserId), id = @Html.NameFor(m => m.UserId) } })
+                @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row col-12 form-group justify-content-center text-center ">
+            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "col-sm-12 col-md-3 col-lg-2 col-xl-1" })
+            <div class="col-sm-12 col-md-8 col-lg-6 col-xl-5">
+                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", placeholder = @Html.DisplayNameFor(m => m.FirstName), type = "text", name = @Html.NameFor(m => m.FirstName), id = @Html.NameFor(m => m.FirstName) } })
+                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="row col-12 form-group justify-content-center text-center ">
+            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "col-sm-12 col-md-3 col-lg-2 col-xl-1" })
+            <div class="col-sm-12 col-md-8 col-lg-6 col-xl-5">
+                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", placeholder = @Html.DisplayNameFor(m => m.LastName), type = "text", name = @Html.NameFor(m => m.LastName), id = @Html.NameFor(m => m.LastName) } })
+                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="row col-12 form-group justify-content-center text-center ">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "col-sm-12 col-md-3 col-lg-2 col-xl-1" })
+            <div class="col-sm-12 col-md-8 col-lg-6 col-xl-5">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = @Html.DisplayNameFor(m => m.Email), type = "email", name = @Html.NameFor(i => i.Email), id = @Html.NameFor(i => i.Email) } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+
+        <div class="row col-12 form-group justify-content-center text-center ">
+            <label for="email" class="col-sm-12 col-md-3 col-lg-2 col-xl-1">Captcha</label>
+            <div class="col-sm-12 col-md-8 col-lg-6 col-xl-5">
+                <input id="email" type="email" name="email" class="form-control" placeholder="לא פעיל" />
+            </div>
+        </div>
+
+        <div class="col-12 form-group justify-content-center text-center ">
+            <button type="button" class="btn btn-primary" onclick="return checkValid()">הרשם</button>
+        </div>
+    </div>
+
+
+
+    <!-- Modal content-->
+    <div class="modal fade" id="choosePassModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header ">
+                    <h4 class="modal-title">בחירת סיסמא</h4>
+                    <button type="button" class="close ml-0" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body text-center">
+                    אנא בחר את הסיסמא
+                    <p class="text-danger">
+                        על הסיסמא להכיל לפחות 8 תווים אשר כוללים אות גדולה, אות קטנה ומספר
+                    </p>
+                    <div class="w-75 mx-auto">
+                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control w-100 m-1", placeholder = @Html.DisplayNameFor(m => m.Password), type = "password", id = @Html.NameFor(m => m.Password) } })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger", id= "ValidMessagePassword"})
+
+                        @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control w-100 m-1", placeholder = @Html.DisplayNameFor(m => m.ConfirmPassword), type = "password", id = @Html.NameFor(m => m.ConfirmPassword) } })
+                        @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success" onclick="return checkPasswordsValid()">הכנס</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+<script>
+    function checkValid()
+    {  
+        var id = $('#UserId').val();
+        var email = $('#Email').val();
+        if(! (validId(id) && validEmail(email)))
+        {
+                $('#responseModal').modal('show');
+                alert("failed");
+                return false;
+        }
+        alert("sucssess");
+
+        $.ajax({
+            url: "/Login/CheckIfUserExist",
+            dataType: 'text',
+            data: {Email: email, UserId: id },
+				  method: "POST",
+				  success: function(){				  
+					
+					  // open pass modal
+                      $('#choosePassModal').modal('show');
+                      return true;
+				  },
+            error: function (xhr, ajaxOptions, thrownError) {
+                      $('#responseModal').modal('show');
+					  console.log(xhr.status);
+					  console.log(thrownError);
+                      return false;
+				  }
+				});
+
+    }
+</script>
