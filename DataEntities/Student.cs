@@ -22,7 +22,7 @@ namespace DataEntities
         [Display(Name = "שם משפחה")]
         public string LastName { get; set; }
 
-        [Display(Name = "אימייל")]
+        [Display(Name = "אימייל - במידה ותשנה את כתובת המייל שלך תצטרך לאמת אותה מחדש")]
         public string Email { get; set; }
 
         [Display(Name = "עיר")]

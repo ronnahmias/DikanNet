@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using System.Web.Mvc;
 
 namespace Common
 {
     public class Enums
     {
-       public enum Gender
+        public enum Genders
             {
-            גבר = 0,
-            אישה = 1,
-            [Display(Name = "לא מוגדר")]
-            מסרב = 2
+            גבר,
+            אישה,
+            מסרב
             }
         public enum MatrialStatus
         {
