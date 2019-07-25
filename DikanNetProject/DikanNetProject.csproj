@@ -115,8 +115,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\EmailTmp\banner.png" />
-    <Content Include="Content\EmailTmp\btn.png" />
+    <Content Include="Content\EmailTmp\1.jpg" />
+    <Content Include="Content\EmailTmp\2.png" />
     <Content Include="Content\EmailTmp\EmailTemplete.html" />
     <Content Include="Content\Pic\Logo.png" />
     <Content Include="Content\Css\BaseCSS.css" />
