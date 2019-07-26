@@ -114,20 +114,20 @@
             url: "/Login/CheckIfUserExist",
             dataType: 'text',
             data: {Email: email, UserId: id },
-				  method: "POST",
-				  success: function(){				  
+	        method: "POST",
+            success: function(){				  
 					
-					  // open pass modal
-                      $('#choosePassModal').modal('show');
-                      return true;
-				  },
+                // open pass modal
+                $('#choosePassModal').modal('show');
+                return true;
+            },
             error: function (xhr, ajaxOptions, thrownError) {
-                      $('#responseModal').modal('show');
-					  console.log(xhr.status);
-					  console.log(thrownError);
-                      return false;
-				  }
-				});
+                $('#responseModal').modal('show');
+                console.log(xhr.status);
+                console.log(thrownError);
+                return false;
+            }
+        });
 
     }
 </script>

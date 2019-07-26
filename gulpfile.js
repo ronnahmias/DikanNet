@@ -12,7 +12,7 @@ const rename = require('gulp-rename') // npm install --save-dev gulp-rename
   gulp.watch - Watch files and folders for changes
 */
 
-
+const destJs = 'DikanNetProject/Scripts/MyJs';
 
 // Logs Message
 function message(done){
@@ -50,8 +50,16 @@ function minifyJs(done)
       .pipe(rename({
         suffix: '.min'
       }))
-      .pipe(gulp.dest('DikanNetProject/Scripts'));
+      .pipe(gulp.dest(destJs));
   done();
+}
+
+// CopyOrginal JS
+function copyJs(done)
+{
+    gulp.src('DikanNetProject/src/js/*.js')
+      .pipe(gulp.dest(destJs));
+      done();
 }
 
 // Concat scripts
@@ -60,7 +68,7 @@ function combainJs(done)
   gulp.src('DikanNetProject/src/js/*.js')
       .pipe(concat('main.js'))
       .pipe(uglify())
-      .pipe(gulp.dest('DikanNetProject/Scripts'));
+      .pipe(gulp.dest(destJs));
   done();
 }
 
@@ -77,6 +85,7 @@ function sassToCss(done){
 function watch_files() {
   gulp.watch('DikanNetProject/src/sass/*.scss',sassToCss );
   gulp.watch('DikanNetProject/src/js/*.js' ,minifyJs );
+  gulp.watch('DikanNetProject/src/js/*.js' ,copyJs );
   gulp.watch('DikanNetProject/src/pic/*' ,imageMin );
 }
 
@@ -84,8 +93,9 @@ gulp.task('message', message);
 gulp.task('copyHtml',copyHtml);
 gulp.task('imageMin',imageMin);
 gulp.task('minifyJs',minifyJs);
+gulp.task('copyJs',copyJs);
 gulp.task('sassToCss',sassToCss);
 gulp.task('combainJs',combainJs);
 
-gulp.task('default', gulp.parallel(message,imageMin,minifyJs,sassToCss) );
+gulp.task('default', gulp.parallel(message,imageMin,copyJs,minifyJs,sassToCss) );
 gulp.task('watch',gulp.series(watch_files));

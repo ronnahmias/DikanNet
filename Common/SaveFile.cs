@@ -12,7 +12,7 @@ namespace Common
     {
         public static string SaveFileInServer(HttpPostedFileBase pFile, string pFileName, string pId,string pOldFile)
         {
-           
+            int fileSize = pFile.ContentLength;
             var fileExt = Path.GetExtension(pFile.FileName);
             var serverpathsave = Path.Combine(HttpContext.Current.Server.MapPath("~/UsersFiles/") + pId);
             if (!Directory.Exists(serverpathsave))

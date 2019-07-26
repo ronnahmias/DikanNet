@@ -1,4 +1,4 @@
-﻿/*************
+/*************
 Version: 1.1;
 Last Update: 26/7/19
 
@@ -28,10 +28,6 @@ $(document).ready(function () {
 
     $(".chosen").chosen();
 });
-
-$(function () {
-    $(".chosen").chosen()
-})
 
 // validtion for ID
 function validId(id) {

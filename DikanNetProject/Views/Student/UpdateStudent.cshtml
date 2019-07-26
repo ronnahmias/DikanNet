@@ -5,7 +5,6 @@
     ViewBag.Title = "עדכון פרטים";
     Layout = "~/Views/Student/_Layout.cshtml";
 }
-
 @using (Html.BeginForm("UpdateStudent", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
@@ -42,7 +41,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.City, (IEnumerable<SelectListItem>)ViewBag.CitiesList, "עיר מגורים", htmlAttributes: new { @class = "form-control" })                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.City, (IEnumerable<SelectListItem>)ViewBag.CitiesList, "עיר מגורים", htmlAttributes: new { @class = "form-control chosen" })
+                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -65,7 +65,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.IdFile, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.IdFile, new { @class = "form-control", @type = "file" })
+                @Html.TextBoxFor(model => model.IdFile, new { @class = "form-control", @type = "file", @id = "IdFile", @onchange = "uploaFile();" })
                 @Html.ValidationMessageFor(model => model.IdFile, "", new { @class = "text-danger" })
                 @Html.EditorFor(model => model.FileId)
             </div>
@@ -74,7 +74,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.MajorId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.MajorId, (IEnumerable<SelectListItem>)ViewBag.MajorsList, "בחירת מגמה", htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.MajorId, (IEnumerable<SelectListItem>)ViewBag.MajorsList, "בחירת מגמה", htmlAttributes: new { @class = "form-control chosen" })
                 @Html.ValidationMessageFor(model => model.MajorId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -83,7 +83,7 @@
             @Html.LabelFor(model => model.LearnPath, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.LearnPath,
-               new SelectList(Enum.GetNames(typeof(Common.Enums.LearningPath))), "מסלול לימודים", new { @class = "form-control" })
+               new SelectList(Enum.GetNames(typeof(Common.Enums.LearningPath))), "מסלול לימודים", new { @class = "form-control chosen" })
                 @Html.ValidationMessageFor(model => model.LearnPath, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -100,7 +100,7 @@
             @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.Gender,
-          new SelectList(Enum.GetValues(typeof(Common.Enums.Genders))), "מגדר", new { @class = "form-control" })
+          new SelectList(Enum.GetValues(typeof(Common.Enums.Genders))), "מגדר", new { @class = "form-control chosen" })
                 @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -124,7 +124,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CountryBirthId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.CountryBirthId, (IEnumerable<SelectListItem>)ViewBag.CountriesList, "בחירת ארץ לידה", htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.CountryBirthId, (IEnumerable<SelectListItem>)ViewBag.CountriesList, "בחירת ארץ לידה", htmlAttributes: new { @class = "form-control chosen" })
                 @Html.ValidationMessageFor(model => model.CountryBirthId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -133,7 +133,7 @@
             @Html.LabelFor(model => model.MaritalStatus, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.MaritalStatus,
-           new SelectList(Enum.GetValues(typeof(Common.Enums.MatrialStatus))), "מצב משפחתי", new { @class = "form-control" })
+           new SelectList(Enum.GetValues(typeof(Common.Enums.MatrialStatus))), "מצב משפחתי", new { @class = "form-control chosen" })
                 @Html.ValidationMessageFor(model => model.MaritalStatus, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -149,3 +149,30 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+@section scripts{
+    <script>
+        function uploadFile() {
+            console.log("Change IdFile");
+            var file = $("#IdFile").get(0).files;
+            var formData = new FormData();
+            formData.append("Img", file[0]);
+
+            $.ajax({
+                type: "POST",
+                url: "/Student/UploadFile",
+                data: formData,
+                dataType: 'json',
+                contentType: false,
+                proccessData: false,
+                success: function (response) {
+                    alert("Success!");
+
+                },
+                error: function (err) {
+                    alert("Upload Failed!");
+                    console.log(err);
+                }
+            });
+        };
+    </script>
+}

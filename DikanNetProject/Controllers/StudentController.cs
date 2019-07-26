@@ -320,6 +320,14 @@ namespace DikanNetProject.Controllers
         }
         #endregion
 
+        [HttpPost]
+        public string UploadFile()
+        {
+            HttpPostedFileBase file = Request.Files[0];
+            return SaveFile.SaveFileInServer(file, "Id", StudentId, null);         
+        }
+
+
         [NonAction]
         public List<VolunteerPlaces> SetsvolunteerPlaces() // add to name and desc to name_desc field
         {
