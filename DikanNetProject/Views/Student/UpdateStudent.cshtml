@@ -65,9 +65,10 @@
         <div class="form-group">
             @Html.LabelFor(model => model.IdFile, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.IdFile, new { @class = "form-control", @type = "file", @id = "IdFile", @onchange = "uploaFile();" })
+                @Html.TextBoxFor(model => model.IdFile, new { @class = "form-control", @type = "file", @id = "IdFile" })
                 @Html.ValidationMessageFor(model => model.IdFile, "", new { @class = "text-danger" })
                 @Html.EditorFor(model => model.FileId)
+
             </div>
         </div>
 
@@ -133,7 +134,7 @@
             @Html.LabelFor(model => model.MaritalStatus, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.MaritalStatus,
-           new SelectList(Enum.GetValues(typeof(Common.Enums.MatrialStatus))), "מצב משפחתי", new { @class = "form-control chosen"})
+           new SelectList(Enum.GetValues(typeof(Common.Enums.MatrialStatus))), "מצב משפחתי", new { @class = "form-control chosen" })
                 @Html.ValidationMessageFor(model => model.MaritalStatus, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -146,6 +147,13 @@
     </div>
 }
 
+@using (Html.BeginForm("UploadFile", "Student", FormMethod.Post))
+{
+    <input type="file" name="fileUpload" id="fileUpload" onchange="document.forms[1].submit();" />
+}
+
+
+
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
@@ -156,7 +164,7 @@
             var file = $("#IdFile").get(0).files;
             var formData = new FormData();
             formData.append("Img", file[0]);
-
+            console.log("Change IdFile1");
             $.ajax({
                 type: "POST",
                 url: "/Student/UploadFile",
@@ -164,6 +172,7 @@
                 dataType: 'json',
                 contentType: false,
                 proccessData: false,
+                cache: false,
                 success: function (response) {
                     alert("Success!");
 
