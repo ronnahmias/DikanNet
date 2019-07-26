@@ -1,13 +1,12 @@
 ﻿/*************
-Version: 1.0;
-Last Update: 13/5/19
+Version: 1.1;
+Last Update: 26/7/19
 
 
 
 **************/
 
 $(document).ready(function () {
-
     //add attrbute onkeypress inly numbers allow
     $('.only-numbers').attr('onkeypress', 'return event.charCode >= 48 && event.charCode <=57');
 

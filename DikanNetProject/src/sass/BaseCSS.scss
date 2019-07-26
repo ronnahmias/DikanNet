@@ -1,0 +1,98 @@
+﻿/*************
+Version: 1.1;
+Last Update: 26/7/19
+
+
+
+**************/
+
+
+body{
+    padding-top:50px;
+}
+
+.logo{
+    width:160px;
+}
+
+.review-password {
+    cursor: default;
+}
+
+div#reqStatuses > div:nth-child(odd)
+{
+    background-color:#ddd;
+}
+
+
+/** reqScholarship **/
+
+#reqScholarship
+{
+    ul.nav{
+        a{
+            color:#fff;
+            .active{
+                background-color: #fff;
+                color:#000000;
+            }
+        }
+    }
+    div.tab-pane{
+        padding:40px;
+    }
+    div.tab-content
+    {
+        h3{
+            font-size: 3rem;
+            margin-bottom: 40px;
+        }
+        p{
+            font-size: 1.2rem;
+        }
+        a.btn{
+            font-size: 1.6rem;
+            margin-top:50px;
+            transition: 0.5s;
+            &:hover{
+                font-size: 1.9rem;
+                background-color: #fff;
+                color: var(--primary);
+                border: 1px solid var(--primary);
+            }
+        }
+    }
+}
+
+#reqScholarship div.tab-content p:nth-child(2):before
+{
+    content: "תמצית: ";
+}
+#reqScholarship div.tab-content p:nth-child(3):before
+{
+    content: "תנאים: ";
+}
+#reqScholarship div.tab-content p:nth-child(4):before
+{
+    content: "דרישות: ";
+}
+#reqScholarship div.tab-content p:nth-child(5):before
+{
+    content: "גובה מלגה: ";
+}
+
+@media (max-width: 768px) 
+{
+    #reqScholarship {
+        max-width: 100%;
+    }
+}
+
+@media(max-width:740px) 
+{
+    #reqScholarship {
+        .nav{
+            display: block;
+        }
+    }
+}

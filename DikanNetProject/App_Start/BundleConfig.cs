@@ -13,7 +13,7 @@ namespace DikanNetProject
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
-                      "~/Scripts/MyJS.js"));
+                      "~/Scripts/MyJS.min.js"));
 
             bundles.Add(new StyleBundle("~/Content/Css").Include(
                       "~/Content/Css/bootstrap.css",

@@ -115,17 +115,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Css\BaseCSS.css" />
     <Content Include="Content\EmailTmp\1.jpg" />
     <Content Include="Content\EmailTmp\2.png" />
     <Content Include="Content\EmailTmp\EmailTemplete.html" />
-    <Content Include="Content\Pic\Logo.png" />
-    <Content Include="Content\Css\BaseCSS.css" />
     <Content Include="Content\Css\bootstrap-grid.css" />
     <Content Include="Content\Css\bootstrap-grid.min.css" />
     <Content Include="Content\Css\bootstrap-reboot.css" />
     <Content Include="Content\Css\bootstrap-reboot.min.css" />
     <Content Include="Content\Css\bootstrap.css" />
     <Content Include="Content\Css\bootstrap.min.css" />
+    <Content Include="Content\Pic\Logo.png" />
     <Content Include="Content\ui-bootstrap-csp.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
@@ -159,7 +159,7 @@
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
-    <Content Include="Scripts\MyJS.js" />
+    <Content Include="Scripts\MyJS.min.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
@@ -168,6 +168,8 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="src\js\MyJS.js" />
+    <Content Include="src\pic\Logo.png" />
     <Content Include="Web.config" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
@@ -209,6 +211,7 @@
     <Content Include="Views\Student\Halacha.cshtml" />
     <Content Include="Views\Student\Excellent.cshtml" />
     <Content Include="Views\Student\ddCar.cshtml" />
+    <Content Include="src\sass\BaseCSS.scss" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
