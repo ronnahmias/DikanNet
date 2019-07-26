@@ -147,23 +147,29 @@
     </div>
 }
 
-@using (Html.BeginForm("UploadFile", "Student", FormMethod.Post))
+@using (Html.BeginForm("UploadFile", "Student", FormMethod.Post, new { @id = "formupload", enctype = "multipart/form-data" }))
 {
-    <input type="file" name="fileUpload" id="fileUpload" onchange="document.forms[1].submit();" />
+    @Html.AntiForgeryToken()
+    <input type="file" id="IdFile" name="filee" @*onchange="document.forms[1].submit();"*@ onchange="uploadd();" />
 }
+
+
 
 
 
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
 @section scripts{
+
     <script>
         function uploadFile() {
             console.log("Change IdFile");
             var file = $("#IdFile").get(0).files;
             var formData = new FormData();
             formData.append("Img", file[0]);
+            //$("#formupload").append("Img", file[0]);
             console.log("Change IdFile1");
             $.ajax({
                 type: "POST",
@@ -182,6 +188,10 @@
                     console.log(err);
                 }
             });
-        };
+    };
+
+    function uploadd() {
+        $('formupload').ajaxSubmit();
+    }
     </script>
 }

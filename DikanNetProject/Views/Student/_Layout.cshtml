@@ -13,7 +13,8 @@
         <a href="@Url.Action("Index","Student")">
             <img src="~/Content/Pic/Logo.png" alt="דיקאנט לוגו" class="logo img-fluid " />
         </a>
-        <a href="@Url.Action("UpdateStudent","Student")" class="btn btn-primary">עדכון פרטים
+        <a href="@Url.Action("UpdateStudent","Student")" class="btn btn-primary">
+            עדכון פרטים
         </a>
     </div>
     <div class="row p-2">
@@ -33,7 +34,7 @@
                     <a class="nav-link" data-toggle="pill" href="#reqUpdate">עדכון בקשות</a>
                 </li>
                 <li class="nav-item">
-                    @Html.ActionLink("התנתק","Disconnect","Login",null,new { @class="nav-link btn-danger" })
+                    @Html.ActionLink("התנתק", "Disconnect", "Login", null, new { @class = "nav-link btn-danger" })
                 </li>
             </ul>
         </div>
@@ -46,7 +47,7 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
-
+    <script src="~/Scripts/jquery.form.min.js"></script>
 
 </body>
 </html>

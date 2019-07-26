@@ -148,6 +148,8 @@
     <Content Include="Content\Css\bootstrap-reboot.css.map" />
     <Content Include="Content\Css\bootstrap-grid.min.css.map" />
     <Content Include="Content\Css\bootstrap-grid.css.map" />
+    <Content Include="Scripts\jquery.form.js" />
+    <Content Include="Scripts\jquery.form.min.js" />
     <Content Include="Scripts\MyJs\chosen.jquery.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
@@ -219,6 +221,7 @@
     <Content Include="Views\Student\Excellent.cshtml" />
     <Content Include="Views\Student\ddCar.cshtml" />
     <Content Include="src\sass\BaseCSS.scss" />
+    <Content Include="Scripts\jquery.form.min.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

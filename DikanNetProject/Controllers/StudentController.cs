@@ -321,10 +321,16 @@ namespace DikanNetProject.Controllers
         #endregion
 
         [HttpPost]
-        public string UploadFile()
+        [ValidateAntiForgeryToken]
+        public string UploadFile(HttpPostedFileBase filee)
         {
-            HttpPostedFileBase file = Request.Files[0];
-            return SaveFile.SaveFileInServer(file, "Id", StudentId, null);         
+            Student st;
+            var file = Request.Files[0];
+            using(DikanDbContext ctx = new DikanDbContext())
+            {
+                st = ctx.Students.Find(StudentId);
+            }
+            return SaveFile.SaveFileInServer(file, "Id", StudentId, st.FileId);         
         }
 
 
