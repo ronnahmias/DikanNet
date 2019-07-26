@@ -133,7 +133,7 @@
             @Html.LabelFor(model => model.MaritalStatus, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.MaritalStatus,
-           new SelectList(Enum.GetValues(typeof(Common.Enums.MatrialStatus))), "מצב משפחתי", new { @class = "form-control chosen" })
+           new SelectList(Enum.GetValues(typeof(Common.Enums.MatrialStatus))), "מצב משפחתי", new { @class = "form-control chosen"})
                 @Html.ValidationMessageFor(model => model.MaritalStatus, "", new { @class = "text-danger" })
             </div>
         </div>

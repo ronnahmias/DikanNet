@@ -15,6 +15,9 @@ body {
 .review-password {
   cursor: default; }
 
+.chosen {
+  font-size: 22px; }
+
 div#reqStatuses > div:nth-child(odd) {
   background-color: #ddd; }
 

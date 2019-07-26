@@ -29,9 +29,14 @@ $(document).ready(function () {
     $(".chosen").chosen();
 });
 
+// Function for dropdown lists to chose
 $(function () {
-    $(".chosen").chosen()
-})
+    $(".chosen").chosen(
+        {
+            no_results_text: "אין ערך כזה.",
+            rtl: true
+        });
+});
 
 // validtion for ID
 function validId(id) {
