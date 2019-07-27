@@ -147,7 +147,13 @@
     </div>
 }
 
-@using (Html.BeginForm("UploadFile", "Student", FormMethod.Post, new { @id = "formupload", enctype = "multipart/form-data" }))
+@using (Ajax.BeginForm("UploadFile", "Student", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccess", OnFailure = "OnFailure" }, new { @id = "formupload1" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="file" id="IdFile" name="filee" @*onchange="document.forms[1].submit();"*@ onchange="uploadd();" />
+}
+
+@using (Html.BeginForm("UploadFile", "Student", FormMethod.Post, new { enctype = "multipart/form-data" , @id = "formupload" }))
 {
     @Html.AntiForgeryToken()
     <input type="file" id="IdFile" name="filee" @*onchange="document.forms[1].submit();"*@ onchange="uploadd();" />
@@ -188,14 +194,15 @@
                     console.log(err);
                 }
             });
-    };
+        };
 
-    function uploadd() {
-        $('#formupload').ajaxSubmit({
-            beforeSubmit: function() { alert('b4'); },
-            success: function() { alert('Run on Success'); }, // option to do progress bar of uploading
-            error: function(request, errordata, errorObject) { alert(errorObject.toString()); },
-        });
-    }
+        function uploadd() {
+            $('#formupload').ajaxSubmit({
+                beforeSubmit: function () { alert('before submit'); },
+                
+                success: function () { alert('Success'); }, // option to do progress bar of uploading
+                error: function (request, errordata, errorObject) { alert(errorObject.toString()); },
+            });
+        }
     </script>
 }
