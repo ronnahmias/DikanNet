@@ -18,6 +18,8 @@ $(document).ready(function () {
         $('input#Password').attr('type', 'password');
         });
 
+    $(".chosen").chosen();
+
      // added by ron ---
     var carcount = $("#carstdcount").val();
 
@@ -25,8 +27,6 @@ $(document).ready(function () {
         $("#carsdiv").append("<input class='control - label col - md - 2 text - box single - line' data-val='true' data-val-number='The field CarNumber must be a number.' data-val-required='השדה CarNumber נדרש.' id='CarStudent1_"+carcount+"__CarNumber' name='CarStudent1["+carcount+"].CarNumber' type='number' >");
         carcount++;
     });
-
-    $(".chosen").chosen();
 });
 
 // Function for dropdown lists to chose
