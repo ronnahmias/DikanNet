@@ -10,6 +10,7 @@ using DataEntities.DB;
 using System.Web.Routing;
 using System.IO;
 using System.Data.Entity;
+using System.Net;
 
 namespace DikanNetProject.Controllers
 {
@@ -322,15 +323,17 @@ namespace DikanNetProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public string UploadFile(HttpPostedFileBase filee)
+        public ActionResult UploadFile(HttpPostedFileBase filee)
         {
             Student st;
             var file = Request.Files[0];
             using(DikanDbContext ctx = new DikanDbContext())
             {
                 st = ctx.Students.Find(StudentId);
+                st.FileId = SaveFile.SaveFileInServer(filee, "Id", StudentId, st.FileId); // או להחזיר את המיקום לקליינט ולעדכן את השדה במוסתר ואז לשלוח כששולחיםבכפתור
+                ctx.SaveChanges();
             }
-            return SaveFile.SaveFileInServer(file, "Id", StudentId, st.FileId);         
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
 
