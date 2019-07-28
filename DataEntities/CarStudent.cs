@@ -28,7 +28,7 @@ namespace DataEntities
         public string FileCarLicense { get; set; }
 
         [Display(Name = "שנת ייצור"), Required(ErrorMessage = "חובה להזין שנת ייצור")]
-        public int CarYear { get; set; }
+        public int? CarYear { get; set; }
 
         [Display(Name = "הערות")]
         public string CarComment { get; set; }

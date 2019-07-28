@@ -289,20 +289,20 @@ namespace DikanNetProject.Controllers
         [HttpGet]
         public ActionResult Socio(int scholarshipid)
         {
-            ViewBag.YearsList = new SelectList(YearsSelectList(), "Value", "Text"); // to show volunteer places list in drop down
+            ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show volunteer places list in drop down
             SocioAdd socio = new SocioAdd
             {
-                Socioeconomic1 = new Socioeconomic(),
-                CarStudent1 = new List<CarStudent>()
+                SocioMod = new Socioeconomic(),
+                ListCarStudent = new List<CarStudent>()
             };
-            socio.Socioeconomic1.ScholarshipId = scholarshipid;
-            socio.Socioeconomic1.StudentId = StudentId;
+            socio.SocioMod.ScholarshipId = scholarshipid;
+            socio.SocioMod.StudentId = StudentId;
             using(DikanDbContext ctx = new DikanDbContext())
             {
                 foreach (var car in ctx.CarStudents.Where(s=>s.StudentId == StudentId).ToList()) // get all cars of student from db to list
                 {
                     car.StudentId = StudentId;
-                    socio.CarStudent1.Add(car);
+                    socio.ListCarStudent.Add(car);
                 }
             }
             return View(socio);
@@ -310,12 +310,12 @@ namespace DikanNetProject.Controllers
 
         [HttpPost]
         public ActionResult Socio(SocioAdd socioeconomic) // submit  new socio scholarship
-        {
-            socioeconomic.Socioeconomic1.StudentId = StudentId;
+         {
+            socioeconomic.SocioMod.StudentId = StudentId;
             if (ModelState.IsValid)
             {
             }
-            ViewBag.YearsList = new SelectList(YearsSelectList(), "Value", "Text"); // to show volunteer places list in drop down
+            ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show volunteer places list in drop down
             return View(socioeconomic);
           
         }
@@ -332,7 +332,7 @@ namespace DikanNetProject.Controllers
             }
             var file = Request.Files[0];
             string path;
-            path = SaveFile.SaveFileInServer(filee, fileName, StudentId, oldFile); // או להחזיר את המיקום לקליינט ולעדכן את השדה במוסתר ואז לשלוח כששולחים בכפתור          }
+            path = SaveFile.SaveFileInServer(filee, fileName, StudentId, oldFile);
             Response.StatusCode = 200;
             return Content(path, "text/plain");
         }
@@ -354,12 +354,12 @@ namespace DikanNetProject.Controllers
         }
 
         [NonAction]
-        public IEnumerable<SelectListItem> YearsSelectList()
+        public List<SelectListItem> YearsSelectList()
         {
             List<SelectListItem> years = new List<SelectListItem>();
             for(int year= DateTime.Now.Year; year>=1980;year--)
             {
-                years.Add(new SelectListItem { Value = year.ToString(), Text = year.ToString() });
+                years.Add(new SelectListItem { Text = year.ToString(), Value = year.ToString() });
             }
             return years;
         }

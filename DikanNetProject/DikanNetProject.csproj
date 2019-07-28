@@ -223,6 +223,7 @@
     <Content Include="src\sass\BaseCSS.scss" />
     <Content Include="Scripts\jquery.form.min.js.map" />
     <Content Include="Views\Student\_Sp_Layout.cshtml" />
+    <Content Include="Views\Student\UploadFileAjax.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

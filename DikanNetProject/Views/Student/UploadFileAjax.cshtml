@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewBag.Title = "UploadFileAjax";
+    Layout = "~/Views/Student/_Layout.cshtml";
+}
+
+<h2>UploadFileAjax</h2>
+
+
+<!--Upload File Using AJAX-->
+
+@using (Html.BeginForm("UploadFile", "Student", FormMethod.Post, new { enctype = "multipart/form-data", @id = "formupload", @class = "d-none" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="file" id="IdFile" name="filee" onchange="uploadd();" />
+    <input class="d-none" name="fileName" type="text" value="Id" />
+    @Html.HiddenFor(s => s.FileId, new { @Name = "oldFile" });
+    <div class="progress progress-striped">
+        <div class="progress-bar progress-bar-success">0%</div>
+    </div>
+}
+<embed src="" id="embUpp" type="application/pdf" class="d-none" />
+
+@section scripts{
+
+    <script>
+        function uploadd() {
+            var bar = $('.progress-bar');
+            var percent = $('.progress-bar');
+            var status = $('#status');
+            $('#formupload').ajaxSubmit({
+                beforeSend: function () {
+                    status.empty();
+                    var percentVal = '0%';
+                    bar.width(percentVal)
+                    percent.html(percentVal);
+                },
+                uploadProgress: function (event, position, total, percentComplete) {
+                    var percentVal = percentComplete + '%';
+                    bar.width(percentVal)
+                    percent.html(percentVal);
+                },
+                success: function (path) {
+                    var percentVal = '100%';
+                    bar.width(percentVal)
+                    percent.html(percentVal);
+                    loadFile(path, $('#embUpp'));
+                    $('#FileId').val(path);
+                    $("input[name='oldFile']").val(path);
+                },
+                complete: function (xhr) {
+                    status.html(xhr.responseText);
+                }
+            });
+        }
+
+    /* The function load file to embed arttibute
+     * check the type of file
+     * if it pdf show pdf
+     * else it a image type and show img
+     * The function get the file path's
+     */
+    function loadFile(path,embed) {
+        var type = path.split('.')[1];
+        embed.addClass('d-none');
+        embed.attr('src', '');
+        if (path.length == 0) return;
+        embed.attr('src', '/UsersFiles/@(((Users)Session["Student"]).UserId)/' + path);
+        if (type == 'pdf')
+            embed.attr('type', 'application/pdf');
+        else
+            embed.attr('type', 'image/' + type);
+        embed.removeClass('d-none');
+    }
+    </script>
+}
