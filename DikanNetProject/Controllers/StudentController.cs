@@ -11,6 +11,7 @@ using System.Web.Routing;
 using System.IO;
 using System.Data.Entity;
 using System.Net;
+using Newtonsoft.Json;
 
 namespace DikanNetProject.Controllers
 {
@@ -304,7 +305,8 @@ namespace DikanNetProject.Controllers
                     car.StudentId = StudentId;
                     socio.ListCarStudent.Add(car);
                 }
-            }
+                ctx.Configuration.LazyLoadingEnabled = false;
+            }            
             return View(socio);
         }
 
