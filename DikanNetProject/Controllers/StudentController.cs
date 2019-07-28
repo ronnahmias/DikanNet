@@ -323,17 +323,18 @@ namespace DikanNetProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UploadFile(HttpPostedFileBase filee)
+        public ActionResult UploadFile(HttpPostedFileBase filee,string fileName, string oldFile)
         {
-            Student st;
-            var file = Request.Files[0];
-            using(DikanDbContext ctx = new DikanDbContext())
+            if (filee == null || string.IsNullOrEmpty(fileName))
             {
-                st = ctx.Students.Find(StudentId);
-                st.FileId = SaveFile.SaveFileInServer(filee, "Id", StudentId, st.FileId); // או להחזיר את המיקום לקליינט ולעדכן את השדה במוסתר ואז לשלוח כששולחיםבכפתור
-                ctx.SaveChanges();
+                Response.StatusCode = 400;
+                return Content("Not send file or name", "text/plain");
             }
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
+            var file = Request.Files[0];
+            string path;
+            path = SaveFile.SaveFileInServer(filee, fileName, StudentId, oldFile); // או להחזיר את המיקום לקליינט ולעדכן את השדה במוסתר ואז לשלוח כששולחים בכפתור          }
+            Response.StatusCode = 200;
+            return Content(path, "text/plain");
         }
 
 

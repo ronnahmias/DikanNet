@@ -177,7 +177,7 @@
     <Content Include="Scripts\MyJs\UploadFileJS.js" />
     <Content Include="Scripts\MyJs\UploadFileJS.min.js" />
     <Content Include="src\js\MyJS.js" />
-    <Content Include="src\js\UploadFileJS.js" />
+    <Content Include="src\js\Files.js" />
     <Content Include="src\pic\Logo.png" />
     <Content Include="Web.config" />
     <Content Include="Scripts\umd\popper.min.js.map" />
@@ -222,6 +222,7 @@
     <Content Include="Views\Student\ddCar.cshtml" />
     <Content Include="src\sass\BaseCSS.scss" />
     <Content Include="Scripts\jquery.form.min.js.map" />
+    <Content Include="Views\Student\_Sp_Layout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

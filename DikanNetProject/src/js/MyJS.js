@@ -22,19 +22,18 @@ $(document).ready(function () {
     var carcount = $("#carstdcount").val();
 
     $("#addCar").click(function () {
-        $("#carsdiv").append("<input class='control - label col - md - 2 text - box single - line' data-val='true' data-val-number='The field CarNumber must be a number.' data-val-required='השדה CarNumber נדרש.' id='CarStudent1_"+carcount+"__CarNumber' name='CarStudent1["+carcount+"].CarNumber' type='number' >");
+        $("#carsdiv").append("<input class='control-label col-md-2 text-box single-line' data-val='true' data-val-number='The field CarNumber must be a number.' data-val-required='השדה CarNumber נדרש.' id='CarStudent1_" + carcount + "__CarNumber' name='CarStudent1[" + carcount + "].CarNumber' type='number' >");
+        $("#carsdiv").append("<input class='control-label col-md-2 text-box single-line' data-val='true' data-val-number='The field CarNumber must be a number.' data-val-required='השדה CarNumber נדרש.' id='CarStudent1_" + carcount + "__CarCompany' name='CarStudent1[" + carcount + "].CarCompany' type='number' >");
+
         carcount++;
     });
 
-    $(".chosen").chosen();
-});
-
-// Function for dropdown lists to chose
-$(function () {
+    // Function for dropdown lists to chose
     $(".chosen").chosen(
         {
             no_results_text: "אין ערך כזה.",
-            rtl: true
+            rtl: true,
+            allow_single_deselect: true 
         });
 });
 

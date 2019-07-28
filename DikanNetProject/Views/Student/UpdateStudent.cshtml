@@ -3,9 +3,15 @@
 
 @{
     ViewBag.Title = "עדכון פרטים";
-    Layout = "~/Views/Student/_Layout.cshtml";
+    Layout = "~/Views/Student/_Sp_Layout.cshtml";
 }
-@using (Html.BeginForm("UpdateStudent", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
+
+<style>
+    embed{
+        max-width:100px; max-height:150px;
+    }
+</style>
+@using (Html.BeginForm("UpdateStudent", "Student", FormMethod.Post, new { enctype = "multipart/form-data" ,@id="studentform"}))
 {
     @Html.AntiForgeryToken()
 
@@ -13,196 +19,223 @@
         <h4>עדכון פרטים</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+    
+    <div class="row">
+        <div class="form-group col-md-4">
+            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label" })
+            <div class="">
                 @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+        <div class="form-group col-md-4">
+            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label " })
+            <div class="">
                 @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-6" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } }) @*in first time read only after enable*@
-                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.City, (IEnumerable<SelectListItem>)ViewBag.CitiesList, "עיר מגורים", htmlAttributes: new { @class = "form-control chosen" })
-                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Street, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Street, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Street, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.HouseNo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.HouseNo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.HouseNo, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IdFile, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.IdFile, new { @class = "form-control", @type = "file", @id = "IdFile" })
-                @Html.ValidationMessageFor(model => model.IdFile, "", new { @class = "text-danger" })
-                @Html.EditorFor(model => model.FileId)
-
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.MajorId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.MajorId, (IEnumerable<SelectListItem>)ViewBag.MajorsList, "בחירת מגמה", htmlAttributes: new { @class = "form-control chosen" })
-                @Html.ValidationMessageFor(model => model.MajorId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.LearnPath, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.LearnPath,
-               new SelectList(Enum.GetNames(typeof(Common.Enums.LearningPath))), "מסלול לימודים", new { @class = "form-control chosen" })
-                @Html.ValidationMessageFor(model => model.LearnPath, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.BirthDay, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+        <div class="form-group col-md-4">
+            @Html.LabelFor(model => model.BirthDay, htmlAttributes: new { @class = "control-label" })
+            <div class="">
                 @Html.EditorFor(model => model.BirthDay, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.BirthDay, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+        <div class="form-group col-md-4">
+            @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label" })
+            <div class="">
                 @Html.DropDownListFor(model => model.Gender,
-          new SelectList(Enum.GetValues(typeof(Common.Enums.Genders))), "מגדר", new { @class = "form-control chosen" })
+          new SelectList(Enum.GetValues(typeof(Common.Enums.Genders))), "", new { @class = "form-control chosen", @data_placeholder = "מגדר" })
                 @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.CellphoneNo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+        <div class="form-group col-md-4">
+            @Html.LabelFor(model => model.CountryBirthId, htmlAttributes: new { @class = "control-label" })
+            <div class="">
+                @Html.DropDownListFor(model => model.CountryBirthId, (IEnumerable<SelectListItem>)ViewBag.CountriesList, "", htmlAttributes: new { @class = "form-control chosen ", @data_placeholder = "ארץ לידה"})
+                @Html.ValidationMessageFor(model => model.CountryBirthId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-4">
+            @Html.LabelFor(model => model.MaritalStatus, htmlAttributes: new { @class = "control-label" })
+            <div class="">
+                @Html.DropDownListFor(model => model.MaritalStatus,
+           new SelectList(Enum.GetValues(typeof(Common.Enums.MatrialStatus))), "", new { @class = "form-control chosen", @data_placeholder = "מצב משפחתי" })
+                @Html.ValidationMessageFor(model => model.MaritalStatus, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+    </div>
+        
+    <div class="row">
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
+            <div class="">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } }) @*in first time read only after enable*@
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-3">
+            @Html.LabelFor(model => model.CellphoneNo, htmlAttributes: new { @class = "control-label" })
+            <div class="">
                 @Html.EditorFor(model => model.CellphoneNo, new { htmlAttributes = new { @class = "form-control only-numbers" } })
                 @Html.ValidationMessageFor(model => model.CellphoneNo, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.PhoneNo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+        <div class="form-group col-md-3">
+            @Html.LabelFor(model => model.PhoneNo, htmlAttributes: new { @class = "control-label" })
+            <div class="">
                 @Html.EditorFor(model => model.PhoneNo, new { htmlAttributes = new { @class = "form-control only-numbers" } })
                 @Html.ValidationMessageFor(model => model.PhoneNo, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.CountryBirthId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.CountryBirthId, (IEnumerable<SelectListItem>)ViewBag.CountriesList, "בחירת ארץ לידה", htmlAttributes: new { @class = "form-control chosen" })
-                @Html.ValidationMessageFor(model => model.CountryBirthId, "", new { @class = "text-danger" })
+
+    </div>
+        
+    <div class="row">
+
+        <div class="form-group col-md-4">
+            @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label" })
+            <div class="">
+                @Html.DropDownListFor(model => model.City, (IEnumerable<SelectListItem>)ViewBag.CitiesList, "", htmlAttributes: new { @class = "form-control chosen" ,@data_placeholder = "עיר מגורים"})
+                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
             </div>
         </div>
 
+        <div class="form-group col-md-4">
+            @Html.LabelFor(model => model.Street, htmlAttributes: new { @class = "control-label " })
+            <div class="">
+                @Html.EditorFor(model => model.Street, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Street, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-4">
+            @Html.LabelFor(model => model.HouseNo, htmlAttributes: new { @class = "control-label" })
+            <div class="">
+                @Html.EditorFor(model => model.HouseNo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.HouseNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+    </div>
+        
+    <div class="row">
+
+        <div class="form-group col-md-4">
+            @Html.LabelFor(model => model.MajorId, htmlAttributes: new { @class = "control-label " })
+            <div class="">
+                @Html.DropDownListFor(model => model.MajorId, (IEnumerable<SelectListItem>)ViewBag.MajorsList, "", htmlAttributes: new { @class = "form-control chosen",@data_placeholder = "מגמה" })
+                @Html.ValidationMessageFor(model => model.MajorId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-4">
+            @Html.LabelFor(model => model.LearnPath, htmlAttributes: new { @class = "control-label " })
+            <div class="">
+                @Html.DropDownListFor(model => model.LearnPath,
+               new SelectList(Enum.GetNames(typeof(Common.Enums.LearningPath))), "", new { @class = "form-control chosen",@data_placeholder = "מסלול לימודים" })
+                @Html.ValidationMessageFor(model => model.LearnPath, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+    </div>
+       
         <div class="form-group">
-            @Html.LabelFor(model => model.MaritalStatus, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.MaritalStatus,
-           new SelectList(Enum.GetValues(typeof(Common.Enums.MatrialStatus))), "מצב משפחתי", new { @class = "form-control chosen" })
-                @Html.ValidationMessageFor(model => model.MaritalStatus, "", new { @class = "text-danger" })
+            @Html.LabelFor(model => model.IdFile, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="row">
+                <div class="col-md-5">
+                    @Html.TextBoxFor(model => model.IdFile, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
+                    @Html.ValidationMessageFor(model => model.IdFile, "", new { @class = "text-danger" })
+                </div>
+                <embed src='/UsersFiles/@Model.StudentId/@Model.FileId' class="col-md-5 @(@Model.FileId == null ? "d-none" : " ")"  />
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="שמור" class="btn btn-primary"/>
             </div>
         </div>
+
     </div>
 }
 
-@using (Ajax.BeginForm("UploadFile", "Student", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccess", OnFailure = "OnFailure" }, new { @id = "formupload1" }))
+
+<!--Upload File Using AJAX-->
+
+@using (Html.BeginForm("UploadFile", "Student", FormMethod.Post, new { enctype = "multipart/form-data", @id = "formupload",@class="d-none"}))
 {
     @Html.AntiForgeryToken()
-    <input type="file" id="IdFile" name="filee" @*onchange="document.forms[1].submit();"*@ onchange="uploadd();" />
+    <input type="file" id="IdFile" name="filee" onchange="uploadd();" />
+    <input class="d-none" name="fileName" type="text" value="Id" />
+    @Html.HiddenFor(s => s.FileId, new { @Name = "oldFile" });
+    <div class="progress progress-striped">
+        <div class="progress-bar progress-bar-success">0%</div>
+    </div>
 }
-
-@using (Html.BeginForm("UploadFile", "Student", FormMethod.Post, new { enctype = "multipart/form-data" , @id = "formupload" }))
-{
-    @Html.AntiForgeryToken()
-    <input type="file" id="IdFile" name="filee" @*onchange="document.forms[1].submit();"*@ onchange="uploadd();" />
-}
-
-
-
-
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+<embed src="" id="embUpp" type="application/pdf" class="d-none" />
 
 @section scripts{
 
     <script>
-        function uploadFile() {
-            console.log("Change IdFile");
-            var file = $("#IdFile").get(0).files;
-            var formData = new FormData();
-            formData.append("Img", file[0]);
-            //$("#formupload").append("Img", file[0]);
-            console.log("Change IdFile1");
-            $.ajax({
-                type: "POST",
-                url: "/Student/UploadFile",
-                data: formData,
-                dataType: 'json',
-                contentType: false,
-                proccessData: false,
-                cache: false,
-                success: function (response) {
-                    alert("Success!");
-
+        function uploadd() {
+            var bar = $('.progress-bar');
+            var percent = $('.progress-bar');
+            var status = $('#status');
+            $('#formupload').ajaxSubmit({
+                beforeSend: function () {
+                    status.empty();
+                    var percentVal = '0%';
+                    bar.width(percentVal)
+                    percent.html(percentVal);
                 },
-                error: function (err) {
-                    alert("Upload Failed!");
-                    console.log(err);
+                uploadProgress: function (event, position, total, percentComplete) {
+                    var percentVal = percentComplete + '%';
+                    bar.width(percentVal)
+                    percent.html(percentVal);
+                },
+                success: function (path) {
+                    var percentVal = '100%';
+                    bar.width(percentVal)
+                    percent.html(percentVal);
+                    loadFile(path, $('#embUpp'));
+                    $('#FileId').val(path);
+                    $("input[name='oldFile']").val(path);
+                },
+                complete: function (xhr) {
+                    status.html(xhr.responseText);
                 }
             });
-        };
-
-        function uploadd() {
-            $('#formupload').ajaxSubmit({
-                beforeSubmit: function () { alert('before submit'); },
-                
-                success: function () { alert('Success'); }, // option to do progress bar of uploading
-                error: function (request, errordata, errorObject) { alert(errorObject.toString()); },
-            });
         }
+
+    /* The function load file to embed arttibute
+     * check the type of file
+     * if it pdf show pdf
+     * else it a image type and show img
+     * The function get the file path's
+     */
+    function loadFile(path,embed) {
+        var type = path.split('.')[1];
+        embed.addClass('d-none');
+        embed.attr('src', '');
+        if (path.length == 0) return;
+        embed.attr('src', '/UsersFiles/@(((Users)Session["Student"]).UserId)/' + path);
+        if (type == 'pdf')
+            embed.attr('type', 'application/pdf');
+        else
+            embed.attr('type', 'image/' + type);
+        embed.removeClass('d-none');
+    }
     </script>
 }

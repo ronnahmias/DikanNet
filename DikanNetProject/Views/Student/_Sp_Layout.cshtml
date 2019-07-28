@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="HE" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="icon" href="~/Content/Pic/Logo.png" type="image/x-icon" />
+    @Styles.Render("~/Content/Css")
+</head>
+<body class="text-right" style="background-color:#fdfdee">
+    <a href="@Url.Action("Index","Student")">
+        <img src="~/Content/Pic/Logo.png" alt="דיקאנט לוגו" class="logo img-fluid d-block mx-auto " />
+    </a>
+    <h1 class="display-4 text-center">@ViewBag.Message</h1>
+    <div class="container-fluid body-content mt-4">
+        @RenderBody()
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="responseModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header text-danger">
+                    <h4 class="modal-title">@ViewBag.ModelTitle</h4>
+                    <button type="button" class="close ml-0" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body text-danger text-center">
+                    @Html.Raw(@ViewBag.ModelMessageBody)
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">סגירה</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+<script>
+        $(document).ready(function ()
+        {
+            var status = "@ViewBag.Status";
+            if (status == "False")
+                $('#responseModal').modal('show');
+
+        });
+
+        function checkPasswordsValid() // check that password and confirm pass is match in register and resetpass views
+        {
+         $('#ValidMessagePassword').text = "";
+        $('input[type=password]').removeClass("border border-danger");
+
+        var pass1 =$('#Password').val();
+        var pass2 =$('#ConfirmPassword').val();
+        if(pass1 != pass2 || !validPassword(pass1))
+        {
+            $('#ValidMessagePassword').text = "שגיאה, הסיסמא לא תקנית";
+            $('input[type=password]').addClass("border border-danger");
+            return false;
+        }
+    return true;
+    }
+</script>
+</body>
+</html>
+

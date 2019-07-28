@@ -3,7 +3,7 @@
 
 @{
     ViewBag.Title = "מלגת סוציואקונומית - ";
-    Layout = "~/Views/Login/_Layout.cshtml";
+    Layout = "~/Views/Student/_Sp_Layout.cshtml";
     ViewBag.StudentName = ((Users)HttpContext.Current.Session["Student"]).FirstName + " " + ((Users)HttpContext.Current.Session["Student"]).LastName;
 }
 
@@ -193,7 +193,7 @@
             @Html.EditorFor(model => model.CarStudent1[i].CarModel, new { htmlAttributes = new { @class = "control-label col-md-2" } })
             @Html.DropDownListFor(model => model.CarStudent1[i].CarYear, (IEnumerable<SelectListItem>)ViewBag.YearsList, "שנת ייצור", htmlAttributes: new { @class = "control-label col-md-2" })
             @Html.EditorFor(model => model.CarStudent1[i].CarComment, new { htmlAttributes = new { @class = "control-label col-md-2" } })
-            @Html.TextBoxFor(model => model.CarStudent1[i].CarLicenseFile, new { @class = "control-label col-md-1", @type = "file" })
+            @Html.TextBoxFor(model => model.CarStudent1[i].FileCarLicense, new { @class = "control-label col-md-1", @type = "file" })
             @Html.HiddenFor(model => model.CarStudent1[i].StudentId)
             <div class="col-md-1">
                 <button class="btn btn-danger" type="button">X</button>
