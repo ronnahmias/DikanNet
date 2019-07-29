@@ -305,7 +305,7 @@ namespace DikanNetProject.Controllers
                     car.StudentId = StudentId;
                     socio.ListCarStudent.Add(car);
                 }
-                ctx.Configuration.LazyLoadingEnabled = false;
+                //ctx.Configuration.LazyLoadingEnabled = false;
             }            
             return View(socio);
         }
@@ -321,7 +321,28 @@ namespace DikanNetProject.Controllers
             return View(socioeconomic);
           
         }
+
+        public PartialViewResult CarsView()
+        {
+            ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show volunteer places list in drop down
+            return PartialView("CarsView", new CarStudent());
+        }
+
+        public ActionResult DeleteCar(string CarNum)
+        {
+            CarStudent tempcar;
+            
+            using(DikanDbContext ctx = new DikanDbContext())
+            {
+                tempcar = ctx.CarStudents.Find(int.Parse(CarNum));
+                ctx.CarStudents.Remove(tempcar);
+                ctx.SaveChanges();
+            }
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
         #endregion
+
+        #region Upload File Ajax
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -338,6 +359,8 @@ namespace DikanNetProject.Controllers
             Response.StatusCode = 200;
             return Content(path, "text/plain");
         }
+
+        #endregion
 
 
         [NonAction]

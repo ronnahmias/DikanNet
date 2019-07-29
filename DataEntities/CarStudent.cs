@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
+
 namespace DataEntities
 {
     [Table("CarStudent")]
@@ -25,14 +26,16 @@ namespace DataEntities
 
         [NotMapped,Display(Name ="קובץ - רישיון/ אחזקת רכב")]
         public HttpPostedFileBase CarLicenseFile { get; set; }
+
         public string FileCarLicense { get; set; }
 
         [Display(Name = "שנת ייצור"), Required(ErrorMessage = "חובה להזין שנת ייצור")]
-        public int? CarYear { get; set; }
+        public int CarYear { get; set; }
 
         [Display(Name = "הערות")]
         public string CarComment { get; set; }
 
+        [NotMapped]
         public virtual Student Student { get; set; }
     }
 }

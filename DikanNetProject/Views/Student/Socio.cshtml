@@ -13,178 +13,178 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <hr />
-        @Html.HiddenFor(model => model.SocioMod.ScholarshipId, new { @class = "control-label col-md-2" })
+<div class="form-horizontal">
+    <hr />
+    @Html.HiddenFor(model => model.SocioMod.ScholarshipId, new { @class = "control-label col-md-2" })
 
 
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.SocioMod.SchoolYear, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.SocioMod.SchoolYear,
-                new SelectList(Enum.GetNames(typeof(Common.Enums.SchoolYear))), "שנת לימוד", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.SocioMod.SchoolYear, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.SocioMod.SchoolYear, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.SocioMod.SchoolYear,
+            new SelectList(Enum.GetNames(typeof(Common.Enums.SchoolYear))), "שנת לימוד", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.SocioMod.SchoolYear, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.SocioMod.Apartment, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.SocioMod.Apartment)
+                @Html.ValidationMessageFor(model => model.SocioMod.Apartment, "", new { @class = "text-danger" })
             </div>
         </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.SocioMod.Apartment, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.SocioMod.Apartment)
-                    @Html.ValidationMessageFor(model => model.SocioMod.Apartment, "", new { @class = "text-danger" })
-                </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.SocioMod.ApartmentLeaseFile, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.SocioMod.ApartmentLeaseFile, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
+            @Html.ValidationMessageFor(model => model.SocioMod.ApartmentLeaseFile, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.SocioMod.Newcomer, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.SocioMod.Newcomer)
+                @Html.ValidationMessageFor(model => model.SocioMod.Newcomer, "", new { @class = "text-danger" })
             </div>
         </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.SocioMod.ApartmentLeaseFile, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.SocioMod.ApartmentLeaseFile, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
-                @Html.ValidationMessageFor(model => model.SocioMod.ApartmentLeaseFile, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.SocioMod.DateImmigration, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.SocioMod.DateImmigration, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.SocioMod.DateImmigration, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.SocioMod.NewcomerFile, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.SocioMod.NewcomerFile, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
+            @Html.ValidationMessageFor(model => model.SocioMod.NewcomerFile, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.SocioMod.SingleParent, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.SocioMod.SingleParent)
+                @Html.ValidationMessageFor(model => model.SocioMod.SingleParent, "", new { @class = "text-danger" })
             </div>
         </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.SocioMod.Newcomer, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.SocioMod.Newcomer)
-                    @Html.ValidationMessageFor(model => model.SocioMod.Newcomer, "", new { @class = "text-danger" })
-                </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.SocioMod.SingleParentFile, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.SocioMod.SingleParentFile, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
+            @Html.ValidationMessageFor(model => model.SocioMod.SingleParentFile, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.SocioMod.BereavedFam, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.SocioMod.BereavedFam)
+                @Html.ValidationMessageFor(model => model.SocioMod.BereavedFam, "", new { @class = "text-danger" })
             </div>
         </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.SocioMod.DateImmigration, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.SocioMod.DateImmigration, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.SocioMod.DateImmigration, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.SocioMod.BereavedFamFile, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.SocioMod.BereavedFamFile, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
+            @Html.ValidationMessageFor(model => model.SocioMod.BereavedFamFile, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.SocioMod.ReceiveScholarship, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.SocioMod.ReceiveScholarship)
+                @Html.ValidationMessageFor(model => model.SocioMod.ReceiveScholarship, "", new { @class = "text-danger" })
             </div>
         </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.SocioMod.NewcomerFile, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.SocioMod.NewcomerFile, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
-                @Html.ValidationMessageFor(model => model.SocioMod.NewcomerFile, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.SocioMod.MilitaryService, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.SocioMod.MilitaryService, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.SocioMod.MilitaryService, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.SocioMod.MilitaryServiceFile, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.SocioMod.MilitaryServiceFile, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
+            @Html.ValidationMessageFor(model => model.SocioMod.MilitaryServiceFile, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.SocioMod.ReserveMilitaryService, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.SocioMod.ReserveMilitaryService)
+                @Html.ValidationMessageFor(model => model.SocioMod.ReserveMilitaryService, "", new { @class = "text-danger" })
             </div>
         </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.SocioMod.SingleParent, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.SocioMod.SingleParent)
-                    @Html.ValidationMessageFor(model => model.SocioMod.SingleParent, "", new { @class = "text-danger" })
-                </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.SocioMod.ReserveMilitaryServiceFile, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.SocioMod.ReserveMilitaryServiceFile, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
+            @Html.ValidationMessageFor(model => model.SocioMod.ReserveMilitaryServiceFile, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.SocioMod.HasFunding, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.SocioMod.HasFunding)
+                @Html.ValidationMessageFor(model => model.SocioMod.HasFunding, "", new { @class = "text-danger" })
             </div>
         </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.SocioMod.SingleParentFile, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.SocioMod.SingleParentFile, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
-                @Html.ValidationMessageFor(model => model.SocioMod.SingleParentFile, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.SocioMod.CarOwner, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.SocioMod.CarOwner)
+                @Html.ValidationMessageFor(model => model.SocioMod.CarOwner, "", new { @class = "text-danger" })
             </div>
         </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.SocioMod.BereavedFam, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.SocioMod.BereavedFam)
-                    @Html.ValidationMessageFor(model => model.SocioMod.BereavedFam, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.SocioMod.BereavedFamFile, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.SocioMod.BereavedFamFile, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
-                @Html.ValidationMessageFor(model => model.SocioMod.BereavedFamFile, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.SocioMod.ReceiveScholarship, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.SocioMod.ReceiveScholarship)
-                    @Html.ValidationMessageFor(model => model.SocioMod.ReceiveScholarship, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.SocioMod.MilitaryService, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.SocioMod.MilitaryService, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.SocioMod.MilitaryService, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.SocioMod.MilitaryServiceFile, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.SocioMod.MilitaryServiceFile, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
-                @Html.ValidationMessageFor(model => model.SocioMod.MilitaryServiceFile, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.SocioMod.ReserveMilitaryService, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.SocioMod.ReserveMilitaryService)
-                    @Html.ValidationMessageFor(model => model.SocioMod.ReserveMilitaryService, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.SocioMod.ReserveMilitaryServiceFile, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.SocioMod.ReserveMilitaryServiceFile, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
-                @Html.ValidationMessageFor(model => model.SocioMod.ReserveMilitaryServiceFile, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.SocioMod.HasFunding, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.SocioMod.HasFunding)
-                    @Html.ValidationMessageFor(model => model.SocioMod.HasFunding, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.SocioMod.CarOwner, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.SocioMod.CarOwner)
-                    @Html.ValidationMessageFor(model => model.SocioMod.CarOwner, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group row text-center">
-            <!--labels for table of car student-->
-            @Html.LabelFor(model => model.ListCarStudent[0].CarNumber, htmlAttributes: new { @class = "control-label col-md-2" })
-            @Html.LabelFor(model => model.ListCarStudent[0].CarCompany, htmlAttributes: new { @class = "control-label col-md-2" })
-            @Html.LabelFor(model => model.ListCarStudent[0].CarModel, htmlAttributes: new { @class = "control-label col-md-2" })
-            @Html.LabelFor(model => model.ListCarStudent[0].CarYear, htmlAttributes: new { @class = "control-label col-md-1" })
-            @Html.LabelFor(model => model.ListCarStudent[0].CarComment, htmlAttributes: new { @class = "control-label col-md-2" })
-            @Html.LabelFor(model => model.ListCarStudent[0].CarLicenseFile, htmlAttributes: new { @class = "control-label col-md-2" })
-            <label class="col-md-1">מחיקה</label>
-        </div>
-        @Html.HiddenFor(m => m.ListCarStudent.Count, new { @id = "carstdcount" })
-        @*<div class="" id="carsdiv">
+    <div class="form-group row text-center">
+        <!--labels for table of car student-->
+        @Html.LabelFor(model => model.ListCarStudent[0].CarNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.ListCarStudent[0].CarCompany, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.ListCarStudent[0].CarModel, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.ListCarStudent[0].CarYear, htmlAttributes: new { @class = "control-label col-md-1" })
+        @Html.LabelFor(model => model.ListCarStudent[0].CarComment, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.ListCarStudent[0].CarLicenseFile, htmlAttributes: new { @class = "control-label col-md-2" })
+        <label class="col-md-1">מחיקה</label>
+    </div>
+    @Html.HiddenFor(m => m.ListCarStudent.Count, new { @id = "carstdcount" })
+    @*<div class="" id="carsdiv">
             @for (int i = 0; i < Model.ListCarStudent.Count(); i++)
             {
                 <div class="form-group row text-center">
@@ -209,39 +209,45 @@
                 </div>
             }
         </div>*@
-        <div id="cardiv">
-        </div>
-        <button class="btn btn-outline-success" id="addCar" type="button">+</button>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.SocioMod.DisabilityType, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.SocioMod.DisabilityType, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.SocioMod.DisabilityType, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    <div id="cardiv">
+        @foreach (var car in Model.ListCarStudent)
+        {
+            @Html.Partial("CarsView", car)
+        }
+    </div>
+    <button class="btn btn-outline-success" id="addCar" type="button">+</button>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.SocioMod.FileDisabilityType, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.SocioMod.FileDisabilityType, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
-                @Html.ValidationMessageFor(model => model.SocioMod.FileDisabilityType, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="הגש מלגה" class="btn btn-success" name="uploadmethod" />
-                <input type="submit" value="שמור טיוטה" class="btn btn-warning" name="uploadmethod" />
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.SocioMod.DisabilityType, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.SocioMod.DisabilityType, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.SocioMod.DisabilityType, "", new { @class = "text-danger" })
         </div>
     </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.SocioMod.FileDisabilityType, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.SocioMod.FileDisabilityType, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
+            @Html.ValidationMessageFor(model => model.SocioMod.FileDisabilityType, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="הגש מלגה" class="btn btn-success" name="uploadmethod" />
+            <input type="submit" value="שמור טיוטה" class="btn btn-warning" name="uploadmethod" />
+        </div>
+    </div>
+</div>
 }
 
 @section scripts{
 
     <script>
-       @* $(document).ready(function () { 
+        @* $(document).ready(function () { 
             var carlist = @Html.Raw(Json.Encode(Model.ListCarStudent));
             for (var i = 0; i < carlist.length; i++)
             {
@@ -252,5 +258,46 @@
 
             
         });*@
+
+        var viewurl = '@Url.Action("CarsView")';
+        var deleteurl = '@Url.Action("DeleteCar")';
+        var form = $('form');
+        var carsdiv = $('#cardiv');
+
+        $('#addCar').click(function() {
+            $.get(viewurl, function(response) {
+            carsdiv.append(response);
+            // Reparse the validator for client side validation
+            form.data('validator', null);
+            $.validator.unobtrusive.parse(form);
+            });
+        });
+
+        $('.del').click(function() {
+            var container = $(this).closest('.cars');
+            var id = container.find('.id').val();
+            if (id)
+            {
+                $.ajax({
+                    url: "/Student/DeleteCar",
+                    dataType: 'text',
+                    data: { CarNum: id },
+                    method: "POST",
+                    success: function () {
+
+                        container.remove();
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        console.log(xhr.status);
+                        console.log(thrownError);
+                    }
+                });
+            }
+            else
+            {
+                // It never existed, so just remove the container
+                container.remove();
+            }
+        });
     </script>
 }

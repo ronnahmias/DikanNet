@@ -42,6 +42,14 @@ namespace DataEntities.DB
                 .HasMany(s => s.InPracticess)
                 .WithRequired(s => s.VolunteerPlacess)
                 .HasForeignKey(s => s.Volunteer2Id);
+
+           /* modelBuilder.Entity<Student>()
+               .HasMany(s => s.CarStudents)
+               .WithRequired(s => s.Student)
+               .HasForeignKey(s => s.StudentId);
+
+            modelBuilder.Entity<CarStudent>().Ignore(t => t.CarLicenseFile);
+            base.OnModelCreating(modelBuilder);*/
         }
         public DbSet<Student> Students { get; set; }
         public DbSet<Countries> Countries { get; set; }

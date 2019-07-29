@@ -1,0 +1,28 @@
+﻿@using HtmlHelpers.BeginCollectionItem
+@model DataEntities.CarStudent
+
+    <div class="cars">
+        @using (Html.BeginCollectionItem("ListCarStudent"))
+        {
+            <div class="form-group row text-center">
+                @Html.EditorFor(model => model.CarNumber, new { htmlAttributes = new { @class = "control-label col-md-2 id" } })
+                @Html.EditorFor(model => model.CarCompany, new { htmlAttributes = new { @class = "control-label col-md-2" } })
+                @Html.EditorFor(model => model.CarModel, new { htmlAttributes = new { @class = "control-label col-md-2" } })
+                @Html.DropDownListFor(model => model.CarYear, ViewBag.YearsList as SelectList, "שנת ייצור", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.EditorFor(model => model.CarComment, new { htmlAttributes = new { @class = "control-label col-md-2" } })
+                @Html.TextBoxFor(model => model.CarLicenseFile, new { @class = "control-label col-md-1", @type = "file" })
+                @Html.HiddenFor(model => model.StudentId) @*security risk*@
+                <div class="col-md-1">
+                    <button class="btn btn-danger del" type="button">X</button>
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.ValidationMessageFor(model => model.CarNumber, "", new { @class = "control-label col-md-2" })
+                @Html.ValidationMessageFor(model => model.CarCompany, "", new { @class = "control-label col-md-2" })
+                @Html.ValidationMessageFor(model => model.CarModel, "", new { @class = "control-label col-md-2" })
+                @Html.ValidationMessageFor(model => model.CarYear, "", new { @class = "control-label col-md-2" })
+                @Html.ValidationMessageFor(model => model.CarComment, "", new { @class = "control-label col-md-2" })
+                @Html.ValidationMessageFor(model => model.CarLicenseFile, "", new { @class = "control-label col-md-2" })
+            </div>
+        }
+    </div>
