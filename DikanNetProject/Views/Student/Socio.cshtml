@@ -183,8 +183,8 @@
             @Html.LabelFor(model => model.ListCarStudent[0].CarLicenseFile, htmlAttributes: new { @class = "control-label col-md-2" })
             <label class="col-md-1">מחיקה</label>
         </div>
-        @Html.HiddenFor(m => m.ListCarStudent.Count, new { @id = "carstdcount" });
-        <div class="" id="carsdiv">
+        @Html.HiddenFor(m => m.ListCarStudent.Count, new { @id = "carstdcount" })
+        @*<div class="" id="carsdiv">
             @for (int i = 0; i < Model.ListCarStudent.Count(); i++)
             {
                 <div class="form-group row text-center">
@@ -208,6 +208,8 @@
                     @Html.ValidationMessageFor(model => model.ListCarStudent[i].CarLicenseFile, "", new { @class = "control-label col-md-2" })
                 </div>
             }
+        </div>*@
+        <div id="cardiv">
         </div>
         <button class="btn btn-outline-success" id="addCar" type="button">+</button>
 
@@ -239,15 +241,16 @@
 @section scripts{
 
     <script>
-        $(document).ready(function () { 
-            var m = @Html.Raw(Json.Encode(Model.ListCarStudent));
-             for (var i = 0; i < m.length; i++) {
-                console.log(m[i].CarNumber);
-
-                // Do Something
-                }
+       @* $(document).ready(function () { 
+            var carlist = @Html.Raw(Json.Encode(Model.ListCarStudent));
+            for (var i = 0; i < carlist.length; i++)
+            {
+                console.log(carlist[i].CarNumber);
+                //var carnum = '<input class="control-label col-md-2 text-box single-line" data-val="true" data-val-number="The field מספר רכב must be a number." data-val-required="חוב להזין מספר רכב - ללא תווים" id="ListCarStudent_0__CarNumber" name="ListCarStudent[0].CarNumber" type="number"/>';
+                $("#cardiv").append("<input class='control-label col-md-2 text-box single-line' data-val='true' data-val-number='The field מספר רכב must be a number.' data-val-required='חובה להזין מספר רכב - ללא תווים' id='ListCarStudent_" + i + "__CarNumber' name='ListCarStudent[" + i + "].CarNumber' type='number'/>");
+            }
 
             
-        });
+        });*@
     </script>
 }
