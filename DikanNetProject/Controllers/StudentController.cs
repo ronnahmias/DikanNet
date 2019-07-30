@@ -318,7 +318,7 @@ namespace DikanNetProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult Socio(SocioAdd socio) // submit  new socio scholarship
+        public ActionResult Socio(SocioAdd socio, string uploadmethod) // submit  new socio scholarship
          {
             socio.SocioMod.StudentId = sStudentId;
             List<CarStudent> dbCars;
@@ -379,7 +379,7 @@ namespace DikanNetProject.Controllers
             {
                 tempcar = ctx.CarStudents.Find(CarNum);
                 if (tempcar == null)
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    return new HttpStatusCodeResult(HttpStatusCode.NotFound,"Not Found In DataBase");
                 //if file exists delete it
                 if (!string.IsNullOrEmpty(tempcar.FileCarLicense))
                     Files.Delete(tempcar.FileCarLicense, sStudentId);
