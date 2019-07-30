@@ -19,6 +19,8 @@ namespace DikanNetProject.Controllers
     public class StudentController : Controller
     {
         string sStudentId;
+
+        #region OnExecuting Function
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
@@ -29,7 +31,9 @@ namespace DikanNetProject.Controllers
             else
                 sStudentId = ((Users)Session["Student"]).UserId;
         }
+        #endregion
 
+        #region Index
         public ActionResult Index()
         {
             StudentMain studentMain = new StudentMain();
@@ -64,6 +68,7 @@ namespace DikanNetProject.Controllers
             
             return View(studentMain);
         }
+        #endregion
 
         #region Update Info Student
 
@@ -146,6 +151,7 @@ namespace DikanNetProject.Controllers
 
         #endregion
 
+        #region Redirect To Action
         public ActionResult RedirectToScholarship(int scholarshipid)
         {
             int type = -1;
@@ -167,6 +173,7 @@ namespace DikanNetProject.Controllers
                 default: return RedirectToAction("Index"); // index of srudent if not found type
             }
         }
+        #endregion
 
         #region Halacha Lemaase Scholarship
 
@@ -403,6 +410,7 @@ namespace DikanNetProject.Controllers
 
         #endregion
 
+        #region NonActions
 
         [NonAction]
         public List<VolunteerPlaces> SetsvolunteerPlaces() // add to name and desc to name_desc field
@@ -429,6 +437,8 @@ namespace DikanNetProject.Controllers
             }
             return years;
         }
-    
+
+        #endregion
+
     }
 }

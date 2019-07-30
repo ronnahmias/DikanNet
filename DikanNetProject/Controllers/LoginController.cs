@@ -217,6 +217,7 @@ namespace DikanNetProject.Controllers
 
         #endregion
 
+        #region Check If User Exist
         [HttpPost]
         public ActionResult CheckIfUserExist(string UserId, string Email) // ajax call
         {
@@ -229,7 +230,9 @@ namespace DikanNetProject.Controllers
                 }
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
+        #endregion
 
+        #region Verify Account
         [HttpGet]
         public ActionResult VerifyAccount(string id)
         {
@@ -248,14 +251,17 @@ namespace DikanNetProject.Controllers
             }
             return View();
         }
+        #endregion
 
-
+        #region Disconnect
         public ActionResult Disconnect() // disconnect from user
         {
             Session.Abandon();
             return RedirectToAction("Login", "Login", null);
         }
+        #endregion
 
+        #region Non Action
         [NonAction]
         private bool IsIdExist(string userId)
         {
@@ -276,8 +282,6 @@ namespace DikanNetProject.Controllers
             }
            
         }
-
-    
-       
+        #endregion
     }
 }
