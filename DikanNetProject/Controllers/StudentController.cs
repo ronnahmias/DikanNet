@@ -335,6 +335,8 @@ namespace DikanNetProject.Controllers
             using(DikanDbContext ctx = new DikanDbContext())
             {
                 tempcar = ctx.CarStudents.Find(int.Parse(CarNum));
+                if (tempcar == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 ctx.CarStudents.Remove(tempcar);
                 ctx.SaveChanges();
             }
