@@ -14,7 +14,7 @@ namespace DataEntities
     public class CarStudent
     {
         [Key, Display(Name ="מספר רכב"),Required(ErrorMessage ="חובה להזין מספר רכב - ללא תווים")]
-        public int CarNumber { get; set; }
+        public string CarNumber { get; set; }
 
         public string StudentId { get; set; }
 

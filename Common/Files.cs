@@ -8,7 +8,7 @@ using System.Web;
 
 namespace Common
 {
-    public static class SaveFile
+    public static class Files
     {
         public static string SaveFileInServer(HttpPostedFileBase pFile, string pFileName, string pId,string pOldFile)
         {
@@ -21,6 +21,21 @@ namespace Common
                 File.Delete(Path.Combine(serverpathsave ,pOldFile));
             pFile.SaveAs(Path.Combine(serverpathsave, pFileName + fileExt)); // save file to server                                                                      
             return pFileName+fileExt;
+        }
+
+        /* The function get a file name and id of student
+         * and delete the file from the server database
+         */
+        public static bool Delete(string pFileName, string pId)
+        {
+            if (string.IsNullOrEmpty(pFileName) || string.IsNullOrEmpty(pId))
+                return false;
+
+            var serverpath = Path.Combine(HttpContext.Current.Server.MapPath("~/UsersFiles/") + pId);
+            if (!Directory.Exists(serverpath)) return false;
+
+            File.Delete(Path.Combine(serverpath, pFileName));
+            return true;
         }
     }
 }

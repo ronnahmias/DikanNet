@@ -72,7 +72,7 @@
     <Compile Include="Crypto.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SaveFile.cs" />
+    <Compile Include="Files.cs" />
     <Compile Include="SendMail.cs" />
   </ItemGroup>
   <ItemGroup>

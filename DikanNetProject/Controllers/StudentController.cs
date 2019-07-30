@@ -18,7 +18,7 @@ namespace DikanNetProject.Controllers
     [RequireHttps]
     public class StudentController : Controller
     {
-        string StudentId;
+        string sStudentId;
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
@@ -27,7 +27,7 @@ namespace DikanNetProject.Controllers
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { action = "Login", controller = "Login" }));
             }
             else
-                StudentId = ((Users)Session["Student"]).UserId;
+                sStudentId = ((Users)Session["Student"]).UserId;
         }
 
         public ActionResult Index()
@@ -40,26 +40,26 @@ namespace DikanNetProject.Controllers
                 {
                     switch(scholarship.Type)
                     {
-                        case 1: if(ctx.Socioeconomics.Any(s=>s.ScholarshipId == scholarship.ScholarshipID && s.StudentId == StudentId))
+                        case 1: if(ctx.Socioeconomics.Any(s=>s.ScholarshipId == scholarship.ScholarshipID && s.StudentId == sStudentId))
                                     studentMain.ScholarshipDefinitions.Remove(scholarship);
                             break;
 
                         case 2:
-                            if (ctx.ExcellenceStudent.Any(s => s.ScholarshipId == scholarship.ScholarshipID && s.StudentId == StudentId))
+                            if (ctx.ExcellenceStudent.Any(s => s.ScholarshipId == scholarship.ScholarshipID && s.StudentId == sStudentId))
                                 studentMain.ScholarshipDefinitions.Remove(scholarship);
                             break;
 
                         case 3:
-                            if (ctx.InPractice.Any(s => s.ScholarshipId == scholarship.ScholarshipID && s.StudentId == StudentId))
+                            if (ctx.InPractice.Any(s => s.ScholarshipId == scholarship.ScholarshipID && s.StudentId == sStudentId))
                                 studentMain.ScholarshipDefinitions.Remove(scholarship);
                             break;
                     }
 
                 }
                  // send only scholarship that belongs to student id
-                 studentMain.InPracticeList = ctx.InPractice.Include(s=>s.ScholarshipDefinition).Where(s => s.StudentId == StudentId).ToList(); // send to view inpractice list of student
-                 studentMain.ExcelList = ctx.ExcellenceStudent.Include(s=>s.ScholarshipDefinition).Where(s => s.StudentId == StudentId).ToList(); // send to view excellence list of student
-                 studentMain.SocioList = ctx.Socioeconomics.Include(s=>s.ScholarshipDefinition).Where(s => s.StudentId == StudentId).ToList(); // send to view socio list of student
+                 studentMain.InPracticeList = ctx.InPractice.Include(s=>s.ScholarshipDefinition).Where(s => s.StudentId == sStudentId).ToList(); // send to view inpractice list of student
+                 studentMain.ExcelList = ctx.ExcellenceStudent.Include(s=>s.ScholarshipDefinition).Where(s => s.StudentId == sStudentId).ToList(); // send to view excellence list of student
+                 studentMain.SocioList = ctx.Socioeconomics.Include(s=>s.ScholarshipDefinition).Where(s => s.StudentId == sStudentId).ToList(); // send to view socio list of student
             }
             
             return View(studentMain);
@@ -77,12 +77,12 @@ namespace DikanNetProject.Controllers
                     ViewBag.CountriesList = new SelectList(ctx.Countries.ToList(), "CountryId", "CountryName"); // to show countries list in drop down
                     ViewBag.CitiesList = new SelectList(ctx.Cities.ToList(), "Id", "Name"); // to show cities list in drop down
                     
-                    student = ctx.Students.Where(z => z.StudentId == StudentId).FirstOrDefault();
+                    student = ctx.Students.Where(z => z.StudentId == sStudentId).FirstOrDefault();
                     if (student == null) // didnt found in student table -> first login -> update basic info
                     {
                         student = new Student
                         {
-                            StudentId = StudentId,
+                            StudentId = sStudentId,
                             Email = ((Users)Session["Student"]).Email,
                             FirstName = ((Users)Session["Student"]).FirstName,
                             LastName = ((Users)Session["Student"]).LastName
@@ -98,7 +98,7 @@ namespace DikanNetProject.Controllers
         [HttpPost]
         public ActionResult UpdateStudent(Student UpdateStudent)
         {
-            UpdateStudent.StudentId = StudentId;
+            UpdateStudent.StudentId = sStudentId;
             if (ModelState.IsValid)
             {
                 using (DikanDbContext ctx = new DikanDbContext())
@@ -124,7 +124,7 @@ namespace DikanNetProject.Controllers
                     }
 
                     if(UpdateStudent.IdFile != null)
-                        UpdateStudent.FileId = SaveFile.SaveFileInServer(UpdateStudent.IdFile, "Id", UpdateStudent.StudentId,(dbStudent == null) ? null:dbStudent.FileId);
+                        UpdateStudent.FileId = Files.SaveFileInServer(UpdateStudent.IdFile, "Id", UpdateStudent.StudentId,(dbStudent == null) ? null:dbStudent.FileId);
 
                     if (dbStudent == null) // after first login fill more info
                         ctx.Students.Add(UpdateStudent); // add student to data base
@@ -177,14 +177,14 @@ namespace DikanNetProject.Controllers
             ViewBag.VolunteerPlacesList = new SelectList(SetsvolunteerPlaces(), "Id", "Name_desc"); // to show volunteer places list in drop down
             using (DikanDbContext ctx = new DikanDbContext())
             {
-                temphalacha = ctx.InPractice.Where(s => s.StudentId == StudentId && s.ScholarshipId == scholarshipid).SingleOrDefault();
+                temphalacha = ctx.InPractice.Where(s => s.StudentId == sStudentId && s.ScholarshipId == scholarshipid).SingleOrDefault();
             }
             if (temphalacha == null) // checks if is it first time sign to scholarship or has save draft
             {
                 temphalacha = new InPractice
                 {
                     ScholarshipId = scholarshipid,
-                    StudentId = StudentId
+                    StudentId = sStudentId
                 };
             }else
             {
@@ -198,7 +198,7 @@ namespace DikanNetProject.Controllers
         [HttpPost]
         public ActionResult Halacha(InPractice temphalacha, string uploadmethod) // submit  new halacha scholarship
         {
-            temphalacha.StudentId = StudentId;
+            temphalacha.StudentId = sStudentId;
             InPractice Studentinpractice;
             ViewBag.VolunteerPlacesList = new SelectList(SetsvolunteerPlaces(), "Id", "Name_desc"); // to show volunteer places list in drop down
             using (DikanDbContext ctx = new DikanDbContext())
@@ -235,14 +235,14 @@ namespace DikanNetProject.Controllers
             ExcellenceStudent tempmetsuyanut;
             using (DikanDbContext ctx = new DikanDbContext())
             {
-                tempmetsuyanut = ctx.ExcellenceStudent.Where(s => s.StudentId == StudentId && s.ScholarshipId == scholarshipid).SingleOrDefault();
+                tempmetsuyanut = ctx.ExcellenceStudent.Where(s => s.StudentId == sStudentId && s.ScholarshipId == scholarshipid).SingleOrDefault();
             }
             if (tempmetsuyanut == null) // checks if is it first time sign to scholarship or has save draft
             {
                 tempmetsuyanut = new ExcellenceStudent
                 {
                     ScholarshipId = scholarshipid,
-                    StudentId = StudentId
+                    StudentId = sStudentId
                 };
             }
             else
@@ -257,7 +257,7 @@ namespace DikanNetProject.Controllers
         [HttpPost]
         public ActionResult Excellent(ExcellenceStudent tempmetmesuyanut, string uploadmethod) // submit  new metsuyanut scholarship
         {
-            tempmetmesuyanut.StudentId = StudentId;
+            tempmetmesuyanut.StudentId = sStudentId;
             ExcellenceStudent StudentMetsuyanut;
             using (DikanDbContext ctx = new DikanDbContext())
             {
@@ -297,12 +297,12 @@ namespace DikanNetProject.Controllers
                 ListCarStudent = new List<CarStudent>()
             };
             socio.SocioMod.ScholarshipId = scholarshipid;
-            socio.SocioMod.StudentId = StudentId;
+            socio.SocioMod.StudentId = sStudentId;
             using(DikanDbContext ctx = new DikanDbContext())
             {
-                foreach (var car in ctx.CarStudents.Where(s=>s.StudentId == StudentId).ToList()) // get all cars of student from db to list
+                foreach (var car in ctx.CarStudents.Where(s=>s.StudentId == sStudentId).ToList()) // get all cars of student from db to list
                 {
-                    car.StudentId = StudentId;
+                    car.StudentId = sStudentId;
                     socio.ListCarStudent.Add(car);
                 }
                 //ctx.Configuration.LazyLoadingEnabled = false;
@@ -311,20 +311,56 @@ namespace DikanNetProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult Socio(SocioAdd socioeconomic) // submit  new socio scholarship
+        public ActionResult Socio(SocioAdd socio) // submit  new socio scholarship
          {
-            socioeconomic.SocioMod.StudentId = StudentId;
+            socio.SocioMod.StudentId = sStudentId;
+            List<CarStudent> dbCars;
+            CarStudent tempDbCar;
             if (ModelState.IsValid)
             {
+                //save car detailes
+                using (DikanDbContext ctx = new DikanDbContext())
+                {
+                    // list of cars by database
+                    dbCars = ctx.CarStudents.Where(s => s.StudentId == sStudentId).ToList();
+                    foreach (var car in socio.ListCarStudent)
+                    {
+                        car.StudentId = sStudentId;// insert ths id of student to every car
+                        //find the car in the list by carNumber
+                        tempDbCar = dbCars.Where(s => s.CarNumber == car.CarNumber).FirstOrDefault();
+                        //if it was change at carNumber reset the file path
+                        if (tempDbCar == null)
+                            car.FileCarLicense = null;
+                        
+                        // if there is a file upload and update the file path
+                        if (car.CarLicenseFile != null)
+                            car.FileCarLicense = Files.SaveFileInServer(car.CarLicenseFile, "Car" + car.CarNumber, sStudentId, car.FileCarLicense);
+
+                        if (tempDbCar != null)
+                            ctx.Entry(tempDbCar).CurrentValues.SetValues(car);// update car exists
+                        else
+                            ctx.CarStudents.Add(car); // add new car to database    
+  
+                        ctx.SaveChanges();
+                    }       
+                }
+
+                // אם נמצא בשרת ולא נמצא עם הרשימה שחזרה מהקליינט אז תמחק את הרשומה
+                foreach (var car in dbCars)
+                {
+                    tempDbCar = socio.ListCarStudent.Where(s => s.CarNumber == car.CarNumber).FirstOrDefault();
+                    if (tempDbCar == null)
+                        DeleteCar(car.CarNumber);
+                }
             }
-            ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show volunteer places list in drop down
-            return View(socioeconomic);
-          
+           if (socio.ListCarStudent == null) socio.ListCarStudent = new List<CarStudent>();
+            ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
+            return View(socio);
         }
 
         public PartialViewResult CarsView()
         {
-            ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show volunteer places list in drop down
+            ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
             return PartialView("CarsView", new CarStudent());
         }
 
@@ -334,9 +370,12 @@ namespace DikanNetProject.Controllers
             
             using(DikanDbContext ctx = new DikanDbContext())
             {
-                tempcar = ctx.CarStudents.Find(int.Parse(CarNum));
+                tempcar = ctx.CarStudents.Find(CarNum);
                 if (tempcar == null)
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                //if file exists delete it
+                if (!string.IsNullOrEmpty(tempcar.FileCarLicense))
+                    Files.Delete(tempcar.FileCarLicense, sStudentId);
                 ctx.CarStudents.Remove(tempcar);
                 ctx.SaveChanges();
             }
@@ -357,7 +396,7 @@ namespace DikanNetProject.Controllers
             }
             var file = Request.Files[0];
             string path;
-            path = SaveFile.SaveFileInServer(filee, fileName, StudentId, oldFile);
+            path = Files.SaveFileInServer(filee, fileName, sStudentId, oldFile);
             Response.StatusCode = 200;
             return Content(path, "text/plain");
         }
