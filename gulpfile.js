@@ -12,6 +12,7 @@ const rename = require('gulp-rename') // npm install --save-dev gulp-rename
   gulp.watch - Watch files and folders for changes
 */
 
+// folder of JavaScript Destintion
 const destJs = 'DikanNetProject/Scripts/MyJs';
 
 // Logs Message
