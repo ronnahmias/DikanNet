@@ -297,23 +297,21 @@ namespace DikanNetProject.Controllers
         [HttpGet]
         public ActionResult Socio(int scholarshipid)
         {
-            ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show volunteer places list in drop down
-            SocioAdd socio = new SocioAdd
+            ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
+            SocioAdd socio = new SocioAdd // new socio add model
             {
                 SocioMod = new Socioeconomic(),
-                ListCarStudent = new List<CarStudent>()
+                ListCarStudent = new List<CarStudent>(),
+                ListFundings = new List<Funding>()
             };
-            socio.SocioMod.ScholarshipId = scholarshipid;
-            socio.SocioMod.StudentId = sStudentId;
-            using(DikanDbContext ctx = new DikanDbContext())
+            using (DikanDbContext ctx = new DikanDbContext())
             {
                 foreach (var car in ctx.CarStudents.Where(s=>s.StudentId == sStudentId).ToList()) // get all cars of student from db to list
-                {
-                    car.StudentId = sStudentId;
                     socio.ListCarStudent.Add(car);
-                }
-                //ctx.Configuration.LazyLoadingEnabled = false;
-            }            
+                foreach (var fund in ctx.Fundings.Where(s => s.StudentId == sStudentId).ToList()) // get all fundings of student from db to list
+                    socio.ListFundings.Add(fund);
+            }
+            socio.SocioMod.ScholarshipId = scholarshipid; // insert scholarship id in socio model
             return View(socio);
         }
 
@@ -361,23 +359,32 @@ namespace DikanNetProject.Controllers
                 }
             }
            if (socio.ListCarStudent == null) socio.ListCarStudent = new List<CarStudent>();
+           if (socio.ListFundings == null) socio.ListFundings = new List<Funding>();
             ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
             return View(socio);
         }
 
+        #region Partial Views
         public PartialViewResult CarsView()
         {
             ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
             return PartialView("CarsView", new CarStudent());
         }
 
+        public PartialViewResult FundView()
+        {
+            ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
+            return PartialView("FundView", new Funding());
+        }
+        #endregion
+
+        #region Delete Rows Functions
         public ActionResult DeleteCar(string CarNum)
         {
             CarStudent tempcar;
-            
             using(DikanDbContext ctx = new DikanDbContext())
             {
-                tempcar = ctx.CarStudents.Find(CarNum);
+                tempcar = ctx.CarStudents.Where(s => s.CarNumber == CarNum && s.StudentId == sStudentId).FirstOrDefault();
                 if (tempcar == null)
                     return new HttpStatusCodeResult(HttpStatusCode.NotFound,"Not Found In DataBase");
                 //if file exists delete it
@@ -388,6 +395,25 @@ namespace DikanNetProject.Controllers
             }
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
+
+        public ActionResult DeleteFund(string FundId)
+        {
+            Funding tempfund;
+            using (DikanDbContext ctx = new DikanDbContext())
+            {
+                tempfund = ctx.Fundings.Where(s=>s.FundingId == int.Parse(FundId) && s.StudentId == sStudentId).FirstOrDefault();
+                if (tempfund == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.NotFound, "Not Found In DataBase");
+                //if file exists delete it
+                if (!string.IsNullOrEmpty(tempfund.FundingFile))
+                    Files.Delete(tempfund.FundingFile, sStudentId);
+                ctx.Fundings.Remove(tempfund);
+                ctx.SaveChanges();
+            }
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+        #endregion
+
         #endregion
 
         #region Upload File Ajax
