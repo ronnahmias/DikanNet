@@ -22,7 +22,7 @@
                 @Html.LabelFor(model => model.SchoolYear, htmlAttributes: new { @class = "control-label" })
                 <div class="">
                     @Html.DropDownListFor(model => model.SchoolYear,
-                   new SelectList(Enum.GetNames(typeof(Common.Enums.SchoolYear))), "", new { @class = "form-control chosen", @data_placeholder = "בחר שנת לימוד" })
+                   new SelectList(Enum.GetNames(typeof(Common.Enums.SchoolYear))), "", new { @class = "form-control chosen", @data_placeholder = "שנת לימוד" })
                     @Html.ValidationMessageFor(model => model.SchoolYear, "", new { @class = "text-danger" })
                 </div>
             </div>

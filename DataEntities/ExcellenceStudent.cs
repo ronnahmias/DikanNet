@@ -40,10 +40,10 @@ namespace DataEntities
         [Display(Name = "תחומי חונכות"),RequiredIf("WantSp", true, ErrorMessage = "חובה למלא תחומי חונכות")]
         public string MentorSub { get; set; }
 
-        [Display(Name = "הערות נוספות")]
+        [Display(Name = "הערות נוספות"), DataType(DataType.MultilineText)]
         public string Comments { get; set; }
 
-        [Display(Name = "ספר על עצמך"), Required(ErrorMessage = "יש לרשום קצת על עצמך")]
+        [Display(Name = "ספר על עצמך"), DataType(DataType.MultilineText), Required(ErrorMessage = "יש לרשום קצת על עצמך")]
         public string AboutMe { get; set; }
 
         [Display(Name = "סיכום ראיון")]
