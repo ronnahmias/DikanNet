@@ -14,8 +14,7 @@ namespace DikanNetProject
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/MyJs/chosen.jquery.min.js",
-                      "~/Scripts/MyJs/MyJS.js",
-                      "~/Scripts/MyJs/UploadFileJS.js"));
+                      "~/Scripts/MyJs/MyJS.js"));
 
             bundles.Add(new StyleBundle("~/Content/Css").Include(
                       "~/Content/Css/bootstrap.css",

@@ -19,10 +19,10 @@ body{
     cursor: default;
 }
 
-.chosen{
-    font-size:22px;
+.chosen-container, .chosen {
+    max-width: 200px;
+    font-size:17px;
 }
-
 div#reqStatuses > div:nth-child(odd)
 {
     background-color:#ddd;

@@ -119,7 +119,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Css\BaseCSS.css" />
-    <Content Include="Content\Css\Chosen\chosen-sprite.png" />
     <Content Include="Content\Css\Chosen\chosen.min.css" />
     <Content Include="Content\EmailTmp\1.jpg" />
     <Content Include="Content\EmailTmp\2.png" />
@@ -130,6 +129,8 @@
     <Content Include="Content\Css\bootstrap-reboot.min.css" />
     <Content Include="Content\Css\bootstrap.css" />
     <Content Include="Content\Css\bootstrap.min.css" />
+    <Content Include="Content\Css\Chosen\chosen-sprite%402x.png" />
+    <Content Include="Content\Css\Chosen\chosen-sprite.png" />
     <Content Include="Content\Pic\Logo.png" />
     <Content Include="Content\ui-bootstrap-csp.css" />
     <Content Include="Global.asax" />
