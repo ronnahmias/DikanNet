@@ -30,17 +30,15 @@ namespace DataEntities
 
         [Display(Name = "סיסמא"),
         Column("Passwordd"),
-        Required(AllowEmptyStrings = false, ErrorMessage = "סיסמא לא תקינה"),
+        Required(ErrorMessage = "סיסמא לא תקינה"),
         DataType(DataType.Password),
         MinLength(8,ErrorMessage ="יש להזין לפחות 8 תווים")]
         public string Password { get; set; }
 
         [NotMapped,
         Display(Name = "אימות סיסמא"),
-        Required(AllowEmptyStrings = false, ErrorMessage = "אימות סיסמא לא תקין"),
         DataType(DataType.Password),
-        MinLength(8, ErrorMessage = "יש להזין לפחות 8 תווים"),
-        Compare("Password", ErrorMessage = "יש להזין סיסמא תואמת באימות סיסמא")]
+        MinLength(8, ErrorMessage = "יש להזין לפחות 8 תווים")]
         public string ConfirmPassword { get; set; }
 
         [Column("Rolee")]
