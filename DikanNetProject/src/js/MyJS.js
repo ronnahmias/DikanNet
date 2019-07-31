@@ -62,8 +62,7 @@ function validPassword(p)
      *      A lowercase letter
      *      A capital(uppercase)letter
      *      A number
-     * */
-
+   */
     //minimum characters
     if (p.length < 8) return false;
     //check with regex
@@ -80,3 +79,12 @@ function validEmail(email) {
     return re.test(email);
 }
 
+/* The function get the checked value(true or false)
+ * and the elemnt that need to be show
+ * if checked true it will fade in else it will fade out
+ */
+function showHidenPortion(checked, idElement) {
+    if (checked == true)
+        $('#' + idElement).fadeIn();
+    else $('#' + idElement).fadeOut();
+}
