@@ -11,5 +11,6 @@ namespace DataEntities
 
         public Socioeconomic SocioMod { get; set; }
         public List<CarStudent> ListCarStudent { get; set; }
+        public List<Funding> ListFundings { get; set; }
     }
 }

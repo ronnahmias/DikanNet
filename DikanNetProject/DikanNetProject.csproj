@@ -228,6 +228,7 @@
     <Content Include="Views\Student\UploadFileAjax.cshtml" />
     <Content Include="Views\Student\CarsView.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Collection.cshtml" />
+    <Content Include="Views\Student\FundView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
