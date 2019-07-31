@@ -1,0 +1,26 @@
+﻿@using HtmlHelpers.BeginCollectionItem
+@model DataEntities.Funding
+
+    <div class="fundings">
+        @using (Html.BeginCollectionItem("ListFunding"))
+        {
+        <div class="form-group row text-center">
+            @Html.EditorFor(model => model.FinancingInstitution, new { htmlAttributes = new { @class = "control-label col-md-2" } })
+            @Html.EditorFor(model => model.FinancingHeight, new { htmlAttributes = new { @class = "control-label col-md-2" } })
+            @Html.DropDownListFor(model => model.YearFinancing, ViewBag.YearsList as SelectList, "שנת ייצור", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.TextBoxFor(model => model.FileFunding, new { @class = "control-label col-md-3", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
+            @Html.DisplayFor(model => model.FundingFile, new { htmlAttributes = new { @class = "control-label col-md-2" } })
+            @Html.HiddenFor(model => model.FundingFile)
+            @Html.HiddenFor(model => model.FundingId)
+            <div class="col-md-1">
+                <button class="btn btn-danger del" type="button">X</button>
+            </div>
+        </div>
+            <div class="form-group row text-danger">
+                @Html.ValidationMessageFor(model => model.FinancingInstitution, "", new { @class = "control-label col-md-2" })
+                @Html.ValidationMessageFor(model => model.FinancingHeight, "", new { @class = "control-label col-md-2" })
+                @Html.ValidationMessageFor(model => model.YearFinancing, "", new { @class = "control-label col-md-2" })
+                @Html.ValidationMessageFor(model => model.FileFunding, "", new { @class = "control-label col-md-2" })
+            </div>
+        }
+    </div>
