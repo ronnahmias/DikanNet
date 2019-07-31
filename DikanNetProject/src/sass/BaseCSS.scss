@@ -28,37 +28,39 @@ div#reqStatuses > div:nth-child(odd)
     background-color:#ddd;
 }
 
-
 /** reqScholarship **/
+#reqScholarship {
+    ul.nav {
+        a {
+            color: #fff;
 
-#reqScholarship
-{
-    ul.nav{
-        a{
-            color:#fff;
-            .active{
+            .active {
                 background-color: #fff;
-                color:#000000;
+                color: #000000;
             }
         }
     }
-    div.tab-pane{
-        padding:40px;
+
+    div.tab-pane {
+        padding: 40px;
     }
-    div.tab-content
-    {
-        h3{
+
+    div.tab-content {
+        h3 {
             font-size: 3rem;
             margin-bottom: 40px;
         }
-        p{
+
+        p {
             font-size: 1.2rem;
         }
-        a.btn{
+
+        a.btn {
             font-size: 1.6rem;
-            margin-top:50px;
+            margin-top: 50px;
             transition: 0.5s;
-            &:hover{
+
+            &:hover {
                 font-size: 1.9rem;
                 background-color: #fff;
                 color: var(--primary);
