@@ -103,6 +103,7 @@ namespace DikanNetProject.Controllers
         [HttpPost]
         public ActionResult UpdateStudent(Student UpdateStudent)
         {
+            Users tempuser = null;
             UpdateStudent.StudentId = sStudentId;
             if (ModelState.IsValid)
             {
@@ -111,7 +112,13 @@ namespace DikanNetProject.Controllers
                     Student dbStudent = ctx.Students.Find(UpdateStudent.StudentId);
                     if (dbStudent != null) 
                     {
-                        Users tempuser = ctx.Users.Find(UpdateStudent.StudentId); // get the student user
+                        tempuser = ctx.Users.Find(UpdateStudent.StudentId); // get the student user
+                        if (tempuser != null) // if the student changed the name update in users list also
+                        {
+                            tempuser.FirstName = UpdateStudent.FirstName;
+                            tempuser.LastName = UpdateStudent.LastName;
+                            Session["Student"] = tempuser; // update the session with the name
+                        }
                         if (UpdateStudent.Email != tempuser.Email) // check if the student has change the email address
                         {
                             tempuser.Email = UpdateStudent.Email; // update email address in user list
@@ -136,6 +143,9 @@ namespace DikanNetProject.Controllers
                     else
                         ctx.Entry(dbStudent).CurrentValues.SetValues(UpdateStudent);// update student
                     ctx.SaveChanges();
+
+                    if (tempuser != null && tempuser.IsEmailVerified == false) // if the student change the email disconnect from system
+                        return RedirectToAction("Disconnect", "Login");
 
                     return RedirectToAction("Index");
                 }
