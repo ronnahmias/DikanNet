@@ -33,7 +33,8 @@ $(document).ready(function () {
         {
             no_results_text: "אין ערך כזה.",
             rtl: true,
-            allow_single_deselect: true 
+            allow_single_deselect: true,
+            width: '100%'
         });
 });
 

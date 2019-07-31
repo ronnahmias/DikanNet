@@ -154,7 +154,7 @@
                         @Html.TextBoxFor(model => model.IdFile, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
                         @Html.ValidationMessageFor(model => model.IdFile, "", new { @class = "text-danger mb-3" })
                     </div>
-                    <embed src='/UsersFiles/@Model.StudentId/@Model.FileId' class=" @(@Model.FileId == null ? "d-none" : " ")" sstyle="max-width:250px; max-height:250px; display:inline-block" />
+                    <embed src='/UsersFiles/@Model.StudentId/@Model.FileId' class=" @(@Model.FileId == null ? "d-none" : " ")" style="max-width:250px; max-height:250px; display:inline-block" />
                 </div>
             </div>
 

@@ -61,6 +61,10 @@ div#reqStatuses > div:nth-child(odd) {
 #reqScholarship div.tab-content p:nth-child(5):before {
   content: "גובה מלגה: "; }
 
+/*Halaca form*/
+#halaca-container .chosen-container {
+  max-width: 100%; }
+
 @media (max-width: 768px) {
   #reqScholarship {
     max-width: 100%; } }
