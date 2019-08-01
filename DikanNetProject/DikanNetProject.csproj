@@ -170,6 +170,10 @@
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <Content Include="Scripts\MyJs\MyJS.js" />
     <Content Include="Scripts\MyJs\MyJS.min.js" />
+    <Content Include="Scripts\MyJs\signature_app.js" />
+    <Content Include="Scripts\MyJs\signature_app.min.js" />
+    <Content Include="Scripts\MyJs\signature_pad.umd.js" />
+    <Content Include="Scripts\MyJs\signature_pad.umd.min.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
