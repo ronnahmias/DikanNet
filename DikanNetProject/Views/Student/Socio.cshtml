@@ -265,15 +265,42 @@
             });
         });
 
-        $(document).on('click','.del',function() {
+        $(document).on('click','.del-car',function() {
             var container = $(this).closest('.cars');
             var id = container.find('.id').attr('value');
             if (id)
             {
                 $.ajax({
-                    url: "/Student/DeleteCar",
+                    url: "/Student/DeleteFund",
                     dataType: 'text',
                     data: { CarNum: id },
+                    method: "POST",
+                    success: function () {
+                        container.remove();
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        console.log(xhr.status);
+                        console.log(thrownError);
+                        container.remove();
+                    }
+                });
+            }
+            else
+            {
+                // It never existed, so just remove the container
+                container.remove();
+            }
+        });
+
+        $(document).on('click','.del-fund',function() {
+            var container = $(this).closest('.funds');
+            var id = container.find('.id').val();
+            if (id && id != 0)
+            {
+                $.ajax({
+                    url: "/Student/DeleteFund",
+                    dataType: 'text',
+                    data: { FundId: id },
                     method: "POST",
                     success: function () {
                         container.remove();
