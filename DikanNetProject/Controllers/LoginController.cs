@@ -103,6 +103,9 @@ namespace DikanNetProject.Controllers
             ViewBag.Status = false;
             if (ModelState.IsValid)
             {
+                if (string.Compare(RegisterUser.Password, RegisterUser.ConfirmPassword) != 0) // validation of the password and confirm password
+                    return View(RegisterUser);
+
                 // hash password
                 RegisterUser.Password = Crypto.Hash(RegisterUser.Password);
 
@@ -131,7 +134,7 @@ namespace DikanNetProject.Controllers
                 ViewBag.ModelTitle = "רישום";
                 ViewBag.ModelMessageBody = "הרישום הצליח! עלייך לאמת את החשבון דרך תיבת הדואר האלקטרוני לפני ההתחברות הראשונה";
             }
-            return View();
+            return View(RegisterUser);
         }
 
         #endregion

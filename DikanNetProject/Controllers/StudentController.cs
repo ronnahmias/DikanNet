@@ -330,7 +330,11 @@ namespace DikanNetProject.Controllers
          {
             socio.SocioMod.StudentId = sStudentId;
             List<CarStudent> dbCars;
+            List<Funding> dbFunding;
             CarStudent tempDbCar;
+            Funding tempDbFund;
+            if (socio.ListCarStudent == null) socio.ListCarStudent = new List<CarStudent>();
+            if (socio.ListFundings == null) socio.ListFundings = new List<Funding>();
             if (ModelState.IsValid)
             {
                 //save car detailes
@@ -338,6 +342,10 @@ namespace DikanNetProject.Controllers
                 {
                     // list of cars by database
                     dbCars = ctx.CarStudents.Where(s => s.StudentId == sStudentId).ToList();
+                    // list of funding by database
+                    dbFunding = ctx.Fundings.Where(s => s.StudentId == sStudentId).ToList();
+
+                    // update each car that posted from client
                     foreach (var car in socio.ListCarStudent)
                     {
                         car.StudentId = sStudentId;// insert ths id of student to every car
@@ -357,7 +365,28 @@ namespace DikanNetProject.Controllers
                             ctx.CarStudents.Add(car); // add new car to database    
   
                         ctx.SaveChanges();
-                    }       
+                    } 
+
+                    // update each fund that posted from client
+                    foreach (var fund in socio.ListFundings)
+                    {
+                        fund.StudentId = sStudentId;// insert ths id of student to every fund
+                        //find the fund in the list by funding id and the student id
+                        tempDbFund = dbFunding.Where(s => s.FundingId == fund.FundingId && s.StudentId == sStudentId).FirstOrDefault();
+
+                        if (tempDbFund != null)
+                            ctx.Entry(tempDbFund).CurrentValues.SetValues(fund);// update fund exists
+                        else
+                            ctx.Fundings.Add(fund); // add new fund to database    
+
+                        ctx.SaveChanges();
+
+                        // if there is a file upload and update the file path
+                        if (fund.FileFunding != null)
+                            fund.FundingFile = Files.SaveFileInServer(fund.FileFunding, "Fund" + fund.FundingId, sStudentId, fund.FundingFile);
+
+                        ctx.SaveChanges();
+                    }
                 }
 
                 // אם נמצא בשרת ולא נמצא עם הרשימה שחזרה מהקליינט אז תמחק את הרשומה
@@ -368,8 +397,6 @@ namespace DikanNetProject.Controllers
                         DeleteCar(car.CarNumber);
                 }
             }
-           if (socio.ListCarStudent == null) socio.ListCarStudent = new List<CarStudent>();
-           if (socio.ListFundings == null) socio.ListFundings = new List<Funding>();
             ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
             return View(socio);
         }
@@ -409,9 +436,10 @@ namespace DikanNetProject.Controllers
         public ActionResult DeleteFund(string FundId)
         {
             Funding tempfund;
+            int pFundId = int.Parse(FundId);
             using (DikanDbContext ctx = new DikanDbContext())
             {
-                tempfund = ctx.Fundings.Where(s=>s.FundingId == int.Parse(FundId) && s.StudentId == sStudentId).FirstOrDefault();
+                tempfund = ctx.Fundings.Where(s=>s.FundingId == pFundId && s.StudentId == sStudentId).FirstOrDefault();
                 if (tempfund == null)
                     return new HttpStatusCodeResult(HttpStatusCode.NotFound, "Not Found In DataBase");
                 //if file exists delete it

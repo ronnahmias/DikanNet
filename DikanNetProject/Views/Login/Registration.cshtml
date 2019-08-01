@@ -105,11 +105,8 @@
         if(! (validId(id) && validEmail(email)))
         {
                 $('#responseModal').modal('show');
-                alert("failed");
                 return false;
         }
-        alert("sucssess");
-
         $.ajax({
             url: "/Login/CheckIfUserExist",
             dataType: 'text',
