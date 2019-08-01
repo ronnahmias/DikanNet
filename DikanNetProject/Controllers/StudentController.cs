@@ -502,6 +502,15 @@ namespace DikanNetProject.Controllers
             return years;
         }
 
+        [HttpPost]
+        public ActionResult SaveSignature(string pDataUri)
+        {
+            var ok = Files.signatureSave(pDataUri, sStudentId);
+            return new HttpStatusCodeResult (ok ? HttpStatusCode.OK : HttpStatusCode.BadRequest) ;
+            //Files.SaveFileInServer(, "signature", sStudentId, null);
+        }
+
+
         #endregion
 
     }

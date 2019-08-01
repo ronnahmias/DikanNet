@@ -91,7 +91,7 @@ function showHidenPortion(checked, idElement) {
 
 /* The function check that all the must filed are filed */
 function checkMust() {
-    alert('check Must Function');
+    //alert('check Must Function');
     var ok = true;
     $('.must').each(function () {
         var $this = $(this);

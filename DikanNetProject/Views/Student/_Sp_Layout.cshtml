@@ -6,7 +6,11 @@
     <title>@ViewBag.Title</title>
     <link rel="icon" href="~/Content/Pic/Logo.png" type="image/x-icon" />
     @Styles.Render("~/Content/Css")
+    <link rel="stylesheet" href="~/Content/Css/signature-pad.css">
+
 </head>
+
+
 <body class="text-right" style="background-color:#fdfdee">
     <a href="@Url.Action("Index", "Student")">
         <img src="~/Content/Pic/Logo.png" alt="דיקאנט לוגו" class="logo img-fluid d-block mx-auto " />
@@ -48,13 +52,30 @@
 
                 <!-- Modal Header -->
                 <div class="modal-header text-danger">
-                    <h4 class="modal-title">שגיאה</h4>
+                    <h4 class="modal-title"></h4>
                     <button type="button" class="close ml-0" data-dismiss="modal">&times;</button>
                 </div>
 
                 <!-- Modal body -->
-                <div class="modal-body text-danger text-center">
-                    <p class="modal-body-text">לא כל השדות מלאים נא לתקן</p>
+                <div class="modal-body text-center">
+
+                    <div id="signature-pad" class="signature-pad">
+                        <div class="signature-pad--body">
+                            <canvas></canvas>
+                        </div>
+                        <div class="signature-pad--footer">
+                            <div class="description">Sign above</div>
+
+                            <div class="signature-pad--actions">
+                                <div>
+                                    <button type="button" class="button clear" data-action="clear">Clear</button>
+                                </div>
+                                <div>
+                                    <button type="button" class="button save" data-action="save-png">Save as PNG</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Modal footer -->
@@ -77,10 +98,34 @@
 
         function beforeSumbit() {
             var ok = checkMust();
+            ok = true;
             alert(ok);
             if (ok) // true - all filed are filed
             {
                 $('#successModal').modal('show');
+                /*
+                if (signaturePad.isEmpty()) {
+                  alert("Please provide a signature first.");
+                  $('#errorModal').modal('show');
+                  return;
+              } 
+               var dataURL = signaturePad.toDataURL();
+                $.ajax({
+                    url: "/Student/SaveSignature",
+                    dataType: 'text',
+                    data: { pDataUri: dataURL },
+                    method: "POST",
+                    success: function () {
+                        alert("Success");
+                        return true;
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert("Failed");
+                        console.log(xhr.status);
+                        console.log(thrownError);
+                        return false;
+                    }
+                });*/
             }
             else {
                 $('#errorModal').modal('show');

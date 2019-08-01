@@ -13,7 +13,9 @@ namespace DikanNetProject
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
-                      "~/Scripts/MyJs/chosen.jquery.min.js",
+                      "~/Scripts/MyJs/chosen.min.js",
+                      "~/Scripts/MyJs/signature_pad.umd.js",
+                      "~/Scripts/MyJs/signature_app.js",
                       "~/Scripts/MyJs/MyJS.js"));
 
             bundles.Add(new StyleBundle("~/Content/Css").Include(

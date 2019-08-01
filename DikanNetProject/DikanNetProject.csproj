@@ -120,6 +120,7 @@
   <ItemGroup>
     <Content Include="Content\Css\BaseCSS.css" />
     <Content Include="Content\Css\Chosen\chosen.min.css" />
+    <Content Include="Content\Css\signature-pad.css" />
     <Content Include="Content\EmailTmp\1.jpg" />
     <Content Include="Content\EmailTmp\2.png" />
     <Content Include="Content\EmailTmp\EmailTemplete.html" />
@@ -154,7 +155,7 @@
     <Content Include="Content\Css\bootstrap-grid.css.map" />
     <Content Include="Scripts\jquery.form.js" />
     <Content Include="Scripts\jquery.form.min.js" />
-    <Content Include="Scripts\MyJs\chosen.jquery.min.js" />
+    <Content Include="Scripts\MyJs\chosen.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -186,6 +187,8 @@
     <Content Include="Scripts\MyJs\UploadFileJS.min.js" />
     <Content Include="src\js\MyJS.js" />
     <Content Include="src\js\Files.js" />
+    <Content Include="src\js\signature_app.js" />
+    <Content Include="src\js\signature_pad.umd.js" />
     <Content Include="src\pic\Logo.png" />
     <Content Include="Web.config" />
     <Content Include="Scripts\umd\popper.min.js.map" />
@@ -234,6 +237,7 @@
     <Content Include="Views\Student\CarsView.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Collection.cshtml" />
     <Content Include="Views\Student\FundView.cshtml" />
+    <Content Include="src\sass\signature-pad.scss" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

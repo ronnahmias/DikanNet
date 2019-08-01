@@ -63,7 +63,7 @@
                     @Html.LabelFor(model => model.WantSp, htmlAttributes: new { @class = "control-label " })
                     <div class="">
                         <div class="checkbox">
-                            @Html.EditorFor(model => model.WantSp,new { htmlAttributes = new { onchange = "showHidenPortion(this.checked,'MentorSub')" } })
+                            @Html.EditorFor(model => model.WantSp, new { htmlAttributes = new { onchange = "showHidenPortion(this.checked,'MentorSub')" } })
                             @Html.ValidationMessageFor(model => model.WantSp, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -78,28 +78,48 @@
                     </div>
                 </div>
             </div>
-                <div class="form-group  col-12">
-                    @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label " })
-                    <div class="">
-                        @Html.EditorFor(model => model.Comments, new { htmlAttributes = new { @class = "form-control must" } })
-                        @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group col-12">
-                    @Html.LabelFor(model => model.AboutMe, htmlAttributes: new { @class = "control-label " })
-                    <div class="">
-                        @Html.EditorFor(model => model.AboutMe, new { htmlAttributes = new { @class = "form-control must" } })
-                        @Html.ValidationMessageFor(model => model.AboutMe, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="button" value="הגש מלגה" class="btn btn-success" name="uploadmethod" onclick="return beforeSumbit()" />
-                        <input type="submit" value="שמור טיוטה" class="btn btn-warning" name="uploadmethod" />
-                    </div>
+            <div class="form-group  col-12">
+                @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label " })
+                <div class="">
+                    @Html.EditorFor(model => model.Comments, new { htmlAttributes = new { @class = "form-control must" } })
+                    @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
                 </div>
             </div>
+
+            <div class="form-group col-12">
+                @Html.LabelFor(model => model.AboutMe, htmlAttributes: new { @class = "control-label " })
+                <div class="">
+                    @Html.EditorFor(model => model.AboutMe, new { htmlAttributes = new { @class = "form-control must" } })
+                    @Html.ValidationMessageFor(model => model.AboutMe, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="button" value="הגש מלגה" class="btn btn-success" name="uploadmethod" onclick="return beforeSumbit()" />
+                    <input type="submit" value="שמור טיוטה" class="btn btn-warning" name="uploadmethod" />
+                </div>
+            </div>
+        </div>
     }
+    <!--
+    <div id="signature-pad" class="signature-pad">
+        <div class="signature-pad--body">
+            <canvas></canvas>
+        </div>
+        <div class="signature-pad--footer">
+            <div class="description">Sign above</div>
+
+            <div class="signature-pad--actions">
+                <div>
+                    <button type="button" class="button clear" data-action="clear">Clear</button>
+                </div>
+                <div>
+                    <button type="button" class="button save" data-action="save-png">Save as PNG</button>
+                </div>
+            </div>
+        </div>
+    </div>
+        -->
 </div>
+

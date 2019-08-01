@@ -10,6 +10,15 @@ namespace Common
 {
     public static class Files
     {
+        /*
+        private static Path getServerPath(string pId)
+        {
+            if (string.IsNullOrEmpty(pId)) return null;
+            var serverpathsave = Path.Combine(HttpContext.Current.Server.MapPath("~/UsersFiles/") + pId);
+
+            return serverpathsave;
+        }
+        */
         public static string SaveFileInServer(HttpPostedFileBase pFile, string pFileName, string pId,string pOldFile)
         {
             int fileSize = pFile.ContentLength;
@@ -35,6 +44,20 @@ namespace Common
             if (!Directory.Exists(serverpath)) return false;
 
             File.Delete(Path.Combine(serverpath, pFileName));
+            return true;
+        }
+
+        public static bool signatureSave(string pdataUri, string pId)
+        {
+            if (string.IsNullOrEmpty(pdataUri) || string.IsNullOrEmpty(pId))
+                return false;
+
+            var serverpath = Path.Combine(HttpContext.Current.Server.MapPath("~/UsersFiles/") + pId);
+            if (!Directory.Exists(serverpath)) return false;
+
+            var encodedImage = pdataUri.Split(',')[1];
+            var decodedImage = Convert.FromBase64String(encodedImage);
+            File.WriteAllBytes(serverpath+"/signature.png", decodedImage);
             return true;
         }
     }
