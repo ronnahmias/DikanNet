@@ -23,7 +23,9 @@ namespace Common
             רווק,
             נשוי,
             גרוש,
-            אלמן
+            אלמן,
+            יתום,
+            בודד_בארץ
         }
 
         public enum SchoolYear
