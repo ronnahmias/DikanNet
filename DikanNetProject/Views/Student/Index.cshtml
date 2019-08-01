@@ -107,12 +107,13 @@
         <div class="tab-pane container fade bg-white p-0" id="reqScholarship">
             <!-- Nav pills -->
             <ul class="nav nav-pills nav-justified pt-2 px-0" style="background-color:#808080;">
-                @{ foreach (var sp in Model.ScholarshipDefinitions.ToList())
+                @{  var spList = Model.ScholarshipDefinitions.ToList();
+                    foreach (var sp in spList)
                     {
                         String idd = "#sp" + sp.ScholarshipID;
                         int i = 0;
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="pill" href=@idd>@sp.ScholarshipName</a>
+                            <a class="nav-link @(spList.First() == sp ? "active" : "")" data-toggle="pill" href=@idd>@sp.ScholarshipName</a>
                         </li>
                     }
                 }
@@ -120,13 +121,10 @@
 
             <!-- Tab panes -->
             <div class="tab-content pt-4 bg-white px-4">
-                @foreach (var sp in Model.ScholarshipDefinitions.ToList())
-                {
-                    int i = 0;
-                    String idd = "sp" + sp.ScholarshipID;
-                    if (i == 0)
+                @{  foreach (var sp in spList)
                     {
-                        <div class="tab-pane container active" id=@idd>
+                        String idd = "sp" + sp.ScholarshipID;
+                        <div class="tab-pane container @(spList.First() == sp ? "active" : "")" id=@idd>
                             <h3>@sp.ScholarshipName</h3>
                             <p>@sp.ScholarshipDetails</p>
                             <p>המלגה מיועדת לסטודנטים מיעוטי יכולת בהתאם לדרישות מטה</p>
@@ -135,20 +133,8 @@
 
                             @Html.ActionLink("להגשת בקשת מלגה", "RedirectToScholarship", new { scholarshipid = sp.ScholarshipID }, new { @class = "btn btn-primary" })
                         </div>
+                        }
                     }
-                    else
-                    {
-                        <div class="tab-pane container" id=@idd>
-                            <h3>@sp.ScholarshipName</h3>
-                            <p>@sp.ScholarshipDetails</p>
-                            <p>המלגה מיועדת לסטודנטים מיעוטי יכולת בהתאם לדרישות מטה</p>
-                            <p>ללא מקורות מימון נוספים</p>
-                            <p>@sp.ScholarshipAmount ש"ח</p>
-
-                            <a href="#" class="btn btn-primary">להגשת בקשת מלגה</a>
-                        </div>
-                    }
-                }
                 </>
             </div>
 
