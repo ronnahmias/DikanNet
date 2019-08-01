@@ -8,7 +8,7 @@
     @Styles.Render("~/Content/Css")
 </head>
 <body class="text-right" style="background-color:#fdfdee">
-    <a href="@Url.Action("Index","Student")">
+    <a href="@Url.Action("Index", "Student")">
         <img src="~/Content/Pic/Logo.png" alt="דיקאנט לוגו" class="logo img-fluid d-block mx-auto " />
     </a>
     <h1 class="display-4 text-center">@ViewBag.Message</h1>
@@ -16,20 +16,45 @@
         @RenderBody()
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="responseModal">
+    <!-- errorModal -->
+    <div class="modal fade" id="errorModal">
         <div class="modal-dialog">
             <div class="modal-content">
 
                 <!-- Modal Header -->
                 <div class="modal-header text-danger">
-                    <h4 class="modal-title">@ViewBag.ModelTitle</h4>
+                    <h4 class="modal-title">שגיאה</h4>
                     <button type="button" class="close ml-0" data-dismiss="modal">&times;</button>
                 </div>
 
                 <!-- Modal body -->
                 <div class="modal-body text-danger text-center">
-                    @Html.Raw(@ViewBag.ModelMessageBody)
+                    <p class="modal-body-text">לא כל השדות מלאים נא לתקן</p>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">סגירה</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- successModal -->
+    <div class="modal fade" id="successModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header text-danger">
+                    <h4 class="modal-title">שגיאה</h4>
+                    <button type="button" class="close ml-0" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body text-danger text-center">
+                    <p class="modal-body-text">לא כל השדות מלאים נא לתקן</p>
                 </div>
 
                 <!-- Modal footer -->
@@ -45,31 +70,25 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 
-<script>
-        $(document).ready(function ()
-        {
-            var status = "@ViewBag.Status";
-            if (status == "False")
-                $('#responseModal').modal('show');
+    <script>
+        $(document).ready(function () {
 
         });
 
-        function checkPasswordsValid() // check that password and confirm pass is match in register and resetpass views
-        {
-         $('#ValidMessagePassword').text = "";
-        $('input[type=password]').removeClass("border border-danger");
-
-        var pass1 =$('#Password').val();
-        var pass2 =$('#ConfirmPassword').val();
-        if(pass1 != pass2 || !validPassword(pass1))
-        {
-            $('#ValidMessagePassword').text = "שגיאה, הסיסמא לא תקנית";
-            $('input[type=password]').addClass("border border-danger");
-            return false;
+        function beforeSumbit() {
+            var ok = checkMust();
+            alert(ok);
+            if (ok) // true - all filed are filed
+            {
+                $('#successModal').modal('show');
+            }
+            else {
+                $('#errorModal').modal('show');
+            }
+            return ok;
         }
-    return true;
-    }
-</script>
+
+    </script>
 </body>
 </html>
 

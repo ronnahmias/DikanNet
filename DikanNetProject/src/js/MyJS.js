@@ -88,3 +88,19 @@ function showHidenPortion(checked, idElement) {
         $('#' + idElement).fadeIn();
     else $('#' + idElement).fadeOut();
 }
+
+/* The function check that all the must filed are filed */
+function checkMust() {
+    alert('check Must Function');
+    var ok = true;
+    $('.must').each(function () {
+        var $this = $(this);
+        $this.removeClass('border-danger');
+        var txt = $this.val();
+        if (txt.length == 0 || txt == null) {
+            ok = false;
+            $this.addClass('border-danger');
+        }
+    })
+    return ok;
+}
