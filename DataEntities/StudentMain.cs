@@ -8,11 +8,11 @@ namespace DataEntities
 {
     public class StudentMain
     {
-        public List<ScholarshipDefinition> ScholarshipDefinitions { get; set; }
-        public List<InPractice> InPracticeList { get; set; }
+        public List<SpDefinition> ScholarshipDefinitions { get; set; }
+        public List<SpHalacha> InPracticeList { get; set; }
 
-        public List<Socioeconomic> SocioList { get; set; }
+        public List<SpSocio> SocioList { get; set; }
 
-        public List<ExcellenceStudent> ExcelList { get; set; }
+        public List<SpExcellence> ExcelList { get; set; }
     }
 }

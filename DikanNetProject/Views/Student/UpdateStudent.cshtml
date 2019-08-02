@@ -148,16 +148,16 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.IdFile, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.FileId, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="row">
                     <div class="col-md-5">
-                        @Html.TextBoxFor(model => model.IdFile, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
-                        @Html.ValidationMessageFor(model => model.IdFile, "", new { @class = "text-danger mb-3" })
+                        @Html.TextBoxFor(model => model.FileId, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
+                        @Html.ValidationMessageFor(model => model.FileId, "", new { @class = "text-danger mb-3" })
                     </div>
-                    <embed src='/UsersFiles/@Model.StudentId/@Model.FileId' class=" @(@Model.FileId == null ? "d-none" : " ")" style="max-width:250px; max-height:250px; display:inline-block" />
+                    <embed src='/UsersFiles/@Model.StudentId/@Model.PathId' class=" @(@Model.PathId == null ? "d-none" : " ")" style="max-width:250px; max-height:250px; display:inline-block" />
                 </div>
             </div>
-            @Html.HiddenFor(model=>model.FileId)
+            @Html.HiddenFor(model=>model.PathId)
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">

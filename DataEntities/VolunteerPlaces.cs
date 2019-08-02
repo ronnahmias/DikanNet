@@ -8,14 +8,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataEntities
 {
-    [Table("volunteerPlaces")]
+    [Table("VolunteerPlaces")]
     public class VolunteerPlaces
     {
-        public VolunteerPlaces()
-        {
-            
-        }
-
         [Key]
         public int Id { get; set; }
 
@@ -29,7 +24,7 @@ namespace DataEntities
         public string Name_desc { get; set; }
 
 
-        public virtual ICollection<InPractice> InPracticess { get; set; }
+        public virtual ICollection<SpHalacha> InPracticess { get; set; }
 
     }
 }

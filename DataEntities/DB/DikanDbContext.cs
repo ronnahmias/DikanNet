@@ -18,17 +18,17 @@ namespace DataEntities.DB
                 .WithRequired(s => s.Country)
                 .HasForeignKey(s => s.CountryBirthId);
 
-            modelBuilder.Entity<ScholarshipDefinition>()
+            modelBuilder.Entity<SpDefinition>()
              .HasMany(s => s.Socioeconomicc)
             .WithRequired(s => s.ScholarshipDefinition)
             .HasForeignKey(s => s.ScholarshipId);
 
-            modelBuilder.Entity<ScholarshipDefinition>()
+            modelBuilder.Entity<SpDefinition>()
            .HasMany(f => f.ExcellenceStudents)
            .WithRequired(s => s.ScholarshipDefinition)
            .HasForeignKey(s => s.ScholarshipId);
 
-            modelBuilder.Entity<ScholarshipDefinition>()
+            modelBuilder.Entity<SpDefinition>()
            .HasMany(f => f.InPractices)
            .WithRequired(s => s.ScholarshipDefinition)
            .HasForeignKey(s => s.ScholarshipId);
@@ -48,7 +48,7 @@ namespace DataEntities.DB
                .WithRequired(s => s.Student)
                .HasForeignKey(s => s.StudentId);
 
-            modelBuilder.Entity<CarStudent>().Ignore(t => t.CarLicenseFile);
+            modelBuilder.Entity<CarStudent>().Ignore(t => t.FileCarLicense);
             base.OnModelCreating(modelBuilder);*/
         }
         public DbSet<Student> Students { get; set; }
@@ -61,12 +61,12 @@ namespace DataEntities.DB
         public DbSet<Funding> Fundings { get; set; }
         public DbSet<StudentFinance> StudentFinances { get; set; }
         public DbSet<CarStudent> CarStudents { get; set; }
-        public DbSet<Socioeconomic> Socioeconomics { get; set; }
-        public DbSet<ScholarshipDefinition> ScholarshipDefinitions { get; set; }
+        public DbSet<SpSocio> Socio { get; set; }
+        public DbSet<SpDefinition> SpDef { get; set; }
         public DbSet<Cities> Cities { get; set; }
         public DbSet<VolunteerPlaces> VolunteerPlaces { get; set; }
-        public DbSet<InPractice> InPractice { get; set; }
-        public DbSet<ExcellenceStudent> ExcellenceStudent { get; set; }
+        public DbSet<SpHalacha> Halacha { get; set; }
+        public DbSet<SpExcellence> Ecellence { get; set; }
 
     }
 }

@@ -9,8 +9,8 @@ using Foolproof;
 
 namespace DataEntities
 {
-    [Table("ExcellenceStudent")]
-    public class ExcellenceStudent
+    [Table("SpExcellence")]
+    public class SpExcellence
     {
 
         [Key,Column(Order = 0)]
@@ -21,6 +21,7 @@ namespace DataEntities
 
         [Display(Name = "שנת לימוד"),Required(ErrorMessage ="חובה לבחור שנת לימוד")]
         public string SchoolYear { get; set; }
+
         public string Statuss { get; set; }
         public DateTime? StatusUpdateDate { get; set; }
         public DateTime? DateSubmitScholarship { get; set; }
@@ -50,7 +51,7 @@ namespace DataEntities
         public string InterviewSummary { get; set; }
 
 
-        public virtual ScholarshipDefinition ScholarshipDefinition { get; set; }
+        public virtual SpDefinition ScholarshipDefinition { get; set; }
         public virtual Student Student { get; set; }
     }
 }

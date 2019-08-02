@@ -26,7 +26,7 @@ namespace DataEntities
         public int? FinancingHeight { get; set; }
 
         [Display(Name = "קובץ שמור")]
-        public string FundingFile { get; set; }
+        public string PathFunding { get; set; }
 
         [NotMapped, Display(Name = "קובץ מימון")]
         public HttpPostedFileBase FileFunding { get; set; }

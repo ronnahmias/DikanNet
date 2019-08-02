@@ -39,31 +39,31 @@ namespace DikanNetProject.Controllers
             StudentMain studentMain = new StudentMain();
             using (DikanDbContext ctx = new DikanDbContext())
             {
-                 studentMain.ScholarshipDefinitions = ctx.ScholarshipDefinitions.Where(x => DbFunctions.TruncateTime(x.DateDeadLine) > DbFunctions.TruncateTime(DateTime.Now) && DbFunctions.TruncateTime(x.DateOpenScholarship) < DbFunctions.TruncateTime(DateTime.Now)).ToList();
+                 studentMain.ScholarshipDefinitions = ctx.SpDef.Where(x => DbFunctions.TruncateTime(x.DateDeadLine) > DbFunctions.TruncateTime(DateTime.Now) && DbFunctions.TruncateTime(x.DateOpenScholarship) < DbFunctions.TruncateTime(DateTime.Now)).ToList();
                  foreach(var scholarship in studentMain.ScholarshipDefinitions.ToList()) // dont show scholarship that already is submited
                 {
                     switch(scholarship.Type)
                     {
-                        case 1: if(ctx.Socioeconomics.Any(s=>s.ScholarshipId == scholarship.ScholarshipID && s.StudentId == sStudentId))
+                        case 1: if(ctx.Socio.Any(s=>s.ScholarshipId == scholarship.ScholarshipID && s.StudentId == sStudentId))
                                     studentMain.ScholarshipDefinitions.Remove(scholarship);
                             break;
 
                         case 2:
-                            if (ctx.ExcellenceStudent.Any(s => s.ScholarshipId == scholarship.ScholarshipID && s.StudentId == sStudentId))
+                            if (ctx.Ecellence.Any(s => s.ScholarshipId == scholarship.ScholarshipID && s.StudentId == sStudentId))
                                 studentMain.ScholarshipDefinitions.Remove(scholarship);
                             break;
 
                         case 3:
-                            if (ctx.InPractice.Any(s => s.ScholarshipId == scholarship.ScholarshipID && s.StudentId == sStudentId))
+                            if (ctx.Halacha.Any(s => s.ScholarshipId == scholarship.ScholarshipID && s.StudentId == sStudentId))
                                 studentMain.ScholarshipDefinitions.Remove(scholarship);
                             break;
                     }
 
                 }
                  // send only scholarship that belongs to student id
-                 studentMain.InPracticeList = ctx.InPractice.Include(s=>s.ScholarshipDefinition).Where(s => s.StudentId == sStudentId).ToList(); // send to view inpractice list of student
-                 studentMain.ExcelList = ctx.ExcellenceStudent.Include(s=>s.ScholarshipDefinition).Where(s => s.StudentId == sStudentId).ToList(); // send to view excellence list of student
-                 studentMain.SocioList = ctx.Socioeconomics.Include(s=>s.ScholarshipDefinition).Where(s => s.StudentId == sStudentId).ToList(); // send to view socio list of student
+                 studentMain.InPracticeList = ctx.Halacha.Include(s=>s.ScholarshipDefinition).Where(s => s.StudentId == sStudentId).ToList(); // send to view inpractice list of student
+                 studentMain.ExcelList = ctx.Ecellence.Include(s=>s.ScholarshipDefinition).Where(s => s.StudentId == sStudentId).ToList(); // send to view excellence list of student
+                 studentMain.SocioList = ctx.Socio.Include(s=>s.ScholarshipDefinition).Where(s => s.StudentId == sStudentId).ToList(); // send to view socio list of student
             }
             
             return View(studentMain);
@@ -135,8 +135,8 @@ namespace DikanNetProject.Controllers
                         
                     }
 
-                    if(UpdateStudent.IdFile != null)
-                        UpdateStudent.FileId = Files.SaveFileInServer(UpdateStudent.IdFile, "Id", UpdateStudent.StudentId,(dbStudent == null) ? null:dbStudent.FileId);
+                    if(UpdateStudent.FileId != null)
+                        UpdateStudent.PathId = Files.SaveFileInServer(UpdateStudent.FileId, "Id", UpdateStudent.StudentId,(dbStudent == null) ? null:dbStudent.PathId);
 
                     if (dbStudent == null) // after first login fill more info
                         ctx.Students.Add(UpdateStudent); // add student to data base
@@ -167,7 +167,7 @@ namespace DikanNetProject.Controllers
             int type = -1;
             using(DikanDbContext ctx = new DikanDbContext())
             {
-                ScholarshipDefinition temp = ctx.ScholarshipDefinitions.Find(scholarshipid);
+                SpDefinition temp = ctx.SpDef.Find(scholarshipid);
                 type = temp.Type;
             }
             switch (type)
@@ -190,15 +190,15 @@ namespace DikanNetProject.Controllers
         [HttpGet]
         public ActionResult Halacha(int scholarshipid)
         {
-            InPractice temphalacha;
+            SpHalacha temphalacha;
             ViewBag.VolunteerPlacesList = new SelectList(SetsvolunteerPlaces(), "Id", "Name_desc"); // to show volunteer places list in drop down
             using (DikanDbContext ctx = new DikanDbContext())
             {
-                temphalacha = ctx.InPractice.Where(s => s.StudentId == sStudentId && s.ScholarshipId == scholarshipid).SingleOrDefault();
+                temphalacha = ctx.Halacha.Where(s => s.StudentId == sStudentId && s.ScholarshipId == scholarshipid).SingleOrDefault();
             }
             if (temphalacha == null) // checks if is it first time sign to scholarship or has save draft
             {
-                temphalacha = new InPractice
+                temphalacha = new SpHalacha
                 {
                     ScholarshipId = scholarshipid,
                     StudentId = sStudentId
@@ -213,14 +213,14 @@ namespace DikanNetProject.Controllers
         
 
         [HttpPost]
-        public ActionResult Halacha(InPractice temphalacha, string uploadmethod) // submit  new halacha scholarship
+        public ActionResult Halacha(SpHalacha temphalacha, string uploadmethod) // submit  new halacha scholarship
         {
             temphalacha.StudentId = sStudentId;
-            InPractice Studentinpractice;
+            SpHalacha Studentinpractice;
             ViewBag.VolunteerPlacesList = new SelectList(SetsvolunteerPlaces(), "Id", "Name_desc"); // to show volunteer places list in drop down
             using (DikanDbContext ctx = new DikanDbContext())
             {
-                Studentinpractice = ctx.InPractice.Where(s => s.StudentId == temphalacha.StudentId && s.ScholarshipId == temphalacha.ScholarshipId).SingleOrDefault(); // find if he insert already draft     
+                Studentinpractice = ctx.Halacha.Where(s => s.StudentId == temphalacha.StudentId && s.ScholarshipId == temphalacha.ScholarshipId).SingleOrDefault(); // find if he insert already draft     
                 if (uploadmethod.Equals("הגש מלגה"))
                 {// submit scholarship
                     if (ModelState.IsValid)
@@ -233,7 +233,7 @@ namespace DikanNetProject.Controllers
                 }
                 if (Studentinpractice == null)
                 {
-                    ctx.InPractice.Add(temphalacha); // if it first time insert new
+                    ctx.Halacha.Add(temphalacha); // if it first time insert new
                 }
                 else
                     ctx.Entry(Studentinpractice).CurrentValues.SetValues(temphalacha); // update
@@ -249,14 +249,14 @@ namespace DikanNetProject.Controllers
         [HttpGet]
         public ActionResult Excellent(int scholarshipid)
         {
-            ExcellenceStudent tempmetsuyanut;
+            SpExcellence tempmetsuyanut;
             using (DikanDbContext ctx = new DikanDbContext())
             {
-                tempmetsuyanut = ctx.ExcellenceStudent.Where(s => s.StudentId == sStudentId && s.ScholarshipId == scholarshipid).SingleOrDefault();
+                tempmetsuyanut = ctx.Ecellence.Where(s => s.StudentId == sStudentId && s.ScholarshipId == scholarshipid).SingleOrDefault();
             }
             if (tempmetsuyanut == null) // checks if is it first time sign to scholarship or has save draft
             {
-                tempmetsuyanut = new ExcellenceStudent
+                tempmetsuyanut = new SpExcellence
                 {
                     ScholarshipId = scholarshipid,
                     StudentId = sStudentId
@@ -272,13 +272,13 @@ namespace DikanNetProject.Controllers
 
 
         [HttpPost]
-        public ActionResult Excellent(ExcellenceStudent tempmetmesuyanut, string uploadmethod) // submit  new metsuyanut scholarship
+        public ActionResult Excellent(SpExcellence tempmetmesuyanut, string uploadmethod) // submit  new metsuyanut scholarship
         {
             tempmetmesuyanut.StudentId = sStudentId;
-            ExcellenceStudent StudentMetsuyanut;
+            SpExcellence StudentMetsuyanut;
             using (DikanDbContext ctx = new DikanDbContext())
             {
-                StudentMetsuyanut = ctx.ExcellenceStudent.Where(s => s.StudentId == tempmetmesuyanut.StudentId && s.ScholarshipId == tempmetmesuyanut.ScholarshipId).SingleOrDefault(); // find if he insert already draft     
+                StudentMetsuyanut = ctx.Ecellence.Where(s => s.StudentId == tempmetmesuyanut.StudentId && s.ScholarshipId == tempmetmesuyanut.ScholarshipId).SingleOrDefault(); // find if he insert already draft     
                 if (uploadmethod.Equals("הגש מלגה"))
                 {// submit scholarship
                     if (ModelState.IsValid)
@@ -291,7 +291,7 @@ namespace DikanNetProject.Controllers
                 }
                 if (StudentMetsuyanut == null)
                 {
-                    ctx.ExcellenceStudent.Add(tempmetmesuyanut); // if it first time insert new
+                    ctx.Ecellence.Add(tempmetmesuyanut); // if it first time insert new
                 }
                 else
                     ctx.Entry(StudentMetsuyanut).CurrentValues.SetValues(tempmetmesuyanut); // update
@@ -310,7 +310,7 @@ namespace DikanNetProject.Controllers
             ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
             SocioAdd socio = new SocioAdd // new socio add model
             {
-                SocioMod = new Socioeconomic(),
+                SocioMod = new SpSocio(),
                 ListCarStudent = new List<CarStudent>(),
                 ListFundings = new List<Funding>()
             };
@@ -353,11 +353,11 @@ namespace DikanNetProject.Controllers
                         tempDbCar = dbCars.Where(s => s.CarNumber == car.CarNumber).FirstOrDefault();
                         //if it was change at carNumber reset the file path
                         if (tempDbCar == null)
-                            car.FileCarLicense = null;
+                            car.PathCarLicense = null;
                         
                         // if there is a file upload and update the file path
-                        if (car.CarLicenseFile != null)
-                            car.FileCarLicense = Files.SaveFileInServer(car.CarLicenseFile, "Car" + car.CarNumber, sStudentId, car.FileCarLicense);
+                        if (car.FileCarLicense != null)
+                            car.PathCarLicense = Files.SaveFileInServer(car.FileCarLicense, "Car" + car.CarNumber, sStudentId, car.PathCarLicense);
 
                         if (tempDbCar != null)
                             ctx.Entry(tempDbCar).CurrentValues.SetValues(car);// update car exists
@@ -383,7 +383,7 @@ namespace DikanNetProject.Controllers
 
                         // if there is a file upload and update the file path
                         if (fund.FileFunding != null)
-                            fund.FundingFile = Files.SaveFileInServer(fund.FileFunding, "Fund" + fund.FundingId, sStudentId, fund.FundingFile);
+                            fund.PathFunding = Files.SaveFileInServer(fund.FileFunding, "Fund" + fund.FundingId, sStudentId, fund.PathFunding);
 
                         ctx.SaveChanges();
                     }
@@ -425,8 +425,8 @@ namespace DikanNetProject.Controllers
                 if (tempcar == null)
                     return new HttpStatusCodeResult(HttpStatusCode.NotFound,"Not Found In DataBase");
                 //if file exists delete it
-                if (!string.IsNullOrEmpty(tempcar.FileCarLicense))
-                    Files.Delete(tempcar.FileCarLicense, sStudentId);
+                if (!string.IsNullOrEmpty(tempcar.PathCarLicense))
+                    Files.Delete(tempcar.PathCarLicense, sStudentId);
                 ctx.CarStudents.Remove(tempcar);
                 ctx.SaveChanges();
             }
@@ -443,8 +443,8 @@ namespace DikanNetProject.Controllers
                 if (tempfund == null)
                     return new HttpStatusCodeResult(HttpStatusCode.NotFound, "Not Found In DataBase");
                 //if file exists delete it
-                if (!string.IsNullOrEmpty(tempfund.FundingFile))
-                    Files.Delete(tempfund.FundingFile, sStudentId);
+                if (!string.IsNullOrEmpty(tempfund.PathFunding))
+                    Files.Delete(tempfund.PathFunding, sStudentId);
                 ctx.Fundings.Remove(tempfund);
                 ctx.SaveChanges();
             }

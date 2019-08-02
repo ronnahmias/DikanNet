@@ -25,9 +25,9 @@ namespace DataEntities
         public string CarModel { get; set; }
 
         [NotMapped,Display(Name ="קובץ - רישיון/ אחזקת רכב")]
-        public HttpPostedFileBase CarLicenseFile { get; set; }
+        public HttpPostedFileBase FileCarLicense { get; set; }
 
-        public string FileCarLicense { get; set; }
+        public string PathCarLicense { get; set; }
 
         [Display(Name = "שנת ייצור"), Required(ErrorMessage = "חובה להזין שנת ייצור")]
         public int CarYear { get; set; }

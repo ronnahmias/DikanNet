@@ -9,8 +9,8 @@ using System.ComponentModel;
 
 namespace DataEntities
 {
-    [Table("InPractice")]
-    public class InPractice
+    [Table("SpHalacha")]
+    public class SpHalacha
     {
         [Key , Column(Order = 0)]
         public int? ScholarshipId { get; set; }
@@ -42,7 +42,7 @@ namespace DataEntities
 
         public string InterviewSummary { get; set; }
 
-        public virtual ScholarshipDefinition ScholarshipDefinition { get; set; }
+        public virtual SpDefinition ScholarshipDefinition { get; set; }
         public virtual Student Student { get; set; }
         public virtual VolunteerPlaces VolunteerPlacess { get; set; }
     }

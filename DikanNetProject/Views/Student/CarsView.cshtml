@@ -10,8 +10,8 @@
                 @Html.EditorFor(model => model.CarModel, new { htmlAttributes = new { @class = "control-label col-md-2" } })
                 @Html.DropDownListFor(model => model.CarYear, ViewBag.YearsList as SelectList, "שנת ייצור", htmlAttributes: new { @class = "control-label col-md-2" })
                 @Html.EditorFor(model => model.CarComment, new { htmlAttributes = new { @class = "control-label col-md-2" } })
-                @Html.TextBoxFor(model => model.CarLicenseFile, new { @class = "control-label col-md-1", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
-                @Html.HiddenFor(model => model.FileCarLicense)
+                @Html.TextBoxFor(model => model.FileCarLicense, new { @class = "control-label col-md-1", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
+                @Html.HiddenFor(model => model.PathCarLicense)
                 <div class="col-md-1">
                     <button class="btn btn-danger del-car" type="button">X</button>
                 </div>
@@ -22,7 +22,7 @@
                 @Html.ValidationMessageFor(model => model.CarModel, "", new { @class = "control-label col-md-2" })
                 @Html.ValidationMessageFor(model => model.CarYear, "", new { @class = "control-label col-md-2" })
                 @Html.ValidationMessageFor(model => model.CarComment, "", new { @class = "control-label col-md-2" })
-                @Html.ValidationMessageFor(model => model.CarLicenseFile, "", new { @class = "control-label col-md-2" })
+                @Html.ValidationMessageFor(model => model.FileCarLicense, "", new { @class = "control-label col-md-2" })
             </div>
         }
     </div>

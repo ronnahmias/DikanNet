@@ -20,9 +20,9 @@ namespace DataEntities
         [Key, Column("Monthh", Order = 2), Display(Name = "חודש")]
         public int Month { get; set; }
         public int Salary { get; set; }
-        public string SalaryFile { get; set; }
+        public string PathSalary { get; set; }
         public int Expense { get; set; }
-        public string ExpenseFile { get; set; }
+        public string PathExpense { get; set; }
 
         public virtual FamilyMember FamilyMember { get; set; }
     }

@@ -35,9 +35,10 @@ namespace DataEntities
         public int? HouseNo { get; set; }
 
      
-        public string FileId { get; set; }
+        public string PathId { get; set; }
+
         [Display(Name = "קובץ תעודת זהות"),NotMapped]
-        public HttpPostedFileBase IdFile { get; set; }
+        public HttpPostedFileBase FileId { get; set; }
 
         [Display(Name = "מגמה")]
         public int? MajorId { get; set; }
@@ -53,7 +54,7 @@ namespace DataEntities
         [Display(Name = "מגדר")]
         public string Gender { get; set; }
 
-        [Display(Name = "מספר פלאפון"), Column("CellphoneNO")]
+        [Display(Name = "מספר פלאפון")]
         public string CellphoneNo { get; set; }
 
         [Display(Name = "טלפון")]
@@ -65,12 +66,14 @@ namespace DataEntities
         [Display(Name = "מצב משפחתי")]
         public string MaritalStatus { get; set; }
 
+        public Guid Uniquee { get; set; }
+
         public virtual Countries Country { get; set; }
         public virtual Major Major { get; set; }
 
-        public virtual ICollection<Socioeconomic> Socioeconomics { get; set; }
-        public virtual ICollection<InPractice> InPractice { get; set; }
-        public virtual ICollection<ExcellenceStudent> ExcellenceStudents { get; set; }
+        public virtual ICollection<SpSocio> Socioeconomics { get; set; }
+        public virtual ICollection<SpHalacha> InPractice { get; set; }
+        public virtual ICollection<SpExcellence> ExcellenceStudents { get; set; }
         public virtual ICollection<CarStudent> CarStudents { get; set; }
         public virtual ICollection<FamilyMember> FamilyMembers { get; set; }
         public virtual ICollection<Funding> Fundings { get; set; }

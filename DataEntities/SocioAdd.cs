@@ -9,7 +9,7 @@ namespace DataEntities
     public class SocioAdd
     {
 
-        public Socioeconomic SocioMod { get; set; }
+        public SpSocio SocioMod { get; set; }
         public List<CarStudent> ListCarStudent { get; set; }
         public List<Funding> ListFundings { get; set; }
     }

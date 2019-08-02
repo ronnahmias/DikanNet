@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace DataEntities
 {
-    [Table("ScholarshipDefinition")]
-    public class ScholarshipDefinition
+    [Table("SpDefinition")]
+    public class SpDefinition
     {
         [Key]
         public int ScholarshipID { get; set; }
@@ -21,9 +21,9 @@ namespace DataEntities
         public int Type { get; set; }
         public DateTime DateOpenScholarship { get; set; }
         public DateTime DateDeadLine { get; set; }
-        public virtual ICollection<Socioeconomic> Socioeconomicc { get; set; }
-        public virtual ICollection<InPractice> InPractices { get; set; }
-        public virtual ICollection<ExcellenceStudent> ExcellenceStudents { get; set; }
+        public virtual ICollection<SpSocio> Socioeconomicc { get; set; }
+        public virtual ICollection<SpHalacha> InPractices { get; set; }
+        public virtual ICollection<SpExcellence> ExcellenceStudents { get; set; }
 
     }
 }

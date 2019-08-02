@@ -9,8 +9,8 @@
             @Html.EditorFor(model => model.FinancingHeight, new { htmlAttributes = new { @class = "control-label col-md-2" } })
             @Html.DropDownListFor(model => model.YearFinancing, ViewBag.YearsList as SelectList, "שנת מימון", htmlAttributes: new { @class = "control-label col-md-2" })
             @Html.TextBoxFor(model => model.FileFunding, new { @class = "control-label col-md-3", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
-            @Html.DisplayFor(model => model.FundingFile, new { htmlAttributes = new { @class = "control-label col-md-2" } })
-            @Html.HiddenFor(model => model.FundingFile)
+            @Html.DisplayFor(model => model.PathFunding, new { htmlAttributes = new { @class = "control-label col-md-2" } })
+            @Html.HiddenFor(model => model.PathFunding)
             @Html.HiddenFor(model => model.FundingId, new { @class="id" })
             <div class="col-md-1">
                 <button class="btn btn-danger del-fund" type="button">X</button>
