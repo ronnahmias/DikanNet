@@ -9,6 +9,7 @@ using Common;
 using DataEntities;
 using DataEntities.DB;
 using System.Net;
+using System.Web.Security;
 
 namespace DikanNetProject.Controllers
 {
@@ -44,6 +45,10 @@ namespace DikanNetProject.Controllers
                                     {
                                         HttpContext.Session.Add("Student", account);
                                         Session.Timeout = timeout;
+
+                                        //FormsAuthentication.SetAuthCookie(account.UserId,true);
+                                        //HttpContext.User.IsInRole("Student");
+
                                         var student = ctx.Students.Where(s => s.StudentId == account.UserId).FirstOrDefault();
                                         if (student != null) // if the account found in student table
                                             return RedirectToAction("Index", "Student");

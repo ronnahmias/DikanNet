@@ -16,6 +16,9 @@ namespace DikanNetProject
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            GlobalFilters.Filters.Add(new FilesAuthorizeAttribute());
+
         }
     }
 }
