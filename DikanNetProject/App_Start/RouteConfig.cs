@@ -13,6 +13,8 @@ namespace DikanNetProject
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            //routes.RouteExistingFiles = true; // mvc handle request and not iis
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
