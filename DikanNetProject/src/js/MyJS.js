@@ -18,6 +18,14 @@ $(document).ready(function () {
         $('input#Password').attr('type', 'password');
         });
 
+    //review password function on hover
+    $('.review-confirm-password').hover(function () {
+        $('input#ConfirmPassword').attr('type', 'text');
+    },
+        function () {
+            $('input#ConfirmPassword').attr('type', 'password');
+        });
+
      // added by ron ---
     var carcount = $("#carstdcount").val();
 
