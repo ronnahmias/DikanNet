@@ -60,7 +60,7 @@
                 <div class="modal-body text-center">
 
                     <div id="signature-pad" class="signature-pad">
-                        <div class="signature-pad--body">
+                        <div id="signature-pad--body">
                             <canvas></canvas>
                         </div>
                         <div class="signature-pad--footer">
@@ -81,6 +81,8 @@
                 <!-- Modal footer -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">סגירה</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal">הגש מלגה</button>
+
                 </div>
 
             </div>
@@ -93,7 +95,7 @@
 
     <script>
         $(document).ready(function () {
-
+           
         });
 
         function beforeSumbit() {
@@ -103,29 +105,6 @@
             if (ok) // true - all filed are filed
             {
                 $('#successModal').modal('show');
-                /*
-                if (signaturePad.isEmpty()) {
-                  alert("Please provide a signature first.");
-                  $('#errorModal').modal('show');
-                  return;
-              } 
-               var dataURL = signaturePad.toDataURL();
-                $.ajax({
-                    url: "/Student/SaveSignature",
-                    dataType: 'text',
-                    data: { pDataUri: dataURL },
-                    method: "POST",
-                    success: function () {
-                        alert("Success");
-                        return true;
-                    },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        alert("Failed");
-                        console.log(xhr.status);
-                        console.log(thrownError);
-                        return false;
-                    }
-                });*/
             }
             else {
                 $('#errorModal').modal('show');
@@ -133,6 +112,12 @@
             return ok;
         }
 
+        $('#successModal').on('show.bs.modal', function (e) {
+            console.log("modal open");
+            console.log("signature-pad width: " + $('#signature-pad').width());
+            console.log("signature-pad height: " + $('#signature-pad').outerHeight());
+            resizeCanvas();
+        });
     </script>
 </body>
 </html>
