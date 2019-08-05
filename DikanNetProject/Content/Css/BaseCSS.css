@@ -1,4 +1,4 @@
-@charset "UTF-8";
+﻿@charset "UTF-8";
 /*************
 Version: 1.1;
 Last Update: 26/7/19
@@ -8,7 +8,8 @@ Last Update: 26/7/19
 **************/
 body {
   padding-top: 50px;
-  max-width: 1128px; }
+  /*max-width: 1128px;*/
+      }
 
 .logo {
   width: 160px; }
