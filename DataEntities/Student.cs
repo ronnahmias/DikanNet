@@ -76,6 +76,7 @@ namespace DataEntities
         public virtual ICollection<SpExcellence> ExcellenceStudents { get; set; }
         public virtual ICollection<CarStudent> CarStudents { get; set; }
         public virtual ICollection<FamilyMember> FamilyMembers { get; set; }
+        public virtual ICollection<StudentFinance> StudentFinances { get; set; }
         public virtual ICollection<Funding> Fundings { get; set; }
 
     }
