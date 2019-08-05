@@ -8,7 +8,7 @@
 }
 @{ var id = ((Users)Session["Student"]).UserId;}
 <!-- Tab panes -->
-    <div class="tab-content container text-center">
+    <div class="tab-content container-fluid text-center">
         <div class="tab-pane active " id="reqStatuses">
             <div class="row bg-dark text-white py-3 d-none d-md-flex">
                 <!--Scholarship No-->
@@ -158,6 +158,9 @@
                 <div class="col-lg-3 col-xl-3">
                     המשך בקשת מלגה
                 </div>
+            </div>
+            <div class="row bg-dark text-white py-3 d-none text-center ">
+                עדכון בקשות
             </div>
             @{ var counter = 1;
                 foreach (var sp in Model.InPracticeList.Where(s => s.DateSubmitScholarship == null && (s.ScholarshipDefinition.DateDeadLine > DateTime.Now) && (s.ScholarshipDefinition.DateOpenScholarship < DateTime.Now)).ToList())
