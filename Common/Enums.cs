@@ -49,5 +49,12 @@ namespace Common
             מאושר
         }
 
+        public enum MilitaryTypes
+        {
+            צבאי,
+            לאומי,
+            אחר
+        }
+
     }
 }
