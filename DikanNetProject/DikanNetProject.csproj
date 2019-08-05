@@ -239,6 +239,7 @@
     <Content Include="Views\Shared\EditorTemplates\Collection.cshtml" />
     <Content Include="Views\Student\FundView.cshtml" />
     <Content Include="src\sass\signature-pad.scss" />
+    <Content Include="Views\Student\StudFinView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

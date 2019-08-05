@@ -312,14 +312,17 @@ namespace DikanNetProject.Controllers
             {
                 SocioMod = new SpSocio(),
                 ListCarStudent = new List<CarStudent>(),
-                ListFundings = new List<Funding>()
-            };
+                ListFundings = new List<Funding>(),
+                ListStudentFinances = new List<StudentFinance>()
+        };
             using (DikanDbContext ctx = new DikanDbContext())
             {
                 foreach (var car in ctx.CarStudents.Where(s=>s.StudentId == sStudentId).ToList()) // get all cars of student from db to list
                     socio.ListCarStudent.Add(car);
                 foreach (var fund in ctx.Fundings.Where(s => s.StudentId == sStudentId).ToList()) // get all fundings of student from db to list
                     socio.ListFundings.Add(fund);
+                foreach (var StudFin in ctx.StudentFinances.Where(s => s.StudentId == sStudentId).ToList()) // get all fundings of student from db to list
+                    socio.ListStudentFinances.Add(StudFin);
             }
             socio.SocioMod.ScholarshipId = scholarshipid; // insert scholarship id in socio model
             return View(socio);
@@ -412,6 +415,12 @@ namespace DikanNetProject.Controllers
         {
             ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
             return PartialView("FundView", new Funding());
+        }
+
+        public PartialViewResult StudFinView()
+        {
+            ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
+            return PartialView("StudFinView", new StudentFinance());
         }
         #endregion
 
