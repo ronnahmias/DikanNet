@@ -17,7 +17,7 @@ namespace DikanNetProject
 
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            GlobalFilters.Filters.Add(new FilesAuthorizeAttribute());
+            //GlobalFilters.Filters.Add(new FilesAuthorizeAttribute());
 
         }
     }

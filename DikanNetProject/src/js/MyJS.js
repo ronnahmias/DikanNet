@@ -22,9 +22,9 @@ $(document).ready(function () {
     $('.review-confirm-password').hover(function () {
         $('input#ConfirmPassword').attr('type', 'text');
     },
-        function () {
-            $('input#ConfirmPassword').attr('type', 'password');
-        });
+    function () {
+        $('input#ConfirmPassword').attr('type', 'password');
+    });
 
      // added by ron ---
     var carcount = $("#carstdcount").val();
@@ -99,15 +99,17 @@ function showHidenPortion(checked, idElement) {
 
 /* The function check that all the must filed are filed */
 function checkMust() {
-    //alert('check Must Function');
     var ok = true;
     $('.must').each(function () {
         var $this = $(this);
+        var $singleChosen = $this.parent().find('.chosen-single'); //for chosen drop down.
         $this.removeClass('border-danger');
+        $singleChosen.removeClass('border-danger');
         var txt = $this.val();
         if (txt.length == 0 || txt == null) {
             ok = false;
             $this.addClass('border-danger');
+            $singleChosen.addClass('border-danger');
         }
     })
     return ok;
