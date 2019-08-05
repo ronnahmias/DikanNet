@@ -97,7 +97,6 @@
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <input type="button" value="הגש מלגה" class="btn btn-success" name="uploadmethod" onclick="return beforeSumbit()" />
-                    <input type="button" value="הגש מלגה" class="btn btn-success" name="uploadmethod" onclick="return checkChosen()" />
                     <input type="submit" value="שמור טיוטה" class="btn btn-warning" name="uploadmethod" />
                 </div>
             </div>
@@ -106,18 +105,6 @@
 </div>
 
 <script>
-    function checkChosen(){
-        $('.chosen').each(function () {
-            var $this = $(this);
-            var $single = $this.parent().find('.chosen-single');
-            console.log($single);
-            if ($this.val().length == 0) {
-                console.log("chosen false");
-                $single.addClass('border-danger');
 
-            }
-        });
-        return false;
-    }
 </script>
 
