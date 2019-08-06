@@ -2,10 +2,10 @@
 @model DataEntities.StudentFinance
 
     <div class="studfin">
-        @using (Html.BeginCollectionItem("ListStudentFinance"))
+        @using (Html.BeginCollectionItem("ListStudentFinances"))
         {
         <div class="form-group row text-center">
-            @Html.DropDownListFor(model => model.Year, ViewBag.YearsList as SelectList, "שנת ייצור", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.DropDownListFor(model => model.Year, ViewBag.YearsList as SelectList, "שנה", htmlAttributes: new { @class = "control-label col-md-2" })
             @Html.EditorFor(model => model.Month, new { htmlAttributes = new { @class = "control-label col-md-2 id" } })
             @Html.EditorFor(model => model.Salary, new { htmlAttributes = new { @class = "control-label col-md-2" } })
             @Html.EditorFor(model => model.Expense, new { htmlAttributes = new { @class = "control-label col-md-2" } })

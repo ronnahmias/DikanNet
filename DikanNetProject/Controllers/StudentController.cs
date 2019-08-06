@@ -314,7 +314,7 @@ namespace DikanNetProject.Controllers
                 ListCarStudent = new List<CarStudent>(),
                 ListFundings = new List<Funding>(),
                 ListStudentFinances = new List<StudentFinance>()
-        };
+            };
             using (DikanDbContext ctx = new DikanDbContext())
             {
                 foreach (var car in ctx.CarStudents.Where(s=>s.StudentId == sStudentId).ToList()) // get all cars of student from db to list
@@ -324,6 +324,13 @@ namespace DikanNetProject.Controllers
                 foreach (var StudFin in ctx.StudentFinances.Where(s => s.StudentId == sStudentId).ToList()) // get all fundings of student from db to list
                     socio.ListStudentFinances.Add(StudFin);
             }
+            if(socio.ListStudentFinances.Count() < 3) // if the student dont have 3 finance rows
+            {
+                do
+                {
+                    socio.ListStudentFinances.Add(new StudentFinance()); // add finance row to list
+                } while (socio.ListStudentFinances.Count < 3);
+            }
             socio.SocioMod.ScholarshipId = scholarshipid; // insert scholarship id in socio model
             return View(socio);
         }
@@ -331,13 +338,13 @@ namespace DikanNetProject.Controllers
         [HttpPost]
         public ActionResult Socio(SocioAdd socio, string uploadmethod) // submit  new socio scholarship
          {
-            socio.SocioMod.StudentId = sStudentId;
+            socio.SocioMod.StudentId = sStudentId; // bind student id to socio model
             List<CarStudent> dbCars;
             List<Funding> dbFunding;
             CarStudent tempDbCar;
             Funding tempDbFund;
-            if (socio.ListCarStudent == null) socio.ListCarStudent = new List<CarStudent>();
-            if (socio.ListFundings == null) socio.ListFundings = new List<Funding>();
+            if (socio.ListCarStudent == null) socio.ListCarStudent = new List<CarStudent>(); // if there is no rows in car student list
+            if (socio.ListFundings == null) socio.ListFundings = new List<Funding>(); // if there is no rows in fundings list
             if (ModelState.IsValid)
             {
                 //save car detailes
