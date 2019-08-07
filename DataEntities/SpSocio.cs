@@ -14,7 +14,7 @@ namespace DataEntities
     public class SpSocio
     {
         [Key, Column(Order = 0)]
-        public int? ScholarshipId { get; set; }
+        public int ScholarshipId { get; set; }
 
         [Key, Column(Order = 1)]
         public string StudentId { get; set; }
@@ -93,7 +93,14 @@ namespace DataEntities
         public HttpPostedFileBase FileDisabilityType { get; set; }
         public string PathDisabilityType { get; set; }
 
+        public string WorkSt { get; set; }
+
+
+
+
+        //FORGEIN KEYS
         public virtual SpDefinition ScholarshipDefinition { get; set; }
         public virtual Student Student { get; set; }
+
     }
 }

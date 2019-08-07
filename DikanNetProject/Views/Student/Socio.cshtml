@@ -234,6 +234,34 @@
         </div>
     </div>
 
+    <div class="form-group">
+        @Html.LabelFor(model => model.SocioMod.WorkSt, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.שכיר)
+            <span>@Common.Enums.WorkingStatus.שכיר</span>
+
+            @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.עצמאי)
+            <span>@Common.Enums.WorkingStatus.עצמאי</span>
+
+            @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.חבר_קיבוץ)
+            <span>@Common.Enums.WorkingStatus.חבר_קיבוץ</span>
+
+            @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.לא_עובד)
+            <span>@Common.Enums.WorkingStatus.לא_עובד</span>
+
+            @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.פנסיונר)
+            <span>@Common.Enums.WorkingStatus.פנסיונר</span>
+
+            @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.נכה)
+            <span>@Common.Enums.WorkingStatus.נכה</span>
+
+            @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.אחר)
+            <span>@Common.Enums.WorkingStatus.אחר</span>
+
+            @Html.ValidationMessageFor(model => model.SocioMod.MilitaryService, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
     <div class="form-group row text-center">
         <!--labels for table of student finance-->
         @Html.LabelFor(model => model.ListStudentFinances[0].Year, htmlAttributes: new { @class = "control-label col-md-2" })

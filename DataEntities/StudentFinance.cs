@@ -37,6 +37,13 @@ namespace DataEntities
         [NotMapped, Display(Name = "קובץ הוצאה חודשי")]
         public HttpPostedFileBase FileExpense { get; set; }
 
+        public int SpId { get; set; }
+
+        public int FinNo { get; set; }
+
+
         public Student Student { get; set; }
+
+        public SpDefinition SpDefinition { get; set; }
     }
 }

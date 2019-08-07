@@ -43,13 +43,18 @@ namespace DataEntities.DB
                 .WithRequired(s => s.VolunteerPlacess)
                 .HasForeignKey(s => s.Volunteer2Id);
 
-           /* modelBuilder.Entity<Student>()
-               .HasMany(s => s.CarStudents)
-               .WithRequired(s => s.Student)
-               .HasForeignKey(s => s.StudentId);
+            modelBuilder.Entity<SpDefinition>()
+              .HasMany(f => f.StudentFinances)
+              .WithRequired(s => s.SpDefinition)
+              .HasForeignKey(s => s.SpId);
 
-            modelBuilder.Entity<CarStudent>().Ignore(t => t.FileCarLicense);
-            base.OnModelCreating(modelBuilder);*/
+            /* modelBuilder.Entity<Student>()
+                .HasMany(s => s.CarStudents)
+                .WithRequired(s => s.Student)
+                .HasForeignKey(s => s.StudentId);
+
+             modelBuilder.Entity<CarStudent>().Ignore(t => t.FileCarLicense);
+             base.OnModelCreating(modelBuilder);*/
         }
         public DbSet<Student> Students { get; set; }
         public DbSet<Countries> Countries { get; set; }

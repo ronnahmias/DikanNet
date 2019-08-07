@@ -13,6 +13,7 @@
             @Html.TextBoxFor(model => model.FileExpense, new { @class = "control-label col-md-1", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
             @Html.HiddenFor(model => model.PathSalary)
             @Html.HiddenFor(model => model.PathExpense)
+            @Html.HiddenFor(model => model.FinNo)
             <div class="col-md-1">
                 <button class="btn btn-danger del-studfin" type="button">X</button>
             </div>

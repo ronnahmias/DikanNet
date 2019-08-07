@@ -33,7 +33,8 @@ namespace Common
             א,
             ב,
             ג,
-            ד
+            ד,
+            ה
         }
 
         public enum LearningPath
@@ -53,6 +54,18 @@ namespace Common
         {
             צבאי,
             לאומי,
+            אחר
+        }
+
+        public enum WorkingStatus
+        {
+            שכיר,
+            עצמאי,
+            חבר_קיבוץ,
+            לא_עובד,
+            פנסיונר,
+            נפטר,
+            נכה,
             אחר
         }
 
