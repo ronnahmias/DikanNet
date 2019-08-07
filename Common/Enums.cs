@@ -59,7 +59,7 @@ namespace Common
 
         public enum WorkingStatus
         {
-            שכיר,
+            שכיר = 3,
             עצמאי,
             חבר_קיבוץ,
             לא_עובד,

@@ -328,7 +328,7 @@ namespace DikanNetProject.Controllers
             {
                 do
                 {
-                    socio.ListStudentFinances.Add(new StudentFinance()); // add finance row to list
+                    socio.ListStudentFinances.Add(new StudentFinance { FinNo = socio.ListStudentFinances.Count() }); // add finance row to list
                 } while (socio.ListStudentFinances.Count < 3);
             }
             socio.ListStudentFinances.OrderByDescending(s => s.FinNo);
@@ -422,7 +422,7 @@ namespace DikanNetProject.Controllers
 
                     #region Save Student Finance
                     int i = 0;
-                    
+                    /*
                     foreach(var fin in dbStuFinance)
                     {
                         tempStuFin = socio.ListStudentFinances.Where(s => s.FinNo == fin.FinNo).FirstOrDefault();
@@ -471,14 +471,14 @@ namespace DikanNetProject.Controllers
                             i++;
                         }
                     }
+                    */
 
-                    /*
                     foreach (var fin in socio.ListStudentFinances)
                     {
                         fin.StudentId = sStudentId;
                         fin.SpId = socio.SocioMod.ScholarshipId;
 
-                        tempDbStuFin = dbStuFinance.Where(s => s.FinNo == i).FirstOrDefault();
+                        tempDbStuFin = dbStuFinance.Where(s => s.FinNo == fin.FinNo).FirstOrDefault();
                         if (tempDbStuFin != null)
                         {
                             fin.PathExpense = tempDbStuFin.PathExpense;
@@ -489,18 +489,18 @@ namespace DikanNetProject.Controllers
 
                         // if there is a expense file upload and update the file path
                         if (fin.FileExpense != null)
-                            fin.PathExpense = Files.SaveFileInServer(fin.FileExpense, "Expense" +i, sStudentId, fin.PathExpense);
+                            fin.PathExpense = Files.SaveFileInServer(fin.FileExpense, "Expense" +fin.FinNo, sStudentId, fin.PathExpense);
 
                         // if there is a salary file upload and update the file path
                         if (fin.FileSalary != null)
-                            fin.PathSalary = Files.SaveFileInServer(fin.FileSalary, "Salary" + i, sStudentId, fin.PathSalary);
+                            fin.PathSalary = Files.SaveFileInServer(fin.FileSalary, "Salary" + fin.FinNo, sStudentId, fin.PathSalary);
 
-                        fin.FinNo = i;
+                        //fin.FinNo = i;
                         ctx.StudentFinances.Add(fin);
                         ctx.SaveChanges();
                         i++;
                     }
-                    */
+                    
                     #endregion
                 }
 

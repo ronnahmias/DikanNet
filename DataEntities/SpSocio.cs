@@ -93,6 +93,7 @@ namespace DataEntities
         public HttpPostedFileBase FileDisabilityType { get; set; }
         public string PathDisabilityType { get; set; }
 
+        [Display(Name ="סטטוס עבודה")]
         public string WorkSt { get; set; }
 
 
