@@ -390,11 +390,13 @@ namespace DikanNetProject.Controllers
                             ctx.Fundings.Add(fund); // add new fund to database    
 
                         ctx.SaveChanges();
-
+                        
                         // if there is a file upload and update the file path
                         if (fund.FileFunding != null)
+                        {
                             fund.PathFunding = Files.SaveFileInServer(fund.FileFunding, "Fund" + fund.FundingId, sStudentId, fund.PathFunding);
-
+                            tempDbFund.PathFunding = fund.PathFunding;
+                        }
                         ctx.SaveChanges();
                     }
                 }
