@@ -46,7 +46,7 @@
     </div>
 
     <!-- successModal -->
-    <div class="modal fade" id="successModal">
+    <div class="modal fade" id="successModal" style="display:block;">
         <div class="modal-dialog">
             <div class="modal-content">
 
@@ -59,7 +59,7 @@
                 <!-- Modal body -->
                 <div class="modal-body text-center">
 
-                    <div id="signature-pad" class="signature-pad">
+                    <div id="signature-pad" class="signature-pad" >
                         <div id="signature-pad--body">
                             <canvas></canvas>
                         </div>
@@ -96,9 +96,9 @@
     @RenderSection("scripts", required: false)
 
     <script>
-        $(document).ready(function () {
-
-        });
+        $(document).ready(function (){
+            $('#successModal').css('display','none');
+      });
 
         function beforeSumbit() {
             var ok = checkMust();
@@ -114,9 +114,10 @@
 
         $('#successModal').on('show.bs.modal', function (e) {
             console.log("modal open");
+            $('#successModal').css('display','none');
             console.log("signature-pad width: " + $('#signature-pad').width());
             console.log("signature-pad height: " + $('#signature-pad').outerHeight());
-            resizeCanvas();
+            //resizeCanvas();
         });
     </script>
 </body>

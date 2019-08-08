@@ -331,7 +331,7 @@ namespace DikanNetProject.Controllers
                     socio.ListStudentFinances.Add(new StudentFinance { FinNo = socio.ListStudentFinances.Count() }); // add finance row to list
                 } while (socio.ListStudentFinances.Count < 3);
             }
-            socio.ListStudentFinances.OrderByDescending(s => s.FinNo);
+            socio.ListStudentFinances = socio.ListStudentFinances.OrderBy(s => s.FinNo).ToList();
             socio.SocioMod.ScholarshipId = scholarshipid; // insert scholarship id in socio model
             return View(socio);
         }
@@ -345,14 +345,15 @@ namespace DikanNetProject.Controllers
             List<StudentFinance> dbStuFinance;
             CarStudent tempDbCar;
             Funding tempDbFund;
-            StudentFinance tempStuFin;
+            //StudentFinance tempStuFin;
             StudentFinance tempDbStuFin;
+            string[,] pathExSaFinance = new string[3,3]; // holding path expense and salary;
             if (socio.ListCarStudent == null) socio.ListCarStudent = new List<CarStudent>(); // if there is no rows in car student list
             if (socio.ListFundings == null) socio.ListFundings = new List<Funding>(); // if there is no rows in fundings list
             if (ModelState.IsValid)
             {
                 
-                //save car detailes
+                //save detailes
                 using (DikanDbContext ctx = new DikanDbContext())
                 {
                     // list of cars by database
@@ -421,71 +422,34 @@ namespace DikanNetProject.Controllers
                     #endregion
 
                     #region Save Student Finance
-                    int i = 0;
-                    /*
-                    foreach(var fin in dbStuFinance)
+                    /* בתחילה אני מסיר את כל הנתונים מהשרת תוך כדי שמירה על קבצים
+                     * לאחר מכן רץ על הרשימה שהתקבלה מהלקוח
+                     * משתיל את פרטי הסטודנט וקוד מלגה
+                     * סוחב את הנתונים מהשרת לתוך רשימה חדשה
+                     * ושולף את השורה שבה השנה והוחודש שווים לאלמנט שנמצא עכשיו
+                     * אם קיים יש כפל ולכן אי אפשר לשמור את המידע הזה ומדלגים עליו
+                     * הבעיה שנוצרה היא הקובץ קיים בשרת ולא נמחק אך מאבדים את מיקומו
+                     * פתרון אפשרי: בעת המציאה למחוק אותו באמצעות פונקציה קיימת
+                     */
+                    foreach(var finDb in dbStuFinance)
                     {
-                        tempStuFin = socio.ListStudentFinances.Where(s => s.FinNo == fin.FinNo).FirstOrDefault();
-                        if (tempStuFin != null)
-                        {
-                            tempStuFin.PathExpense = fin.PathExpense;
-                            tempStuFin.PathSalary = fin.PathSalary;
-                            ctx.StudentFinances.Remove(fin);
-                            ctx.SaveChanges();
-
-                        }
-                        tempStuFin.StudentId = sStudentId;
-                        tempStuFin.SpId = socio.SocioMod.ScholarshipId;
-                        // if there is a expense file upload and update the file path
-                        if (tempStuFin.FileExpense != null)
-                            tempStuFin.PathExpense = Files.SaveFileInServer(fin.FileExpense, "Expense" + i, sStudentId, fin.PathExpense);
-
-                        // if there is a salary file upload and update the file path
-                        if (tempStuFin.FileSalary != null)
-                            tempStuFin.PathSalary = Files.SaveFileInServer(fin.FileSalary, "Salary" + i, sStudentId, fin.PathSalary);
-                        ctx.StudentFinances.Add(tempStuFin);
-                        ctx.SaveChanges();
-                        i++;
+                        pathExSaFinance[0, finDb.FinNo] = finDb.PathExpense;
+                        pathExSaFinance[0, finDb.FinNo] = finDb.PathSalary;
+                        ctx.StudentFinances.Remove(finDb);
                     }
-                    if(i < 3)
-                    { 
-                        foreach (var fin in socio.ListStudentFinances)
-                        {
-                            fin.StudentId = sStudentId;
-                            fin.SpId = socio.SocioMod.ScholarshipId;
-
-                            tempStuFin = dbStuFinance.Where(s => s.FinNo == i).FirstOrDefault();
-                            if (tempStuFin != null) continue;
-
-                            // if there is a expense file upload and update the file path
-                            if (fin.FileExpense != null)
-                                fin.PathExpense = Files.SaveFileInServer(fin.FileExpense, "Expense" + i, sStudentId, fin.PathExpense);
-
-                            // if there is a salary file upload and update the file path
-                            if (fin.FileSalary != null)
-                                fin.PathSalary = Files.SaveFileInServer(fin.FileSalary, "Salary" + i, sStudentId, fin.PathSalary);
-
-                            fin.FinNo = i;
-                            ctx.StudentFinances.Add(fin);
-                            ctx.SaveChanges();
-                            i++;
-                        }
-                    }
-                    */
-
+                    ctx.SaveChanges();
                     foreach (var fin in socio.ListStudentFinances)
                     {
                         fin.StudentId = sStudentId;
                         fin.SpId = socio.SocioMod.ScholarshipId;
 
-                        tempDbStuFin = dbStuFinance.Where(s => s.FinNo == fin.FinNo).FirstOrDefault();
-                        if (tempDbStuFin != null)
-                        {
-                            fin.PathExpense = tempDbStuFin.PathExpense;
-                            fin.PathSalary = tempDbStuFin.PathSalary;
-                            ctx.StudentFinances.Remove(tempDbStuFin);
-                            ctx.SaveChanges();
-                        }
+                        // list of finance by database
+                        dbStuFinance = ctx.StudentFinances.Where(s => s.StudentId == sStudentId && s.SpId == socio.SocioMod.ScholarshipId).ToList();
+                        tempDbStuFin = dbStuFinance.Where(s => s.Month == fin.Month && s.Year == fin.Year).FirstOrDefault();
+                        if (tempDbStuFin != null) continue;
+
+                        fin.PathExpense = pathExSaFinance[0, fin.FinNo];
+                        fin.PathSalary  = pathExSaFinance[0, fin.FinNo];
 
                         // if there is a expense file upload and update the file path
                         if (fin.FileExpense != null)
@@ -495,10 +459,8 @@ namespace DikanNetProject.Controllers
                         if (fin.FileSalary != null)
                             fin.PathSalary = Files.SaveFileInServer(fin.FileSalary, "Salary" + fin.FinNo, sStudentId, fin.PathSalary);
 
-                        //fin.FinNo = i;
                         ctx.StudentFinances.Add(fin);
                         ctx.SaveChanges();
-                        i++;
                     }
                     
                     #endregion

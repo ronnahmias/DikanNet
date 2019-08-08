@@ -21,8 +21,8 @@ function resizeCanvas() {
   
   canvas.width = canvas.offsetWidth * ratio;
   //canvas.width = 400;
-  canvas.height = 250;
-  //canvas.height = canvas.offsetHeight * ratio;
+  //canvas.height = 250;
+  canvas.height = canvas.offsetHeight * ratio;
   canvas.getContext("2d").scale(ratio, ratio);
 
     console.log("Resize Canvas");
@@ -42,7 +42,7 @@ function resizeCanvas() {
 
 // On mobile devices it might make more sense to listen to orientation change,
 // rather than window resize events.
-window.onresize = resizeCanvas;
+//window.onresize = resizeCanvas;
 resizeCanvas();
 
 function download(dataURL, filename) {
