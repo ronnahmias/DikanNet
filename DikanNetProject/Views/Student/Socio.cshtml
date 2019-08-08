@@ -295,7 +295,6 @@
 
         var carviewurl = '@Url.Action("CarsView")';
         var fundviewurl = '@Url.Action("FundView")';
-        var deleteurl = '@Url.Action("DeleteCar")';
         var form = $('form');
         var carsdiv = $('#cardiv');
         var funddiv = $('#funddiv');
@@ -309,22 +308,13 @@
             });
         });
 
-        $('#addFund').click(function() {
-            $.get(fundviewurl, function(response) {
-            funddiv.append(response);
-            // Reparse the validator for client side validation
-            //form.data('validator', null);
-            //$.validator.unobtrusive.parse(form);
-            });
-        });
-
         $(document).on('click','.del-car',function() {
             var container = $(this).closest('.cars');
             var id = container.find('.id').attr('value');
             if (id)
             {
                 $.ajax({
-                    url: "/Student/DeleteFund",
+                    url: "/Student/DeleteCar",
                     dataType: 'text',
                     data: { CarNum: id },
                     method: "POST",
@@ -343,6 +333,15 @@
                 // It never existed, so just remove the container
                 container.remove();
             }
+        });
+
+        $('#addFund').click(function() {
+            $.get(fundviewurl, function(response) {
+            funddiv.append(response);
+            // Reparse the validator for client side validation
+            //form.data('validator', null);
+            //$.validator.unobtrusive.parse(form);
+            });
         });
 
         $(document).on('click','.del-fund',function() {

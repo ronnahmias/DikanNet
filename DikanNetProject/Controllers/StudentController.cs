@@ -360,7 +360,7 @@ namespace DikanNetProject.Controllers
                     dbCars = ctx.CarStudents.Where(s => s.StudentId == sStudentId).ToList();
                     // list of funding by database
                     dbFunding = ctx.Fundings.Where(s => s.StudentId == sStudentId).ToList();
-                    // list of finance by database
+                    // list of student finance by database
                     dbStuFinance = ctx.StudentFinances.Where(s => s.StudentId == sStudentId && s.SpId == socio.SocioMod.ScholarshipId).ToList();
 
                     #region Save Cars Detailes
@@ -465,8 +465,6 @@ namespace DikanNetProject.Controllers
                     
                     #endregion
                 }
-
-
             }
             ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
             return View(socio);
