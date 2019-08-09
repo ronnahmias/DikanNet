@@ -1,5 +1,4 @@
 var wrapper = document.getElementById("signature-pad");
-var clearButton = wrapper.querySelector("[data-action=clear]");
 var savePNGButton = wrapper.querySelector("[data-action=save-png]");
 var canvas = wrapper.querySelector("canvas");
 var signaturePad = new SignaturePad(canvas, {
@@ -81,13 +80,13 @@ function dataURLToBlob(dataURL) {
   return new Blob([uInt8Array], { type: contentType });
 }
 
-clearButton.addEventListener("click", function (event) {
-  signaturePad.clear();
-});
+function clearSignature() {
+    signaturePad.clear();
+}
 
 savePNGButton.addEventListener("click", function (event) {
   if (signaturePad.isEmpty()) {
-      alert("Please provide a signature first.");
+      alert("יש לחתום לפני הגשת מלגה");
       return;
   } 
    var dataURL = signaturePad.toDataURL();

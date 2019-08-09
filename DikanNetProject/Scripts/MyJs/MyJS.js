@@ -92,9 +92,18 @@ function validEmail(email) {
  * if checked true it will fade in else it will fade out
  */
 function showHidenPortion(checked, idElement) {
-    if (checked == true)
+    if (checked == true) {
         $('#' + idElement).fadeIn();
-    else $('#' + idElement).fadeOut();
+        $('#' + idElement + ' :input').each(function () {
+            $(this).addClass('must');
+        });
+    }
+    else {
+        $('#' + idElement).fadeOut();
+        $('#' + idElement + ' :input').each(function () {
+            $(this).removeClass('must');
+        });
+    }
 }
 
 /* The function check that all the must filed are filed */
