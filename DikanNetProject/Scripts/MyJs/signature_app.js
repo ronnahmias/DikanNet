@@ -84,13 +84,13 @@ function clearSignature() {
     signaturePad.clear();
 }
 
-savePNGButton.addEventListener("click", function (event) {
-  if (signaturePad.isEmpty()) {
-      alert("יש לחתום לפני הגשת מלגה");
-      return;
-  } 
-   var dataURL = signaturePad.toDataURL();
-   //download(dataURL, "signature.png");
+function signatureSave() {
+    if (signaturePad.isEmpty()) {
+        alert("יש לחתום לפני הגשת מלגה");
+        return false;
+    }
+    var dataURL = signaturePad.toDataURL();
+    //download(dataURL, "signature.png");
     //alert(typeof (dataURL));
     $.ajax({
         url: "/Student/SaveSignature",
@@ -108,5 +108,5 @@ savePNGButton.addEventListener("click", function (event) {
             return false;
         }
     });
-});
+}
 

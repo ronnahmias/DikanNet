@@ -24,7 +24,7 @@
                 @Html.LabelFor(model => model.SchoolYear, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.DropDownListFor(model => model.SchoolYear,
-                  new SelectList(Enum.GetNames(typeof(Common.Enums.SchoolYear))), "", new { @class = "form-control chosen chzn-select-desele selLoc must", @data_placeholder = "שנת לימוד" ,@data_allows_new_values = "true"})
+                  new SelectList(Enum.GetNames(typeof(Common.Enums.SchoolYear))), "", new { @class = "form-control chosen must", @data_placeholder = "שנת לימוד" ,@data_allows_new_values = "true"})
                     @Html.ValidationMessageFor(model => model.SchoolYear, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -96,7 +96,7 @@
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="button" value="הגש מלגה" class="btn btn-success" name="uploadmethod" onclick="return beforeSumbit()" />
+                    <input type="button" value="הגש מלגה" class="btn btn-success"  onclick="return beforeSumbit()" />
                     <input type="submit" value="שמור טיוטה" class="btn btn-warning" name="uploadmethod" />
                 </div>
             </div>

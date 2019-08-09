@@ -22,7 +22,7 @@
                 @Html.LabelFor(model => model.SchoolYear, htmlAttributes: new { @class = "control-label" })
                 <div class="">
                     @Html.DropDownListFor(model => model.SchoolYear,
-                   new SelectList(Enum.GetNames(typeof(Common.Enums.SchoolYear))), "", new { @class = "form-control chosen", @data_placeholder = "שנת לימוד" })
+                   new SelectList(Enum.GetNames(typeof(Common.Enums.SchoolYear))), "", new { @class = "form-control chosen must", @data_placeholder = "שנת לימוד" })
                     @Html.ValidationMessageFor(model => model.SchoolYear, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -30,7 +30,7 @@
             <div class="form-group col-12">
                 @Html.LabelFor(model => model.VolunteerExp, htmlAttributes: new { @class = "control-label " })
                 <div class="">
-                    @Html.EditorFor(model => model.VolunteerExp, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.VolunteerExp, new { htmlAttributes = new { @class = "form-control must" } })
                     @Html.ValidationMessageFor(model => model.VolunteerExp, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -38,7 +38,7 @@
             <div class="form-group col-12">
                 @Html.LabelFor(model => model.VoluntaryAvailability, htmlAttributes: new { @class = "control-label " })
                 <div class="">
-                    @Html.EditorFor(model => model.VoluntaryAvailability, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.VoluntaryAvailability, new { htmlAttributes = new { @class = "form-control must" } })
                     @Html.ValidationMessageFor(model => model.VoluntaryAvailability, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -46,7 +46,7 @@
             <div class="form-group col-12">
                 @Html.LabelFor(model => model.AboutMe, htmlAttributes: new { @class = "control-label" })
                 <div class="">
-                    @Html.EditorFor(model => model.AboutMe, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.AboutMe, new { htmlAttributes = new { @class = "form-control must" } })
                     @Html.ValidationMessageFor(model => model.AboutMe, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -54,7 +54,7 @@
                 <div class="form-group col-md-6 col-sm-6 col-12">
                     @Html.LabelFor(model => model.Volunteer1Id, htmlAttributes: new { @class = "control-label " })
                     <div class="">
-                        @Html.DropDownListFor(model => model.Volunteer1Id, ViewBag.VolunteerPlacesList as SelectList, "", htmlAttributes: new { @class = "form-control chosen", @data_placeholder = "אופציה ראשונה למקום התנדבות" })
+                        @Html.DropDownListFor(model => model.Volunteer1Id, ViewBag.VolunteerPlacesList as SelectList, "", htmlAttributes: new { @class = "form-control chosen must", @data_placeholder = "אופציה ראשונה למקום התנדבות" })
                         @Html.ValidationMessageFor(model => model.Volunteer1Id, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                 <div class="form-group col-md-6 col-sm-6 col-12">
                     @Html.LabelFor(model => model.Volunteer2Id, htmlAttributes: new { @class = "control-label " })
                     <div class="">
-                        @Html.DropDownListFor(model => model.Volunteer2Id, (IEnumerable<SelectListItem>)ViewBag.VolunteerPlacesList, "", htmlAttributes: new { @class = "form-control chosen", @data_placeholder = "אופציה שנייה למקום התנדבות" })
+                        @Html.DropDownListFor(model => model.Volunteer2Id, (IEnumerable<SelectListItem>)ViewBag.VolunteerPlacesList, "", htmlAttributes: new { @class = "form-control chosen ", @data_placeholder = "אופציה שנייה למקום התנדבות" })
                         @Html.ValidationMessageFor(model => model.Volunteer2Id, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -73,7 +73,7 @@
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="הגש מלגה" class="btn btn-success" name="uploadmethod" />
+                    <input type="button" value="הגש מלגה" class="btn btn-success" name="uploadmethod" onclick="return beforeSumbit()" />
                     <input type="submit" value="שמור טיוטה" class="btn btn-warning" name="uploadmethod" />
                 </div>
             </div>
