@@ -20,9 +20,28 @@ body{
     cursor: default;
 }
 
+.chose-file {
+    color: white;
+    height: 60px;
+    width: 250px;
+    background-color: #ffd800;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 6px 5px 20px #888;
+}
+
+.embed-file {
+    max-width: 250px;
+    max-height: 250px;
+    display: inline-block;
+    border: 1px solid black;
+}
 .chosen-container, .chosen {
     max-width: 200px;
-    font-size:17px;
+    font-size: 17px;
 }
 div#reqStatuses > div:nth-child(odd)
 {
