@@ -133,6 +133,7 @@
     <Content Include="Content\Css\Chosen\chosen-sprite%402x.png" />
     <Content Include="Content\Css\Chosen\chosen-sprite.png" />
     <Content Include="Content\Pic\Logo.png" />
+    <Content Include="Content\Site.css" />
     <Content Include="Content\ui-bootstrap-csp.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
@@ -155,6 +156,7 @@
     <Content Include="Content\Css\bootstrap-grid.css.map" />
     <Content Include="Scripts\jquery.form.js" />
     <Content Include="Scripts\jquery.form.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\MyJs\chosen.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
@@ -204,6 +206,7 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\DikanController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Global.asax.cs">
@@ -240,6 +243,10 @@
     <Content Include="Views\Student\FundView.cshtml" />
     <Content Include="src\sass\signature-pad.scss" />
     <Content Include="Views\Student\StudFinView.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Dikan\Index.cshtml" />
+    <Content Include="Views\Dikan\_Layout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
