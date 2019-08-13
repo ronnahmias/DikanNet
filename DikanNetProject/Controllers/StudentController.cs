@@ -307,23 +307,32 @@ namespace DikanNetProject.Controllers
         [HttpGet]
         public ActionResult Socio(int scholarshipid)
         {
+            SocioAdd socio;
             ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
-            SocioAdd socio = new SocioAdd // new socio add model
-            {
-                SocioMod = new SpSocio(),
-                ListCarStudent = new List<CarStudent>(),
-                ListFundings = new List<Funding>(),
-                ListStudentFinances = new List<StudentFinance>()
-            };
             using (DikanDbContext ctx = new DikanDbContext())
             {
+                socio = new SocioAdd(ctx.Students.Where(s=>s.StudentId == sStudentId).FirstOrDefault().MaritalStatus) // new socio add model get the matrial status in construstor
+                {
+                    SocioMod = new SpSocio(),
+                    ListCarStudent = new List<CarStudent>(),
+                    ListFundings = new List<Funding>(),
+                    ListStudentFinances = new List<StudentFinance>(),
+                    ListFamilyMember = new List<FamilyMember>()
+                };
+
+                socio.SocioMod = ctx.Socio.Where(s => s.StudentId == sStudentId && s.ScholarshipId == scholarshipid).SingleOrDefault(); // get socio model of student from db
+                if (socio.SocioMod == null) socio.SocioMod = new SpSocio();
+                
                 foreach (var car in ctx.CarStudents.Where(s=>s.StudentId == sStudentId).ToList()) // get all cars of student from db to list
                     socio.ListCarStudent.Add(car);
                 foreach (var fund in ctx.Fundings.Where(s => s.StudentId == sStudentId).ToList()) // get all fundings of student from db to list
                     socio.ListFundings.Add(fund);
                 foreach (var StudFin in ctx.StudentFinances.Where(s => s.StudentId == sStudentId && s.SpId == scholarshipid).ToList()) // get all fundings of student from db to list
                     socio.ListStudentFinances.Add(StudFin);
+                foreach(var FamMem in ctx.FamilyMembers.Include(s=>s.FamilyStudentFinance).Where(s => s.StudentId == sStudentId).ToList())
+                    socio.ListFamilyMember.Add(FamMem);
             }
+
             if(socio.ListStudentFinances.Count() < 3) // if the student dont have 3 finance rows
             {
                 do
@@ -487,6 +496,12 @@ namespace DikanNetProject.Controllers
         {
             ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
             return PartialView("StudFinView", new StudentFinance());
+        }
+
+        public PartialViewResult FamMemView()
+        {
+            ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
+            return PartialView("FamMemView", new FamilyMember());
         }
         #endregion
 

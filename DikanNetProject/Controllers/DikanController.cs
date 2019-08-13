@@ -8,7 +8,6 @@ namespace DikanNetProject.Controllers
 {
     public class DikanController : Controller
     {
-        // GET: Dikan
         public ActionResult Index()
         {
             return View();

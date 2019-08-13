@@ -25,6 +25,6 @@ namespace DataEntities
         public virtual ICollection<SpHalacha> InPractices { get; set; }
         public virtual ICollection<SpExcellence> ExcellenceStudents { get; set; }
         public virtual ICollection<StudentFinance> StudentFinances { get; set; }
-
+        public virtual ICollection<FamilyStudentFinance> FamilyStudentFinances { get; set; }
     }
 }

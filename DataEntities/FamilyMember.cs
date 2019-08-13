@@ -5,19 +5,36 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Web;
 
 namespace DataEntities
 {
     [Table("FamilyMember")]
     public class FamilyMember
     {
-        [Key]
+        [Key,Display(Name ="תעודת זהות")]
         public string FamilyMemberId { get; set; }
+
         public string StudentId { get; set; }
-        public string FmIdFile { get; set; }
+        public string PathFmId { get; set; }
+
+        [Column("Namee"),Display(Name = "שם מלא")]
         public string Name { get; set; }
+
+        [Display(Name ="סוג קרבה")]
         public string Realationship { get; set; }
+
+        [Display(Name = "תאריך לידה")]
         public DateTime? BirthDay { get; set; }
+
+        [Display(Name = "סוג עבודה")]
+        public string WorkSt { get; set; }
+
+        [Display(Name = "מגדר")]
+        public string Gender { get; set; }
+
+        [NotMapped, Display(Name = "קובץ תז בן משפחה")]
+        public HttpPostedFileBase FileFamId { get; set; }
 
         public virtual Student Student { get; set; }
         public virtual ICollection<FamilyStudentFinance> FamilyStudentFinance { get; set; }

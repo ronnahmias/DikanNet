@@ -42,8 +42,7 @@ namespace DataEntities
         public int FinNo { get; set; }
 
 
-        public Student Student { get; set; }
-
-        public SpDefinition SpDefinition { get; set; }
+        public virtual Student Student { get; set; }
+        public virtual SpDefinition SpDefinition { get; set; }
     }
 }

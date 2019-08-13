@@ -234,6 +234,8 @@
         </div>
     </div>
 
+    <h4>הכנסות</h4>
+
     <div class="form-group">
         @Html.LabelFor(model => model.SocioMod.WorkSt, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
@@ -258,7 +260,7 @@
             @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.אחר)
             <span>@Common.Enums.WorkingStatus.אחר</span>
 
-            @Html.ValidationMessageFor(model => model.SocioMod.MilitaryService, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(model => model.SocioMod.WorkSt, "", new { @class = "text-danger" })
         </div>
     </div>
 
@@ -277,6 +279,28 @@
         @foreach (var StudFin in Model.ListStudentFinances)
         {
             @Html.Partial("StudFinView", StudFin)
+        }
+    </div>
+
+    <h4>הכנסות בן-בת זוג / הורים</h4>
+
+
+    <div class="form-group row text-center">
+        <!--labels for table of family member finance-->@*
+        @Html.LabelFor(model => model.ListFamilyFinance[0].Year, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.ListFamilyFinance[0].Month, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.ListFamilyFinance[0].Salary, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.ListFamilyFinance[0].Expense, htmlAttributes: new { @class = "control-label col-md-1" })
+        @Html.LabelFor(model => model.ListFamilyFinance[0].FileSalary, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.ListFamilyFinance[0].FileExpense, htmlAttributes: new { @class = "control-label col-md-2" })
+        <label class="col-md-1">מחיקה</label>*@
+    </div>
+
+    <div id="Famfindiv">
+        <!--table of family member finance-->
+        @foreach (var FamFin in Model.ListFamilyMember)
+        {
+            @Html.Partial("FamMemView", FamFin)
         }
     </div>
 
