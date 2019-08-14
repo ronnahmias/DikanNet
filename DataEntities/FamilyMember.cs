@@ -37,6 +37,6 @@ namespace DataEntities
         public HttpPostedFileBase FileFamId { get; set; }
 
         public virtual Student Student { get; set; }
-        public virtual ICollection<FamilyStudentFinance> FamilyStudentFinance { get; set; }
+        public IList<FamilyStudentFinance> FamilyStudentFinances { get; set; }
     }
 }

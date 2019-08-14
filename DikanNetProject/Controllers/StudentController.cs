@@ -312,13 +312,14 @@ namespace DikanNetProject.Controllers
             ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
             using (DikanDbContext ctx = new DikanDbContext())
             {
-                socio = new SocioAdd(ctx.Students.Where(s=>s.StudentId == sStudentId).FirstOrDefault().MaritalStatus) // new socio add model get the matrial status in construstor
+                socio = new SocioAdd() // new socio add model get the matrial status in construstor
                 {
                     SocioMod = new SpSocio(),
                     ListCarStudent = new List<CarStudent>(),
                     ListFundings = new List<Funding>(),
                     ListStudentFinances = new List<StudentFinance>(),
-                    ListFamMemFin = new List<FamilyMember>()
+                    ListFamMemFin = new List<FamilyMember>(),
+                    MatrialStatus = ctx.Students.Where(s => s.StudentId == sStudentId).FirstOrDefault().MaritalStatus
                 };
 
                 #region Socio Model
@@ -350,7 +351,7 @@ namespace DikanNetProject.Controllers
                 socio.ListStudentFinances = socio.ListStudentFinances.OrderBy(s => s.FinNo).ToList();
                 #endregion
 
-                #region family member + finance
+                #region Family Member + Finance
                 /* family member + finance
                  1. calculate how many rows need depend on matrial status
                  2. get from db family member record, include finances that is dad/mom/wife/husband and from that student id and add to socio list
@@ -384,7 +385,7 @@ namespace DikanNetProject.Controllers
                 if (numofFamMem > 0) // if no needed row for family member with finance skip on it
                 {
                     //2. include on each family member that is dad/mom/wife/husband their finance
-                    foreach (var FamMem in ctx.FamilyMembers.Include(s => s.FamilyStudentFinance)
+                    foreach (var FamMem in ctx.FamilyMembers.Include(s => s.FamilyStudentFinances)
                         .Where(s => s.StudentId == sStudentId)
                         .Where(s => s.Realationship == Enums.Realationship.אב.ToString() ||
                         s.Realationship == Enums.Realationship.אם.ToString() ||
@@ -398,7 +399,7 @@ namespace DikanNetProject.Controllers
                         do
                         {
                             List<FamilyStudentFinance> familyStudentFinances = new List<FamilyStudentFinance>(); // init new list of finance to each family member
-                            socio.ListFamMemFin.Add(new FamilyMember { FamilyStudentFinance = familyStudentFinances }); // add family member row to list
+                            socio.ListFamMemFin.Add(new FamilyMember { FamilyStudentFinances = familyStudentFinances }); // add family member row to list
                         } while (socio.ListFamMemFin.Count < numofFamMem);
                     }
 
@@ -406,26 +407,31 @@ namespace DikanNetProject.Controllers
                     foreach (var member in socio.ListFamMemFin)
                     {
                         // on each member filter their only finance of the currect scholarship id
-                        member.FamilyStudentFinance = member.FamilyStudentFinance.Where(s => s.SpId == scholarshipid).ToList();
-                        if (member.FamilyStudentFinance.Count() < 3) // complete to 3 row of finance on each member
+                        member.FamilyStudentFinances = member.FamilyStudentFinances.Where(s => s.SpId == scholarshipid).ToList();
+                        if (member.FamilyStudentFinances.Count() < 3) // complete to 3 row of finance on each member
                         {
                             do
                             {
-                                member.FamilyStudentFinance.Add(new FamilyStudentFinance { FinNo = socio.ListStudentFinances.Count() }); // add finance row to list
-                            } while (member.FamilyStudentFinance.Count < 3);
+                                member.FamilyStudentFinances.Add(new FamilyStudentFinance { FinNo = socio.ListStudentFinances.Count() }); // add finance row to list
+                            } while (member.FamilyStudentFinances.Count < 3);
                         }
                     }
                 }
-            #endregion
+                #endregion
+
+                #region Family Members
+                #endregion
 
             }
             return View(socio);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Socio(SocioAdd socio, string uploadmethod) // submit  new socio scholarship
          {
-            socio.SocioMod.StudentId = sStudentId; // bind student id to socio model
+            #region Help Variables
+            SpSocio spsocio;
             List<CarStudent> dbCars;
             List<Funding> dbFunding;
             List<StudentFinance> dbStuFinance;
@@ -433,22 +439,23 @@ namespace DikanNetProject.Controllers
             Funding tempDbFund;
             StudentFinance tempDbStuFin;
             string[,] pathExSaFinance = new string[3,3]; // holding path expense and salary;
+            #endregion
+
+            #region init null lists of soicoAdd model
             if (socio.ListCarStudent == null) socio.ListCarStudent = new List<CarStudent>(); // if there is no rows in car student list
             if (socio.ListFundings == null) socio.ListFundings = new List<Funding>(); // if there is no rows in fundings list
+            if (socio.ListFamMemFin == null) socio.ListFamMemFin = new List<FamilyMember>(); // if there is no rows in family member finance list
+            if (socio.ListStudentFinances == null) socio.ListStudentFinances = new List<StudentFinance>(); // if there is no rows in finance list
+            #endregion
+
             if (ModelState.IsValid)
             {
-                
                 //save detailes
                 using (DikanDbContext ctx = new DikanDbContext())
                 {
+                    #region Save Cars Detailes
                     // list of cars by database
                     dbCars = ctx.CarStudents.Where(s => s.StudentId == sStudentId).ToList();
-                    // list of funding by database
-                    dbFunding = ctx.Fundings.Where(s => s.StudentId == sStudentId).ToList();
-                    // list of student finance by database
-                    dbStuFinance = ctx.StudentFinances.Where(s => s.StudentId == sStudentId && s.SpId == socio.SocioMod.ScholarshipId).ToList();
-
-                    #region Save Cars Detailes
                     // update each car that posted from client
                     foreach (var car in socio.ListCarStudent)
                     {
@@ -482,6 +489,8 @@ namespace DikanNetProject.Controllers
                     #endregion
 
                     #region Save Funding
+                    // list of funding by database
+                    dbFunding = ctx.Fundings.Where(s => s.StudentId == sStudentId).ToList();
                     // update each fund that posted from client
                     foreach (var fund in socio.ListFundings)
                     {
@@ -516,7 +525,11 @@ namespace DikanNetProject.Controllers
                      * הבעיה שנוצרה היא הקובץ קיים בשרת ולא נמחק אך מאבדים את מיקומו
                      * פתרון אפשרי: בעת המציאה למחוק אותו באמצעות פונקציה קיימת
                      */
-                    foreach(var finDb in dbStuFinance)
+
+                    // list of student finance by database
+                    dbStuFinance = ctx.StudentFinances.Where(s => s.StudentId == sStudentId && s.SpId == socio.SocioMod.ScholarshipId).ToList();
+
+                    foreach (var finDb in dbStuFinance)
                     {
                         pathExSaFinance[0, finDb.FinNo] = finDb.PathExpense;
                         pathExSaFinance[0, finDb.FinNo] = finDb.PathSalary;
@@ -547,7 +560,32 @@ namespace DikanNetProject.Controllers
                         ctx.StudentFinances.Add(fin);
                         ctx.SaveChanges();
                     }
-                    
+
+                    #endregion
+
+                    #region Save Family Member + Finance
+                    #endregion
+
+                    #region Save Family Members
+                    #endregion
+
+                    #region Save Socio model + Submit Sp
+                    socio.SocioMod.StudentId = sStudentId; // bind student id to socio model
+                    spsocio = ctx.Socio.Where(s => s.StudentId == socio.SocioMod.StudentId && s.ScholarshipId == socio.SocioMod.ScholarshipId).SingleOrDefault(); // find if he insert already draft     
+                    if (uploadmethod.Equals("הגש מלגה"))
+                    {
+                        socio.SocioMod.Statuss = Enums.Status.בטיפול.ToString(); // insert status betipul
+                        socio.SocioMod.StatusUpdateDate = socio.SocioMod.DateSubmitScholarship = DateTime.Now; // insert date submit + update status 
+                    }
+                    if(spsocio == null)
+                    {
+                        ctx.Socio.Add(socio.SocioMod); // add new sp socio
+                    }
+                    else
+                        ctx.Entry(spsocio).CurrentValues.SetValues(socio.SocioMod); // update
+
+                    ctx.Configuration.ValidateOnSaveEnabled = false;
+                    ctx.SaveChanges();
                     #endregion
                 }
             }

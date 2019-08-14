@@ -8,7 +8,7 @@
         <div class="form-group row text-center">
             @Html.EditorFor(model => model.FamilyMemberId, new { htmlAttributes = new { @class = "control-label col-md-2" } })
             @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "control-label col-md-2" } })
-            @Html.DropDownListFor(model => model.Realationship, new SelectList(Enum.GetValues(typeof(Enums.Realationship)),null,new List<Enums.Realationship>{Enums.Realationship.אח, Enums.Realationship.אחות,Enums.Realationship.בן,Enums.Realationship.בת}), "", new { @class = "form-control chosen", @data_placeholder = "מגדר" })
+            @Html.DropDownListFor(model => model.Realationship, new SelectList(Enum.GetValues(typeof(Enums.Realationship)), null, new List<Enums.Realationship> { Enums.Realationship.אח, Enums.Realationship.אחות, Enums.Realationship.בן, Enums.Realationship.בת }), "", new { @class = "form-control chosen", @data_placeholder = "מגדר" })
             @Html.DropDownListFor(model => model.Gender, new SelectList(Enum.GetValues(typeof(Enums.Genders))), "", new { @class = "form-control chosen", @data_placeholder = "מגדר" })
             @Html.TextBoxFor(model => model.FileFamId, new { @class = "control-label col-md-1", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
             @Html.HiddenFor(model => model.PathFmId)
@@ -48,10 +48,14 @@
                 @Html.ValidationMessageFor(model => model.WorkSt, "", new { @class = "text-danger" })
             </div>
             <div id="Famfindiv">
-                @foreach (var FamFin in Model.FamilyStudentFinance.ToList())
-                {
-                    @Html.Partial("FamFinView", FamFin)
-                }
+                @{ if (Model.FamilyStudentFinances != null)
+                   {
+                        foreach (var FamFin in Model.FamilyStudentFinances.ToList())
+                        {
+                            @Html.Partial("FamFinView", FamFin)
+                        }
+                   }
+                 }
             </div>
         }
     </div>

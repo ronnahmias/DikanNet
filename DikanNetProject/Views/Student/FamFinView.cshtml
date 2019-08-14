@@ -3,7 +3,7 @@
 <!--show finance of each family member info-->
 
     <div class="famfin">
-        @using (Html.BeginCollectionItem("FamilyStudentFinance"))
+        @using (Html.BeginCollectionItem("FamilyStudentFinances"))
         {
         <div class="form-group row text-center">
             @Html.DropDownListFor(model => model.Year, ViewBag.YearsList as SelectList, "שנה", htmlAttributes: new { @class = "control-label col-md-2" })

@@ -176,6 +176,7 @@
             @Html.ValidationMessageFor(model => model.SocioMod.FileDisabilityType, "", new { @class = "text-danger" })
         </div>
     </div>
+    @Html.HiddenFor(model=>model.MatrialStatus)
     <!-- #endregion -->
     <!-- #region Funding -->
     <div class="form-group">
