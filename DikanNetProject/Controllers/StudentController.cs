@@ -308,6 +308,7 @@ namespace DikanNetProject.Controllers
         public ActionResult Socio(int scholarshipid)
         {
             SocioAdd socio;
+            int numofFamMem = 0; // says how many row of family member with finance needed
             ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
             using (DikanDbContext ctx = new DikanDbContext())
             {
@@ -317,31 +318,107 @@ namespace DikanNetProject.Controllers
                     ListCarStudent = new List<CarStudent>(),
                     ListFundings = new List<Funding>(),
                     ListStudentFinances = new List<StudentFinance>(),
-                    ListFamilyMember = new List<FamilyMember>()
+                    ListFamMemFin = new List<FamilyMember>()
                 };
 
+                #region Socio Model
+                // socio model get
                 socio.SocioMod = ctx.Socio.Where(s => s.StudentId == sStudentId && s.ScholarshipId == scholarshipid).SingleOrDefault(); // get socio model of student from db
                 if (socio.SocioMod == null) socio.SocioMod = new SpSocio();
-                
+                socio.SocioMod.ScholarshipId = scholarshipid; // insert scholarship id in socio model
+                #endregion
+
+                #region Car Student + Fundings
                 foreach (var car in ctx.CarStudents.Where(s=>s.StudentId == sStudentId).ToList()) // get all cars of student from db to list
                     socio.ListCarStudent.Add(car);
                 foreach (var fund in ctx.Fundings.Where(s => s.StudentId == sStudentId).ToList()) // get all fundings of student from db to list
                     socio.ListFundings.Add(fund);
+                #endregion
+
+                #region Student Finance
+
                 foreach (var StudFin in ctx.StudentFinances.Where(s => s.StudentId == sStudentId && s.SpId == scholarshipid).ToList()) // get all fundings of student from db to list
                     socio.ListStudentFinances.Add(StudFin);
-                foreach(var FamMem in ctx.FamilyMembers.Include(s=>s.FamilyStudentFinance).Where(s => s.StudentId == sStudentId).ToList())
-                    socio.ListFamilyMember.Add(FamMem);
-            }
 
-            if(socio.ListStudentFinances.Count() < 3) // if the student dont have 3 finance rows
-            {
-                do
+                if (socio.ListStudentFinances.Count() < 3) // if the student dont have 3 finance rows
                 {
-                    socio.ListStudentFinances.Add(new StudentFinance { FinNo = socio.ListStudentFinances.Count() }); // add finance row to list
-                } while (socio.ListStudentFinances.Count < 3);
+                    do
+                    {
+                        socio.ListStudentFinances.Add(new StudentFinance { FinNo = socio.ListStudentFinances.Count() }); // add finance row to list
+                    } while (socio.ListStudentFinances.Count < 3);
+                }
+                socio.ListStudentFinances = socio.ListStudentFinances.OrderBy(s => s.FinNo).ToList();
+                #endregion
+
+                #region family member + finance
+                /* family member + finance
+                 1. calculate how many rows need depend on matrial status
+                 2. get from db family member record, include finances that is dad/mom/wife/husband and from that student id and add to socio list
+                 3. check if he has enough rows if not create new rows
+                 4. on each family member checks the rows of finance - filter the finance of this spid and create new rows if needed
+                 */
+
+                //1. checks how much of family member row need depend on matrial status
+                switch (Enum.Parse(typeof(Enums.MatrialStatus), socio.MatrialStatus))
+                {
+                    // need 2 parents
+                    case Enums.MatrialStatus.רווק:
+                    case Enums.MatrialStatus.בודד_בארץ:
+                        numofFamMem = 2;
+                        break;
+                    // need only for husband or wife
+                    case Enums.MatrialStatus.נשוי:
+                        numofFamMem = 1;
+                        break;
+                    // no need
+                    case Enums.MatrialStatus.גרוש:
+                    case Enums.MatrialStatus.אלמן:
+                    case Enums.MatrialStatus.יתום:
+                        numofFamMem = 0;
+                        break;
+                    default:
+                        numofFamMem = 2;
+                        break;
+                }
+
+                if (numofFamMem > 0) // if no needed row for family member with finance skip on it
+                {
+                    //2. include on each family member that is dad/mom/wife/husband their finance
+                    foreach (var FamMem in ctx.FamilyMembers.Include(s => s.FamilyStudentFinance)
+                        .Where(s => s.StudentId == sStudentId)
+                        .Where(s => s.Realationship == Enums.Realationship.אב.ToString() ||
+                        s.Realationship == Enums.Realationship.אם.ToString() ||
+                        s.Realationship == Enums.Realationship.בעל.ToString() ||
+                        s.Realationship == Enums.Realationship.אישה.ToString()).ToList()) // filter only dad mom and wife/husband
+                        socio.ListFamMemFin.Add(FamMem);
+
+                    //3. if family member rows smaller than what he need to fill
+                    if (socio.ListFamMemFin.Count() < numofFamMem)
+                    {
+                        do
+                        {
+                            List<FamilyStudentFinance> familyStudentFinances = new List<FamilyStudentFinance>(); // init new list of finance to each family member
+                            socio.ListFamMemFin.Add(new FamilyMember { FamilyStudentFinance = familyStudentFinances }); // add family member row to list
+                        } while (socio.ListFamMemFin.Count < numofFamMem);
+                    }
+
+                    //4. on each family member checks if he has 3 row of finance if not add
+                    foreach (var member in socio.ListFamMemFin)
+                    {
+                        // on each member filter their only finance of the currect scholarship id
+                        member.FamilyStudentFinance = member.FamilyStudentFinance.Where(s => s.SpId == scholarshipid).ToList();
+                        if (member.FamilyStudentFinance.Count() < 3) // complete to 3 row of finance on each member
+                        {
+                            do
+                            {
+                                member.FamilyStudentFinance.Add(new FamilyStudentFinance { FinNo = socio.ListStudentFinances.Count() }); // add finance row to list
+                            } while (member.FamilyStudentFinance.Count < 3);
+                        }
+                    }
+                }
+            #endregion
+
             }
-            socio.ListStudentFinances = socio.ListStudentFinances.OrderBy(s => s.FinNo).ToList();
-            socio.SocioMod.ScholarshipId = scholarshipid; // insert scholarship id in socio model
             return View(socio);
         }
 
@@ -354,7 +431,6 @@ namespace DikanNetProject.Controllers
             List<StudentFinance> dbStuFinance;
             CarStudent tempDbCar;
             Funding tempDbFund;
-            //StudentFinance tempStuFin;
             StudentFinance tempDbStuFin;
             string[,] pathExSaFinance = new string[3,3]; // holding path expense and salary;
             if (socio.ListCarStudent == null) socio.ListCarStudent = new List<CarStudent>(); // if there is no rows in car student list

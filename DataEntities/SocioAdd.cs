@@ -16,7 +16,7 @@ namespace DataEntities
         public List<CarStudent> ListCarStudent { get; set; }
         public List<Funding> ListFundings { get; set; }
         public List<StudentFinance> ListStudentFinances { get; set; }
-        public List<FamilyMember> ListFamilyMember { get; set; }
+        public List<FamilyMember> ListFamMemFin { get; set; }
 
         public string MatrialStatus { get; set; }
 

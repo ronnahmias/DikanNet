@@ -248,7 +248,7 @@
     <Content Include="Views\Dikan\Index.cshtml" />
     <Content Include="Views\Dikan\_Layout.cshtml" />
     <Content Include="Views\Student\FamMemView.cshtml" />
-    <Content Include="Views\Student\FamFinView1.cshtml" />
+    <Content Include="Views\Student\FamFinView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

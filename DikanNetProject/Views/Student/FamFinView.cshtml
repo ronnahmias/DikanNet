@@ -1,0 +1,28 @@
+﻿@using HtmlHelpers.BeginCollectionItem
+@model DataEntities.FamilyStudentFinance
+<!--show finance of each family member info-->
+
+    <div class="famfin">
+        @using (Html.BeginCollectionItem("FamilyStudentFinance"))
+        {
+        <div class="form-group row text-center">
+            @Html.DropDownListFor(model => model.Year, ViewBag.YearsList as SelectList, "שנה", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.EditorFor(model => model.Month, new { htmlAttributes = new { @class = "control-label col-md-2 id" } })
+            @Html.EditorFor(model => model.Salary, new { htmlAttributes = new { @class = "control-label col-md-2" } })
+            @Html.EditorFor(model => model.Expense, new { htmlAttributes = new { @class = "control-label col-md-2" } })
+            @Html.TextBoxFor(model => model.FileSalary, new { @class = "control-label col-md-1", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
+            @Html.TextBoxFor(model => model.FileExpense, new { @class = "control-label col-md-1", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
+            @Html.DisplayFor(model => model.PathSalary, new { htmlAttributes = new { @class = "control-label col-md-2" } })
+            @Html.DisplayFor(model => model.PathSalary, new { htmlAttributes = new { @class = "control-label col-md-2" } })
+            @Html.HiddenFor(model => model.FinNo)
+        </div>
+            <div class="form-group row text-danger">
+                @Html.ValidationMessageFor(model => model.Year, "", new { @class = "control-label col-md-2" })
+                @Html.ValidationMessageFor(model => model.Month, "", new { @class = "control-label col-md-2" })
+                @Html.ValidationMessageFor(model => model.Salary, "", new { @class = "control-label col-md-2" })
+                @Html.ValidationMessageFor(model => model.Expense, "", new { @class = "control-label col-md-2" })
+                @Html.ValidationMessageFor(model => model.FileSalary, "", new { @class = "control-label col-md-2" })
+                @Html.ValidationMessageFor(model => model.FileExpense, "", new { @class = "control-label col-md-2" })
+            </div>
+        }
+    </div>

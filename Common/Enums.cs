@@ -59,7 +59,7 @@ namespace Common
 
         public enum WorkingStatus
         {
-            שכיר = 3,
+            שכיר,
             עצמאי,
             חבר_קיבוץ,
             לא_עובד,
@@ -67,6 +67,18 @@ namespace Common
             נפטר,
             נכה,
             אחר
+        }
+
+        public enum Realationship
+        {
+            אב,
+            אם,
+            בעל,
+            אישה,
+            אח,
+            אחות,
+            בן,
+            בת
         }
 
     }

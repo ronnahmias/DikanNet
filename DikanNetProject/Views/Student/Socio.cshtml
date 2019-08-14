@@ -20,6 +20,7 @@
 
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
+    <!-- #region Socio Model -->
     <div class="form-group">
         @Html.LabelFor(model => model.SocioMod.SchoolYear, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
@@ -161,6 +162,23 @@
     </div>
 
     <div class="form-group">
+        @Html.LabelFor(model => model.SocioMod.DisabilityType, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.SocioMod.DisabilityType, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.SocioMod.DisabilityType, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.SocioMod.FileDisabilityType, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.SocioMod.FileDisabilityType, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
+            @Html.ValidationMessageFor(model => model.SocioMod.FileDisabilityType, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <!-- #endregion -->
+    <!-- #region Funding -->
+    <div class="form-group">
         @Html.LabelFor(model => model.SocioMod.HasFunding, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             <div class="checkbox">
@@ -187,6 +205,9 @@
         }
     </div>
     <button class="btn btn-outline-success" id="addFund" type="button">+</button>
+
+    <!-- #endregion -->
+    <!-- #region Car Student -->
 
     <div class="form-group">
         @Html.LabelFor(model => model.SocioMod.CarOwner, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -216,23 +237,9 @@
         }
     </div>
     <button class="btn btn-outline-success" id="addCar" type="button">+</button>
+    <!-- #endregion -->
+    <!-- #region Student Finance -->
 
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.SocioMod.DisabilityType, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.SocioMod.DisabilityType, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.SocioMod.DisabilityType, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.SocioMod.FileDisabilityType, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(model => model.SocioMod.FileDisabilityType, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
-            @Html.ValidationMessageFor(model => model.SocioMod.FileDisabilityType, "", new { @class = "text-danger" })
-        </div>
-    </div>
 
     <h4>הכנסות</h4>
 
@@ -282,27 +289,32 @@
         }
     </div>
 
+    <!-- #endregion -->
+    <!-- #region Family Member Finance -->
+
     <h4>הכנסות בן-בת זוג / הורים</h4>
 
 
     <div class="form-group row text-center">
         <!--labels for table of family member finance-->@*
-        @Html.LabelFor(model => model.ListFamilyFinance[0].Year, htmlAttributes: new { @class = "control-label col-md-2" })
-        @Html.LabelFor(model => model.ListFamilyFinance[0].Month, htmlAttributes: new { @class = "control-label col-md-2" })
-        @Html.LabelFor(model => model.ListFamilyFinance[0].Salary, htmlAttributes: new { @class = "control-label col-md-2" })
-        @Html.LabelFor(model => model.ListFamilyFinance[0].Expense, htmlAttributes: new { @class = "control-label col-md-1" })
-        @Html.LabelFor(model => model.ListFamilyFinance[0].FileSalary, htmlAttributes: new { @class = "control-label col-md-2" })
-        @Html.LabelFor(model => model.ListFamilyFinance[0].FileExpense, htmlAttributes: new { @class = "control-label col-md-2" })
-        <label class="col-md-1">מחיקה</label>*@
+            @Html.LabelFor(model => model.ListFamilyFinance[0].Year, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ListFamilyFinance[0].Month, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ListFamilyFinance[0].Salary, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ListFamilyFinance[0].Expense, htmlAttributes: new { @class = "control-label col-md-1" })
+            @Html.LabelFor(model => model.ListFamilyFinance[0].FileSalary, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ListFamilyFinance[0].FileExpense, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="col-md-1">מחיקה</label>*@
     </div>
 
     <div id="Famfindiv">
-        <!--table of family member finance-->
-        @foreach (var FamFin in Model.ListFamilyMember)
+        <!--table of family member with finance-->
+        @foreach (var FamFin in Model.ListFamMemFin.ToList())
         {
             @Html.Partial("FamMemView", FamFin)
         }
     </div>
+
+    <!-- #endregion -->
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
