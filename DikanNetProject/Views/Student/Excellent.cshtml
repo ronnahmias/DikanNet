@@ -10,7 +10,7 @@
 <h2 class="text-center">מלגת מצוינות</h2>
 
 <div class="container">
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("Excellent","Student",FormMethod.Post,new { @class = "SpForm" }))
     {
         @Html.AntiForgeryToken()
 

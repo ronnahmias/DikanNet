@@ -5,14 +5,23 @@
     <div class="fammember">
         @using (Html.BeginCollectionItem("ListFamMemFin"))
         {
-        <div class="form-group row text-center">
-            @Html.EditorFor(model => model.FamilyMemberId, new { htmlAttributes = new { @class = "control-label col-md-2" } })
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "control-label col-md-2" } })
-            @Html.DropDownListFor(model => model.Realationship, new SelectList(Enum.GetValues(typeof(Enums.Realationship)), null, new List<Enums.Realationship> { Enums.Realationship.אח, Enums.Realationship.אחות, Enums.Realationship.בן, Enums.Realationship.בת }), "", new { @class = "form-control chosen", @data_placeholder = "מגדר" })
-            @Html.DropDownListFor(model => model.Gender, new SelectList(Enum.GetValues(typeof(Enums.Genders))), "", new { @class = "form-control chosen", @data_placeholder = "מגדר" })
-            @Html.TextBoxFor(model => model.FileFamId, new { @class = "control-label col-md-1", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
-            @Html.HiddenFor(model => model.PathFmId)
-        </div>
+            <div class="form-group row text-center">
+                <!--labels for table of family member-->
+                @Html.LabelFor(model => model.FamilyMemberId, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Realationship, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.FileFamId, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.PathFmId, htmlAttributes: new { @class = "control-label col-md-2" })
+            </div>
+            <div class="form-group row text-center">
+                @Html.EditorFor(model => model.FamilyMemberId, new { htmlAttributes = new { @class = "control-label col-md-2" } })
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "control-label col-md-2" } })
+                @Html.DropDownListFor(model => model.Realationship, new SelectList(Enum.GetValues(typeof(Enums.Realationship)), null, new List<Enums.Realationship> { Enums.Realationship.אח, Enums.Realationship.אחות, Enums.Realationship.בן, Enums.Realationship.בת }), "", new { @class = "control-label col-md-2", @data_placeholder = "מגדר" })
+                @Html.DropDownListFor(model => model.Gender, new SelectList(Enum.GetValues(typeof(Enums.Genders))), "", new { @class = "control-label col-md-2", @data_placeholder = "מגדר" })
+                @Html.TextBoxFor(model => model.FileFamId, new { @class = "control-label col-md-2", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
+                @Html.DisplayFor(model => model.PathFmId, new { @class = "control-label col-md-2" })
+            </div>
             <div class="form-group row text-danger">
                 @Html.ValidationMessageFor(model => model.FamilyMemberId, "", new { @class = "control-label col-md-2" })
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "control-label col-md-2" })
@@ -21,6 +30,8 @@
                 @Html.ValidationMessageFor(model => model.FileFamId, "", new { @class = "control-label col-md-2" })
             </div>
             <div class="col-md-10">
+                @Html.LabelFor(model => model.WorkSt, htmlAttributes: new { @class = "control-label col-md-2" })
+
                 @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.שכיר)
                 <span>@Common.Enums.WorkingStatus.שכיר</span>
 
@@ -47,15 +58,44 @@
 
                 @Html.ValidationMessageFor(model => model.WorkSt, "", new { @class = "text-danger" })
             </div>
+
+            <div class="form-group row text-center">
+                <!--labels for table of family member finance-->
+                @Html.LabelFor(model => model.FamilyStudentFinances[0].Year, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.FamilyStudentFinances[0].Month, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.FamilyStudentFinances[0].Salary, htmlAttributes: new { @class = "control-label col-md-1" })
+                @Html.LabelFor(model => model.FamilyStudentFinances[0].Expense, htmlAttributes: new { @class = "control-label col-md-1" })
+                @Html.LabelFor(model => model.FamilyStudentFinances[0].FileSalary, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.FamilyStudentFinances[0].FileExpense, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.FamilyStudentFinances[0].PathSalary, htmlAttributes: new { @class = "control-label col-md-1" })
+                @Html.LabelFor(model => model.FamilyStudentFinances[0].PathExpense, htmlAttributes: new { @class = "control-label col-md-1" })
+            </div>
             <div id="Famfindiv">
-                @{ if (Model.FamilyStudentFinances != null)
-                   {
-                        foreach (var FamFin in Model.FamilyStudentFinances.ToList())
-                        {
-                            @Html.Partial("FamFinView", FamFin)
-                        }
-                   }
-                 }
+                @for (int i = 0; i < Model.FamilyStudentFinances.Count; i++)
+                {
+                    <div class="form-group row text-center">
+                        @Html.DropDownListFor(model => model.FamilyStudentFinances[i].Year, ViewBag.YearsList as SelectList, "שנה", htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.EditorFor(model => model.FamilyStudentFinances[i].Month, new { htmlAttributes = new { @class = "control-label col-md-2" } })
+                        @Html.EditorFor(model => model.FamilyStudentFinances[i].Salary, new { htmlAttributes = new { @class = "control-label col-md-1" } })
+                        @Html.EditorFor(model => model.FamilyStudentFinances[i].Expense, new { htmlAttributes = new { @class = "control-label col-md-1" } })
+                        @Html.TextBoxFor(model => model.FamilyStudentFinances[i].FileSalary, new { @class = "control-label col-md-2", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
+                        @Html.TextBoxFor(model => model.FamilyStudentFinances[i].FileExpense, new { @class = "control-label col-md-2", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
+                        @Html.DisplayFor(model => model.FamilyStudentFinances[i].PathSalary, new { htmlAttributes = new { @class = "control-label col-md-1" } })
+                        @Html.DisplayFor(model => model.FamilyStudentFinances[i].PathExpense, new { htmlAttributes = new { @class = "control-label col-md-1" } })
+                        @Html.HiddenFor(model => model.FamilyStudentFinances[i].FinNo)
+                    </div>
+                    <div class="form-group row text-danger">
+                        @Html.ValidationMessageFor(model => model.FamilyStudentFinances[i].Year, "", new { @class = "control-label col-md-2" })
+                        @Html.ValidationMessageFor(model => model.FamilyStudentFinances[i].Month, "", new { @class = "control-label col-md-2" })
+                        @Html.ValidationMessageFor(model => model.FamilyStudentFinances[i].Salary, "", new { @class = "control-label col-md-1" })
+                        @Html.ValidationMessageFor(model => model.FamilyStudentFinances[i].Expense, "", new { @class = "control-label col-md-1" })
+                        @Html.ValidationMessageFor(model => model.FamilyStudentFinances[i].FileSalary, "", new { @class = "control-label col-md-2" })
+                        @Html.ValidationMessageFor(model => model.FamilyStudentFinances[i].FileExpense, "", new { @class = "control-label col-md-2" })
+                        @Html.ValidationMessageFor(model => model.FamilyStudentFinances[i].PathSalary, "", new { @class = "control-label col-md-1" })
+                        @Html.ValidationMessageFor(model => model.FamilyStudentFinances[i].PathExpense, "", new { @class = "control-label col-md-1" })
+
+                    </div>
+                }
             </div>
         }
     </div>

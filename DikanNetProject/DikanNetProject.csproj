@@ -207,6 +207,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DikanController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Global.asax.cs">
@@ -243,12 +244,12 @@
     <Content Include="Views\Student\FundView.cshtml" />
     <Content Include="src\sass\signature-pad.scss" />
     <Content Include="Views\Student\StudFinView.cshtml" />
-    <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Dikan\Index.cshtml" />
     <Content Include="Views\Dikan\_Layout.cshtml" />
     <Content Include="Views\Student\FamMemView.cshtml" />
-    <Content Include="Views\Student\FamFinView.cshtml" />
+    <Content Include="Views\Error\HttpError404.cshtml" />
+    <Content Include="Views\Error\HttpError500.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

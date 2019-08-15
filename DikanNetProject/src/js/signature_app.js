@@ -99,6 +99,11 @@ function signatureSave() {
         method: "POST",
         success: function () {
             alert("Success");
+            var input = $("<input>") // add input of string that tells upload method - submit and not draft
+                .attr("type", "hidden")
+                .attr("name", "uploadmethod").val("submit");
+            $('form.SpForm').append(input);
+            $('form.SpForm').submit(); // submit the form
             return true;
         },
         error: function (xhr, ajaxOptions, thrownError) {

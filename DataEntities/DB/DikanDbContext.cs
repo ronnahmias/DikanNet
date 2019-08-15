@@ -52,6 +52,11 @@ namespace DataEntities.DB
               .HasMany(f => f.FamilyStudentFinances)
               .WithRequired(s => s.SpDefinition)
               .HasForeignKey(s => s.SpId);
+
+            modelBuilder.Entity<FamilyMember>()
+              .HasMany(f => f.FamilyStudentFinances)
+              .WithRequired(s => s.FamilyMember)
+              .HasForeignKey(s => s.FamilyMemberId);
         }
         public DbSet<Student> Students { get; set; }
         public DbSet<Countries> Countries { get; set; }

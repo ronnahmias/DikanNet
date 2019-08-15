@@ -279,7 +279,7 @@ namespace DikanNetProject.Controllers
             using (DikanDbContext ctx = new DikanDbContext())
             {
                 StudentMetsuyanut = ctx.Ecellence.Where(s => s.StudentId == tempmetmesuyanut.StudentId && s.ScholarshipId == tempmetmesuyanut.ScholarshipId).SingleOrDefault(); // find if he insert already draft     
-                if (uploadmethod.Equals("הגש מלגה"))
+                if (uploadmethod.Equals("submit"))
                 {// submit scholarship
                     if (ModelState.IsValid)
                     {
@@ -385,7 +385,7 @@ namespace DikanNetProject.Controllers
                 if (numofFamMem > 0) // if no needed row for family member with finance skip on it
                 {
                     //2. include on each family member that is dad/mom/wife/husband their finance
-                    foreach (var FamMem in ctx.FamilyMembers.Include(s => s.FamilyStudentFinances)
+                    foreach (var FamMem in ctx.FamilyMembers.Include(s=>s.FamilyStudentFinances)
                         .Where(s => s.StudentId == sStudentId)
                         .Where(s => s.Realationship == Enums.Realationship.אב.ToString() ||
                         s.Realationship == Enums.Realationship.אם.ToString() ||
