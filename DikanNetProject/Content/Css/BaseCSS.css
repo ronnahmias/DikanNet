@@ -1,11 +1,4 @@
 @charset "UTF-8";
-/*************
-Version: 1.1;
-Last Update: 26/7/19
-
-
-
-**************/
 body {
   padding-top: 50px; }
 
@@ -15,17 +8,35 @@ body {
 .review-password, .review-confirm-password {
   cursor: default; }
 
-.chose-file {
+textarea, input {
+  border-radius: 10px !important; }
+
+div.chose-file {
   color: white;
   height: 60px;
-  width: 250px;
+  min-width: 250px;
+  max-width: 500px;
   background-color: #ffd800;
   font-size: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 6px 5px 20px #888;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
-  box-shadow: 6px 5px 20px #888; }
+  padding: 5px;
+  border-radius: 10px; }
+  div.chose-file label {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer; }
+
+.file-selcted {
+  font-size: 16px !important;
+  background-color: #33ff33 !important; }
 
 .embed-file {
   max-width: 250px;
@@ -90,3 +101,15 @@ div#reqStatuses > div:nth-child(odd) {
 @media (max-width: 740px) {
   #reqScholarship .nav {
     display: block; } }
+
+@media (max-width: 480px) {
+  h1.stu-name {
+    font-size: 2.0rem; }
+  #reqScholarship div.tab-pane {
+    padding: 0px; }
+  #reqScholarship div.tab-content h3 {
+    font-size: 2rem; }
+  #reqScholarship div.tab-content p {
+    font-size: 1.1rem; }
+  #reqScholarship div.tab-content a.btn {
+    font-size: 1.1rem; } }

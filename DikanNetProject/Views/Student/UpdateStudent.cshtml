@@ -150,13 +150,11 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.FileId, htmlAttributes: new { @class = "control-label" })
                 <div class="row">
-                    <div class="col-md-5">
+                    <div class="chose-file m-3 mt-0">
                         @Html.TextBoxFor(model => model.FileId, new {@class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf",@style = "display:none;"})
-                        <label for="FileId" class="chose-file">
-                            <i class="ml-1 material-icons">
-                                add_photo_alternate
-                            </i>
-                            בחר קובץ
+                        <label for="FileId">
+                            <i class="ml-1 material-icons">add_photo_alternate</i>
+                            בחר קובץ 
                         </label>
                         @Html.ValidationMessageFor(model => model.FileId, "", new { @class = "text-danger mb-3" })
                     </div>
@@ -179,6 +177,5 @@
 @section scripts{
 
     <script>
-    
     </script>
 }

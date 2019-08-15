@@ -44,6 +44,23 @@ $(document).ready(function () {
             allow_single_deselect: true,
             width: '100%'
         });
+
+    $('input[type="file"]').change(function () {
+        var $this = $(this);
+        var n = $this.val();
+        var $label = $('label[for="' + $this.attr('id') + '"]')[1];
+        var $father = $this.parent();
+        if (n.length == 0) {
+            $label.append('<i class="ml-1 material-icons">add_photo_alternate</i>');
+            $label.textContent = 'בחר קובץ';
+            $father.removeClass("file-selcted");
+        }
+        else {
+            $label.textContent = n;
+            $father.addClass("file-selcted");
+        }
+        
+    })
 });
 
 // validtion for ID
@@ -123,3 +140,5 @@ function checkMust() {
     })
     return ok;
 }
+
+
