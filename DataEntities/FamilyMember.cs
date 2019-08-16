@@ -16,6 +16,8 @@ namespace DataEntities
         public string FamilyMemberId { get; set; }
 
         public string StudentId { get; set; }
+
+        [Display(Name = "קובץ שמור")]
         public string PathFmId { get; set; }
 
         [Column("Namee"),Display(Name = "שם מלא")]
@@ -24,7 +26,9 @@ namespace DataEntities
         [Display(Name ="סוג קרבה")]
         public string Realationship { get; set; }
 
-        [Display(Name = "תאריך לידה")]
+        [Display(Name = "תאריך לידה"),
+        DataType(DataType.Date),
+        DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? BirthDay { get; set; }
 
         [Display(Name = "סוג עבודה")]

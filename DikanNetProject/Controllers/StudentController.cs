@@ -433,13 +433,13 @@ namespace DikanNetProject.Controllers
          {
             #region Help Variables
             SpSocio spsocio;
-            List<CarStudent> dbCars;
-            List<Funding> dbFunding;
-            List<StudentFinance> dbStuFinance;
             CarStudent tempDbCar;
             Funding tempDbFund;
             StudentFinance tempDbStuFin;
-            string[,] pathExSaFinance = new string[3,3]; // holding path expense and salary;
+            List<CarStudent> dbCars;
+            List<Funding> dbFunding;
+            List<StudentFinance> dbStuFinance;
+            string[,] pathStudExSaFinance = new string[3,3]; // holding path expense and salary;
             #endregion
 
             #region init null lists of soicoAdd model
@@ -532,8 +532,8 @@ namespace DikanNetProject.Controllers
 
                     foreach (var finDb in dbStuFinance)
                     {
-                        pathExSaFinance[0, finDb.FinNo] = finDb.PathExpense;
-                        pathExSaFinance[0, finDb.FinNo] = finDb.PathSalary;
+                        pathStudExSaFinance[0, finDb.FinNo] = finDb.PathExpense;
+                        pathStudExSaFinance[0, finDb.FinNo] = finDb.PathSalary;
                         ctx.StudentFinances.Remove(finDb);
                     }
                     ctx.SaveChanges();
@@ -547,8 +547,8 @@ namespace DikanNetProject.Controllers
                         tempDbStuFin = dbStuFinance.Where(s => s.Month == fin.Month && s.Year == fin.Year).FirstOrDefault();
                         if (tempDbStuFin != null) continue;
 
-                        fin.PathExpense = pathExSaFinance[0, fin.FinNo];
-                        fin.PathSalary  = pathExSaFinance[0, fin.FinNo];
+                        fin.PathExpense = pathStudExSaFinance[0, fin.FinNo];
+                        fin.PathSalary  = pathStudExSaFinance[0, fin.FinNo];
 
                         // if there is a expense file upload and update the file path
                         if (fin.FileExpense != null)
