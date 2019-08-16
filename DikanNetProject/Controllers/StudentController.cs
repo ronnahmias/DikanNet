@@ -310,6 +310,7 @@ namespace DikanNetProject.Controllers
             SocioAdd socio;
             int numofFamMem = 0; // says how many row of family member with finance needed
             ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
+            ViewBag.MonthsList = new SelectList(MonthsSelectList(), null, "Text"); // to show months list in drop down
             using (DikanDbContext ctx = new DikanDbContext())
             {
                 socio = new SocioAdd() // new socio add model get the matrial status in construstor
@@ -590,6 +591,7 @@ namespace DikanNetProject.Controllers
                 }
             }
             ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
+            ViewBag.MonthsList = new SelectList(MonthsSelectList(), null, "Text"); // to show months list in drop down
             return View(socio);
         }
 
@@ -658,25 +660,14 @@ namespace DikanNetProject.Controllers
 
         #endregion
 
-        #region Upload File Ajax
-
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult UploadFile(HttpPostedFileBase filee,string fileName, string oldFile)
+        public ActionResult SaveSignature(string pDataUri)
         {
-            if (filee == null || string.IsNullOrEmpty(fileName))
-            {
-                Response.StatusCode = 400;
-                return Content("Not send file or name", "text/plain");
-            }
-            var file = Request.Files[0];
-            string path;
-            path = Files.SaveFileInServer(filee, fileName, sStudentId, oldFile);
-            Response.StatusCode = 200;
-            return Content(path, "text/plain");
+            var ok = Files.signatureSave(pDataUri, sStudentId);
+            return new HttpStatusCodeResult(ok ? HttpStatusCode.OK : HttpStatusCode.BadRequest);
+            //Files.SaveFileInServer(, "signature", sStudentId, null);
         }
 
-        #endregion
 
         #region NonActions
 
@@ -706,14 +697,36 @@ namespace DikanNetProject.Controllers
             return years;
         }
 
-        [HttpPost]
-        public ActionResult SaveSignature(string pDataUri)
+        [NonAction]
+        public List<SelectListItem> MonthsSelectList()
         {
-            var ok = Files.signatureSave(pDataUri, sStudentId);
-            return new HttpStatusCodeResult (ok ? HttpStatusCode.OK : HttpStatusCode.BadRequest) ;
-            //Files.SaveFileInServer(, "signature", sStudentId, null);
+            List<SelectListItem> months = new List<SelectListItem>();
+            for (int month = 1; month <= 12; month++)
+            {
+                months.Add(new SelectListItem { Text = month.ToString(), Value = month.ToString() });
+            }
+            return months;
         }
 
+        #endregion
+
+        #region Upload File Ajax
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UploadFile(HttpPostedFileBase filee, string fileName, string oldFile)
+        {
+            if (filee == null || string.IsNullOrEmpty(fileName))
+            {
+                Response.StatusCode = 400;
+                return Content("Not send file or name", "text/plain");
+            }
+            var file = Request.Files[0];
+            string path;
+            path = Files.SaveFileInServer(filee, fileName, sStudentId, oldFile);
+            Response.StatusCode = 200;
+            return Content(path, "text/plain");
+        }
 
         #endregion
 
