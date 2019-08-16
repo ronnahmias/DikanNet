@@ -32,35 +32,35 @@
             @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "control-label col-md-2" })
             @Html.ValidationMessageFor(model => model.FileFamId, "", new { @class = "control-label col-md-2" })
         </div>
-            <div class="col-md-10">
-                @Html.LabelFor(model => model.WorkSt, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.LabelFor(model => model.WorkSt, htmlAttributes: new { @class = "control-label col-md-2" })
 
-                @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.שכיר)
-                <span>@Common.Enums.WorkingStatus.שכיר</span>
+            @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.שכיר)
+            <span>@Common.Enums.WorkingStatus.שכיר</span>
 
-                @Html.RadioButtonFor(model => model.WorkSt, Common.Enums.WorkingStatus.עצמאי)
-                <span>@Common.Enums.WorkingStatus.עצמאי</span>
+            @Html.RadioButtonFor(model => model.WorkSt, Common.Enums.WorkingStatus.עצמאי)
+            <span>@Common.Enums.WorkingStatus.עצמאי</span>
 
-                @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.חבר_קיבוץ)
-                <span>@Common.Enums.WorkingStatus.חבר_קיבוץ</span>
+            @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.חבר_קיבוץ)
+            <span>@Common.Enums.WorkingStatus.חבר_קיבוץ</span>
 
-                @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.לא_עובד)
-                <span>@Common.Enums.WorkingStatus.לא_עובד</span>
+            @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.לא_עובד)
+            <span>@Common.Enums.WorkingStatus.לא_עובד</span>
 
-                @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.פנסיונר)
-                <span>@Common.Enums.WorkingStatus.פנסיונר</span>
+            @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.פנסיונר)
+            <span>@Common.Enums.WorkingStatus.פנסיונר</span>
 
-                @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.נכה)
-                <span>@Common.Enums.WorkingStatus.נכה</span>
+            @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.נכה)
+            <span>@Common.Enums.WorkingStatus.נכה</span>
 
-                @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.נכה)
-                <span>@Common.Enums.WorkingStatus.נפטר</span>
+            @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.נפטר)
+            <span>@Common.Enums.WorkingStatus.נפטר</span>
 
-                @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.אחר)
-                <span>@Common.Enums.WorkingStatus.אחר</span>
+            @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.אחר)
+            <span>@Common.Enums.WorkingStatus.אחר</span>
 
-                @Html.ValidationMessageFor(model => model.WorkSt, "", new { @class = "text-danger" })
-            </div>
+            @Html.ValidationMessageFor(model => model.WorkSt, "", new { @class = "text-danger" })
+        </div>
 
             <div class="form-group row text-center">
                 <!--labels for table of family member finance-->

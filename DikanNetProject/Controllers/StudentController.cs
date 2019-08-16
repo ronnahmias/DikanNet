@@ -436,9 +436,11 @@ namespace DikanNetProject.Controllers
             CarStudent tempDbCar;
             Funding tempDbFund;
             StudentFinance tempDbStuFin;
+            FamilyMember tempDbFamMem;
             List<CarStudent> dbCars;
             List<Funding> dbFunding;
             List<StudentFinance> dbStuFinance;
+            List<FamilyMember> dbFamMem; // hold db family member only with finance
             string[,] pathStudExSaFinance = new string[3,3]; // holding path expense and salary;
             #endregion
 
@@ -565,6 +567,41 @@ namespace DikanNetProject.Controllers
                     #endregion
 
                     #region Save Family Member + Finance
+
+                    dbFamMem = ctx.FamilyMembers.Where(s => s.StudentId == sStudentId).Where(s => s.Realationship == Enums.Realationship.אב.ToString() ||
+                        s.Realationship == Enums.Realationship.אם.ToString() ||
+                        s.Realationship == Enums.Realationship.בעל.ToString() ||
+                        s.Realationship == Enums.Realationship.אישה.ToString()).ToList(); // filter only dad mom and wife/husband
+
+                    foreach(var FamMem in socio.ListFamMemFin)
+                    {
+                        FamMem.StudentId = sStudentId;
+                        tempDbFamMem = dbFamMem.Where(s => s.FamilyMemberId == FamMem.FamilyMemberId).FirstOrDefault(); // find if this family member has exist in db
+
+                        // save or update finance of the family member
+                        IList<FamilyStudentFinance> tempfinlist = FamMem.FamilyStudentFinances;
+
+                        foreach(var fin in tempfinlist)
+                        {
+
+                        }
+
+
+                        // save or update family member
+                        if(FamMem.FileFamId != null) // there is new file to save on server
+                            FamMem.PathFmId = Files.SaveFileInServer(FamMem.FileFamId, "Family" + FamMem.FamilyMemberId, FamMem.StudentId, FamMem.PathFmId); // save id family member
+
+                        if (tempDbFamMem == null) // new family member
+                        {
+                            ctx.FamilyMembers.Add(FamMem);
+                        }
+                        else
+                        {
+                            ctx.Entry(tempDbFamMem).CurrentValues.SetValues(FamMem);// update family member exists
+                        }
+                        ctx.SaveChanges();
+                    }
+
                     #endregion
 
                     #region Save Family Members
