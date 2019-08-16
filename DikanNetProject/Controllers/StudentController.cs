@@ -609,6 +609,28 @@ namespace DikanNetProject.Controllers
 
                     #region Save Socio model + Submit Sp
                     socio.SocioMod.StudentId = sStudentId; // bind student id to socio model
+
+                    if (socio.SocioMod.FileApartmentLease != null) // save file if not null
+                        socio.SocioMod.PathApartmentLease = Files.SaveFileInServer(socio.SocioMod.FileApartmentLease, "ApartmentLease", sStudentId, socio.SocioMod.PathApartmentLease);
+
+                    if (socio.SocioMod.FileBereavedFam != null) // save file if not null
+                        socio.SocioMod.PathBereavedFam = Files.SaveFileInServer(socio.SocioMod.FileBereavedFam, "BereavedFam", sStudentId, socio.SocioMod.PathBereavedFam);
+
+                    if (socio.SocioMod.FileDisabilityType != null) // save file if not null
+                        socio.SocioMod.PathDisabilityType = Files.SaveFileInServer(socio.SocioMod.FileDisabilityType, "DisabilityType", sStudentId, socio.SocioMod.PathDisabilityType);
+
+                    if (socio.SocioMod.FileMilitaryService != null) // save file if not null
+                        socio.SocioMod.PathMilitaryService = Files.SaveFileInServer(socio.SocioMod.FileMilitaryService, "MilitaryService", sStudentId, socio.SocioMod.PathMilitaryService);
+
+                    if (socio.SocioMod.FileNewcomer != null) // save file if not null
+                        socio.SocioMod.PathNewcomer = Files.SaveFileInServer(socio.SocioMod.FileNewcomer, "Newcomer", sStudentId, socio.SocioMod.PathNewcomer);
+
+                    if (socio.SocioMod.FileReserveMilitaryService != null) // save file if not null
+                        socio.SocioMod.PathReserveMilitaryService = Files.SaveFileInServer(socio.SocioMod.FileReserveMilitaryService, "ReserveMilitaryService", sStudentId, socio.SocioMod.PathReserveMilitaryService);
+
+                    if (socio.SocioMod.FileSingleParent != null) // save file if not null
+                        socio.SocioMod.PathSingleParent = Files.SaveFileInServer(socio.SocioMod.FileSingleParent, "SingleParent", sStudentId, socio.SocioMod.PathSingleParent);
+
                     spsocio = ctx.Socio.Where(s => s.StudentId == socio.SocioMod.StudentId && s.ScholarshipId == socio.SocioMod.ScholarshipId).SingleOrDefault(); // find if he insert already draft     
                     if (uploadmethod.Equals("הגש מלגה"))
                     {
