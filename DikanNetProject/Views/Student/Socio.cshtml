@@ -308,14 +308,26 @@
 
     <h4>בני משפחה</h4>
 
-    <div id="Famfindiv">
+    <div class="form-group row text-center">
+        <!--labels for table of family member-->
+        @Html.LabelFor(model => model.ListFamMem[0].FamilyMemberId, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.ListFamMem[0].Name, htmlAttributes: new { @class = "control-label col-md-1" })
+        @Html.LabelFor(model => model.ListFamMem[0].BirthDay, htmlAttributes: new { @class = "control-label col-md-1" })
+        @Html.LabelFor(model => model.ListFamMem[0].Realationship, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.ListFamMem[0].Gender, htmlAttributes: new { @class = "control-label col-md-1" })
+        @Html.LabelFor(model => model.ListFamMem[0].FileFamId, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.ListFamMem[0].PathFmId, htmlAttributes: new { @class = "control-label col-md-1" })
+        <label class="col-md-1">מחיקה</label>
+    </div>
+
+    <div id="FamMemdiv">
         <!--table of family member-->
         @foreach (var Fam in Model.ListFamMem.ToList())
         {
             @Html.Partial("FamilyView", Fam)
         }
     </div>
-
+    <button class="btn btn-outline-success" id="addFamMem" type="button">+</button>
     <!-- #endregion -->
 
     <div class="form-group">
@@ -331,11 +343,13 @@
 
     <script>
 
-        var carviewurl = '@Url.Action("CarsView")';
-        var fundviewurl = '@Url.Action("FundView")';
-        var form = $('form');
-        var carsdiv = $('#cardiv');
-        var funddiv = $('#funddiv');
+        var carviewurl = '@Url.Action("CarsView")'; // cars partial view
+        var fundviewurl = '@Url.Action("FundView")'; // fund partial view
+        var fammemviewurl = '@Url.Action("FamilyView")'; // family member partial view
+        var form = $('form'); // form
+        var carsdiv = $('#cardiv'); // cars div inside all pratial rows
+        var funddiv = $('#funddiv'); // fund div inside all pratial rows
+        var fammemdiv = $('#FamMemdiv'); // family member div inside all pratial rows
 
         $('#addCar').click(function() {
             $.get(carviewurl, function(response) {
@@ -408,5 +422,43 @@
                 container.remove();
             }
         });
+
+         $('#addFamMem').click(function() {
+            $.get(fammemviewurl, function(response) {
+            fammemdiv.append(response);
+            // Reparse the validator for client side validation
+            //form.data('validator', null);
+            //$.validator.unobtrusive.parse(form);
+            });
+        });
+
+        $(document).on('click','.del-fammem',function() {
+            var container = $(this).closest('.fam');
+            var id = container.find('.id').attr('value');
+            if (id)
+            {
+                $.ajax({
+                    url: "/Student/DeleteFamMem",
+                    dataType: 'text',
+                    data: { FamilyId: id },
+                    method: "POST",
+                    success: function () {
+                        container.remove();
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        console.log(xhr.status);
+                        console.log(thrownError);
+                        container.remove();
+                    }
+                });
+            }
+            else
+            {
+                // It never existed, so just remove the container
+                container.remove();
+            }
+        });
+
+
     </script>
 }

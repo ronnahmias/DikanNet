@@ -428,7 +428,7 @@ namespace DikanNetProject.Controllers
                         .Where(s => s.Realationship == Enums.Realationship.אח.ToString() ||
                         s.Realationship == Enums.Realationship.אחות.ToString() ||
                         s.Realationship == Enums.Realationship.בן.ToString() ||
-                        s.Realationship == Enums.Realationship.בת.ToString()).ToList()) // filter only dad mom and wife/husband
+                        s.Realationship == Enums.Realationship.בת.ToString()).ToList()) // filter only sons and brothers and sisters
                     socio.ListFamMem.Add(Fam);
                 #endregion
 
@@ -445,7 +445,7 @@ namespace DikanNetProject.Controllers
             CarStudent tempDbCar;
             Funding tempDbFund;
             StudentFinance tempDbStuFin;
-            FamilyMember tempDbFamMem;
+            FamilyMember tempDbFamMem,tempFam;
             List<CarStudent> dbCars;
             List<Funding> dbFunding;
             List<StudentFinance> dbStuFinance;
@@ -576,7 +576,7 @@ namespace DikanNetProject.Controllers
                     #endregion
 
                     #region Save Family Member + Finance
-
+                    /*
                     dbFamMem = ctx.FamilyMembers.Where(s => s.StudentId == sStudentId).Where(s => s.Realationship == Enums.Realationship.אב.ToString() ||
                         s.Realationship == Enums.Realationship.אם.ToString() ||
                         s.Realationship == Enums.Realationship.בעל.ToString() ||
@@ -610,10 +610,42 @@ namespace DikanNetProject.Controllers
                         }
                         ctx.SaveChanges();
                     }
-
+                    */
                     #endregion
 
                     #region Save Family Members
+
+                    // get from db all family members without finance
+                    dbFamMem = ctx.FamilyMembers.Where(s => s.StudentId == sStudentId)
+                        .Where(s => s.Realationship == Enums.Realationship.אח.ToString() ||
+                        s.Realationship == Enums.Realationship.אחות.ToString() ||
+                        s.Realationship == Enums.Realationship.בן.ToString() ||
+                        s.Realationship == Enums.Realationship.בת.ToString()).ToList(); // filter only sons and brothers and sisters
+
+                    foreach(var mem in socio.ListFamMem)
+                    {
+                        if (mem.FileFamId != null) // if there is file to upload
+                            mem.PathFmId = Files.SaveFileInServer(mem.FileFamId, "Family" + mem.FamilyMemberId, sStudentId, mem.PathFmId);
+
+                        tempFam = dbFamMem.Where(s => s.FamilyMemberId == mem.FamilyMemberId).FirstOrDefault(); // find if it is in db already
+                        if (tempFam != null)
+                        {
+                            ctx.Entry(tempFam).CurrentValues.SetValues(mem);// update family member exists
+                            ctx.SaveChanges();
+                            dbFamMem.Remove(mem); // remove from list of db
+                        }
+                        else
+                            ctx.FamilyMembers.Add(mem);
+
+                        ctx.SaveChanges();
+                    }
+
+                    foreach(var DBmem in dbFamMem) // after what has been remain in this table needs to remove
+                    {
+                        tempDbFamMem = ctx.FamilyMembers.Find(DBmem);
+                        DeleteFamMem(tempDbFamMem.FamilyMemberId);
+                    }
+
                     #endregion
 
                     #region Save Socio model + Submit Sp
@@ -725,6 +757,23 @@ namespace DikanNetProject.Controllers
                 if (!string.IsNullOrEmpty(tempfund.PathFunding))
                     Files.Delete(tempfund.PathFunding, sStudentId);
                 ctx.Fundings.Remove(tempfund);
+                ctx.SaveChanges();
+            }
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
+        public ActionResult DeleteFamMem(string FamilyId) // delete row family member
+        {
+            FamilyMember tempfamily;
+            using (DikanDbContext ctx = new DikanDbContext())
+            {
+                tempfamily = ctx.FamilyMembers.Where(s => s.FamilyMemberId == FamilyId && s.StudentId == sStudentId).FirstOrDefault();
+                if (tempfamily == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.NotFound, "Not Found In DataBase");
+                //if file exists delete it
+                if (!string.IsNullOrEmpty(tempfamily.PathFmId))
+                    Files.Delete(tempfamily.PathFmId, sStudentId);
+                ctx.FamilyMembers.Remove(tempfamily);
                 ctx.SaveChanges();
             }
             return new HttpStatusCodeResult(HttpStatusCode.OK);
