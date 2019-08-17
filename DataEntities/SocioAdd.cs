@@ -13,6 +13,7 @@ namespace DataEntities
         public List<Funding> ListFundings { get; set; }
         public List<StudentFinance> ListStudentFinances { get; set; }
         public List<FamilyMember> ListFamMemFin { get; set; }
+        public List<FamilyMember> ListFamMem { get; set; }
         public string MatrialStatus { get; set; }
 
     }

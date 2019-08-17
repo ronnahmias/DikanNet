@@ -176,7 +176,7 @@
             @Html.ValidationMessageFor(model => model.SocioMod.FileDisabilityType, "", new { @class = "text-danger" })
         </div>
     </div>
-    @Html.HiddenFor(model=>model.MatrialStatus)
+    @Html.HiddenFor(model => model.MatrialStatus)
     <!-- #endregion -->
     <!-- #region Funding -->
     <div class="form-group">
@@ -300,6 +300,19 @@
         @foreach (var FamFin in Model.ListFamMemFin.ToList())
         {
             @Html.Partial("FamMemView", FamFin)
+        }
+    </div>
+
+    <!-- #endregion -->
+    <!-- #region Family Member -->
+
+    <h4>בני משפחה</h4>
+
+    <div id="Famfindiv">
+        <!--table of family member-->
+        @foreach (var Fam in Model.ListFamMem.ToList())
+        {
+            @Html.Partial("FamilyView", Fam)
         }
     </div>
 

@@ -24,11 +24,13 @@ namespace DataEntities
         [Display(Name = "סכום הכנסה חודשית")]
         public int Salary { get; set; }
 
+        [Display(Name = "קובץ שמור - הכנסה")]
         public string PathSalary { get; set; }
 
         [Display(Name = "סכום הוצאה חודשית")]
         public int Expense { get; set; }
 
+        [Display(Name = "קובץ שמור - הוצאה")]
         public string PathExpense { get; set; }
 
         [NotMapped, Display(Name = "קובץ הכנסה חודשי")]

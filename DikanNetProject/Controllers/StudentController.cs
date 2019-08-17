@@ -320,6 +320,7 @@ namespace DikanNetProject.Controllers
                     ListFundings = new List<Funding>(),
                     ListStudentFinances = new List<StudentFinance>(),
                     ListFamMemFin = new List<FamilyMember>(),
+                    ListFamMem = new List<FamilyMember>(),
                     MatrialStatus = ctx.Students.Where(s => s.StudentId == sStudentId).FirstOrDefault().MaritalStatus
                 };
 
@@ -421,6 +422,14 @@ namespace DikanNetProject.Controllers
                 #endregion
 
                 #region Family Members
+                // get all family member that is not dad/mom/wife/husband
+                foreach (var Fam in ctx.FamilyMembers
+                        .Where(s => s.StudentId == sStudentId)
+                        .Where(s => s.Realationship == Enums.Realationship.אח.ToString() ||
+                        s.Realationship == Enums.Realationship.אחות.ToString() ||
+                        s.Realationship == Enums.Realationship.בן.ToString() ||
+                        s.Realationship == Enums.Realationship.בת.ToString()).ToList()) // filter only dad mom and wife/husband
+                    socio.ListFamMem.Add(Fam);
                 #endregion
 
             }
@@ -673,10 +682,15 @@ namespace DikanNetProject.Controllers
             return PartialView("StudFinView", new StudentFinance());
         }
 
-        public PartialViewResult FamMemView()
+        public PartialViewResult FamMemView() // family member with finance
         {
             ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
             return PartialView("FamMemView", new FamilyMember());
+        }
+
+        public PartialViewResult FamilyView() // family member
+        {
+            return PartialView("FamilyView", new FamilyMember());
         }
         #endregion
 

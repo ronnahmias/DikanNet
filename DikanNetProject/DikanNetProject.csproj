@@ -250,6 +250,7 @@
     <Content Include="Views\Student\FamMemView.cshtml" />
     <Content Include="Views\Error\HttpError404.cshtml" />
     <Content Include="Views\Error\HttpError500.cshtml" />
+    <Content Include="Views\Student\FamilyView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
