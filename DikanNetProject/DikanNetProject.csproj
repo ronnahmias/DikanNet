@@ -120,6 +120,7 @@
   <ItemGroup>
     <Content Include="Content\Css\BaseCSS.css" />
     <Content Include="Content\Css\Chosen\chosen.min.css" />
+    <Content Include="Content\Css\datepicker.css" />
     <Content Include="Content\Css\signature-pad.css" />
     <Content Include="Content\EmailTmp\1.jpg" />
     <Content Include="Content\EmailTmp\2.png" />
@@ -171,6 +172,12 @@
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
+    <Content Include="Scripts\MyJs\datepicker.he-HE.js" />
+    <Content Include="Scripts\MyJs\datepicker.he-HE.min.js" />
+    <Content Include="Scripts\MyJs\datepicker.js" />
+    <Content Include="Scripts\MyJs\datepicker.min.js" />
+    <Content Include="Scripts\MyJs\Files.js" />
+    <Content Include="Scripts\MyJs\Files.min.js" />
     <Content Include="Scripts\MyJs\MyJS.js" />
     <Content Include="Scripts\MyJs\MyJS.min.js" />
     <Content Include="Scripts\MyJs\signature_app.js" />
@@ -187,6 +194,8 @@
     <Content Include="Scripts\umd\popper.min.js" />
     <Content Include="Scripts\MyJs\UploadFileJS.js" />
     <Content Include="Scripts\MyJs\UploadFileJS.min.js" />
+    <Content Include="src\js\datepicker.he-HE.js" />
+    <Content Include="src\js\datepicker.js" />
     <Content Include="src\js\MyJS.js" />
     <Content Include="src\js\Files.js" />
     <Content Include="src\js\signature_app.js" />
@@ -251,6 +260,7 @@
     <Content Include="Views\Error\HttpError404.cshtml" />
     <Content Include="Views\Error\HttpError500.cshtml" />
     <Content Include="Views\Student\FamilyView.cshtml" />
+    <Content Include="src\sass\datepicker.scss" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

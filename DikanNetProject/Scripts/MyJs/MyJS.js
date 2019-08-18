@@ -45,6 +45,12 @@ $(document).ready(function () {
             width: '100%'
         });
 
+    // Function for date picker
+    $('[data-toggle="datepicker"]').attr('readonly', true);
+    $('[data-toggle="datepicker"]').datepicker({
+        language: 'he-HE'
+    });
+    // chose file change the style of button
     $('input[type="file"]').change(function () {
         var $this = $(this);
         var n = $this.val();

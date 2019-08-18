@@ -16,59 +16,59 @@
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-            <div class="row">
-                <div class="form-group col-md-4 col-sm-5 col-12">
-                    @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label" })
-                    <div class="">
-                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
-                    </div>
+        <div class="row">
+            <div class="form-group col-md-4 col-sm-5 col-12">
+                @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label" })
+                <div class="">
+                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
                 </div>
-
-                <div class="form-group col-md-4 col-sm-5 col-12">
-                    @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label " })
-                    <div class="">
-                        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group col-md-4 col-sm-5 col-12">
-                    @Html.LabelFor(model => model.BirthDay, htmlAttributes: new { @class = "control-label" })
-                    <div class="">
-                        @Html.EditorFor(model => model.BirthDay, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.BirthDay, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group col-md-4 col-sm-5 col-12">
-                    @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label" })
-                    <div class="">
-                        @Html.DropDownListFor(model => model.Gender,
-                  new SelectList(Enum.GetValues(typeof(Common.Enums.Genders))), "", new { @class = "form-control chosen", @data_placeholder = "מגדר" })
-                        @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group col-md-4 col-sm-5 col-12">
-                    @Html.LabelFor(model => model.CountryBirthId, htmlAttributes: new { @class = "control-label" })
-                    <div class="">
-                        @Html.DropDownListFor(model => model.CountryBirthId, (IEnumerable<SelectListItem>)ViewBag.CountriesList, "", htmlAttributes: new { @class = "form-control chosen ", @data_placeholder = "ארץ לידה" })
-                        @Html.ValidationMessageFor(model => model.CountryBirthId, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group col-md-4 col-sm-5 col-12">
-                    @Html.LabelFor(model => model.MaritalStatus, htmlAttributes: new { @class = "control-label" })
-                    <div class="">
-                        @Html.DropDownListFor(model => model.MaritalStatus,
-                   new SelectList(Enum.GetValues(typeof(Common.Enums.MatrialStatus))), "", new { @class = "form-control chosen", @data_placeholder = "מצב משפחתי" })
-                        @Html.ValidationMessageFor(model => model.MaritalStatus, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-
             </div>
+
+            <div class="form-group col-md-4 col-sm-5 col-12">
+                @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label " })
+                <div class="">
+                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-4 col-sm-5 col-12">
+                @Html.LabelFor(model => model.BirthDay, htmlAttributes: new { @class = "control-label" })
+                <div class="">
+                    @Html.EditorFor(model => model.BirthDay, new { htmlAttributes = new { @class = "form-control datepicker only-numbers", @data_toggle = "datepicker" } })
+                    @Html.ValidationMessageFor(model => model.BirthDay, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-4 col-sm-5 col-12">
+                @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label" })
+                <div class="">
+                    @Html.DropDownListFor(model => model.Gender,
+              new SelectList(Enum.GetValues(typeof(Common.Enums.Genders))), "", new { @class = "form-control chosen", @data_placeholder = "מגדר" })
+                    @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-4 col-sm-5 col-12">
+                @Html.LabelFor(model => model.CountryBirthId, htmlAttributes: new { @class = "control-label" })
+                <div class="">
+                    @Html.DropDownListFor(model => model.CountryBirthId, (IEnumerable<SelectListItem>)ViewBag.CountriesList, "", htmlAttributes: new { @class = "form-control chosen ", @data_placeholder = "ארץ לידה" })
+                    @Html.ValidationMessageFor(model => model.CountryBirthId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-4 col-sm-5 col-12">
+                @Html.LabelFor(model => model.MaritalStatus, htmlAttributes: new { @class = "control-label" })
+                <div class="">
+                    @Html.DropDownListFor(model => model.MaritalStatus,
+               new SelectList(Enum.GetValues(typeof(Common.Enums.MatrialStatus))), "", new { @class = "form-control chosen", @data_placeholder = "מצב משפחתי" })
+                    @Html.ValidationMessageFor(model => model.MaritalStatus, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+        </div>
 
             <div class="row">
                 <div class="form-group col-md-6">

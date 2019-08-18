@@ -22,10 +22,17 @@ namespace DikanNetProject
                       "~/Scripts/MyJs/signature_pad.umd.js",
                       "~/Scripts/MyJs/signature_app.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/datepicker").Include(
+                      "~/Scripts/MyJs/datepicker.js",
+                      "~/Scripts/MyJs/datepicker.he-HE.js"));
+
             bundles.Add(new StyleBundle("~/Content/Css").Include(
                       "~/Content/Css/bootstrap.css",
                       "~/Content/Css/Chosen/chosen.min.css",
                       "~/Content/Css/BaseCSS.css"));
+
+            bundles.Add(new StyleBundle("~/Content/datepicker").Include(
+                      "~/Content/Css/datepicker.css"));
         }
     }
 }

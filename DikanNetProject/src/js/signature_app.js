@@ -23,14 +23,14 @@ function resizeCanvas() {
   //canvas.height = 250;
   canvas.height = canvas.offsetHeight * ratio;
   canvas.getContext("2d").scale(ratio, ratio);
-
+    /*
     console.log("Resize Canvas");
     console.log("Width: " + canvas.width);
     console.log("canvas.offsetWidth: " + canvas.offsetWidth);
     console.log("Height: " + canvas.height);
     console.log("canvas.offsetHeight: " + canvas.offsetHeight);
     console.log("ratio: " + ratio);
-
+    */
   // This library does not listen for canvas changes, so after the canvas is automatically
   // cleared by the browser, SignaturePad#isEmpty might still return false, even though the
   // canvas looks empty, because the internal data of this library wasn't cleared. To make sure

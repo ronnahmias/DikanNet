@@ -47,8 +47,9 @@ namespace DataEntities
         public string LearnPath { get; set; }
 
         [Display(Name = "תאריך לידה")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        //[DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime BirthDay { get; set; }
 
         [Display(Name = "מגדר")]

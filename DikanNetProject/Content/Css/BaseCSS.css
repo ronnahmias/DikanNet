@@ -1,6 +1,7 @@
 @charset "UTF-8";
 body {
-  padding-top: 50px; }
+  padding-top: 50px;
+  font-family: 'Heebo', sans-serif; }
 
 .logo {
   width: 160px; }

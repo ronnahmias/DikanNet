@@ -6,15 +6,19 @@
     <title>@ViewBag.Title @ViewBag.StudentName</title>
     <link rel="icon" href="~/Content/Pic/Logo.png" type="image/x-icon" />
     @Styles.Render("~/Content/Css")
+    @Styles.Render("~/Content/datepicker")
     <link rel="stylesheet" href="~/Content/Css/signature-pad.css">
+    <link href="https://fonts.googleapis.com/css?family=Heebo&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 
 <body class="text-right" style="background-color:#fdfdee">
-    <a href="@Url.Action("Index", "Student")">
-        <img src="~/Content/Pic/Logo.png" alt="דיקאנט לוגו" class="logo img-fluid d-block mx-auto " />
-    </a>
+    <div class="col-12 text-center">
+        <a href="@Url.Action("Index","Student")">
+            <img src="~/Content/Pic/Logo.png" alt="דיקאנט לוגו" class="logo img-fluid " />
+        </a>
+    </div>
     <h1 class="display-4 text-center">@ViewBag.Message</h1>
     <div class="container-fluid body-content mt-4">
         @RenderBody()
@@ -59,14 +63,14 @@
                 <!-- Modal body -->
                 <div class="modal-body text-center">
 
-                    <div id="signature-pad" class="signature-pad" >
+                    <div id="signature-pad" class="signature-pad">
                         <div id="signature-pad--body">
                             <canvas></canvas>
                         </div>
                         <div class="signature-pad--footer">
                             <div class="description">חתום למעלה</div>
 
-                            <div class="signature-pad--actions"> 
+                            <div class="signature-pad--actions">
                                 <div>
                                     <button type="button" class="button save" data-action="save-png">Save as PNG</button>
                                 </div>
@@ -90,12 +94,12 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/javascript")
     @Scripts.Render("~/bundles/signature_pad")
+    @Scripts.Render("~/bundles/datepicker")
     @RenderSection("scripts", required: false)
-
     <script>
-        $(document).ready(function (){
-            $('#successModal').css('display','none');
-      });
+        $(document).ready(function () {
+            $('#successModal').css('display', 'none'); 
+        });
 
         function beforeSumbit() {
             var ok = checkMust();
@@ -107,7 +111,8 @@
                 $('#errorModal').modal('show');
             }
             return ok;
-        }  
+            }
+
     </script>
 </body>
 </html>
