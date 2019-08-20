@@ -66,8 +66,8 @@
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <a href="@Url.Action("Index","Student")">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">סגירה</button>
+                    <a href="@Url.Action("Index","Student")" class="btn btn-danger">
+                        סגירה
                     </a>
                 </div>
 
@@ -119,7 +119,7 @@
     <script>
         $(document).ready(function () {
             $('#successModal').css('display', 'none');
-            @*if(@ViewBag.ResOk == 1) $('#responseModal').modal('show');*@
+            if('@ViewBag.ResOk' == 'True') $('#responseModal').modal('show');
         });
 
         function beforeSumbit(spName) {

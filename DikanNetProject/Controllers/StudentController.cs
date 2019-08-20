@@ -276,6 +276,8 @@ namespace DikanNetProject.Controllers
         [HttpPost]
         public ActionResult Excellent(SpExcellence tempmetmesuyanut, string uploadmethod) // submit  new metsuyanut scholarship
         {
+            ViewBag.ResOk = false;
+            ViewBag.Response = "טיוטא נשמרה בהצלחה";
             tempmetmesuyanut.StudentId = sStudentId;
             SpExcellence StudentMetsuyanut;
             using (DikanDbContext ctx = new DikanDbContext())
@@ -287,6 +289,8 @@ namespace DikanNetProject.Controllers
                     {
                         tempmetmesuyanut.Statuss = Enums.Status.בטיפול.ToString(); // insert status betipul
                         tempmetmesuyanut.StatusUpdateDate = tempmetmesuyanut.DateSubmitScholarship = DateTime.Now; // insert date submit + update status
+                        ViewBag.Response = "המלגה הוגשה בהצלחה!";
+                        ViewBag.ResOk = true;
                     }
                     else
                         return View(tempmetmesuyanut);
@@ -300,6 +304,7 @@ namespace DikanNetProject.Controllers
                 ctx.Configuration.ValidateOnSaveEnabled = false;
                 ctx.SaveChanges();
             }
+            ViewBag.ResOk = true;
             return View(tempmetmesuyanut);
         }
         #endregion
