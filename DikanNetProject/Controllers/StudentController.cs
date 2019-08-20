@@ -875,9 +875,8 @@ namespace DikanNetProject.Controllers
         {
             var ok = Files.signatureSave(pDataUri, pName, sStudentId);
             return new HttpStatusCodeResult(ok ? HttpStatusCode.OK : HttpStatusCode.BadRequest);
-            //Files.SaveFileInServer(, "signature", sStudentId, null);
         }
-
+        #endregion
 
         #region NonActions
 
