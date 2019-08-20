@@ -19,7 +19,7 @@ namespace DataEntities
         [Key, Column(Order = 1)]
         public string StudentId { get; set; }
 
-        [Display(Name = "שנת לימוד"),Required(ErrorMessage ="חובה לבחור שנת לימוד")]
+        [Display(Name = "שנת לימוד")]
         public string SchoolYear { get; set; }
         public string Statuss { get; set; }
         public DateTime? StatusUpdateDate { get; set; }
