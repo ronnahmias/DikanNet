@@ -162,7 +162,7 @@ namespace DikanNetProject.Controllers
 
         #endregion
 
-        #region Redirect To Action
+        #region Redirect To Scholarship
         public ActionResult RedirectToScholarship(int scholarshipid)
         {
             int type = -1;
