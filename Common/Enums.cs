@@ -14,8 +14,8 @@ namespace Common
     {
         public enum Genders
             {
-            גבר,
-            אישה,
+            זכר,
+            נקבה,
             מסרב
             }
         public enum MatrialStatus
@@ -26,6 +26,13 @@ namespace Common
             אלמן,
             יתום,
             בודד_בארץ
+        }
+
+        public enum SpType
+        {
+            סוציואקונומית,
+            הלכה,
+            מצוינות
         }
 
         public enum SchoolYear

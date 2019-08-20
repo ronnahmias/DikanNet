@@ -42,19 +42,19 @@ namespace DikanNetProject.Controllers
                 studentMain.ScholarshipDefinitions = ctx.SpDef.Where(x => DbFunctions.TruncateTime(x.DateDeadLine) > DbFunctions.TruncateTime(DateTime.Now) && DbFunctions.TruncateTime(x.DateOpenScholarship) < DbFunctions.TruncateTime(DateTime.Now)).ToList();
                 foreach (var scholarship in studentMain.ScholarshipDefinitions.ToList()) // dont show scholarship that already is submited
                 {
-                    switch (scholarship.Type)
+                    switch (Enum.Parse(typeof(Enums.SpType),scholarship.Type))
                     {
-                        case 1:
+                        case Enums.SpType.סוציואקונומית:
                             if (ctx.Socio.Any(s => s.ScholarshipId == scholarship.ScholarshipID && s.StudentId == sStudentId))
                                 studentMain.ScholarshipDefinitions.Remove(scholarship);
                             break;
 
-                        case 2:
+                        case Enums.SpType.מצוינות:
                             if (ctx.Ecellence.Any(s => s.ScholarshipId == scholarship.ScholarshipID && s.StudentId == sStudentId))
                                 studentMain.ScholarshipDefinitions.Remove(scholarship);
                             break;
 
-                        case 3:
+                        case Enums.SpType.הלכה:
                             if (ctx.Halacha.Any(s => s.ScholarshipId == scholarship.ScholarshipID && s.StudentId == sStudentId))
                                 studentMain.ScholarshipDefinitions.Remove(scholarship);
                             break;
@@ -165,20 +165,19 @@ namespace DikanNetProject.Controllers
         #region Redirect To Scholarship
         public ActionResult RedirectToScholarship(int scholarshipid)
         {
-            int type = -1;
+            SpDefinition temp;
             using (DikanDbContext ctx = new DikanDbContext())
             {
-                SpDefinition temp = ctx.SpDef.Find(scholarshipid);
-                type = temp.Type;
+                temp = ctx.SpDef.Find(scholarshipid);
             }
-            switch (type)
+            switch (Enum.Parse(typeof(Enums.SpType), temp.Type))
             {
-                case 1: return RedirectToAction("Socio", new { scholarshipid }); // type 1 is socio scholarship
+                case Enums.SpType.סוציואקונומית: return RedirectToAction("Socio", new { scholarshipid }); // type 1 is socio scholarship
 
-                case 2:
+                case Enums.SpType.מצוינות:
                     return RedirectToAction("Excellent", new { scholarshipid }); // type 2 is metuyanut scholarship
 
-                case 3:
+                case Enums.SpType.הלכה:
                     return RedirectToAction("Halacha", new { scholarshipid }); // type 3 is halacha scholarship
 
                 default: return RedirectToAction("Index"); // index of srudent if not found type

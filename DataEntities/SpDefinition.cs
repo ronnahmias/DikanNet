@@ -18,7 +18,7 @@ namespace DataEntities
         public string ScholarshipDetails { get; set; }
 
         [Column("Typee")]
-        public int Type { get; set; }
+        public string Type { get; set; }
         public DateTime DateOpenScholarship { get; set; }
         public DateTime DateDeadLine { get; set; }
         public virtual ICollection<SpSocio> Socioeconomicc { get; set; }

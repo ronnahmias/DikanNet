@@ -279,6 +279,7 @@
     <Content Include="Views\Error\HttpError500.cshtml" />
     <Content Include="Views\Student\FamilyView.cshtml" />
     <Content Include="src\sass\datepicker.scss" />
+    <Content Include="Views\Dikan\CreateSp.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

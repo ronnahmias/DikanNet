@@ -1,0 +1,76 @@
+﻿@model DataEntities.SpDefinition
+
+@{
+    ViewBag.Title = "הוספת מלגה חדשה";
+    Layout = "~/Views/Dikan/_Layout.cshtml";
+}
+
+<h2>CreateSp</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>הוספת מלגה</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.ScholarshipName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ScholarshipName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ScholarshipName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ScholarshipAmount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ScholarshipAmount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ScholarshipAmount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ScholarshipDetails, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ScholarshipDetails, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ScholarshipDetails, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Type,
+                              new SelectList(Enum.GetValues(typeof(Common.Enums.SpType))), "", new { @class = "form-control chosen", @data_placeholder = "סוג מלגה" })                @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                        </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DateOpenScholarship, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DateOpenScholarship, new { htmlAttributes = new { @class = "form-control", @data_toggle = "" } })
+                @Html.ValidationMessageFor(model => model.DateOpenScholarship, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DateDeadLine, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DateDeadLine, new { htmlAttributes = new { @class = "form-control", @data_toggle = "" } })
+                @Html.ValidationMessageFor(model => model.DateDeadLine, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("חזרה לרשימה", "SpList")
+</div>
