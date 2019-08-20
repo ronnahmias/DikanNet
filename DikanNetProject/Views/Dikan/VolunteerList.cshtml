@@ -1,0 +1,38 @@
+﻿@model IEnumerable<DataEntities.VolunteerPlaces>
+
+@{
+    ViewBag.Title = "מקומות התנדבות";
+    Layout = "~/Views/Dikan/_Layout.cshtml";
+}
+
+<h2>מקומות התנדבות</h2>
+<h5>@ViewBag.response</h5>
+@Html.ActionLink("הוספת מקום חדש", "CreateEditVol", null, new { @class = "btn btn-success" })
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Desc)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Desc)
+            </td>
+            <td>
+                @Html.ActionLink("עריכה", "CreateEditVol", new { id = item.Id }) |
+                @Html.ActionLink("מחיקה", "DeleteVol", new { VolId = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>

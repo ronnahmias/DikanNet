@@ -1,0 +1,117 @@
+﻿@model IEnumerable<DataEntities.SpDefinition>
+
+@{
+    ViewBag.Title = "רשימת מלגות";
+    Layout = "~/Views/Dikan/_Layout.cshtml";
+}
+
+<h2>רשימת מלגות במערכת</h2>
+@Html.ActionLink("הוספת מלגה חדשה", "CreateEditSp", null, new { @class = "btn btn-success" })
+@Html.ActionLink("רשימת מקומות התנדבות", "VolunteerList", null, new { @class = "btn btn-warning" })
+<h4>מלגות פעילות</h4>
+<h5>@ViewBag.response</h5>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ScholarshipName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ScholarshipAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ScholarshipDetails)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateOpenScholarship)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateDeadLine)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Where(s => s.DateDeadLine > DateTime.Now).OrderByDescending(s => s.Type).ToList())
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ScholarshipName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ScholarshipAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ScholarshipDetails)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.DateOpenScholarship))
+            </td>
+            <td>
+                @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.DateDeadLine))
+            </td>
+            <td>
+                @Html.ActionLink("ערוך מלגה", "CreateEditSp", new { id = item.ScholarshipID }) |
+
+            </td>
+        </tr>
+    }
+
+</table>
+<h4>מלגות לא פעילות</h4>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ScholarshipName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ScholarshipAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ScholarshipDetails)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateOpenScholarship)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateDeadLine)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Where(s => s.DateDeadLine < DateTime.Now).OrderByDescending(s => s.DateDeadLine).ToList())
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ScholarshipName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ScholarshipAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ScholarshipDetails)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.DateOpenScholarship))
+            </td>
+            <td>
+                @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.DateDeadLine))
+            </td>
+            <td>
+                @Html.ActionLink("ערוך מלגה", "CreateEditSp", new { id = item.ScholarshipID }) |
+
+            </td>
+        </tr>
+    }
+
+</table>
