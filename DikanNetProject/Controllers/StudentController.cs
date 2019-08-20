@@ -162,7 +162,7 @@ namespace DikanNetProject.Controllers
 
         #endregion
 
-        #region Redirect To Action
+        #region Redirect To Scholarship
         public ActionResult RedirectToScholarship(int scholarshipid)
         {
             int type = -1;
@@ -877,7 +877,7 @@ namespace DikanNetProject.Controllers
             return new HttpStatusCodeResult(ok ? HttpStatusCode.OK : HttpStatusCode.BadRequest);
             //Files.SaveFileInServer(, "signature", sStudentId, null);
         }
-        #endregion
+
 
         #region NonActions
 
