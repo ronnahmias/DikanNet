@@ -1,5 +1,4 @@
 var wrapper = document.getElementById("signature-pad");
-var savePNGButton = wrapper.querySelector("[data-action=save-png]");
 var canvas = wrapper.querySelector("canvas");
 var signaturePad = new SignaturePad(canvas, {
   // It's Necessary to use an opaque color when saving image as JPEG;
@@ -84,7 +83,7 @@ function clearSignature() {
     signaturePad.clear();
 }
 
-function signatureSave() {
+function signatureSave(spName) {
     if (signaturePad.isEmpty()) {
         alert("יש לחתום לפני הגשת מלגה");
         return false;
@@ -95,10 +94,10 @@ function signatureSave() {
     $.ajax({
         url: "/Student/SaveSignature",
         dataType: 'text',
-        data: { pDataUri: dataURL },
+        data: { pDataUri: dataURL, pName: spName },
         method: "POST",
         success: function () {
-            alert("Success");
+            //alert("Success");
             var input = $("<input>") // add input of string that tells upload method - submit and not draft
                 .attr("type", "hidden")
                 .attr("name", "uploadmethod").val("submit");

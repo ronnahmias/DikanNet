@@ -79,8 +79,10 @@
                 @for (int i = 0; i < Model.FamilyStudentFinances.Count; i++)
                 {
                 <div class="form-group row text-center">
-                    @Html.DropDownListFor(model => model.FamilyStudentFinances[i].Year, ViewBag.YearsList as SelectList, "שנה", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.DropDownListFor(model => model.FamilyStudentFinances[i].Year, ViewBag.YearsList as SelectList, "", htmlAttributes: new { @class = "control-label col-md-2 chosen", @data_placeholder = "שנה" })
                     @Html.DropDownListFor(model => model.FamilyStudentFinances[i].Month, ViewBag.MonthsList as SelectList, "חודש", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.DisplayFor(model => model.FamilyStudentFinances[i].Year, new { htmlAttributes = new { @class = "control-label col-md-1" } })
+                    @Html.EditorFor(model => model.FamilyStudentFinances[i].Month, new { htmlAttributes = new { @class = "control-label col-md-1" } })
                     @Html.EditorFor(model => model.FamilyStudentFinances[i].Salary, new { htmlAttributes = new { @class = "control-label col-md-1" } })
                     @Html.EditorFor(model => model.FamilyStudentFinances[i].Expense, new { htmlAttributes = new { @class = "control-label col-md-1" } })
                     @Html.TextBoxFor(model => model.FamilyStudentFinances[i].FileSalary, new { @class = "control-label col-md-2", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
