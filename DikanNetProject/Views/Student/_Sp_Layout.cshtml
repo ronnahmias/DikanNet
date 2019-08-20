@@ -49,6 +49,32 @@
         </div>
     </div>
 
+    <!-- Response Modal -->
+    <div class="modal fade" id="responseModal" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header text-success">
+                    <h4 class="modal-title">@ViewBag.Response</h4>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body text-success text-center">
+                    <p class="modal-body-text">@ViewBag.Response</p>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <a href="@Url.Action("Index","Student")">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">סגירה</button>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <!-- successModal -->
     <div class="modal fade" id="successModal" style="display:block;">
         <div class="modal-dialog">
@@ -69,12 +95,6 @@
                         </div>
                         <div class="signature-pad--footer">
                             <div class="description">חתום למעלה</div>
-
-                            <div class="signature-pad--actions">
-                                <div>
-                                    <button type="button" class="button save" data-action="save-png">Save as PNG</button>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -83,7 +103,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-warning mx-2" data-action="clear" onclick="clearSignature()">נקה</button>
                     <button type="button" class="btn btn-danger mx-2" data-dismiss="modal">סגירה</button>
-                    <button type="submit" class="btn btn-success" name="uploadmethod" onclick="return signatureSave()">הגש מלגה</button>
+                    <button id="submitSp" type="submit" class="btn btn-success" name="uploadmethod">הגש מלגה</button>
                 </div>
 
             </div>
@@ -98,21 +118,23 @@
     @RenderSection("scripts", required: false)
     <script>
         $(document).ready(function () {
-            $('#successModal').css('display', 'none'); 
+            $('#successModal').css('display', 'none');
+            @*if(@ViewBag.ResOk == 1) $('#responseModal').modal('show');*@
         });
 
-        function beforeSumbit() {
+        function beforeSumbit(spName) {
             var ok = checkMust();
             if (ok) // true - all filed are filed
             {
                 $('#successModal').modal('show');
+                $('#submitSp').attr('onclick', 'return signatureSave("' + spName + '")');
             }
             else {
                 $('#errorModal').modal('show');
             }
             return ok;
-            }
-
+        }
+        
     </script>
 </body>
 </html>

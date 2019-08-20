@@ -319,7 +319,7 @@ namespace DikanNetProject.Controllers
                     ListCarStudent = new List<CarStudent>(),
                     ListFundings = new List<Funding>(),
                     ListStudentFinances = new List<StudentFinance>(),
-                    ListFamMemFin = new List<FamilyMember>(),
+                    ListFamMemFin = new List<FamilyMember>(), // family with finance
                     ListFamMem = new List<FamilyMember>(),
                     MatrialStatus = ctx.Students.Where(s => s.StudentId == sStudentId).FirstOrDefault().MaritalStatus
                 };
@@ -400,7 +400,7 @@ namespace DikanNetProject.Controllers
                     {
                         do
                         {
-                            List<FamilyStudentFinance> familyStudentFinances = new List<FamilyStudentFinance>(); // init new list of finance to each family member
+                            IList<FamilyStudentFinance> familyStudentFinances = new List<FamilyStudentFinance>(); // init new list of finance to each family member
                             socio.ListFamMemFin.Add(new FamilyMember { FamilyStudentFinances = familyStudentFinances }); // add family member row to list
                         } while (socio.ListFamMemFin.Count < numofFamMem);
                     }
@@ -412,9 +412,8 @@ namespace DikanNetProject.Controllers
                         member.FamilyStudentFinances = member.FamilyStudentFinances.Where(s => s.SpId == scholarshipid).ToList();
                         if (member.FamilyStudentFinances.Count() < 3) // complete to 3 row of finance on each member
                         {
-                            do
-                            {
-                                member.FamilyStudentFinances.Add(new FamilyStudentFinance { FinNo = socio.ListStudentFinances.Count() }); // add finance row to list
+                            do{
+                                member.FamilyStudentFinances.Add(new FamilyStudentFinance { FinNo = member.FamilyStudentFinances.Count() }); // add finance row to list
                             } while (member.FamilyStudentFinances.Count < 3);
                         }
                     }
@@ -445,12 +444,14 @@ namespace DikanNetProject.Controllers
             CarStudent tempDbCar;
             Funding tempDbFund;
             StudentFinance tempDbStuFin;
+            FamilyStudentFinance tempDbFamFin;
             FamilyMember tempDbFamMem,tempFam;
             List<CarStudent> dbCars;
             List<Funding> dbFunding;
             List<StudentFinance> dbStuFinance;
+            List<FamilyStudentFinance> dbFamFinance;
             List<FamilyMember> dbFamMem; // hold db family member only with finance
-            string[,] pathStudExSaFinance = new string[3,3]; // holding path expense and salary;
+            string[,] pathExSaFinance = new string[3,3]; // holding path expense and salary;
             #endregion
 
             #region init null lists of soicoAdd model
@@ -460,11 +461,13 @@ namespace DikanNetProject.Controllers
             if (socio.ListStudentFinances == null) socio.ListStudentFinances = new List<StudentFinance>(); // if there is no rows in finance list
             #endregion
 
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
+            
             {
                 //save detailes
                 using (DikanDbContext ctx = new DikanDbContext())
                 {
+                    
                     #region Save Cars Detailes
                     // list of cars by database
                     dbCars = ctx.CarStudents.Where(s => s.StudentId == sStudentId).ToList();
@@ -526,7 +529,7 @@ namespace DikanNetProject.Controllers
                         ctx.SaveChanges();
                     }
                     #endregion
-
+                    
                     #region Save Student Finance
                     /* בתחילה אני מסיר את כל הנתונים מהשרת תוך כדי שמירה על קבצים
                      * לאחר מכן רץ על הרשימה שהתקבלה מהלקוח
@@ -539,12 +542,14 @@ namespace DikanNetProject.Controllers
                      */
 
                     // list of student finance by database
+                    
                     dbStuFinance = ctx.StudentFinances.Where(s => s.StudentId == sStudentId && s.SpId == socio.SocioMod.ScholarshipId).ToList();
-
+                    
                     foreach (var finDb in dbStuFinance)
                     {
-                        pathStudExSaFinance[0, finDb.FinNo] = finDb.PathExpense;
-                        pathStudExSaFinance[0, finDb.FinNo] = finDb.PathSalary;
+                        if (finDb.FinNo < 0 || finDb.FinNo > 2) continue;
+                        pathExSaFinance[0, finDb.FinNo] = finDb.PathExpense;
+                        pathExSaFinance[0, finDb.FinNo] = finDb.PathSalary;
                         ctx.StudentFinances.Remove(finDb);
                     }
                     ctx.SaveChanges();
@@ -558,8 +563,11 @@ namespace DikanNetProject.Controllers
                         tempDbStuFin = dbStuFinance.Where(s => s.Month == fin.Month && s.Year == fin.Year).FirstOrDefault();
                         if (tempDbStuFin != null) continue;
 
-                        fin.PathExpense = pathStudExSaFinance[0, fin.FinNo];
-                        fin.PathSalary  = pathStudExSaFinance[0, fin.FinNo];
+                        if (fin.FinNo >= 0 && fin.FinNo <= 2)
+                        {
+                            fin.PathExpense = pathExSaFinance[0, fin.FinNo];
+                            fin.PathSalary = pathExSaFinance[0, fin.FinNo];
+                        }
 
                         // if there is a expense file upload and update the file path
                         if (fin.FileExpense != null)
@@ -576,43 +584,83 @@ namespace DikanNetProject.Controllers
                     #endregion
 
                     #region Save Family Member + Finance
-                    /*
+                    
                     dbFamMem = ctx.FamilyMembers.Where(s => s.StudentId == sStudentId).Where(s => s.Realationship == Enums.Realationship.אב.ToString() ||
                         s.Realationship == Enums.Realationship.אם.ToString() ||
                         s.Realationship == Enums.Realationship.בעל.ToString() ||
                         s.Realationship == Enums.Realationship.אישה.ToString()).ToList(); // filter only dad mom and wife/husband
 
-                    foreach(var FamMem in socio.ListFamMemFin)
+                    foreach (var mem in socio.ListFamMemFin)
                     {
-                        FamMem.StudentId = sStudentId;
-                        tempDbFamMem = dbFamMem.Where(s => s.FamilyMemberId == FamMem.FamilyMemberId).FirstOrDefault(); // find if this family member has exist in db
-
-                        // save or update finance of the family member
-                        IList<FamilyStudentFinance> tempfinlist = FamMem.FamilyStudentFinances;
-
-                        foreach(var fin in tempfinlist)
+                        /*Start finance*/
+                        dbFamFinance = ctx.FamilyStudentFinances.Where(s => s.FamilyMemberId == mem.FamilyMemberId && s.SpId == socio.SocioMod.ScholarshipId).ToList();
+                        foreach (var finDb in dbFamFinance)
                         {
-
-                        }
-
-
-                        // save or update family member
-                        if(FamMem.FileFamId != null) // there is new file to save on server
-                            FamMem.PathFmId = Files.SaveFileInServer(FamMem.FileFamId, "Family" + FamMem.FamilyMemberId, FamMem.StudentId, FamMem.PathFmId); // save id family member
-
-                        if (tempDbFamMem == null) // new family member
-                        {
-                            ctx.FamilyMembers.Add(FamMem);
-                        }
-                        else
-                        {
-                            ctx.Entry(tempDbFamMem).CurrentValues.SetValues(FamMem);// update family member exists
+                            if (finDb.FinNo < 0 || finDb.FinNo > 2) continue;
+                            pathExSaFinance[0, finDb.FinNo] = finDb.PathExpense;
+                            pathExSaFinance[0, finDb.FinNo] = finDb.PathSalary;
+                            ctx.FamilyStudentFinances.Remove(finDb);
                         }
                         ctx.SaveChanges();
-                    }
-                    */
-                    #endregion
 
+                        // save or update finance of the family member
+                        foreach (var fin in mem.FamilyStudentFinances)
+                        {
+
+                            if (fin.Year == 0 || fin.Month == 0) continue;
+
+                            fin.FamilyMemberId = mem.FamilyMemberId;
+                            fin.SpId = socio.SocioMod.ScholarshipId;
+
+                            // list of finance by database
+                            dbFamFinance = ctx.FamilyStudentFinances.Where(s => s.FamilyMemberId == mem.FamilyMemberId && s.SpId == socio.SocioMod.ScholarshipId).ToList();
+                            tempDbFamFin = dbFamFinance.Where(s => s.Month == fin.Month && s.Year == fin.Year).FirstOrDefault();
+                            if (tempDbFamFin != null) continue;
+
+                            if (fin.FinNo >= 0 && fin.FinNo <= 2)
+                            {
+                                fin.PathExpense = pathExSaFinance[0, fin.FinNo];
+                                fin.PathSalary = pathExSaFinance[0, fin.FinNo];
+                            }
+
+                            // if there is a expense file upload and update the file path
+                            if (fin.FileExpense != null)
+                                fin.PathExpense = Files.SaveFileInServer(fin.FileExpense, "Expense-" + mem.FamilyMemberId + "-" + fin.FinNo, sStudentId, fin.PathExpense);
+
+                            // if there is a salary file upload and update the file path
+                            if (fin.FileSalary != null)
+                                fin.PathSalary = Files.SaveFileInServer(fin.FileSalary, "Salary-" + mem.FamilyMemberId + "-" + fin.FinNo, sStudentId, fin.PathSalary);
+
+                            ctx.FamilyStudentFinances.Add(fin);
+
+                            
+                        }
+                        /*end finance*/
+                        
+                        mem.StudentId = sStudentId;
+                        tempDbFamMem = dbFamMem.Where(s => s.FamilyMemberId == mem.FamilyMemberId).FirstOrDefault(); // find if this family member has exist in db
+
+                        // save or update family member
+                        if (mem.FileFamId != null) // there is new file to save on server
+                            mem.PathFmId = Files.SaveFileInServer(mem.FileFamId, "Id" + mem.FamilyMemberId, mem.StudentId, mem.PathFmId); // save id family member
+                        if (tempDbFamMem != null)
+                        {
+                            dbFamMem.Remove(tempDbFamMem); // remove from list of db
+                            ctx.Entry(tempDbFamMem).CurrentValues.SetValues(mem);// update family member exists
+                            ctx.SaveChanges();
+                        }
+                        else
+                            ctx.FamilyMembers.Add(mem);
+                        ctx.SaveChanges();
+                        
+                        foreach (var DBmem in dbFamMem) // after what has been remain in this table needs to remove
+                        {
+                            DeleteFamMem(DBmem.FamilyMemberId);
+                        }
+                    }
+                    
+                    #endregion
+                    
                     #region Save Family Members
 
                     // get from db all family members without finance
@@ -624,15 +672,15 @@ namespace DikanNetProject.Controllers
 
                     foreach(var mem in socio.ListFamMem)
                     {
+                        mem.StudentId = sStudentId;
                         if (mem.FileFamId != null) // if there is file to upload
                             mem.PathFmId = Files.SaveFileInServer(mem.FileFamId, "Family" + mem.FamilyMemberId, sStudentId, mem.PathFmId);
 
                         tempFam = dbFamMem.Where(s => s.FamilyMemberId == mem.FamilyMemberId).FirstOrDefault(); // find if it is in db already
                         if (tempFam != null)
                         {
+                            dbFamMem.Remove(tempFam); // remove from list of db
                             ctx.Entry(tempFam).CurrentValues.SetValues(mem);// update family member exists
-                            ctx.SaveChanges();
-                            dbFamMem.Remove(mem); // remove from list of db
                         }
                         else
                             ctx.FamilyMembers.Add(mem);
@@ -642,8 +690,7 @@ namespace DikanNetProject.Controllers
 
                     foreach(var DBmem in dbFamMem) // after what has been remain in this table needs to remove
                     {
-                        tempDbFamMem = ctx.FamilyMembers.Find(DBmem);
-                        DeleteFamMem(tempDbFamMem.FamilyMemberId);
+                        DeleteFamMem(DBmem.FamilyMemberId);
                     }
 
                     #endregion
@@ -784,9 +831,9 @@ namespace DikanNetProject.Controllers
         #endregion
 
         [HttpPost]
-        public ActionResult SaveSignature(string pDataUri)
+        public ActionResult SaveSignature(string pDataUri,string pName)
         {
-            var ok = Files.signatureSave(pDataUri, sStudentId);
+            var ok = Files.signatureSave(pDataUri, pName, sStudentId);
             return new HttpStatusCodeResult(ok ? HttpStatusCode.OK : HttpStatusCode.BadRequest);
             //Files.SaveFileInServer(, "signature", sStudentId, null);
         }

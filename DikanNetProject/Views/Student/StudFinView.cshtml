@@ -5,8 +5,8 @@
         @using (Html.BeginCollectionItem("ListStudentFinances"))
         {
         <div class="form-group row text-center">
-            @Html.DropDownListFor(model => model.Year, ViewBag.YearsList as SelectList, "שנה", htmlAttributes: new { @class = "control-label col-md-2" })
-            @Html.DropDownListFor(model => model.Month, ViewBag.MonthsList as SelectList, "חודש", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.DropDownListFor(model => model.Year, ViewBag.YearsList as SelectList, "", htmlAttributes: new { @class = "control-label col-md-2 chosen" ,@data_placeholder = "שנה"})
+            @Html.DropDownListFor(model => model.Month, ViewBag.MonthsList as SelectList, "", htmlAttributes: new { @class = "control-label col-md-2 chosen" ,@data_placeholder = "חודש"})
             @Html.EditorFor(model => model.Salary, new { htmlAttributes = new { @class = "control-label col-md-2" } })
             @Html.EditorFor(model => model.Expense, new { htmlAttributes = new { @class = "control-label col-md-2" } })
             @Html.TextBoxFor(model => model.FileSalary, new { @class = "control-label col-md-1", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })

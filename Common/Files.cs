@@ -10,20 +10,20 @@ namespace Common
 {
     public static class Files
     {
-        /*
-        private static Path getServerPath(string pId)
+        
+        private static string getServerPath(string pId)
         {
             if (string.IsNullOrEmpty(pId)) return null;
             var serverpathsave = Path.Combine(HttpContext.Current.Server.MapPath("~/UsersFiles/") + pId);
 
             return serverpathsave;
         }
-        */
+        
         public static string SaveFileInServer(HttpPostedFileBase pFile, string pFileName, string pId,string pOldFile)
         {
             int fileSize = pFile.ContentLength;
             var fileExt = Path.GetExtension(pFile.FileName);
-            var serverpathsave = Path.Combine(HttpContext.Current.Server.MapPath("~/UsersFiles/") + pId);
+            var serverpathsave = getServerPath(pId);
             if (!Directory.Exists(serverpathsave))
                 Directory.CreateDirectory(serverpathsave);
             if (!string.IsNullOrEmpty(pOldFile))
@@ -40,24 +40,24 @@ namespace Common
             if (string.IsNullOrEmpty(pFileName) || string.IsNullOrEmpty(pId))
                 return false;
 
-            var serverpath = Path.Combine(HttpContext.Current.Server.MapPath("~/UsersFiles/") + pId);
+            var serverpath = getServerPath(pId);
             if (!Directory.Exists(serverpath)) return false;
 
             File.Delete(Path.Combine(serverpath, pFileName));
             return true;
         }
 
-        public static bool signatureSave(string pdataUri, string pId)
+        public static bool signatureSave(string pdataUri,string pName, string pId)
         {
             if (string.IsNullOrEmpty(pdataUri) || string.IsNullOrEmpty(pId))
                 return false;
 
-            var serverpath = Path.Combine(HttpContext.Current.Server.MapPath("~/UsersFiles/") + pId);
+            var serverpath = getServerPath(pId);
             if (!Directory.Exists(serverpath)) return false;
 
             var encodedImage = pdataUri.Split(',')[1];
             var decodedImage = Convert.FromBase64String(encodedImage);
-            File.WriteAllBytes(serverpath+"/signature.png", decodedImage);
+            File.WriteAllBytes(serverpath+"/"+ pName + "-signature.png", decodedImage);
             return true;
         }
     }
