@@ -217,6 +217,8 @@ namespace DikanNetProject.Controllers
         [HttpPost]
         public ActionResult Halacha(SpHalacha temphalacha, string uploadmethod) // submit  new halacha scholarship
         {
+            ViewBag.ResOk = false;
+            ViewBag.Response = "טיוטא נשמרה בהצלחה";
             temphalacha.StudentId = sStudentId;
             SpHalacha Studentinpractice;
             ViewBag.VolunteerPlacesList = new SelectList(SetsvolunteerPlaces(), "Id", "Name_desc"); // to show volunteer places list in drop down
@@ -229,9 +231,14 @@ namespace DikanNetProject.Controllers
                     {
                         temphalacha.Statuss = Enums.Status.בטיפול.ToString(); // insert status betipul
                         temphalacha.StatusUpdateDate = temphalacha.DateSubmitScholarship = DateTime.Now; // insert date submit + update status
+                        ViewBag.Response = "המלגה הוגשה בהצלחה!";
+                        ViewBag.ResOk = true;
                     }
                     else // if not all required fields are fill
+                    {
+                        ViewBag.ResOk = "Error"; // if error open error modal
                         return View(temphalacha);
+                    }
                 }
                 if (Studentinpractice == null)
                 {
@@ -242,6 +249,7 @@ namespace DikanNetProject.Controllers
                 ctx.Configuration.ValidateOnSaveEnabled = false;
                 ctx.SaveChanges();
             }
+            ViewBag.ResOk = true;
             return View(temphalacha);
         }
         #endregion
@@ -293,7 +301,10 @@ namespace DikanNetProject.Controllers
                         ViewBag.ResOk = true;
                     }
                     else
+                    {
+                        ViewBag.ResOk = "Error"; // if error open error modal
                         return View(tempmetmesuyanut);
+                    }
                 }
                 if (StudentMetsuyanut == null)
                 {

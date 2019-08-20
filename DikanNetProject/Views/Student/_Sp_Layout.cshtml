@@ -119,7 +119,8 @@
     <script>
         $(document).ready(function () {
             $('#successModal').css('display', 'none');
-            if('@ViewBag.ResOk' == 'True') $('#responseModal').modal('show');
+            if ('@ViewBag.ResOk' == 'True') $('#responseModal').modal('show');
+             if('@ViewBag.ResOk' == 'Error') $('#errorModal').modal('show');
         });
 
         function beforeSumbit(spName) {
