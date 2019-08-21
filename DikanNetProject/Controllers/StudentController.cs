@@ -379,27 +379,30 @@ namespace DikanNetProject.Controllers
                  */
 
                 //1. checks how much of family member row need depend on matrial status
-                switch (Enum.Parse(typeof(Enums.MatrialStatus), socio.MatrialStatus))
-                {
-                    // need 2 parents
-                    case Enums.MatrialStatus.רווק:
-                    case Enums.MatrialStatus.בודד_בארץ:
-                        numofFamMem = 2;
-                        break;
-                    // need only for husband or wife
-                    case Enums.MatrialStatus.נשוי:
-                        numofFamMem = 1;
-                        break;
-                    // no need
-                    case Enums.MatrialStatus.גרוש:
-                    case Enums.MatrialStatus.אלמן:
-                    case Enums.MatrialStatus.יתום:
-                        numofFamMem = 0;
-                        break;
-                    default:
-                        numofFamMem = 2;
-                        break;
-                }
+                if(socio.MatrialStatus != null)
+                    switch (Enum.Parse(typeof(Enums.MatrialStatus), socio.MatrialStatus))
+                    {
+                        // need 2 parents
+                        case Enums.MatrialStatus.רווק:
+                        case Enums.MatrialStatus.בודד_בארץ:
+                            numofFamMem = 2;
+                            break;
+                        // need only for husband or wife
+                        case Enums.MatrialStatus.נשוי:
+                            numofFamMem = 1;
+                            break;
+                        // no need
+                        case Enums.MatrialStatus.גרוש:
+                        case Enums.MatrialStatus.אלמן:
+                        case Enums.MatrialStatus.יתום:
+                            numofFamMem = 0;
+                            break;
+                        default:
+                            numofFamMem = 2;
+                            break;
+                    }
+                else { numofFamMem = 2; }
+                    
 
                 if (numofFamMem > 0) // if no needed row for family member with finance skip on it
                 {
