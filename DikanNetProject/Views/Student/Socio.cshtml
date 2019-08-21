@@ -219,15 +219,15 @@
     </div>
     <div id="Funding">
         @*
-            <div class="form-group row text-center">
-                <!--labels for table of funding student-->
-            @Html.LabelFor(model => model.ListFundings[0].FinancingInstitution, htmlAttributes: new { @class = "" })
-            @Html.LabelFor(model => model.ListFundings[0].FinancingHeight, htmlAttributes: new { @class = "" })
-            @Html.LabelFor(model => model.ListFundings[0].YearFinancing, htmlAttributes: new { @class = "" })
-            @Html.LabelFor(model => model.ListFundings[0].FileFunding, htmlAttributes: new { @class = "" })
-            @Html.LabelFor(model => model.ListFundings[0].PathFunding, htmlAttributes: new { @class = "" })
-            <label class="col-md-1">מחיקה</label>
-        </div>
+                <div class="form-group row text-center">
+                    <!--labels for table of funding student-->
+                @Html.LabelFor(model => model.ListFundings[0].FinancingInstitution, htmlAttributes: new { @class = "" })
+                @Html.LabelFor(model => model.ListFundings[0].FinancingHeight, htmlAttributes: new { @class = "" })
+                @Html.LabelFor(model => model.ListFundings[0].YearFinancing, htmlAttributes: new { @class = "" })
+                @Html.LabelFor(model => model.ListFundings[0].FileFunding, htmlAttributes: new { @class = "" })
+                @Html.LabelFor(model => model.ListFundings[0].PathFunding, htmlAttributes: new { @class = "" })
+                <label class="col-md-1">מחיקה</label>
+            </div>
         *@
         @foreach (var fund in Model.ListFundings)
         {
@@ -236,6 +236,8 @@
         <button class="btn btn-outline-success" id="addFund" type="button">+</button>
     </div>
     
+
+
 
     <!-- #endregion -->
     <!-- #region Car Student -->
@@ -378,7 +380,7 @@
         var fammemviewurl = '@Url.Action("FamilyView")'; // family member partial view
         var form = $('form'); // form
         var carsdiv = $('#cardiv'); // cars div inside all pratial rows
-        var funddiv = $('#funddiv'); // fund div inside all pratial rows
+        var funddiv = $('#Funding'); // fund div inside all pratial rows
         var fammemdiv = $('#FamMemdiv'); // family member div inside all pratial rows
 
         $('#addCar').click(function() {
@@ -417,13 +419,27 @@
             }
         });
 
-        $('#addFund').click(function() {
-            $.get(fundviewurl, function(response) {
-            funddiv.append(response);
+    $('#addFund').click(function () {
+
+        $.ajax({
+                    url: fundviewurl,
+                    dataType: 'text',
+                    data: null,
+                    method: "GET",
+                    success: function (response) {
+                        funddiv.append(response);
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        console.log(xhr.status);
+                        console.log(thrownError);
+                    }
+                });
+            //$.get(fundviewurl, function(response) {
+            //funddiv.html(response);
             // Reparse the validator for client side validation
             //form.data('validator', null);
             //$.validator.unobtrusive.parse(form);
-            });
+           // });
         });
 
         $(document).on('click','.del-fund',function() {
