@@ -233,7 +233,7 @@
         {
             @Html.Partial("FundView", fund)
         }
-        <button class="btn btn-outline-success" id="addFund" type="button">+</button>
+        <button class="funds btn btn-outline-success" id="addFund" type="button" style="font-size:50px;">+</button>
     </div>
     
 
@@ -380,7 +380,7 @@
         var fammemviewurl = '@Url.Action("FamilyView")'; // family member partial view
         var form = $('form'); // form
         var carsdiv = $('#cardiv'); // cars div inside all pratial rows
-        var funddiv = $('#Funding'); // fund div inside all pratial rows
+        var funddiv = $('#Funding .funds'); // fund div inside all pratial rows
         var fammemdiv = $('#FamMemdiv'); // family member div inside all pratial rows
 
         $('#addCar').click(function() {
@@ -420,20 +420,20 @@
         });
 
     $('#addFund').click(function () {
-
         $.ajax({
-                    url: fundviewurl,
-                    dataType: 'text',
-                    data: null,
-                    method: "GET",
-                    success: function (response) {
-                        funddiv.append(response);
-                    },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        console.log(xhr.status);
-                        console.log(thrownError);
-                    }
-                });
+            url: fundviewurl,
+            dataType: 'text',
+            data: null,
+            method: "GET",
+            success: function (response) {
+                //funddiv.prepend(response);
+                funddiv.last().before(response);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log(xhr.status);
+                console.log(thrownError);
+                }
+            });
             //$.get(fundviewurl, function(response) {
             //funddiv.html(response);
             // Reparse the validator for client side validation

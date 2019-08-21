@@ -21,7 +21,7 @@ div.chose-file {
   font-size: 20px;
   overflow: hidden;
   cursor: pointer;
-  box-shadow: 6px 5px 20px #888;
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -98,11 +98,13 @@ div#reqStatuses > div:nth-child(odd) {
 /*Socio*/
 #Funding {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   grid-gap: 5px; }
-  #Funding .funds {
-    background-color: #f5f5ba; }
-    #Funding .funds input {
+  #Funding div.funds {
+    background-color: #f5f5ba;
+    position: relative;
+    height: 510px; }
+    #Funding div.funds input {
       width: 90%;
       display: block;
       background: transparent;
@@ -110,25 +112,32 @@ div#reqStatuses > div:nth-child(odd) {
       border-bottom: 2px solid #626249;
       border-radius: 0px !important;
       margin: 5px auto; }
-      #Funding .funds input:focus {
+      #Funding div.funds input:focus {
         outline: 0px; }
-    #Funding .funds ::placeholder {
+    #Funding div.funds ::placeholder {
       color: #f5f5ba; }
-    #Funding .funds .title {
+    #Funding div.funds .title {
       margin-bottom: 0px; }
-    #Funding .funds div.form-row {
+    #Funding div.funds div.form-row {
       position: relative;
       margin: 15px 0;
       padding-top: 10px; }
-      #Funding .funds div.form-row .title {
+      #Funding div.funds div.form-row .title {
         position: absolute;
         top: 10px;
         pointer-events: none;
         right: 5%;
         color: #000;
         transition: .5s; }
-      #Funding .funds div.form-row input:focus ~ .title, #Funding .funds div.form-row input:not(:placeholder-shown) ~ .title {
+      #Funding div.funds div.form-row input:focus ~ .title, #Funding div.funds div.form-row input:not(:placeholder-shown) ~ .title {
         top: -10px; }
+    #Funding div.funds .del-fund {
+      position: absolute;
+      top: 90%;
+      width: 90%;
+      right: 5%; }
+    #Funding div.funds .chose-file {
+      margin: 10px; }
 
 @media (max-width: 768px) {
   #reqScholarship {

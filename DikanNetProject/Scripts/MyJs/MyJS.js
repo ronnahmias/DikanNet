@@ -7,8 +7,6 @@ Last Update: 26/7/19
 **************/
 
 $(document).ready(function () {
-    //add attrbute onkeypress inly numbers allow
-    $('.only-numbers').attr('onkeypress', 'return event.charCode >= 48 && event.charCode <=57');
 
     //review password function on hover
     $('.review-password').hover(function () {
@@ -36,7 +34,47 @@ $(document).ready(function () {
         carcount++;
     });
 
-    // Function for dropdown lists to chose
+    onlyNumbers();
+    chosen();
+    datepicker();
+
+    // chose file change the style of button
+    $('input[type="file"]').change(function () {
+        console.log("chose file");
+        var $this = $(this);
+        var fileName = $this.val();
+        var $label = $('label[for="' + $this.attr('id') + '"]')[0];
+        var $father = $this.parent();
+        if (fileName.length == 0) {
+            $label.append('<i class="ml-1 material-icons">add_photo_alternate</i>');
+            $label.textContent = 'בחר קובץ';
+            $father.removeClass("file-selcted");
+        }
+        else {
+            $label.textContent = fileName.toString();
+            $father.addClass("file-selcted");
+        }
+        
+    })
+});
+
+// Function agter ajax calls
+$(document).ajaxComplete(function () {
+    onlyNumbers();
+    chosen();
+    datepicker();
+});
+
+// Function for date picker
+function datepicker() {
+    $('[data-toggle="datepicker"]').attr('readonly', true);
+    $('[data-toggle="datepicker"]').datepicker({
+        language: 'he-HE'
+    });
+}
+
+// Function for dropdown lists to chose
+function chosen() {
     $(".chosen").chosen(
         {
             no_results_text: "אין ערך כזה.",
@@ -44,30 +82,12 @@ $(document).ready(function () {
             allow_single_deselect: true,
             width: '100%'
         });
+}
 
-    // Function for date picker
-    $('[data-toggle="datepicker"]').attr('readonly', true);
-    $('[data-toggle="datepicker"]').datepicker({
-        language: 'he-HE'
-    });
-    // chose file change the style of button
-    $('input[type="file"]').change(function () {
-        var $this = $(this);
-        var n = $this.val();
-        var $label = $('label[for="' + $this.attr('id') + '"]')[1];
-        var $father = $this.parent();
-        if (n.length == 0) {
-            $label.append('<i class="ml-1 material-icons">add_photo_alternate</i>');
-            $label.textContent = 'בחר קובץ';
-            $father.removeClass("file-selcted");
-        }
-        else {
-            $label.textContent = n;
-            $father.addClass("file-selcted");
-        }
-        
-    })
-});
+//add attrbute onkeypress inly numbers allow
+function onlyNumbers(){
+    $('.only-numbers').attr('onkeypress', 'return event.charCode >= 48 && event.charCode <=57');
+}
 
 // validtion for ID
 function validId(id) {

@@ -26,13 +26,14 @@ div.chose-file {
     font-size: 20px;
     overflow: hidden;
     cursor: pointer;
-    box-shadow: 6px 5px 20px #888;
+    box-shadow: 0px 5px 20px rgba(0,0,0,.3);
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     padding: 5px;
     border-radius: 10px;
+
     label {
         display: flex;
         flex-wrap: wrap;
@@ -130,11 +131,13 @@ div#reqStatuses > div:nth-child(odd)
 /*Socio*/
 #Funding {
     display: grid;
-    grid-template-columns: repeat(3,1fr);
+    grid-template-columns: repeat(4,1fr);
     grid-gap: 5px;
 
-    .funds {
+    div.funds {
         background-color: #f5f5ba;
+        position: relative;
+        height: 510px;
 
         input {
             width: 90%;
@@ -182,8 +185,15 @@ div#reqStatuses > div:nth-child(odd)
             }
         }
 
-        .chose-file{
+        .del-fund {
+            position: absolute;
+            top: 90%;
+            width: 90%;
+            right: 5%;
+        }
 
+        .chose-file {
+            margin: 10px;
         }
     }
 }

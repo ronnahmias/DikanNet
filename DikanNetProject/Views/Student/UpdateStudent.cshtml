@@ -148,7 +148,7 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.FileId, htmlAttributes: new { @class = "control-label" })
+                @Html.LabelFor(model => model.FileId, htmlAttributes: new { @class = "control-label",@for=""})
                 <div class="row">
                     <div class="chose-file m-3 mt-0">
                         @Html.TextBoxFor(model => model.FileId, new {@class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf",@style = "display:none;"})
