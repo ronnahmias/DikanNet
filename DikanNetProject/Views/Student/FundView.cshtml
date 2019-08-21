@@ -4,23 +4,34 @@
     <div class="funds">
         @using (Html.BeginCollectionItem("ListFundings"))
         {
-        <div class="form-group row text-center">
-            @Html.EditorFor(model => model.FinancingInstitution, new { htmlAttributes = new { @class = "control-label col-md-2" } })
-            @Html.EditorFor(model => model.FinancingHeight, new { htmlAttributes = new { @class = "control-label col-md-2" } })
-            @Html.DropDownListFor(model => model.YearFinancing, ViewBag.YearsList as SelectList, "שנת מימון", htmlAttributes: new { @class = "control-label col-md-2" })
-            @Html.TextBoxFor(model => model.FileFunding, new { @class = "control-label col-md-3", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
-            @Html.DisplayFor(model => model.PathFunding, new { htmlAttributes = new { @class = "control-label col-md-2" } })
-            @Html.HiddenFor(model => model.PathFunding)
-            @Html.HiddenFor(model => model.FundingId, new { @class="id" })
-            <div class="col-md-1">
-                <button class="btn btn-danger del-fund" type="button">X</button>
+            <div class="form-row">
+                @Html.EditorFor(model => model.FinancingInstitution, new { htmlAttributes = new { @class = "control-label" ,@placeholder="."} })
+                @Html.LabelFor(model => model.FinancingInstitution, htmlAttributes: new { @class = "title" })
             </div>
-        </div>
-            <div class="form-group row text-danger">
-                @Html.ValidationMessageFor(model => model.FinancingInstitution, "", new { @class = "control-label col-md-2" })
-                @Html.ValidationMessageFor(model => model.FinancingHeight, "", new { @class = "control-label col-md-2" })
-                @Html.ValidationMessageFor(model => model.YearFinancing, "", new { @class = "control-label col-md-2" })
-                @Html.ValidationMessageFor(model => model.FileFunding, "", new { @class = "control-label col-md-2" })
+            <div class="form-row">
+                @Html.EditorFor(model => model.FinancingHeight, new { htmlAttributes = new { @class = "control-label only-numbers" ,@placeholder=".",@type="text"} })
+                @Html.LabelFor(model => model.FinancingHeight, htmlAttributes: new { @class = "title" })
             </div>
-        }
-    </div>
+            <div class="text-center">
+                @*@Html.LabelFor(model => model.YearFinancing, htmlAttributes: new { @class = "" })*@
+                @Html.DropDownListFor(model => model.YearFinancing, ViewBag.YearsList as SelectList, "", htmlAttributes: new { @class = "control-label chosen",@data_placeholder="שנת מימון" })
+            </div>
+            <div class="chose-file text-center">
+                @Html.TextBoxFor(model => model.FileFunding, new { @class = "control-label col-md-3", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" ,@style = "display:none;"})
+                <label for="FileId">
+                    <i class="ml-1 material-icons">add_photo_alternate</i>
+                    בחר קובץ
+                </label>
+                @Html.DisplayFor(model => model.PathFunding, new { htmlAttributes = new { @class = "control-label" } })
+            </div>
+                @Html.HiddenFor(model => model.PathFunding)
+                @Html.HiddenFor(model => model.FundingId, new { @class = "id" })
+                @*<button class="btn btn-danger del-fund" type="button">X</button>*@
+                <div class="form-group row text-danger">
+                    @Html.ValidationMessageFor(model => model.FinancingInstitution, "", new { @class = "control-label" })
+                    @Html.ValidationMessageFor(model => model.FinancingHeight, "", new { @class = "control-label" })
+                    @Html.ValidationMessageFor(model => model.YearFinancing, "", new { @class = "control-label" })
+                    @Html.ValidationMessageFor(model => model.FileFunding, "", new { @class = "control-label" })
+                </div>
+                }
+            </div>
