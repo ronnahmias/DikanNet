@@ -96,15 +96,15 @@ div#reqStatuses > div:nth-child(odd) {
   max-width: 100%; }
 
 /*Socio*/
-#Funding {
+#Funding, #cardiv {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 5px; }
-  #Funding div.funds {
+  #Funding div.funds, #Funding div.cars, #cardiv div.funds, #cardiv div.cars {
     background-color: #f5f5ba;
     position: relative;
     height: 510px; }
-    #Funding div.funds input {
+    #Funding div.funds input, #Funding div.cars input, #cardiv div.funds input, #cardiv div.cars input {
       width: 90%;
       display: block;
       background: transparent;
@@ -112,32 +112,36 @@ div#reqStatuses > div:nth-child(odd) {
       border-bottom: 2px solid #626249;
       border-radius: 0px !important;
       margin: 5px auto; }
-      #Funding div.funds input:focus {
+      #Funding div.funds input:focus, #Funding div.cars input:focus, #cardiv div.funds input:focus, #cardiv div.cars input:focus {
         outline: 0px; }
-    #Funding div.funds ::placeholder {
+    #Funding div.funds ::placeholder, #Funding div.cars ::placeholder, #cardiv div.funds ::placeholder, #cardiv div.cars ::placeholder {
       color: #f5f5ba; }
-    #Funding div.funds .title {
+    #Funding div.funds .title, #Funding div.cars .title, #cardiv div.funds .title, #cardiv div.cars .title {
       margin-bottom: 0px; }
-    #Funding div.funds div.form-row {
+    #Funding div.funds div.form-row, #Funding div.cars div.form-row, #cardiv div.funds div.form-row, #cardiv div.cars div.form-row {
       position: relative;
       margin: 15px 0;
       padding-top: 10px; }
-      #Funding div.funds div.form-row .title {
+      #Funding div.funds div.form-row .title, #Funding div.cars div.form-row .title, #cardiv div.funds div.form-row .title, #cardiv div.cars div.form-row .title {
         position: absolute;
         top: 10px;
         pointer-events: none;
         right: 5%;
         color: #000;
         transition: .5s; }
-      #Funding div.funds div.form-row input:focus ~ .title, #Funding div.funds div.form-row input:not(:placeholder-shown) ~ .title {
+      #Funding div.funds div.form-row input:focus ~ .title, #Funding div.funds div.form-row input:not(:placeholder-shown) ~ .title, #Funding div.cars div.form-row input:focus ~ .title, #Funding div.cars div.form-row input:not(:placeholder-shown) ~ .title, #cardiv div.funds div.form-row input:focus ~ .title, #cardiv div.funds div.form-row input:not(:placeholder-shown) ~ .title, #cardiv div.cars div.form-row input:focus ~ .title, #cardiv div.cars div.form-row input:not(:placeholder-shown) ~ .title {
         top: -10px; }
-    #Funding div.funds .del-fund {
+    #Funding div.funds .del-fund, #Funding div.funds .del-car, #Funding div.cars .del-fund, #Funding div.cars .del-car, #cardiv div.funds .del-fund, #cardiv div.funds .del-car, #cardiv div.cars .del-fund, #cardiv div.cars .del-car {
       position: absolute;
       top: 90%;
       width: 90%;
       right: 5%; }
-    #Funding div.funds .chose-file {
-      margin: 10px; }
+    #Funding div.funds .chose-file, #Funding div.cars .chose-file, #cardiv div.funds .chose-file, #cardiv div.cars .chose-file {
+      width: 90%;
+      margin: 10px auto; }
+
+#cardiv .cars {
+  height: 705px !important; }
 
 @media (max-width: 768px) {
   #reqScholarship {

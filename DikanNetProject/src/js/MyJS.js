@@ -37,25 +37,8 @@ $(document).ready(function () {
     onlyNumbers();
     chosen();
     datepicker();
-
-    // chose file change the style of button
-    $('input[type="file"]').change(function () {
-        console.log("chose file");
-        var $this = $(this);
-        var fileName = $this.val();
-        var $label = $('label[for="' + $this.attr('id') + '"]')[0];
-        var $father = $this.parent();
-        if (fileName.length == 0) {
-            $label.append('<i class="ml-1 material-icons">add_photo_alternate</i>');
-            $label.textContent = 'בחר קובץ';
-            $father.removeClass("file-selcted");
-        }
-        else {
-            $label.textContent = fileName.toString();
-            $father.addClass("file-selcted");
-        }
-        
-    })
+    choseFile();
+    
 });
 
 // Function agter ajax calls
@@ -63,6 +46,8 @@ $(document).ajaxComplete(function () {
     onlyNumbers();
     chosen();
     datepicker();
+    choseFile();
+
 });
 
 // Function for date picker
@@ -87,6 +72,26 @@ function chosen() {
 //add attrbute onkeypress inly numbers allow
 function onlyNumbers(){
     $('.only-numbers').attr('onkeypress', 'return event.charCode >= 48 && event.charCode <=57');
+}
+
+// chose file change the style of button
+function choseFile() {
+    $('input[type="file"]').change(function () {
+        console.log("chose file");
+        var $this = $(this);
+        var fileName = $this.val();
+        var $label = $('label[for="' + $this.attr('id') + '"]')[0];
+        var $father = $this.parent();
+        if (fileName.length == 0) {
+            $label.append('<i class="ml-1 material-icons">add_photo_alternate</i>');
+            $label.textContent = 'בחר קובץ';
+            $father.removeClass("file-selcted");
+        }
+        else {
+            $label.textContent = fileName.toString();
+            $father.addClass("file-selcted");
+        }
+    });
 }
 
 // validtion for ID

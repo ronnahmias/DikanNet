@@ -4,18 +4,45 @@
     <div class="cars">
         @using (Html.BeginCollectionItem("ListCarStudent"))
         {
-            <div class="form-group row text-center">
-                @Html.EditorFor(model => model.CarNumber, new { htmlAttributes = new { @class = "control-label col-md-2 id" } })
-                @Html.EditorFor(model => model.CarCompany, new { htmlAttributes = new { @class = "control-label col-md-2" } })
-                @Html.EditorFor(model => model.CarModel, new { htmlAttributes = new { @class = "control-label col-md-2" } })
-                @Html.DropDownListFor(model => model.CarYear, ViewBag.YearsList as SelectList, "", htmlAttributes: new { @class = "control-label col-md-2 chosen" ,@data_placeholder="שנת ייצור"})
-                @Html.EditorFor(model => model.CarComment, new { htmlAttributes = new { @class = "control-label col-md-2" } })
-                @Html.TextBoxFor(model => model.FileCarLicense, new { @class = "control-label col-md-1", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
-                @Html.HiddenFor(model => model.PathCarLicense)
-                <div class="col-md-1">
-                    <button class="btn btn-danger del-car" type="button">X</button>
+            <div class="form-row">
+                @Html.EditorFor(model => model.CarNumber, new { htmlAttributes = new { @class = "control-label id", @placeholder = "." } })
+                @Html.LabelFor(model => model.CarNumber, htmlAttributes: new { @class = "title" })
+            </div>
+            <div class="form-row">
+                @Html.EditorFor(model => model.CarCompany, new { htmlAttributes = new { @class = "control-label", @placeholder = "." } })
+                @Html.LabelFor(model => model.CarCompany, htmlAttributes: new { @class = "title" })
+            </div>
+            <div class="form-row">
+                @Html.EditorFor(model => model.CarModel, new { htmlAttributes = new { @class = "control-label", @placeholder = "." } })
+                @Html.LabelFor(model => model.CarModel, htmlAttributes: new { @class = "title" })
+            </div>
+            <div class="text-center">
+                @Html.DropDownListFor(model => model.CarYear, ViewBag.YearsList as SelectList, "", htmlAttributes: new { @class = "control-label chosen", @data_placeholder = "שנת ייצור" })
+                @*@Html.LabelFor(model => model.CarYear, htmlAttributes: new { @class = "title" })*@
+            </div>
+            <div class="form-row">
+                @Html.EditorFor(model => model.CarComment, new { htmlAttributes = new { @class = "control-label", @placeholder = "." } })
+                @Html.LabelFor(model => model.CarComment, htmlAttributes: new { @class = "title" })
+
+            </div>
+            <div class="form-row">
+                @Html.LabelFor(model => model.FileCarLicense, htmlAttributes: new { @class = "", @for = "" })
+                <div class="chose-file text-center">
+                    @Html.TextBoxFor(model => model.FileCarLicense, new { @class = "control-label", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;" })
+                    <label for="@Html.IdFor(m => m.FileCarLicense)">
+                        <i class="ml-1 material-icons">add_photo_alternate</i>
+                        בחר קובץ
+                    </label>
+                    @Html.HiddenFor(model => model.PathCarLicense)
                 </div>
             </div>
+
+            <div class="text-center">
+                <embed src='/UsersFiles/@Model.StudentId/@Model.PathCarLicense' class=" @(@Model.PathCarLicense == null ? "d-none" : " ") embed-file" style="" />
+            </div>
+
+            <button class="btn btn-danger del-car" type="button">X</button>
+
             <div class="form-group row text-danger">
                 @Html.ValidationMessageFor(model => model.CarNumber, "", new { @class = "control-label col-md-2" })
                 @Html.ValidationMessageFor(model => model.CarCompany, "", new { @class = "control-label col-md-2" })

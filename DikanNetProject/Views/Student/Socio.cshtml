@@ -124,8 +124,8 @@
 
 
     <div class="form-group">
-        @Html.LabelFor(model => model.SocioMod.ReceiveScholarship, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
+        @Html.LabelFor(model => model.SocioMod.ReceiveScholarship, htmlAttributes: new { @class = "control-label" })
+        <div class="">
             <div class="checkbox">
                 @Html.EditorFor(model => model.SocioMod.ReceiveScholarship)
                 @Html.ValidationMessageFor(model => model.SocioMod.ReceiveScholarship, "", new { @class = "text-danger" })
@@ -208,68 +208,51 @@
     @Html.HiddenFor(model => model.MatrialStatus)
     <!-- #endregion -->
     <!-- #region Funding -->
-    <div class="form-group">
-        @Html.LabelFor(model => model.SocioMod.HasFunding, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            <div class="checkbox">
-                @Html.EditorFor(model => model.SocioMod.HasFunding, new { htmlAttributes = new { onchange = "showHidenPortion(this.checked,'Funding')" } })
-                @Html.ValidationMessageFor(model => model.SocioMod.HasFunding, "", new { @class = "text-danger" })
+    <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#FundingWarpper">מימון נוסף</button>
+    <div id="FundingWarpper" class="collapse">
+        <div class="row form-group">
+            @Html.LabelFor(model => model.SocioMod.HasFunding, htmlAttributes: new { @class = "control-label" })
+            <div class="">
+                <div class="checkbox mx-3">
+                    @Html.EditorFor(model => model.SocioMod.HasFunding, new { htmlAttributes = new { onchange = "showHidenPortion(this.checked,'Funding')" } })
+                    @Html.ValidationMessageFor(model => model.SocioMod.HasFunding, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
-    </div>
-    <div id="Funding">
-        @*
-                <div class="form-group row text-center">
-                    <!--labels for table of funding student-->
-                @Html.LabelFor(model => model.ListFundings[0].FinancingInstitution, htmlAttributes: new { @class = "" })
-                @Html.LabelFor(model => model.ListFundings[0].FinancingHeight, htmlAttributes: new { @class = "" })
-                @Html.LabelFor(model => model.ListFundings[0].YearFinancing, htmlAttributes: new { @class = "" })
-                @Html.LabelFor(model => model.ListFundings[0].FileFunding, htmlAttributes: new { @class = "" })
-                @Html.LabelFor(model => model.ListFundings[0].PathFunding, htmlAttributes: new { @class = "" })
-                <label class="col-md-1">מחיקה</label>
-            </div>
-        *@
-        @foreach (var fund in Model.ListFundings)
-        {
-            @Html.Partial("FundView", fund)
-        }
-        <button class="funds btn btn-outline-success" id="addFund" type="button" style="font-size:50px;">+</button>
+        <div id="Funding" style="display:@(Model.SocioMod.HasFunding ? "" : "none")">
+            @foreach (var fund in Model.ListFundings)
+            {
+                @Html.Partial("FundView", fund)
+            }
+            <button class="funds btn btn-outline-success" id="addFund" type="button" style="font-size:50px;">+</button>
+        </div>
     </div>
     
+
 
 
 
     <!-- #endregion -->
     <!-- #region Car Student -->
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.SocioMod.CarOwner, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            <div class="checkbox">
-                @Html.EditorFor(model => model.SocioMod.CarOwner)
+    <div class="form-group row">
+        @Html.LabelFor(model => model.SocioMod.CarOwner, htmlAttributes: new { @class = "control-label" })
+        <div class="">
+            <div class="checkbox mx-3">
+                @Html.EditorFor(model => model.SocioMod.CarOwner, new { htmlAttributes = new { onchange = "showHidenPortion(this.checked,'cardiv')" } })
                 @Html.ValidationMessageFor(model => model.SocioMod.CarOwner, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
 
-    <div class="form-group row text-center">
-        <!--labels for table of car student-->
-        @Html.LabelFor(model => model.ListCarStudent[0].CarNumber, htmlAttributes: new { @class = "control-label col-md-2" })
-        @Html.LabelFor(model => model.ListCarStudent[0].CarCompany, htmlAttributes: new { @class = "control-label col-md-2" })
-        @Html.LabelFor(model => model.ListCarStudent[0].CarModel, htmlAttributes: new { @class = "control-label col-md-2" })
-        @Html.LabelFor(model => model.ListCarStudent[0].CarYear, htmlAttributes: new { @class = "control-label col-md-1" })
-        @Html.LabelFor(model => model.ListCarStudent[0].CarComment, htmlAttributes: new { @class = "control-label col-md-2" })
-        @Html.LabelFor(model => model.ListCarStudent[0].FileCarLicense, htmlAttributes: new { @class = "control-label col-md-2" })
-        <label class="col-md-1">מחיקה</label>
-    </div>
-
-    <div id="cardiv">
+    <div id="cardiv" style="display:@(Model.SocioMod.CarOwner ? "" : "none")">
         @foreach (var car in Model.ListCarStudent)
         {
             @Html.Partial("CarsView", car)
         }
+        <button class="cars btn btn-outline-success" id="addCar" type="button">+</button>
+
     </div>
-    <button class="btn btn-outline-success" id="addCar" type="button">+</button>
     <!-- #endregion -->
     <!-- #region Student Finance -->
 
@@ -379,13 +362,13 @@
         var fundviewurl = '@Url.Action("FundView")'; // fund partial view
         var fammemviewurl = '@Url.Action("FamilyView")'; // family member partial view
         var form = $('form'); // form
-        var carsdiv = $('#cardiv'); // cars div inside all pratial rows
+        var carsdiv = $('#cardiv .cars'); // cars div inside all pratial rows
         var funddiv = $('#Funding .funds'); // fund div inside all pratial rows
         var fammemdiv = $('#FamMemdiv'); // family member div inside all pratial rows
 
         $('#addCar').click(function() {
             $.get(carviewurl, function(response) {
-            carsdiv.append(response);
+            carsdiv.last().before(response);
             // Reparse the validator for client side validation
             //form.data('validator', null);
             //$.validator.unobtrusive.parse(form);
