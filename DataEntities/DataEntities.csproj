@@ -126,6 +126,7 @@
     <Compile Include="StudentFinance.cs" />
     <Compile Include="StudentMain.cs" />
     <Compile Include="Users.cs" />
+    <Compile Include="Users1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VolunteerPlaces.cs" />
   </ItemGroup>

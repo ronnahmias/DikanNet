@@ -29,7 +29,7 @@ namespace DikanNetProject.Controllers
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { action = "Login", controller = "Login" }));
             }
             else
-                sStudentId = ((Users)Session["Student"]).UserId;
+                sStudentId = ((Users1)Session["Student"]).UserId;
         }
         #endregion
 
@@ -50,7 +50,7 @@ namespace DikanNetProject.Controllers
                             break;
 
                         case Enums.SpType.מצוינות:
-                            if (ctx.Ecellence.Any(s => s.ScholarshipId == scholarship.ScholarshipID && s.StudentId == sStudentId))
+                            if (ctx.Excellence.Any(s => s.ScholarshipId == scholarship.ScholarshipID && s.StudentId == sStudentId))
                                 studentMain.ScholarshipDefinitions.Remove(scholarship);
                             break;
 
@@ -63,7 +63,7 @@ namespace DikanNetProject.Controllers
                 }
                 // send only scholarship that belongs to student id
                 studentMain.InPracticeList = ctx.Halacha.Include(s => s.ScholarshipDefinition).Where(s => s.StudentId == sStudentId).ToList(); // send to view inpractice list of student
-                studentMain.ExcelList = ctx.Ecellence.Include(s => s.ScholarshipDefinition).Where(s => s.StudentId == sStudentId).ToList(); // send to view excellence list of student
+                studentMain.ExcelList = ctx.Excellence.Include(s => s.ScholarshipDefinition).Where(s => s.StudentId == sStudentId).ToList(); // send to view excellence list of student
                 studentMain.SocioList = ctx.Socio.Include(s => s.ScholarshipDefinition).Where(s => s.StudentId == sStudentId).ToList(); // send to view socio list of student
             }
 
@@ -89,9 +89,9 @@ namespace DikanNetProject.Controllers
                     student = new Student
                     {
                         StudentId = sStudentId,
-                        Email = ((Users)Session["Student"]).Email,
-                        FirstName = ((Users)Session["Student"]).FirstName,
-                        LastName = ((Users)Session["Student"]).LastName
+                        Email = ((Users1)Session["Student"]).Email,
+                        FirstName = ((Users1)Session["Student"]).FirstName,
+                        LastName = ((Users1)Session["Student"]).LastName
                     };
                 }
                 else
@@ -104,7 +104,7 @@ namespace DikanNetProject.Controllers
         [HttpPost]
         public ActionResult UpdateStudent(Student UpdateStudent)
         {
-            Users tempuser = null;
+            Users1 tempuser = null;
             UpdateStudent.StudentId = sStudentId;
             if (ModelState.IsValid)
             {
@@ -113,7 +113,7 @@ namespace DikanNetProject.Controllers
                     Student dbStudent = ctx.Students.Find(UpdateStudent.StudentId);
                     if (dbStudent != null)
                     {
-                        tempuser = ctx.Users.Find(UpdateStudent.StudentId); // get the student user
+                        //tempuser = ctx.Users.Find(UpdateStudent.StudentId); // get the student user
                         if (tempuser != null) // if the student changed the name update in users list also
                         {
                             tempuser.FirstName = UpdateStudent.FirstName;
@@ -261,7 +261,7 @@ namespace DikanNetProject.Controllers
             SpExcellence tempmetsuyanut;
             using (DikanDbContext ctx = new DikanDbContext())
             {
-                tempmetsuyanut = ctx.Ecellence.Where(s => s.StudentId == sStudentId && s.ScholarshipId == scholarshipid).SingleOrDefault();
+                tempmetsuyanut = ctx.Excellence.Where(s => s.StudentId == sStudentId && s.ScholarshipId == scholarshipid).SingleOrDefault();
             }
             if (tempmetsuyanut == null) // checks if is it first time sign to scholarship or has save draft
             {
@@ -289,7 +289,7 @@ namespace DikanNetProject.Controllers
             SpExcellence StudentMetsuyanut;
             using (DikanDbContext ctx = new DikanDbContext())
             {
-                StudentMetsuyanut = ctx.Ecellence.Where(s => s.StudentId == tempmetmesuyanut.StudentId && s.ScholarshipId == tempmetmesuyanut.ScholarshipId).SingleOrDefault(); // find if he insert already draft     
+                StudentMetsuyanut = ctx.Excellence.Where(s => s.StudentId == tempmetmesuyanut.StudentId && s.ScholarshipId == tempmetmesuyanut.ScholarshipId).SingleOrDefault(); // find if he insert already draft     
                 if (uploadmethod.Equals("submit"))
                 {// submit scholarship
                     if (ModelState.IsValid)
@@ -307,7 +307,7 @@ namespace DikanNetProject.Controllers
                 }
                 if (StudentMetsuyanut == null)
                 {
-                    ctx.Ecellence.Add(tempmetmesuyanut); // if it first time insert new
+                    ctx.Excellence.Add(tempmetmesuyanut); // if it first time insert new
                 }
                 else
                     ctx.Entry(StudentMetsuyanut).CurrentValues.SetValues(tempmetmesuyanut); // update

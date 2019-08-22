@@ -12,7 +12,7 @@ namespace DikanNetProject.Models
         [Required(AllowEmptyStrings =false, ErrorMessage ="אנא הזן תעודת זהות")]
         [MinLength(9)]
         [MaxLength(9)]
-        public string UserId { get; set; }
+        public string UserName { get; set; }
 
         [Display(Name = "סיסמא")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "אנא הזן סיסמא")]

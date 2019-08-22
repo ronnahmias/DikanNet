@@ -11,66 +11,13 @@ using DataEntities.DB;
 using System.Net;
 using System.Web.Security;
 using System.Web.Routing;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Identity.Owin;
-using System.Diagnostics;
-using System.Data.Entity.Validation;
-using Microsoft.AspNet.Identity;
-using Microsoft.Owin.Security;
-using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace DikanNetProject.Controllers
 {
     [RequireHttps] // only https requests
-    public class LoginController : Controller
-    {
-
-        private ApplicationSignInManager _signInManager;
-        private ApplicationUserManager _userManager;
-
-        public LoginController()
-        {
-        }
-
-        public LoginController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
-        {
-            UserManager = userManager;
-            SignInManager = signInManager;
-        }
-
-        public ApplicationSignInManager SignInManager
-        {
-            get
-            {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            }
-            private set
-            {
-                _signInManager = value;
-            }
-        }
-
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
-
-        private IAuthenticationManager AuthenticationManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().Authentication;
-            }
-        }
+    public class LogincleanController : Controller
+    {/*
         #region Login
-        [AllowAnonymous]
         [HttpGet]
         public ActionResult Login()
         {
@@ -79,24 +26,8 @@ namespace DikanNetProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(UserLogin loginuser)
+        public ActionResult Login(UserLogin loginuser)
         {
-            var result = await SignInManager.PasswordSignInAsync(loginuser.UserName, loginuser.Password, loginuser.RememberMe, shouldLockout: false);
-            switch (result)
-            {
-                case SignInStatus.Success:
-                    return RedirectToAction("Index","Dikan",null);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    //return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    break;
-                    //return View(model);
-            }
-            /*
             ViewBag.Status = false;
             if (ModelState.IsValid)
             {
@@ -157,13 +88,13 @@ namespace DikanNetProject.Controllers
                     }
 
                 }
-            }*/
+            }
             return View(loginuser);
         }
 
         #endregion
 
-        //#region Registration
+        #region Registration
 
         [HttpGet]
         public ActionResult Registration()
@@ -173,39 +104,9 @@ namespace DikanNetProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Registration([Bind(Exclude = "IsEmailVerified,ActivationCode,ResetPasswordCode,Role")]Users RegisterUser)
+        public ActionResult Registration([Bind(Exclude = "IsEmailVerified,ActivationCode,ResetPasswordCode,Role")]Users1 RegisterUser)
         {
-            //if (ModelState.IsValid)
-            {
-                var user = new Users { UserName = RegisterUser.UserName, Email = RegisterUser.Email };
-                var result = await UserManager.CreateAsync(user, RegisterUser.Password);
-                using(DikanDbContext ctx = new DikanDbContext())
-                {
-                    var roleStore = new RoleStore<IdentityRole>(ctx);
-                    var roleManager = new RoleManager<IdentityRole>(roleStore);
-
-                    var userStore = new UserStore<Users>(ctx);
-                    var userManager = new UserManager<Users>(userStore);
-                    userManager.AddToRole(user.Id, "Student");
-                }
-                if (result.Succeeded)
-                {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
-                // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                // Send an email with this link
-                // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                return RedirectToAction("Index", "Dikan");
-                }
-                //AddErrors(result);
-            }
-
-            // If we got this far, something failed, redisplay form
-            return View(RegisterUser);
-            /*ViewBag.Status = false;
+            ViewBag.Status = false;
             if (ModelState.IsValid)
             {
                 if (string.Compare(RegisterUser.Password, RegisterUser.ConfirmPassword) != 0) // validation of the password and confirm password
@@ -239,9 +140,9 @@ namespace DikanNetProject.Controllers
                 ViewBag.ModelTitle = "רישום";
                 ViewBag.ModelMessageBody = "הרישום הצליח! עלייך לאמת את החשבון דרך תיבת הדואר האלקטרוני לפני ההתחברות הראשונה";
             }
-            return View(RegisterUser);*/
+            return View(RegisterUser);
         }
-        /*
+
         #endregion
 
         #region Forgot Pass
@@ -324,7 +225,7 @@ namespace DikanNetProject.Controllers
         }
 
         #endregion
-        */
+
         #region Check If User Exist
         [HttpPost]
         public ActionResult CheckIfUserExist(string UserId, string Email) // ajax call
@@ -339,7 +240,7 @@ namespace DikanNetProject.Controllers
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
         #endregion
-        /*
+
         #region Verify Account
         [HttpGet]
         public ActionResult VerifyAccount(string id)
@@ -360,23 +261,22 @@ namespace DikanNetProject.Controllers
             return View();
         }
         #endregion
-*/
+
         #region Disconnect
         public ActionResult Disconnect() // disconnect from user
         {
-            //Session.Abandon();
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            Session.Abandon();
             return RedirectToAction("Login", "Login", null);
         }
         #endregion
-        
+
         #region Non Action
         [NonAction]
         private bool IsIdExist(string userId)
         {
             using (DikanDbContext ctx = new DikanDbContext())
             {
-                var tempuser = ctx.Users.Where(user => user.UserName == userId).FirstOrDefault();
+                var tempuser = ctx.Users.Where(user => user.UserId == userId).FirstOrDefault();
                 return tempuser == null ? false : true; // if the Id not found he return false
             }
         }
@@ -391,6 +291,6 @@ namespace DikanNetProject.Controllers
             }
            
         }
-        #endregion
+        #endregion*/
     }
 }
