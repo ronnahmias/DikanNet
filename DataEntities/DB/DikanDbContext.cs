@@ -69,11 +69,10 @@ namespace DataEntities.DB
 
             modelBuilder.Entity<Users>().ToTable("Users"); 
             modelBuilder.Entity<IdentityRole>().ToTable("Roles");
+            modelBuilder.Entity<IdentityUserLogin>().ToTable("UserLogins");
+            modelBuilder.Entity<IdentityUserClaim>().ToTable("UserClaims");
+            modelBuilder.Entity<IdentityUserRole>().ToTable("UserRoles");
 
-            //modelBuilder.Entity<IdentityUserClaim>().HasKey(l => l.UserId);
-            //modelBuilder.Entity<IdentityUserLogin>().HasKey<string>(l => l.UserId);
-            //modelBuilder.Entity<IdentityRole>().HasKey<string>(r => r.Id);
-            //modelBuilder.Entity<IdentityUserRole>().HasKey(r => new { r.RoleId, r.UserId });
 
 
         }
