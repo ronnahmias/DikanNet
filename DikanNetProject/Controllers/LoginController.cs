@@ -179,7 +179,13 @@ namespace DikanNetProject.Controllers
             ViewBag.Status = false;
             if (ModelState.IsValid)
             {
-                var user = new Users { UserName = RegisterUser.UserName, Email = RegisterUser.Email };
+                var user = new Users
+                {
+                    UserName = RegisterUser.UserName,
+                    Email = RegisterUser.Email,
+                    FirstName = RegisterUser.FirstName,
+                    LastName = RegisterUser.LastName
+                };
                 var result = await UserManager.CreateAsync(user, RegisterUser.Password);
                 using(DikanDbContext ctx = new DikanDbContext())
                 {
@@ -193,7 +199,8 @@ namespace DikanNetProject.Controllers
                 {
                     // Send an email with this link
                     var body = "חשבונך נוצר בהצלחה<br/>לחץ על התמונה לאימות החשבון";
-                    var username = RegisterUser.FirstName + " " + RegisterUser.LastName; string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var username = RegisterUser.FirstName + " " + RegisterUser.LastName;
+                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("VerifyAccount", "Login", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     body = SendMail.CreateBodyEmail(username, callbackUrl, body);
                     await UserManager.SendEmailAsync(user.Id, "יצירת חשבון", body);
@@ -207,10 +214,10 @@ namespace DikanNetProject.Controllers
         }
         
         #endregion
-/*
         #region Forgot Pass
 
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult ForgotPass()
         {
             return View();
@@ -218,77 +225,67 @@ namespace DikanNetProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ForgotPass(Users1 user)
+        public async Task<ActionResult> ForgotPass(ForgotPasswordViewModel model) // find the user and send resetpass to email
         {
-            using (DikanDbContext ctx = new DikanDbContext())
+            if(ModelState.IsValid)
             {
-                var account = ctx.Users.Where(u => u.Email == user.Email).Where(u => u.UserId == user.UserId).FirstOrDefault();
-                if (account != null)
+                var user = await UserManager.FindByEmailAsync(model.Email);
+                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
                 {
-                    account.ResetPasswordCode = Guid.NewGuid();
-                    ctx.Configuration.ValidateOnSaveEnabled = false;
-                    ctx.SaveChanges();
-
-                    // send reset code email to user
-                    var body = "על מנת לאפס את הסיסמא עלייך ללחוץ על התמונה";
-                    var username = account.FirstName + " " + account.LastName;
-                    var verifyUrl = "/Login/" + "ResetPassword/" + account.ResetPasswordCode.ToString();
-                    var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, verifyUrl);
-                    body = SendMail.CreateBodyEmail(username, link, body);
-                    SendMail.SendEmailLink(account.Email, body, "איפוס סיסמא - דיקאנט");
-                    // return message of sending email
+                    // Don't reveal that the user does not exist or is not confirmed
+                    // add error message
+                    return View(model);
                 }
+
+                // Send an email with this link
+                var body = "לחץ על התמונה <br/> לאיפוס הסיסמא לחשבונך";
+                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Login", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                body = SendMail.CreateBodyEmail(user.FirstName + " " + user.LastName, callbackUrl, body);
+                await UserManager.SendEmailAsync(user.Id, "איפוס סיסמא - דיקאנט", body);
+                // add message that the email has been send
             }
-            return View(user); // add message that the email has been send 
+            return View(model);  
         }
 
         #endregion
-
         #region Reset Password
 
         [HttpGet]
-        public ActionResult ResetPassword(string id)
+        [AllowAnonymous]
+        public ActionResult ResetPassword(string code)
         {
-            using (DikanDbContext ctx = new DikanDbContext())
-            {
-                var account = ctx.Users.Where(u => u.ResetPasswordCode == new Guid(id)).FirstOrDefault();
-                if (account != null)
-                {
-                    ResetPasswordModel model = new ResetPasswordModel();
-                    model.ResetPasswordCode = new Guid(id);
-                    ctx.Configuration.ValidateOnSaveEnabled = false;
-                    ctx.SaveChanges();
-                    return View(model);
-                }
-                else
-                    return HttpNotFound();
-            }
+            if (code == null)
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            else
+                return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ResetPassword(ResetPasswordModel model)
+        public async Task<ActionResult> ResetPassword(ResetPasswordModel model)
         {
             if (ModelState.IsValid)
             {
-                using (DikanDbContext ctx = new DikanDbContext())
+                var user = await UserManager.FindByEmailAsync(model.Email);
+                if (user == null)
                 {
-                    var user = ctx.Users.Where(u => u.ResetPasswordCode == model.ResetPasswordCode).FirstOrDefault();
-                    if (user != null)
-                    {
-                        user.Password = Crypto.Hash(model.Password);
-                        user.ResetPasswordCode = null;
-                        ctx.Configuration.ValidateOnSaveEnabled = false;
-                        ctx.SaveChanges();
-                        // return feedback of change password with button to login
-                    }
+                    // Don't reveal that the user does not exist
+                    // add error
+                    return View();
+                }
+                var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
+                if (result.Succeeded)
+                {
+                    // add success message
+                    return RedirectToAction("Login", "Login");
                 }
             }
             return View(model);
         }
 
         #endregion
-        */
+
         #region Check If User Exist
         [HttpPost]
         public ActionResult CheckIfUserExist(string UserId, string Email) // ajax call
