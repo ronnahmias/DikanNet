@@ -1,4 +1,4 @@
-﻿@model DataEntities.ApplicationUser
+﻿@model DikanNetProject.Models.RegisterUserModel
 @{
     ViewBag.Title = "הרשמה";
     ViewBag.Message = "הרשמה";
@@ -89,9 +89,9 @@
                         </div>
                         
                         <div class="input-group m-1">
-                            @* @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control", placeholder = @Html.DisplayNameFor(m => m.ConfirmPassword), type = "password", id = @Html.NameFor(m => m.ConfirmPassword) } })
-        @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
-                            *@<div class="input-group-append">
+                             @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control", placeholder = @Html.DisplayNameFor(m => m.ConfirmPassword), type = "password", id = @Html.NameFor(m => m.ConfirmPassword) } })
+                             @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                            <div class="input-group-append">
                                 <span class="input-group-text review-confirm-password">&#x1F441;</span>
                             </div>
                         </div>

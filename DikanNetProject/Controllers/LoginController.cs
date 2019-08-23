@@ -70,8 +70,9 @@ namespace DikanNetProject.Controllers
             }
         }
         #region Login
-        [AllowAnonymous]
+        
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult Login()
         {
             return View();
@@ -163,9 +164,9 @@ namespace DikanNetProject.Controllers
 
         #endregion
 
-        //#region Registration
+        #region Registration
 
-        [HttpGet]
+        [HttpGet,AllowAnonymous]
         public ActionResult Registration()
         {
                 return View();
@@ -173,9 +174,10 @@ namespace DikanNetProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Registration([Bind(Exclude = "IsEmailVerified,ActivationCode,ResetPasswordCode,Role")]Users RegisterUser)
+        public async Task<ActionResult> Registration(RegisterUserModel RegisterUser)
         {
-            //if (ModelState.IsValid)
+            ViewBag.Status = false;
+            if (ModelState.IsValid)
             {
                 var user = new Users { UserName = RegisterUser.UserName, Email = RegisterUser.Email };
                 var result = await UserManager.CreateAsync(user, RegisterUser.Password);
@@ -183,67 +185,29 @@ namespace DikanNetProject.Controllers
                 {
                     var roleStore = new RoleStore<IdentityRole>(ctx);
                     var roleManager = new RoleManager<IdentityRole>(roleStore);
-
                     var userStore = new UserStore<Users>(ctx);
                     var userManager = new UserManager<Users>(userStore);
                     userManager.AddToRole(user.Id, "Student");
                 }
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    // Send an email with this link
+                    var body = "חשבונך נוצר בהצלחה<br/>לחץ על התמונה לאימות החשבון";
+                    var username = RegisterUser.FirstName + " " + RegisterUser.LastName; string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Action("VerifyAccount", "Login", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    body = SendMail.CreateBodyEmail(username, callbackUrl, body);
+                    await UserManager.SendEmailAsync(user.Id, "יצירת חשבון", body);
+                    ViewBag.Status = true;
+                    ViewBag.ModelTitle = "רישום";
+                    ViewBag.ModelMessageBody = "הרישום הצליח! עלייך לאמת את החשבון דרך תיבת הדואר האלקטרוני לפני ההתחברות הראשונה";
 
-                // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                // Send an email with this link
-                // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                return RedirectToAction("Index", "Dikan");
                 }
-                //AddErrors(result);
             }
-
-            // If we got this far, something failed, redisplay form
             return View(RegisterUser);
-            /*ViewBag.Status = false;
-            if (ModelState.IsValid)
-            {
-                if (string.Compare(RegisterUser.Password, RegisterUser.ConfirmPassword) != 0) // validation of the password and confirm password
-                    return View(RegisterUser);
-
-                // hash password
-                RegisterUser.Password = Crypto.Hash(RegisterUser.Password);
-
-                // generate new activation code and set verified to false
-                RegisterUser.ActivationCode = Guid.NewGuid();
-                RegisterUser.IsEmailVerified = false;
-                RegisterUser.Role = "Student";
-
-                //save to database
-                using (DikanDbContext ctx = new DikanDbContext())
-                {
-                    ctx.Users.Add(RegisterUser);
-                    ctx.Configuration.ValidateOnSaveEnabled = false;
-                    ctx.SaveChanges();
-                }
-
-                // send activation email to user
-                var body = "חשבונך נוצר בהצלחה<br/>לחץ על התמונה לאימות החשבון";
-                var username = RegisterUser.FirstName + " " + RegisterUser.LastName;
-                var verifyUrl = "/Login/" + "VerifyAccount/" + RegisterUser.ActivationCode.ToString();
-                var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, verifyUrl);
-                body = SendMail.CreateBodyEmail(username, link, body);
-                SendMail.SendEmailLink(RegisterUser.Email, body, "אימות חשבון - דיקאנט");
-
-                ViewBag.Status = true;
-                ViewBag.ModelTitle = "רישום";
-                ViewBag.ModelMessageBody = "הרישום הצליח! עלייך לאמת את החשבון דרך תיבת הדואר האלקטרוני לפני ההתחברות הראשונה";
-            }
-            return View(RegisterUser);*/
         }
-        /*
+        
         #endregion
-
+/*
         #region Forgot Pass
 
         [HttpGet]
@@ -339,32 +303,24 @@ namespace DikanNetProject.Controllers
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
         #endregion
-        /*
+        
         #region Verify Account
         [HttpGet]
-        public ActionResult VerifyAccount(string id)
+        [AllowAnonymous]
+        public async Task<ActionResult> VerifyAccount(string userId, string code)
         {
-            if (id == null)
+            ViewBag.Status = false;
+            if (userId == null || code == null)
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
-            using (DikanDbContext ctx = new DikanDbContext())
-            {
-                var account = ctx.Users.Where(user => user.ActivationCode == new Guid(id)).FirstOrDefault();
-                if (account != null)
-                {
-                    account.IsEmailVerified = true;
-                    ctx.Configuration.ValidateOnSaveEnabled = false;
-                    ctx.SaveChanges();
-                    ViewBag.Status = account.IsEmailVerified;
-                }
-            }
+            var result = await UserManager.ConfirmEmailAsync(userId, code);
+            if (result.Succeeded) ViewBag.Status = true;
             return View();
         }
         #endregion
-*/
+
         #region Disconnect
         public ActionResult Disconnect() // disconnect from user
         {
-            //Session.Abandon();
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Login", "Login", null);
         }

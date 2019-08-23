@@ -13,20 +13,12 @@ namespace DataEntities
 {
     public class Users : IdentityUser
     {
-        [NotMapped]
         [Display(Name = "שם פרטי")]
         public string FirstName { get; set; }
 
-        [NotMapped]
+
         [Display(Name = "שם משפחה")]
         public string LastName { get; set; }
-
-        [NotMapped]
-        [Display(Name = "סיסמא"),
-        Column("Passwordd"),
-        DataType(DataType.Password),
-        MinLength(8, ErrorMessage = "יש להזין לפחות 8 תווים")]
-        public string Password { get; set; }
 
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<Users> manager)

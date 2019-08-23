@@ -11,6 +11,9 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using DataEntities;
 using DataEntities.DB;
+using SendGrid;
+using SendGrid.Helpers.Mail;
+using System.Configuration;
 
 namespace DikanNetProject
 {
@@ -18,10 +21,24 @@ namespace DikanNetProject
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            return configSendGridasync(message);
+        }
+
+        private async Task configSendGridasync(IdentityMessage message)
+        {
+            //var apiKey = Environment.GetEnvironmentVariable("SendGridAPIKey");
+            var apikey = ConfigurationManager.AppSettings["SendGridAPIKey"]; // token of send grid from web.config
+            var client = new SendGridClient(apikey);
+            var from = new EmailAddress("dikannetproject@gmail.com", "דיקאנט");
+            var to = new EmailAddress(message.Destination);
+            var plainTextContent = "and easy to do anywhere, even with C#";
+            var htmlContent = "<strong>and easy to do anywhere, even with C#</strong>";
+            var msg = MailHelper.CreateSingleEmail(from, to, message.Subject,null, message.Body);
+            var response = await client.SendEmailAsync(msg);
         }
     }
+
+    
 
     public class SmsService : IIdentityMessageService
     {
@@ -44,11 +61,10 @@ namespace DikanNetProject
         {
             var manager = new ApplicationUserManager(new UserStore<Users>(context.Get<DikanDbContext>()));
             // Configure validation logic for usernames
-            //manager.UserValidator = new UserValidator<Users>(manager)
-            //{
-            //    AllowOnlyAlphanumericUserNames = false,
-            //    RequireUniqueEmail = true
-            //};
+                manager.UserValidator = new UserValidator<Users>(manager)
+                {
+                  RequireUniqueEmail = true,
+                };
 
             // Configure validation logic for passwords
             //manager.PasswordValidator = new PasswordValidator
@@ -76,14 +92,14 @@ namespace DikanNetProject
             //    Subject = "Security Code",
             //    BodyFormat = "Your security code is {0}"
             //});
-            //manager.EmailService = new EmailService();
+            manager.EmailService = new EmailService();
             //manager.SmsService = new SmsService();
-            //var dataProtectionProvider = options.DataProtectionProvider;
-            //if (dataProtectionProvider != null)
-            //{
-            //    manager.UserTokenProvider =
-            //        new DataProtectorTokenProvider<Users>(dataProtectionProvider.Create("ASP.NET Identity"));
-            //}
+            var dataProtectionProvider = options.DataProtectionProvider;
+            if (dataProtectionProvider != null)
+            {
+               manager.UserTokenProvider =
+                    new DataProtectorTokenProvider<Users>(dataProtectionProvider.Create("DikanNetToken"));
+            }
             return manager;
         }
     }

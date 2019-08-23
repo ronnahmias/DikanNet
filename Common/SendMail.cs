@@ -43,7 +43,7 @@ namespace Common
             smtp.Send(message);
         }
 
-        public static string CreateBodyEmail(string name, string link, string message)
+        public static string CreateBodyEmail(string name, string link, string message) // create email body templete
         {
             string body = string.Empty;
             using (StreamReader read = new StreamReader(HttpContext.Current.Server.MapPath("~/Content/EmailTmp/EmailTemplete.html")))
