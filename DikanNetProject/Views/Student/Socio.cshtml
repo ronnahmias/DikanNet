@@ -209,6 +209,7 @@
     <!-- #endregion -->
     <!-- #region Funding -->
     <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#FundingWarpper">מימון נוסף</button>
+
     <div id="FundingWarpper" class="collapse">
         <div class="row form-group">
             @Html.LabelFor(model => model.SocioMod.HasFunding, htmlAttributes: new { @class = "control-label" })
@@ -227,31 +228,33 @@
             <button class="funds btn btn-outline-success" id="addFund" type="button" style="font-size:50px;">+</button>
         </div>
     </div>
-    
+
 
 
 
 
     <!-- #endregion -->
     <!-- #region Car Student -->
-
-    <div class="form-group row">
-        @Html.LabelFor(model => model.SocioMod.CarOwner, htmlAttributes: new { @class = "control-label" })
-        <div class="">
-            <div class="checkbox mx-3">
-                @Html.EditorFor(model => model.SocioMod.CarOwner, new { htmlAttributes = new { onchange = "showHidenPortion(this.checked,'cardiv')" } })
-                @Html.ValidationMessageFor(model => model.SocioMod.CarOwner, "", new { @class = "text-danger" })
+    <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#CarWarpper">רכבים</button>
+    <div id="CarWarpper" class="collapse">
+        <div class="form-group row">
+            @Html.LabelFor(model => model.SocioMod.CarOwner, htmlAttributes: new { @class = "control-label" })
+            <div class="">
+                <div class="checkbox mx-3">
+                    @Html.EditorFor(model => model.SocioMod.CarOwner, new { htmlAttributes = new { onchange = "showHidenPortion(this.checked,'cardiv')" } })
+                    @Html.ValidationMessageFor(model => model.SocioMod.CarOwner, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
-    </div>
 
-    <div id="cardiv" style="display:@(Model.SocioMod.CarOwner ? "" : "none")">
-        @foreach (var car in Model.ListCarStudent)
-        {
-            @Html.Partial("CarsView", car)
-        }
-        <button class="cars btn btn-outline-success" id="addCar" type="button">+</button>
+        <div id="cardiv" style="display:@(Model.SocioMod.CarOwner ? "" : "none")">
+            @foreach (var car in Model.ListCarStudent)
+            {
+                @Html.Partial("CarsView", car)
+            }
+            <button class="cars btn btn-outline-success" id="addCar" type="button">+</button>
 
+        </div>
     </div>
     <!-- #endregion -->
     <!-- #region Student Finance -->
@@ -285,17 +288,6 @@
 
             @Html.ValidationMessageFor(model => model.SocioMod.WorkSt, "", new { @class = "text-danger" })
         </div>
-    </div>
-
-    <div class="form-group row text-center">
-        <!--labels for table of student finance-->
-        @Html.LabelFor(model => model.ListStudentFinances[0].Year, htmlAttributes: new { @class = "control-label col-md-2" })
-        @Html.LabelFor(model => model.ListStudentFinances[0].Month, htmlAttributes: new { @class = "control-label col-md-2" })
-        @Html.LabelFor(model => model.ListStudentFinances[0].Salary, htmlAttributes: new { @class = "control-label col-md-2" })
-        @Html.LabelFor(model => model.ListStudentFinances[0].Expense, htmlAttributes: new { @class = "control-label col-md-1" })
-        @Html.LabelFor(model => model.ListStudentFinances[0].FileSalary, htmlAttributes: new { @class = "control-label col-md-2" })
-        @Html.LabelFor(model => model.ListStudentFinances[0].FileExpense, htmlAttributes: new { @class = "control-label col-md-2" })
-        <label class="col-md-1">מחיקה</label>
     </div>
 
     <div id="Studfindiv">
@@ -488,6 +480,44 @@
             }
         });
 
+    $('input[name="SocioMod.WorkSt"]').change(function () {
+        var $container = $('#Studfindiv');
+        var $children = $container.children();
+        var value = $(this).val();
+        console.log($container);
 
+        switch (value) {
+            /*three box*/
+            case 'שכיר':
+                $children.each(function () {
+                    $(this).css("display", "block");
+                });
+                $container.css("grid-template-columns", "repeat(3,1fr)");
+                break;
+            /*one box*/
+            case 'עצמאי':
+            case 'חבר_קיבוץ':
+            case 'לא_עובד':
+            case 'נכה':
+            case 'אחר':
+                $children.each(function () {
+                    $(this).css("display", "none");
+                });
+                $children.first().css("display", "block");
+                $container.css("grid-template-columns", "700px");
+            break;
+
+            case 'פנסיונר':
+                $children.each(function () {
+                    $(this).css("display", "block");
+                });
+                $children.last().css("display", "none");
+                $container.css("grid-template-columns", "repeat(2,1fr)");
+            break;
+
+            default:console.log("ברירת מחדל");
+        }
+
+    });
     </script>
 }

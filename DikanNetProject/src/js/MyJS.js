@@ -78,17 +78,20 @@ function onlyNumbers(){
 function choseFile() {
     $('input[type="file"]').change(function () {
         console.log("chose file");
-        var $this = $(this);
-        var fileName = $this.val();
-        var $label = $('label[for="' + $this.attr('id') + '"]')[0];
-        var $father = $this.parent();
+        var $this = $(this),
+            filepath = $this.val(),
+            group = filepath.split("\\"),
+            fileName = group.pop(),
+            $label = $('label[for="' + $this.attr('id') + '"]')[0],
+            $father = $this.parent();
+
         if (fileName.length == 0) {
             $label.append('<i class="ml-1 material-icons">add_photo_alternate</i>');
             $label.textContent = 'בחר קובץ';
             $father.removeClass("file-selcted");
         }
         else {
-            $label.textContent = fileName.toString();
+            $label.textContent = fileName;
             $father.addClass("file-selcted");
         }
     });

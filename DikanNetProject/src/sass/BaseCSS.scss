@@ -129,15 +129,16 @@ div#reqStatuses > div:nth-child(odd)
 }
 
 /*Socio*/
-#Funding, #cardiv {
+#Funding, #cardiv, #Studfindiv {
     display: grid;
     grid-template-columns: repeat(4,1fr);
     grid-gap: 5px;
 
-    div.funds, div.cars {
+    div.funds, div.cars, .studfin {
         background-color: #f5f5ba;
         position: relative;
-        height: 510px;
+        height: 550px;
+        padding: 20px 10px;
 
         input {
             width: 90%;
@@ -160,6 +161,24 @@ div#reqStatuses > div:nth-child(odd)
         .title {
             margin-bottom: 0px;
             //margin-right: 5%;
+        }
+
+        div.half-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 5px;
+
+            div.chose-file {
+                min-width: 210px;
+                max-width: 210px;
+                width:210px;
+            }
+        }
+
+        div.half-row-file {
+            display: grid;
+            grid-template-columns: 40% 60%;
+            grid-gap: 5px;
         }
 
         div.form-row {
@@ -200,10 +219,13 @@ div#reqStatuses > div:nth-child(odd)
 }
 #cardiv {
     .cars {
-        height: 705px !important;
+        height: 745px !important;
     }
 }
 
+#Studfindiv {
+    grid-template-columns: repeat(3,1fr);
+}
 
 @media (max-width: 768px) {
     #reqScholarship {

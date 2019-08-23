@@ -96,15 +96,16 @@ div#reqStatuses > div:nth-child(odd) {
   max-width: 100%; }
 
 /*Socio*/
-#Funding, #cardiv {
+#Funding, #cardiv, #Studfindiv {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 5px; }
-  #Funding div.funds, #Funding div.cars, #cardiv div.funds, #cardiv div.cars {
+  #Funding div.funds, #Funding div.cars, #Funding .studfin, #cardiv div.funds, #cardiv div.cars, #cardiv .studfin, #Studfindiv div.funds, #Studfindiv div.cars, #Studfindiv .studfin {
     background-color: #f5f5ba;
     position: relative;
-    height: 510px; }
-    #Funding div.funds input, #Funding div.cars input, #cardiv div.funds input, #cardiv div.cars input {
+    height: 550px;
+    padding: 20px 10px; }
+    #Funding div.funds input, #Funding div.cars input, #Funding .studfin input, #cardiv div.funds input, #cardiv div.cars input, #cardiv .studfin input, #Studfindiv div.funds input, #Studfindiv div.cars input, #Studfindiv .studfin input {
       width: 90%;
       display: block;
       background: transparent;
@@ -112,36 +113,51 @@ div#reqStatuses > div:nth-child(odd) {
       border-bottom: 2px solid #626249;
       border-radius: 0px !important;
       margin: 5px auto; }
-      #Funding div.funds input:focus, #Funding div.cars input:focus, #cardiv div.funds input:focus, #cardiv div.cars input:focus {
+      #Funding div.funds input:focus, #Funding div.cars input:focus, #Funding .studfin input:focus, #cardiv div.funds input:focus, #cardiv div.cars input:focus, #cardiv .studfin input:focus, #Studfindiv div.funds input:focus, #Studfindiv div.cars input:focus, #Studfindiv .studfin input:focus {
         outline: 0px; }
-    #Funding div.funds ::placeholder, #Funding div.cars ::placeholder, #cardiv div.funds ::placeholder, #cardiv div.cars ::placeholder {
+    #Funding div.funds ::placeholder, #Funding div.cars ::placeholder, #Funding .studfin ::placeholder, #cardiv div.funds ::placeholder, #cardiv div.cars ::placeholder, #cardiv .studfin ::placeholder, #Studfindiv div.funds ::placeholder, #Studfindiv div.cars ::placeholder, #Studfindiv .studfin ::placeholder {
       color: #f5f5ba; }
-    #Funding div.funds .title, #Funding div.cars .title, #cardiv div.funds .title, #cardiv div.cars .title {
+    #Funding div.funds .title, #Funding div.cars .title, #Funding .studfin .title, #cardiv div.funds .title, #cardiv div.cars .title, #cardiv .studfin .title, #Studfindiv div.funds .title, #Studfindiv div.cars .title, #Studfindiv .studfin .title {
       margin-bottom: 0px; }
-    #Funding div.funds div.form-row, #Funding div.cars div.form-row, #cardiv div.funds div.form-row, #cardiv div.cars div.form-row {
+    #Funding div.funds div.half-row, #Funding div.cars div.half-row, #Funding .studfin div.half-row, #cardiv div.funds div.half-row, #cardiv div.cars div.half-row, #cardiv .studfin div.half-row, #Studfindiv div.funds div.half-row, #Studfindiv div.cars div.half-row, #Studfindiv .studfin div.half-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 5px; }
+      #Funding div.funds div.half-row div.chose-file, #Funding div.cars div.half-row div.chose-file, #Funding .studfin div.half-row div.chose-file, #cardiv div.funds div.half-row div.chose-file, #cardiv div.cars div.half-row div.chose-file, #cardiv .studfin div.half-row div.chose-file, #Studfindiv div.funds div.half-row div.chose-file, #Studfindiv div.cars div.half-row div.chose-file, #Studfindiv .studfin div.half-row div.chose-file {
+        min-width: 210px;
+        max-width: 210px;
+        width: 210px; }
+    #Funding div.funds div.half-row-file, #Funding div.cars div.half-row-file, #Funding .studfin div.half-row-file, #cardiv div.funds div.half-row-file, #cardiv div.cars div.half-row-file, #cardiv .studfin div.half-row-file, #Studfindiv div.funds div.half-row-file, #Studfindiv div.cars div.half-row-file, #Studfindiv .studfin div.half-row-file {
+      display: grid;
+      grid-template-columns: 40% 60%;
+      grid-gap: 5px; }
+    #Funding div.funds div.form-row, #Funding div.cars div.form-row, #Funding .studfin div.form-row, #cardiv div.funds div.form-row, #cardiv div.cars div.form-row, #cardiv .studfin div.form-row, #Studfindiv div.funds div.form-row, #Studfindiv div.cars div.form-row, #Studfindiv .studfin div.form-row {
       position: relative;
       margin: 15px 0;
       padding-top: 10px; }
-      #Funding div.funds div.form-row .title, #Funding div.cars div.form-row .title, #cardiv div.funds div.form-row .title, #cardiv div.cars div.form-row .title {
+      #Funding div.funds div.form-row .title, #Funding div.cars div.form-row .title, #Funding .studfin div.form-row .title, #cardiv div.funds div.form-row .title, #cardiv div.cars div.form-row .title, #cardiv .studfin div.form-row .title, #Studfindiv div.funds div.form-row .title, #Studfindiv div.cars div.form-row .title, #Studfindiv .studfin div.form-row .title {
         position: absolute;
         top: 10px;
         pointer-events: none;
         right: 5%;
         color: #000;
         transition: .5s; }
-      #Funding div.funds div.form-row input:focus ~ .title, #Funding div.funds div.form-row input:not(:placeholder-shown) ~ .title, #Funding div.cars div.form-row input:focus ~ .title, #Funding div.cars div.form-row input:not(:placeholder-shown) ~ .title, #cardiv div.funds div.form-row input:focus ~ .title, #cardiv div.funds div.form-row input:not(:placeholder-shown) ~ .title, #cardiv div.cars div.form-row input:focus ~ .title, #cardiv div.cars div.form-row input:not(:placeholder-shown) ~ .title {
+      #Funding div.funds div.form-row input:focus ~ .title, #Funding div.funds div.form-row input:not(:placeholder-shown) ~ .title, #Funding div.cars div.form-row input:focus ~ .title, #Funding div.cars div.form-row input:not(:placeholder-shown) ~ .title, #Funding .studfin div.form-row input:focus ~ .title, #Funding .studfin div.form-row input:not(:placeholder-shown) ~ .title, #cardiv div.funds div.form-row input:focus ~ .title, #cardiv div.funds div.form-row input:not(:placeholder-shown) ~ .title, #cardiv div.cars div.form-row input:focus ~ .title, #cardiv div.cars div.form-row input:not(:placeholder-shown) ~ .title, #cardiv .studfin div.form-row input:focus ~ .title, #cardiv .studfin div.form-row input:not(:placeholder-shown) ~ .title, #Studfindiv div.funds div.form-row input:focus ~ .title, #Studfindiv div.funds div.form-row input:not(:placeholder-shown) ~ .title, #Studfindiv div.cars div.form-row input:focus ~ .title, #Studfindiv div.cars div.form-row input:not(:placeholder-shown) ~ .title, #Studfindiv .studfin div.form-row input:focus ~ .title, #Studfindiv .studfin div.form-row input:not(:placeholder-shown) ~ .title {
         top: -10px; }
-    #Funding div.funds .del-fund, #Funding div.funds .del-car, #Funding div.cars .del-fund, #Funding div.cars .del-car, #cardiv div.funds .del-fund, #cardiv div.funds .del-car, #cardiv div.cars .del-fund, #cardiv div.cars .del-car {
+    #Funding div.funds .del-fund, #Funding div.funds .del-car, #Funding div.cars .del-fund, #Funding div.cars .del-car, #Funding .studfin .del-fund, #Funding .studfin .del-car, #cardiv div.funds .del-fund, #cardiv div.funds .del-car, #cardiv div.cars .del-fund, #cardiv div.cars .del-car, #cardiv .studfin .del-fund, #cardiv .studfin .del-car, #Studfindiv div.funds .del-fund, #Studfindiv div.funds .del-car, #Studfindiv div.cars .del-fund, #Studfindiv div.cars .del-car, #Studfindiv .studfin .del-fund, #Studfindiv .studfin .del-car {
       position: absolute;
       top: 90%;
       width: 90%;
       right: 5%; }
-    #Funding div.funds .chose-file, #Funding div.cars .chose-file, #cardiv div.funds .chose-file, #cardiv div.cars .chose-file {
+    #Funding div.funds .chose-file, #Funding div.cars .chose-file, #Funding .studfin .chose-file, #cardiv div.funds .chose-file, #cardiv div.cars .chose-file, #cardiv .studfin .chose-file, #Studfindiv div.funds .chose-file, #Studfindiv div.cars .chose-file, #Studfindiv .studfin .chose-file {
       width: 90%;
       margin: 10px auto; }
 
 #cardiv .cars {
-  height: 705px !important; }
+  height: 745px !important; }
+
+#Studfindiv {
+  grid-template-columns: repeat(3, 1fr); }
 
 @media (max-width: 768px) {
   #reqScholarship {
