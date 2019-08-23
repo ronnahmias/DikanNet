@@ -31,8 +31,6 @@ namespace DikanNetProject
             var client = new SendGridClient(apikey);
             var from = new EmailAddress("dikannetproject@gmail.com", "דיקאנט");
             var to = new EmailAddress(message.Destination);
-            var plainTextContent = "and easy to do anywhere, even with C#";
-            var htmlContent = "<strong>and easy to do anywhere, even with C#</strong>";
             var msg = MailHelper.CreateSingleEmail(from, to, message.Subject,null, message.Body);
             var response = await client.SendEmailAsync(msg);
         }

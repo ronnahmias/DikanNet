@@ -24,7 +24,7 @@ namespace DikanNetProject.Controllers
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
-            if (filterContext.HttpContext.Session["Student"] == null || Session == null) // if there is no session -> no access to student interface
+            if (filterContext.HttpContext.User== null || Session == null) // if there is no session -> no access to student interface
             {
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { action = "Login", controller = "Login" }));
             }

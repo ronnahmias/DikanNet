@@ -22,9 +22,10 @@ using Microsoft.AspNet.Identity.EntityFramework;
 namespace DikanNetProject.Controllers
 {
     [RequireHttps] // only https requests
+    [AllowAnonymous]
     public class LoginController : Controller
     {
-
+        #region Variables
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -69,8 +70,9 @@ namespace DikanNetProject.Controllers
                 return HttpContext.GetOwinContext().Authentication;
             }
         }
+        #endregion
         #region Login
-        
+
         [HttpGet]
         [AllowAnonymous]
         public ActionResult Login()
@@ -82,84 +84,64 @@ namespace DikanNetProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(UserLogin loginuser)
         {
-            var result = await SignInManager.PasswordSignInAsync(loginuser.UserName, loginuser.Password, loginuser.RememberMe, shouldLockout: false);
+            var user = UserManager.FindByName(loginuser.UserName); // find the user by id
+            if (user == null || !UserManager.IsEmailConfirmed(user.Id)) // checks if the user has confirmed the email
+                return View(loginuser); // add error message
+
+            var result = await SignInManager.PasswordSignInAsync(loginuser.UserName, loginuser.Password, loginuser.RememberMe, shouldLockout: false); // sign in
+            
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToAction("Index","Dikan",null);
+                    var role = (UserManager.GetRoles(user.Id))[0]; // get role[0] of the user
+                    return RedirectToAction("RedirectUserByRole", new { pUser = user, pRole = role });
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
-                    //return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
                     break;
-                    //return View(model);
             }
-            /*
-            ViewBag.Status = false;
-            if (ModelState.IsValid)
-            {
-                using (DikanDbContext ctx = new DikanDbContext())
-                {
-                    var account = ctx.Users.Where(e => e.UserId == loginuser.UserId).FirstOrDefault();
-                    if (account != null)
-                    {
-                        if (string.Compare(Crypto.Hash(loginuser.Password), account.Password) == 0)
-                        {
-                            int timeout = loginuser.RememberMe ? 525600 : 120; // one year or 1.5 hour
-                            switch (account.Role) // checks the role of the account to direct to their controller
-                            {
-                                case "Student":
-                                    if (account.IsEmailVerified) // checks if the student has verify with email
-                                    {
-                                        HttpContext.Session.Add("Student", account);
-                                        Session.Timeout = timeout;
-
-                                        //FormsAuthentication.SetAuthCookie(account.UserId,true);
-                                        //HttpContext.User.IsInRole("Student");
-
-                                        var student = ctx.Students.Where(s => s.StudentId == account.UserId).FirstOrDefault();
-                                        if (student != null) // if the account found in student table
-                                            return RedirectToAction("Index", "Student");
-                                        else // not found in student table-> go to fill basic info
-                                        {
-                                            ViewBag.Status = true;
-                                            return RedirectToAction("UpdateStudent","Student"); // complete register of student
-                                        }
-                                    }
-                                    return View(); // need to add error to require a email verify
-
-                                case "Dikan":
-                                    //var dikan = ctx.dikan.where(s => s.dikanid == account.userid).firstordefault();
-                                    //if (dikan != null)
-                                    //{
-                                    //    httpcontext.session.add("dikan", account);
-                                    //    session.timeout = timeout;
-                                    //    return redirecttoaction("index", "dikan");
-                                    //}
-                                    //else
-                                    //{
-                                    //    return redirecttoaction("completeregisterdikan"); // complete register of dikan
-                                    //}
-                                    break;
-
-                                case "Admin":
-                                    HttpContext.Session.Add("admin", account);
-                                    Session.Timeout = timeout;
-                                    return RedirectToAction("Index", "Admin");
-
-                                // in future add to mazkira case
-
-                                default: break;
-                            }
-                        }
-                    }
-
-                }
-            }*/
             return View(loginuser);
+        }
+        [HttpGet, Authorize] // only users can access to this
+        public ActionResult RedirectUserByRole(Users pUser, string role)
+        {
+            Student student;
+            switch (role) // checks the role of the account to direct to their controller
+            {
+                case "Student":
+                    using (DikanDbContext ctx = new DikanDbContext())
+                    {
+                        student = ctx.Students.Where(s => s.StudentId == pUser.UserName).FirstOrDefault();
+                    }
+                    if (student != null) // if the account found in student table
+                        return RedirectToAction("Index", "Student");
+                    else // not found in student table-> go to fill basic info
+                        return RedirectToAction("UpdateStudent", "Student"); // complete register of student
+
+                case "Dikan":
+                    //var dikan = ctx.dikan.where(s => s.dikanid == account.userid).firstordefault();
+                    //if (dikan != null)
+                    //{
+                    //    httpcontext.session.add("dikan", account);
+                    //    session.timeout = timeout;
+                    //    return redirecttoaction("index", "dikan");
+                    //}
+                    //else
+                    //{
+                    //    return redirecttoaction("completeregisterdikan"); // complete register of dikan
+                    //}
+                    break;
+
+                case "Admin":
+                    return RedirectToAction("Index", "Admin");
+
+                // in future add to mazkira case
+
+                default: break;
+            }
+            return HttpNotFound();
         }
 
         #endregion
