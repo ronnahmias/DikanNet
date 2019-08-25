@@ -12,26 +12,71 @@ using System.IO;
 using System.Data.Entity;
 using System.Net;
 using Newtonsoft.Json;
+using Microsoft.Owin.Security;
+using Microsoft.AspNet.Identity.Owin;
+using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
 
 namespace DikanNetProject.Controllers
 {
     [RequireHttps]
+    [Authorize]
     public class StudentController : Controller
     {
         string sStudentId;
 
-        #region OnExecuting Function
+        #region Constructor and more
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
-            if (filterContext.HttpContext.User== null || Session == null) // if there is no session -> no access to student interface
-            {
-                filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { action = "Login", controller = "Login" }));
-            }
-            else
-                sStudentId = ((Users1)Session["Student"]).UserId;
+            sStudentId = HttpContext.User.Identity.Name; // get id of user into global var
         }
-        #endregion
+
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
+
+        public StudentController()
+        {
+        }
+
+        public StudentController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        {
+            UserManager = userManager;
+            SignInManager = signInManager;
+        }
+
+        public ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            private set
+            {
+                _signInManager = value;
+            }
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
+        private IAuthenticationManager AuthenticationManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().Authentication;
+            }
+        }
+#endregion
 
         #region Index
         public ActionResult Index()
@@ -65,6 +110,7 @@ namespace DikanNetProject.Controllers
                 studentMain.InPracticeList = ctx.Halacha.Include(s => s.ScholarshipDefinition).Where(s => s.StudentId == sStudentId).ToList(); // send to view inpractice list of student
                 studentMain.ExcelList = ctx.Excellence.Include(s => s.ScholarshipDefinition).Where(s => s.StudentId == sStudentId).ToList(); // send to view excellence list of student
                 studentMain.SocioList = ctx.Socio.Include(s => s.ScholarshipDefinition).Where(s => s.StudentId == sStudentId).ToList(); // send to view socio list of student
+                ViewBag.StudentName = (ctx.Users.Where(s => s.UserName == User.Identity.Name).FirstOrDefault()).FirstName;
             }
 
             return View(studentMain);
@@ -77,6 +123,7 @@ namespace DikanNetProject.Controllers
         public ActionResult UpdateStudent()
         {
             Student student;
+            Users user;
             using (DikanDbContext ctx = new DikanDbContext())
             {
                 ViewBag.MajorsList = new SelectList(ctx.Majors.ToList(), "MajorId", "MajorName"); // to show majors list in drop down
@@ -84,14 +131,14 @@ namespace DikanNetProject.Controllers
                 ViewBag.CitiesList = new SelectList(ctx.Cities.ToList(), "Id", "Name"); // to show cities list in drop down
 
                 student = ctx.Students.Where(z => z.StudentId == sStudentId).FirstOrDefault();
+                user = UserManager.FindByName(User.Identity.Name);
                 if (student == null) // didnt found in student table -> first login -> update basic info
                 {
                     student = new Student
                     {
-                        StudentId = sStudentId,
-                        Email = ((Users1)Session["Student"]).Email,
-                        FirstName = ((Users1)Session["Student"]).FirstName,
-                        LastName = ((Users1)Session["Student"]).LastName
+                        Email = user.Email,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName
                     };
                 }
                 else
@@ -102,10 +149,10 @@ namespace DikanNetProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateStudent(Student UpdateStudent)
+        public async Task<ActionResult> UpdateStudent(Student UpdateStudent)
         {
-            Users1 tempuser = null;
             UpdateStudent.StudentId = sStudentId;
+            var tempuser = await UserManager.FindByNameAsync(UpdateStudent.StudentId); // get the student user
             if (ModelState.IsValid)
             {
                 using (DikanDbContext ctx = new DikanDbContext())
@@ -113,27 +160,23 @@ namespace DikanNetProject.Controllers
                     Student dbStudent = ctx.Students.Find(UpdateStudent.StudentId);
                     if (dbStudent != null)
                     {
-                        //tempuser = ctx.Users.Find(UpdateStudent.StudentId); // get the student user
                         if (tempuser != null) // if the student changed the name update in users list also
                         {
                             tempuser.FirstName = UpdateStudent.FirstName;
                             tempuser.LastName = UpdateStudent.LastName;
-                            Session["Student"] = tempuser; // update the session with the name
                         }
                         if (UpdateStudent.Email != tempuser.Email) // check if the student has change the email address
                         {
                             tempuser.Email = UpdateStudent.Email; // update email address in user list
-                            tempuser.ActivationCode = Guid.NewGuid(); // generate new guid for activate the new email address
-                            tempuser.IsEmailVerified = false; // the email need to be verified
-                            // send activation email to user
-                            var body = "לחץ על התמונה לאימות החשבון";
+                            tempuser.EmailConfirmed = false;
+                            var body = "כתובת האימייל שונתה בחשבון<br/>לחץ על התמונה לאימות החשבון";
                             var username = tempuser.FirstName + " " + tempuser.LastName;
-                            var verifyUrl = "/Login/" + "VerifyAccount/" + tempuser.ActivationCode.ToString();
-                            var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, verifyUrl);
-                            body = SendMail.CreateBodyEmail(username, link, body);
-                            SendMail.SendEmailLink(tempuser.Email, body, "אימות חשבון - דיקאנט");
+                            string code = await UserManager.GenerateEmailConfirmationTokenAsync(tempuser.Id);
+                            var callbackUrl = Url.Action("VerifyAccount", "Login", new { userId = tempuser.Id, code = code }, protocol: Request.Url.Scheme);
+                            body = SendMail.CreateBodyEmail(username, callbackUrl, body);
+                            await UserManager.SendEmailAsync(tempuser.Id, "עדכון אימייל בחשבון", body);
                         }
-
+                        var result = await UserManager.UpdateAsync(tempuser);
                     }
 
                     if (UpdateStudent.FileId != null)
@@ -145,7 +188,7 @@ namespace DikanNetProject.Controllers
                         ctx.Entry(dbStudent).CurrentValues.SetValues(UpdateStudent);// update student
                     ctx.SaveChanges();
 
-                    if (tempuser != null && tempuser.IsEmailVerified == false) // if the student change the email disconnect from system
+                    if (tempuser != null && tempuser.EmailConfirmed == false) // if the student change the email disconnect from system
                         return RedirectToAction("Disconnect", "Login");
 
                     return RedirectToAction("Index");

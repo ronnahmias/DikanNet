@@ -18,10 +18,10 @@ namespace DikanNetProject
             }
 
             // Check for authorization  
-            if (HttpContext.Current.Session["Student"] == null)
-            {
-                filterContext.Result = new RedirectResult("~/Login/Login");
-            }
+            //if (HttpContext.Current.Session["Student"] == null)
+            //{
+            //    filterContext.Result = new RedirectResult("~/Login/Login");
+            //}
         }
     }
 }

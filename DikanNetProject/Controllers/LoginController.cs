@@ -84,7 +84,7 @@ namespace DikanNetProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(UserLogin loginuser)
         {
-            var user = UserManager.FindByName(loginuser.UserName); // find the user by id
+            Users user = UserManager.FindByName(loginuser.UserName); // find the user by id
             if (user == null || !UserManager.IsEmailConfirmed(user.Id)) // checks if the user has confirmed the email
                 return View(loginuser); // add error message
 
@@ -94,7 +94,7 @@ namespace DikanNetProject.Controllers
             {
                 case SignInStatus.Success:
                     var role = (UserManager.GetRoles(user.Id))[0]; // get role[0] of the user
-                    return RedirectToAction("RedirectUserByRole", new { pUser = user, pRole = role });
+                    return RedirectToAction("RedirectUserByRole", new { pRole = role } );
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -105,15 +105,15 @@ namespace DikanNetProject.Controllers
             return View(loginuser);
         }
         [HttpGet, Authorize] // only users can access to this
-        public ActionResult RedirectUserByRole(Users pUser, string role)
+        public ActionResult RedirectUserByRole(string pRole)
         {
             Student student;
-            switch (role) // checks the role of the account to direct to their controller
+            switch (pRole) // checks the role of the account to direct to their controller
             {
                 case "Student":
                     using (DikanDbContext ctx = new DikanDbContext())
                     {
-                        student = ctx.Students.Where(s => s.StudentId == pUser.UserName).FirstOrDefault();
+                        student = ctx.Students.Where(s => s.StudentId == User.Identity.Name).FirstOrDefault();
                     }
                     if (student != null) // if the account found in student table
                         return RedirectToAction("Index", "Student");
