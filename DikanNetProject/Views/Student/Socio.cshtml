@@ -208,9 +208,9 @@
     @Html.HiddenFor(model => model.MatrialStatus)
     <!-- #endregion -->
     <!-- #region Funding -->
-    <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#FundingWarpper">מימון נוסף</button>
+    <button type="button" class="btn btn-primary col-12 my-2" data-toggle="collapse" data-target="#FundingWarpper">מימון נוסף</button>
 
-    <div id="FundingWarpper" class="collapse">
+    <div id="FundingWarpper" class="collapse p-3">
         <div class="row form-group">
             @Html.LabelFor(model => model.SocioMod.HasFunding, htmlAttributes: new { @class = "control-label" })
             <div class="">
@@ -229,14 +229,11 @@
         </div>
     </div>
 
-
-
-
-
     <!-- #endregion -->
     <!-- #region Car Student -->
-    <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#CarWarpper">רכבים</button>
-    <div id="CarWarpper" class="collapse">
+    <button type="button" class="btn btn-primary col-12 my-2" data-toggle="collapse" data-target="#CarWarpper">רכבים</button>
+
+    <div id="CarWarpper" class="collapse p-3">
         <div class="form-group row">
             @Html.LabelFor(model => model.SocioMod.CarOwner, htmlAttributes: new { @class = "control-label" })
             <div class="">
@@ -258,51 +255,53 @@
     </div>
     <!-- #endregion -->
     <!-- #region Student Finance -->
+    <button type="button" class="btn btn-primary col-12 my-2" data-toggle="collapse" data-target="#StudentFinanceWarpper">הכנסות סטודנט</button>
 
+    <div id="StudentFinanceWarpper" class="collapse p-3">
+        <h4>הכנסות</h4>
 
-    <h4>הכנסות</h4>
+        <div class="form-group">
+            @Html.LabelFor(model => model.SocioMod.WorkSt, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.שכיר)
+                <span>@Common.Enums.WorkingStatus.שכיר</span>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.SocioMod.WorkSt, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.שכיר)
-            <span>@Common.Enums.WorkingStatus.שכיר</span>
+                @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.עצמאי)
+                <span>@Common.Enums.WorkingStatus.עצמאי</span>
 
-            @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.עצמאי)
-            <span>@Common.Enums.WorkingStatus.עצמאי</span>
+                @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.חבר_קיבוץ)
+                <span>@Common.Enums.WorkingStatus.חבר_קיבוץ</span>
 
-            @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.חבר_קיבוץ)
-            <span>@Common.Enums.WorkingStatus.חבר_קיבוץ</span>
+                @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.לא_עובד)
+                <span>@Common.Enums.WorkingStatus.לא_עובד</span>
 
-            @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.לא_עובד)
-            <span>@Common.Enums.WorkingStatus.לא_עובד</span>
+                @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.פנסיונר)
+                <span>@Common.Enums.WorkingStatus.פנסיונר</span>
 
-            @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.פנסיונר)
-            <span>@Common.Enums.WorkingStatus.פנסיונר</span>
+                @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.נכה)
+                <span>@Common.Enums.WorkingStatus.נכה</span>
 
-            @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.נכה)
-            <span>@Common.Enums.WorkingStatus.נכה</span>
+                @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.אחר)
+                <span>@Common.Enums.WorkingStatus.אחר</span>
 
-            @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.אחר)
-            <span>@Common.Enums.WorkingStatus.אחר</span>
+                @Html.ValidationMessageFor(model => model.SocioMod.WorkSt, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
-            @Html.ValidationMessageFor(model => model.SocioMod.WorkSt, "", new { @class = "text-danger" })
+        <div id="Studfindiv">
+            @foreach (var StudFin in Model.ListStudentFinances)
+            {
+                @Html.Partial("StudFinView", StudFin)
+            }
         </div>
     </div>
-
-    <div id="Studfindiv">
-        @foreach (var StudFin in Model.ListStudentFinances)
-        {
-            @Html.Partial("StudFinView", StudFin)
-        }
-    </div>
-
     <!-- #endregion -->
     <!-- #region Family Member Finance -->
 
-    <h4>הכנסות בן-בת זוג / הורים</h4>
+    <button type="button" class="btn btn-primary col-12 my-2" data-toggle="collapse" data-target="#FamilyFinanceWarpper">הכנסות בן-בת זוג / הורים</button>
 
-    <div id="Famfindiv">
+    <div id="FamilyFinanceWarpper" class="collapse p-3">
+        <h4>הכנסות בן-בת זוג / הורים</h4>
         <!--table of family member with finance-->
         @foreach (var FamFin in Model.ListFamMemFin.ToList())
         {
@@ -499,6 +498,7 @@
             case 'חבר_קיבוץ':
             case 'לא_עובד':
             case 'נכה':
+            case 'נפטר':
             case 'אחר':
                 $children.each(function () {
                     $(this).css("display", "none");
@@ -517,7 +517,46 @@
 
             default:console.log("ברירת מחדל");
         }
+    });
 
+    $('input[name="FemWork"]').change(function () {
+        var $container = $('#FamFinDet');
+        var $children = $container.children();
+        var value = $(this).val();
+        console.log($container);
+
+        switch (value) {
+            /*three box*/
+            case 'שכיר':
+                $children.each(function () {
+                    $(this).css("display", "block");
+                });
+                $container.css("grid-template-columns", "repeat(3,1fr)");
+                break;
+            /*one box*/
+            case 'עצמאי':
+            case 'חבר_קיבוץ':
+            case 'לא_עובד':
+            case 'נכה':
+            case 'נפטר':
+            case 'אחר':
+                $children.each(function () {
+                    $(this).css("display", "none");
+                });
+                $children.first().css("display", "block");
+                $container.css("grid-template-columns", "700px");
+            break;
+
+            case 'פנסיונר':
+                $children.each(function () {
+                    $(this).css("display", "block");
+                });
+                $children.last().css("display", "none");
+                $container.css("grid-template-columns", "repeat(2,1fr)");
+            break;
+
+            default:console.log("ברירת מחדל");
+        }
     });
     </script>
 }

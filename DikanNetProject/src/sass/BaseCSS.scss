@@ -129,7 +129,7 @@ div#reqStatuses > div:nth-child(odd)
 }
 
 /*Socio*/
-#Funding, #cardiv, #Studfindiv {
+#Funding, #cardiv, #Studfindiv, #FamFinDet {
     display: grid;
     grid-template-columns: repeat(4,1fr);
     grid-gap: 5px;
@@ -171,7 +171,7 @@ div#reqStatuses > div:nth-child(odd)
             div.chose-file {
                 min-width: 210px;
                 max-width: 210px;
-                width:210px;
+                width: 210px;
             }
         }
 
@@ -223,7 +223,7 @@ div#reqStatuses > div:nth-child(odd)
     }
 }
 
-#Studfindiv {
+#Studfindiv, #FamFinDet {
     grid-template-columns: repeat(3,1fr);
 }
 

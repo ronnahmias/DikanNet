@@ -5,7 +5,7 @@
         @using (Html.BeginCollectionItem("ListStudentFinances"))
         {
             <div class="text-center">
-                <h3>הכנסה הוצאה מס' @(Model.FinNo+1)</h3>
+                <h3>הכנסה הוצאה מס' @(Model.FinNo + 1)</h3>
             </div>
 
             <div class="text-center">
@@ -61,7 +61,7 @@
                 </div>
             </div>
             @Html.HiddenFor(model => model.FinNo)
-            @*<button class="btn btn-danger del-studfin" type="button">X</button>*@
+            @*<button class="btn btn-danger del-studfin" type="button">X</button>
             <div class="form-group row text-danger">
                 @Html.ValidationMessageFor(model => model.Year, "", new { @class = "control-label " })
                 @Html.ValidationMessageFor(model => model.Month, "", new { @class = "control-label " })
@@ -69,6 +69,6 @@
                 @Html.ValidationMessageFor(model => model.Expense, "", new { @class = "control-label " })
                 @Html.ValidationMessageFor(model => model.FileSalary, "", new { @class = "control-label " })
                 @Html.ValidationMessageFor(model => model.FileExpense, "", new { @class = "control-label" })
-            </div>
+            </div>*@
         }
     </div>
