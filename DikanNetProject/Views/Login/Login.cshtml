@@ -37,7 +37,7 @@
         </div>
 
         <div class="col-sm-12 col-md-11 col-lg-10 col-xl-9 form-check text-left mb-2">
-            <button type="submit" class="btn btn-primary" onclick="//return checkValid()">התחבר</button>
+            <button type="submit" class="btn btn-primary" onclick="return checkValid()">התחבר</button>
         </div>
     </div>
 
@@ -72,14 +72,13 @@
 <script>
     //login
     function checkValid() {
-        var id = $('#UserId').val();
+        var id = $('#UserName').val();
         var pass = $('#Password').val();
         if (!(validId(id) && validPassword(pass)))
             { 
-                $('#myModal').modal('show');
+                $('#responseModal').modal('show');
                 return false;
         }
-        //alert("sucsses");
         return true;
         
     };

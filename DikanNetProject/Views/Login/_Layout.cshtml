@@ -9,7 +9,7 @@
     @Styles.Render("~/Content/Css")
 </head>
 <body class="text-right" style="background-color:#fdfdee">
-    <a href="@Url.Action("Login","Login")">
+    <a href="@Url.Action("Login", "Login")">
         <img src="~/Content/Pic/Logo.png" alt="דיקאנט לוגו" class="logo img-fluid d-block mx-auto " />
     </a>
     <h1 class="display-4 text-center">@ViewBag.Message</h1>
@@ -23,19 +23,20 @@
             <div class="modal-content">
 
                 <!-- Modal Header -->
-                <div class="modal-header text-danger">
+                <div class="modal-header @(ViewBag.ChangeColor == true ? "text-black" : "text-danger")">
                     <h4 class="modal-title">@ViewBag.ModelTitle</h4>
                     <button type="button" class="close ml-0" data-dismiss="modal">&times;</button>
                 </div>
 
                 <!-- Modal body -->
-                <div class="modal-body text-danger text-center">
+                <div class="modal-body @(ViewBag.ChangeColor == true ? "text-success" : "text-danger") text-center">
                     @Html.Raw(@ViewBag.ModelMessageBody)
                 </div>
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">סגירה</button>
+                    @{ if (ViewBag.ChangeColor == true) { <a href="@Url.Action("Login","Login")" class="btn btn-success">להתחברות</a> }}
                 </div>
 
             </div>

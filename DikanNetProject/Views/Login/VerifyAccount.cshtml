@@ -6,18 +6,18 @@
 
 <h2>אימות חשבון</h2>
 
-@if (Convert.ToBoolean(ViewBag.Status))
+@if (Convert.ToBoolean(ViewBag.Statuss))
 {
 <div class="alert alert-success">
     <strong>האימות הצליח</strong>
     <br />
-    @Html.ActionLink("לחץ להתחברות", "Login", null, new { @class = "btn btn-info", type = "button", id = "Login" })
+    @Html.ActionLink("לחץ להתחברות", "Login", null, new { @class = "btn btn-success", type = "button", id = "Login" })
 </div>
 }
 else
 {
     <div class="alert alert-danger">
-        <strong>האימות כשל</strong> @ViewBag.Message
+        <strong>האימות כשל</strong>
         <p>נסה שנית או פנה למנהל המערכת</p>
     </div>
 }
