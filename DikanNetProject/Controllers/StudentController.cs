@@ -503,7 +503,6 @@ namespace DikanNetProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Socio(SocioAdd socio, string uploadmethod) // submit  new socio scholarship
         {
-
             if (socio.ListCarStudent != null)
                 SaveSocioCars(socio.ListCarStudent); //Save Cars Detailes
 
@@ -543,6 +542,8 @@ namespace DikanNetProject.Controllers
 
             return View(socio);
         }
+
+        #region Post Socio Methods
 
         [NonAction]
         public void SaveSocioCars(List<CarStudent> ClientList)
@@ -841,6 +842,7 @@ namespace DikanNetProject.Controllers
 
             return socio;
         }
+        #endregion
 
         #region Partial Views
         public PartialViewResult CarsView()
@@ -870,6 +872,12 @@ namespace DikanNetProject.Controllers
         public PartialViewResult FamilyView() // family member
         {
             return PartialView("FamilyView", new FamilyMember());
+        }
+
+        public PartialViewResult FamilyFinView(string containerPrefix) // finance of family member
+        {
+            ViewData["ContainerPrefix"] = containerPrefix;
+            return PartialView("FamilyFinView", new FamilyStudentFinance());
         }
 
         #endregion

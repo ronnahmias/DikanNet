@@ -1,0 +1,74 @@
+﻿@using listhelper;
+@model DataEntities.FamilyStudentFinance
+
+    <div class="fammfin">
+        @using (Html.BeginCollectionItem("FamilyStudentFinances",""))
+        {
+            <div class="text-center">
+                <h3>הכנסה הוצאה מס' @(Model.FinNo + 1)</h3>
+            </div>
+
+            <div class="text-center">
+                @Html.DropDownListFor(model => model.Year, ViewBag.YearsList as SelectList, "", htmlAttributes: new { @class = "control-label chosen", @data_placeholder = "שנה" })
+                @Html.DropDownListFor(model => model.Month, ViewBag.MonthsList as SelectList, "", htmlAttributes: new { @class = "control-label chosen", @data_placeholder = "חודש" })
+
+            </div>
+            <div class="text-center">
+
+            </div>
+            <div class="half-row mb-5">
+                <div class="form-row">
+                    @Html.EditorFor(model => model.Salary, new { htmlAttributes = new { @class = "control-label" } })
+                    @Html.LabelFor(model => model.Salary, htmlAttributes: new { @class = "title" })
+
+                </div>
+                <div class="form-row">
+                    @Html.EditorFor(model => model.Expense, new { htmlAttributes = new { @class = "control-label " } })
+                    @Html.LabelFor(model => model.Expense, htmlAttributes: new { @class = "title" })
+
+                </div>
+            </div>
+            <div class="half-row">
+                <div class="form-row chose-file-warp">
+                    @Html.LabelFor(model => model.FileSalary, htmlAttributes: new { @class = "", @for = "" })
+                    <div class="chose-file text-center">
+                        @Html.TextBoxFor(model => model.FileSalary, new { @class = "control-label", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;" })
+                        <label for="@Html.IdFor(m => m.FileSalary)">
+                            <i class="ml-1 material-icons">add_photo_alternate</i>
+                            בחר קובץ
+                        </label>
+                        @Html.HiddenFor(model => model.PathSalary)
+                    </div>
+                </div>
+                <div class="text-center">
+                    <embed src='/UsersFiles/@Model.FamilyMemberId/@Model.PathSalary' class=" @(@Model.PathSalary == null ? "d-none" : " ") embed-file" style="" />
+                </div>
+            </div>
+            <div class="half-row">
+                <div class="form-row chose-file-warp">
+                    @Html.LabelFor(model => model.FileExpense, htmlAttributes: new { @class = "", @for = "" })
+                    <div class="chose-file text-center">
+                        @Html.TextBoxFor(model => model.FileExpense, new { @class = "control-label", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;" })
+                        <label for="@Html.IdFor(m => m.FileExpense)">
+                            <i class="ml-1 material-icons">add_photo_alternate</i>
+                            בחר קובץ
+                        </label>
+                        @Html.HiddenFor(model => model.PathExpense)
+                    </div>
+                </div>
+                <div class="text-center chose-file-show">
+                    <embed src='/UsersFiles/@Model.FamilyMemberId/@Model.PathExpense' class=" @(@Model.PathExpense == null ? "d-none" : " ") embed-file" style="" />
+                </div>
+            </div>
+            @Html.HiddenFor(model => model.FinNo)
+            @*<button class="btn btn-danger del-studfin" type="button">X</button>
+            <div class="form-group row text-danger">
+                @Html.ValidationMessageFor(model => model.Year, "", new { @class = "control-label " })
+                @Html.ValidationMessageFor(model => model.Month, "", new { @class = "control-label " })
+                @Html.ValidationMessageFor(model => model.Salary, "", new { @class = "control-label" })
+                @Html.ValidationMessageFor(model => model.Expense, "", new { @class = "control-label " })
+                @Html.ValidationMessageFor(model => model.FileSalary, "", new { @class = "control-label " })
+                @Html.ValidationMessageFor(model => model.FileExpense, "", new { @class = "control-label" })
+            </div>*@
+        }
+    </div>
