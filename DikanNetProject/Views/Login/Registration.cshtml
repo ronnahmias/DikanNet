@@ -2,8 +2,6 @@
 @{
     ViewBag.Title = "הרשמה";
     ViewBag.Message = "הרשמה";
-    ViewBag.ModelTitle = "שגיאה";
-    ViewBag.ModelMessageBody = "אחד הפרטים או יותר לא נכונים";
     Layout = "~/Views/Login/_Layout.cshtml";
 }
 
@@ -15,50 +13,57 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="row container-fluid">
-        <div class="row col-12 form-group justify-content-center text-center">
-            @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "col-sm-12 col-md-3 col-lg-2 col-xl-1" })
-            <div class="col-sm-12 col-md-8 col-lg-6 col-xl-5">
-                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control only-numbers",maxlength="9", placeholder = @Html.DisplayNameFor(m => m.UserName), pattern = "[0-9]{9}", type = "text", name = @Html.DisplayNameFor(m => m.UserName), id = @Html.NameFor(m => m.UserName) } })
-                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="row col-12 form-group justify-content-center text-center ">
-            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "col-sm-12 col-md-3 col-lg-2 col-xl-1" })
-            <div class="col-sm-12 col-md-8 col-lg-6 col-xl-5">
-                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", placeholder = @Html.DisplayNameFor(m => m.FirstName), type = "text", name = @Html.NameFor(m => m.FirstName), id = @Html.NameFor(m => m.FirstName) } })
-                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="row col-12 form-group justify-content-center text-center ">
-            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "col-sm-12 col-md-3 col-lg-2 col-xl-1" })
-            <div class="col-sm-12 col-md-8 col-lg-6 col-xl-5">
-                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", placeholder = @Html.DisplayNameFor(m => m.LastName), type = "text", name = @Html.NameFor(m => m.LastName), id = @Html.NameFor(m => m.LastName) } })
-                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="row col-12 form-group justify-content-center text-center ">
-            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "col-sm-12 col-md-3 col-lg-2 col-xl-1" })
-            <div class="col-sm-12 col-md-8 col-lg-6 col-xl-5">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = @Html.DisplayNameFor(m => m.Email), type = "email", name = @Html.NameFor(i => i.Email), id = @Html.NameFor(i => i.Email) } })
-                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-
-            </div>
-        </div>
-
-        <div class="row col-12 form-group justify-content-center text-center ">
-            <label for="email" class="col-sm-12 col-md-3 col-lg-2 col-xl-1">Captcha</label>
-            <div class="col-sm-12 col-md-8 col-lg-6 col-xl-5">
-                <input id="email" type="email" name="email" class="form-control" placeholder="לא פעיל" />
-            </div>
-        </div>
-
-        <div class="col-12 form-group justify-content-center text-center ">
-            <button type="button" class="btn btn-primary" onclick="return checkValid()">הרשם</button>
+<div class="row container-fluid">
+    <div class="row col-12 form-group justify-content-center text-center">
+        @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "col-sm-12 col-md-3 col-lg-2 col-xl-1" })
+        <div class="col-sm-12 col-md-8 col-lg-6 col-xl-5">
+            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control only-numbers", maxlength = "9", placeholder = @Html.DisplayNameFor(m => m.UserName), pattern = "[0-9]{9}", type = "text", name = @Html.DisplayNameFor(m => m.UserName), id = @Html.NameFor(m => m.UserName) } })
+            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
         </div>
     </div>
+    <div class="row col-12 form-group justify-content-center text-center ">
+        @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "col-sm-12 col-md-3 col-lg-2 col-xl-1" })
+        <div class="col-sm-12 col-md-8 col-lg-6 col-xl-5">
+            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", placeholder = @Html.DisplayNameFor(m => m.FirstName), type = "text", name = @Html.NameFor(m => m.FirstName), id = @Html.NameFor(m => m.FirstName) } })
+            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="row col-12 form-group justify-content-center text-center ">
+        @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "col-sm-12 col-md-3 col-lg-2 col-xl-1" })
+        <div class="col-sm-12 col-md-8 col-lg-6 col-xl-5">
+            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", placeholder = @Html.DisplayNameFor(m => m.LastName), type = "text", name = @Html.NameFor(m => m.LastName), id = @Html.NameFor(m => m.LastName) } })
+            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="row col-12 form-group justify-content-center text-center ">
+        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "col-sm-12 col-md-3 col-lg-2 col-xl-1" })
+        <div class="col-sm-12 col-md-8 col-lg-6 col-xl-5">
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = @Html.DisplayNameFor(m => m.Email), type = "email", name = @Html.NameFor(i => i.Email), id = @Html.NameFor(i => i.Email) } })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="row col-12 form-group justify-content-center text-center ">
+        @Html.LabelFor(model => model.ConfirmEmail, htmlAttributes: new { @class = "col-sm-12 col-md-3 col-lg-2 col-xl-1" })
+        <div class="col-sm-12 col-md-8 col-lg-6 col-xl-5">
+            @Html.EditorFor(model => model.ConfirmEmail, new { htmlAttributes = new { @class = "form-control", placeholder = @Html.DisplayNameFor(m => m.ConfirmEmail), type = "email", name = @Html.NameFor(i => i.ConfirmEmail), id = @Html.NameFor(i => i.ConfirmEmail) } })
+            @Html.ValidationMessageFor(model => model.ConfirmEmail, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="row col-12 form-group justify-content-center text-center ">
+        <label for="" class="col-sm-12 col-md-3 col-lg-2 col-xl-1">Captcha</label>
+        <div class="col-sm-12 col-md-8 col-lg-6 col-xl-5">
+            <input id="" type="text" name="" class="form-control" placeholder="לא פעיל" />
+        </div>
+    </div>
+
+    <div class="col-12 form-group justify-content-center text-center ">
+        <button type="button" class="btn btn-primary" onclick="return checkValid()">הרשם</button>
+    </div>
+</div>
 
 
 
@@ -98,10 +103,9 @@
                         
                     </div>
                 </div>
-
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success" onclick="//return checkPasswordsValid()">הכנס</button>
+                    <button type="submit" class="btn btn-success" onclick="return checkPasswordsValid()">הכנס</button>
                 </div>
 
             </div>
@@ -111,13 +115,13 @@
 <script>
     function checkValid()
     {  
-        var id = $('#UserId').val();
+        var id = $('#UserName').val();
         var email = $('#Email').val();
-        //if(! (validId(id) && validEmail(email)))
-        //{
-           //     $('#responseModal').modal('show');
-        //        return false;
-       // }
+        if(! (validId(id) && validEmail(email)))
+        {
+            $('#responseModal').modal('show');
+            return false;
+        }
         $.ajax({
             url: "/Login/CheckIfUserExist",
             dataType: 'text',
@@ -136,6 +140,5 @@
                 return false;
             }
         });
-
     }
 </script>

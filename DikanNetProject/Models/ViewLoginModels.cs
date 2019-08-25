@@ -24,6 +24,11 @@ namespace DikanNetProject.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "אנא הזן אימייל")]
         public string Email { get; set; }
 
+        [Display(Name = "אימות אימייל")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "אנא הזן אימייל")]
+        [Compare("Email", ErrorMessage = "אימייל אינו תואם")]
+        public string ConfirmEmail { get; set; }
+
         [Display(Name = "סיסמא")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "אנא הזן סיסמא")]
         [DataType(DataType.Password)]
@@ -32,7 +37,7 @@ namespace DikanNetProject.Models
         [Display(Name = "אימות סיסמא")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "אנא הזן סיסמא")]
         [DataType(DataType.Password)]
-        [Compare("Password",ErrorMessage ="סיסמא לא תואמות")]
+        [Compare("Password",ErrorMessage ="סיסמא אינה תואמת")]
         public string ConfirmPassword { get; set; }
     }
     public class UserLogin

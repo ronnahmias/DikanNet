@@ -30,7 +30,7 @@ namespace DikanNetProject.Controllers
         private ApplicationUserManager _userManager;
 
         public LoginController()
-        {
+        { 
         }
 
         public LoginController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -71,12 +71,20 @@ namespace DikanNetProject.Controllers
             }
         }
         #endregion
+
         #region Login
 
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult Login()
+        public ActionResult Login(string response="")
         {
+            ViewBag.Status = response; // if cames from role redirect method with error
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = UserManager.FindByName(User.Identity.Name);
+                var role = UserManager.GetRoles(user.Id)[0]; // get role[0] of the user
+                return RedirectToAction("RedirectUserByRole", new { pRole = role });
+            }
             return View();
         }
 
@@ -84,19 +92,20 @@ namespace DikanNetProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(UserLogin loginuser)
         {
+            ViewBag.Status = false;
             Users user = UserManager.FindByName(loginuser.UserName); // find the user by id
             if (user == null || !UserManager.IsEmailConfirmed(user.Id)) // checks if the user has confirmed the email
-                return View(loginuser); // add error message
+                return View(loginuser); // return with error
 
             var result = await SignInManager.PasswordSignInAsync(loginuser.UserName, loginuser.Password, loginuser.RememberMe, shouldLockout: false); // sign in
             
             switch (result)
             {
                 case SignInStatus.Success:
+                    ViewBag.Status = true;
                     var role = (UserManager.GetRoles(user.Id))[0]; // get role[0] of the user
                     return RedirectToAction("RedirectUserByRole", new { pRole = role } );
                 case SignInStatus.LockedOut:
-                    return View("Lockout");
                 case SignInStatus.RequiresVerification:
                 case SignInStatus.Failure:
                 default:
@@ -104,7 +113,8 @@ namespace DikanNetProject.Controllers
             }
             return View(loginuser);
         }
-        [HttpGet, Authorize] // only users can access to this
+        [HttpGet]
+        [Authorize] // only sign in users can access to this
         public ActionResult RedirectUserByRole(string pRole)
         {
             Student student;
@@ -141,17 +151,19 @@ namespace DikanNetProject.Controllers
 
                 default: break;
             }
-            return HttpNotFound();
+            return RedirectToAction("Login", new { response = false }); // return to login page and oper error modal
         }
-
         #endregion
 
         #region Registration
 
-        [HttpGet,AllowAnonymous]
+        [HttpGet]
+        [AllowAnonymous]
         public ActionResult Registration()
         {
-                return View();
+            ViewBag.ModelTitle = "שגיאה";
+            ViewBag.ModelMessageBody = "אחד הפרטים או יותר לא נכונים";
+            return View();
         }
 
         [HttpPost]
@@ -159,17 +171,19 @@ namespace DikanNetProject.Controllers
         public async Task<ActionResult> Registration(RegisterUserModel RegisterUser)
         {
             ViewBag.Status = false;
+            ViewBag.ModelTitle = "שגיאה";
+            ViewBag.ModelMessageBody = "אחד הפרטים או יותר לא נכונים";
             if (ModelState.IsValid)
             {
-                var user = new Users
+                var user = new Users // create new user
                 {
                     UserName = RegisterUser.UserName,
                     Email = RegisterUser.Email,
                     FirstName = RegisterUser.FirstName,
                     LastName = RegisterUser.LastName
                 };
-                var result = await UserManager.CreateAsync(user, RegisterUser.Password);
-                using(DikanDbContext ctx = new DikanDbContext())
+                var result = await UserManager.CreateAsync(user, RegisterUser.Password); // create user in db
+                using(DikanDbContext ctx = new DikanDbContext()) // add to user student role
                 {
                     var roleStore = new RoleStore<IdentityRole>(ctx);
                     var roleManager = new RoleManager<IdentityRole>(roleStore);
@@ -177,7 +191,7 @@ namespace DikanNetProject.Controllers
                     var userManager = new UserManager<Users>(userStore);
                     userManager.AddToRole(user.Id, "Student");
                 }
-                if (result.Succeeded)
+                if (result.Succeeded) // if all succeed send confirmation to email
                 {
                     // Send an email with this link
                     var body = "חשבונך נוצר בהצלחה<br/>לחץ על התמונה לאימות החשבון";
@@ -185,23 +199,25 @@ namespace DikanNetProject.Controllers
                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("VerifyAccount", "Login", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     body = SendMail.CreateBodyEmail(username, callbackUrl, body);
-                    await UserManager.SendEmailAsync(user.Id, "יצירת חשבון", body);
-                    ViewBag.Status = true;
+                    await UserManager.SendEmailAsync(user.Id, "יצירת חשבון - דיקאנט", body);
                     ViewBag.ModelTitle = "רישום";
                     ViewBag.ModelMessageBody = "הרישום הצליח! עלייך לאמת את החשבון דרך תיבת הדואר האלקטרוני לפני ההתחברות הראשונה";
-
+                    ViewBag.ChangeColor = true;
+                    return View();
                 }
             }
             return View(RegisterUser);
         }
-        
         #endregion
+
         #region Forgot Pass
 
         [HttpGet]
         [AllowAnonymous]
         public ActionResult ForgotPass()
         {
+            ViewBag.ModelTitle = "שגיאה";
+            ViewBag.ModelMessageBody = "אחד או יותר מהשדות אינם תקינים";
             return View();
         }
 
@@ -209,7 +225,10 @@ namespace DikanNetProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ForgotPass(ForgotPasswordViewModel model) // find the user and send resetpass to email
         {
-            if(ModelState.IsValid)
+            ViewBag.Status = false;
+            ViewBag.ModelTitle = "שגיאה";
+            ViewBag.ModelMessageBody = "אחד או יותר מהשדות אינם תקינים";
+            if (ModelState.IsValid)
             {
                 var user = await UserManager.FindByEmailAsync(model.Email);
                 if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
@@ -226,17 +245,24 @@ namespace DikanNetProject.Controllers
                 body = SendMail.CreateBodyEmail(user.FirstName + " " + user.LastName, callbackUrl, body);
                 await UserManager.SendEmailAsync(user.Id, "איפוס סיסמא - דיקאנט", body);
                 // add message that the email has been send
+                ViewBag.ModelTitle = "שחזור סיסמא";
+                ViewBag.ModelMessageBody = "פרטיך נקלטו<br />במידה הפרטים נכונים נשלח אלייך מייל ובו פרטי שחזור סיסמא.";
+                ViewBag.ChangeColor = true;
+                return View();
             }
             return View(model);  
         }
 
         #endregion
+
         #region Reset Password
 
         [HttpGet]
         [AllowAnonymous]
         public ActionResult ResetPassword(string code)
         {
+            ViewBag.ModelTitle = "שגיאה";
+            ViewBag.ModelMessageBody = "אחד או יותר מהשדות אינם תקינים";
             if (code == null)
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             else
@@ -247,6 +273,9 @@ namespace DikanNetProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ResetPassword(ResetPasswordModel model)
         {
+            ViewBag.Status = false;
+            ViewBag.ModelTitle = "שגיאה";
+            ViewBag.ModelMessageBody = "אחד או יותר מהשדות אינם תקינים";
             if (ModelState.IsValid)
             {
                 var user = await UserManager.FindByEmailAsync(model.Email);
@@ -259,8 +288,11 @@ namespace DikanNetProject.Controllers
                 var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
                 if (result.Succeeded)
                 {
-                    // add success message
-                    return RedirectToAction("Login", "Login");
+                    ViewBag.Status = false;
+                    ViewBag.ModelTitle = "איפוס סיסמא";
+                    ViewBag.ModelMessageBody = "סיסמתך עודכנה בהצלחה!";
+                    ViewBag.ChangeColor = true;
+                    return View();
                 }
             }
             return View(model);
@@ -288,11 +320,11 @@ namespace DikanNetProject.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> VerifyAccount(string userId, string code)
         {
-            ViewBag.Status = false;
+            ViewBag.Statuss = false;
             if (userId == null || code == null)
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             var result = await UserManager.ConfirmEmailAsync(userId, code);
-            if (result.Succeeded) ViewBag.Status = true;
+            if (result.Succeeded) ViewBag.Statuss = true;
             return View();
         }
         #endregion

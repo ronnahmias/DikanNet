@@ -26,7 +26,6 @@ namespace DikanNetProject
 
         private async Task configSendGridasync(IdentityMessage message)
         {
-            //var apiKey = Environment.GetEnvironmentVariable("SendGridAPIKey");
             var apikey = ConfigurationManager.AppSettings["SendGridAPIKey"]; // token of send grid from web.config
             var client = new SendGridClient(apikey);
             var from = new EmailAddress("dikannetproject@gmail.com", "דיקאנט");
@@ -61,18 +60,18 @@ namespace DikanNetProject
             // Configure validation logic for usernames
                 manager.UserValidator = new UserValidator<Users>(manager)
                 {
-                  RequireUniqueEmail = true,
+                  RequireUniqueEmail = true
                 };
 
             // Configure validation logic for passwords
-            //manager.PasswordValidator = new PasswordValidator
-            //{
-            //    RequiredLength = 6,
-            //    RequireNonLetterOrDigit = true,
-            //    RequireDigit = true,
-            //    RequireLowercase = true,
-            //    RequireUppercase = true,
-            //};
+            manager.PasswordValidator = new PasswordValidator
+            {
+                RequiredLength = 8,
+                RequireNonLetterOrDigit = false,
+                RequireDigit = true,
+                RequireLowercase = true,
+                RequireUppercase = true,
+            };
 
             // Configure user lockout defaults
             //manager.UserLockoutEnabledByDefault = true;

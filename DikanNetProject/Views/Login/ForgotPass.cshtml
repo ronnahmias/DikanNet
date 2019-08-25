@@ -3,8 +3,6 @@
 @{
     ViewBag.Title = "שכחתי סיסמא";
     ViewBag.Message = "שכחתי סיסמא";
-    ViewBag.ModelTitle = "שחזור סיסמא";
-    ViewBag.ModelMessageBody = "פרטיך נקלטו<br />במידה הפרטים נכונים נשלח אלייך מייל ובו פרטי שחזור סיסמא.";
     Layout = "~/Views/Login/_Layout.cshtml";
 }
 
@@ -40,15 +38,13 @@
 <script>
     
     function checkValid() {
-       var id = $('#UserId').val();
+       var id = $('#UserName').val();
         var email = $('#Email').val();
-        if ((validId(id) && validEmail(email))) {
-            $('#myModal').modal('show');
-            return true;
+        if (!(validId(id) && validEmail(email))) {
+            $('#responseModal').modal('show');
+            return false;
         }
-        //alert("false");
-        return false;
-
-    });
+        return true;
+    };
 </script>
 

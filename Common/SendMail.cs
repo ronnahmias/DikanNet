@@ -15,14 +15,10 @@ namespace Common
     {
         public static void SendEmailLink(string UserEmail, string body, string subject) // send activation code
         {
-            //var link = "/" + actionName + "/" + Code;
-            //var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, verifyUrl);
-
             var fromEmail = new MailAddress("DikannetProject@gmail.com", "דיקאנט");
             var toEmail = new MailAddress(UserEmail);
             var fromEmailPassword = "r&r123456";
            
-
             var smtp = new SmtpClient
             {
                 Host = "smtp.gmail.com",
