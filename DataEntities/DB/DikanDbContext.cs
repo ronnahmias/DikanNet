@@ -1,18 +1,26 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Web;
 
 namespace DataEntities.DB
 {
-    public class DikanDbContext : DbContext
+    public class DikanDbContext : IdentityDbContext<Users>
     {
         public DikanDbContext() : base ("name=DikanNetDB")
         { }
 
+        public static DikanDbContext Create()
+        {
+            return new DikanDbContext();
+        }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Countries>()
                 .HasMany(s => s.Student)
                 .WithRequired(s => s.Country)
@@ -57,12 +65,22 @@ namespace DataEntities.DB
               .HasMany(f => f.FamilyStudentFinances)
               .WithRequired(s => s.FamilyMember)
               .HasForeignKey(s => s.FamilyMemberId);
+
+
+            modelBuilder.Entity<Users>().ToTable("Users"); 
+            modelBuilder.Entity<IdentityRole>().ToTable("Roles");
+            modelBuilder.Entity<IdentityUserLogin>().ToTable("UserLogins");
+            modelBuilder.Entity<IdentityUserClaim>().ToTable("UserClaims");
+            modelBuilder.Entity<IdentityUserRole>().ToTable("UserRoles");
+
+
+
         }
         public DbSet<Student> Students { get; set; }
         public DbSet<Countries> Countries { get; set; }
         public DbSet<Major> Majors { get; set; }
         public DbSet<HeadMajor> HeadMajor { get; set; }
-        public DbSet<Users> Users { get; set; }
+        public DbSet<Users1> Users1 { get; set; }
         public DbSet<FamilyMember> FamilyMembers { get; set; }
         public DbSet<FamilyStudentFinance> FamilyStudentFinances { get; set; }
         public DbSet<Funding> Fundings { get; set; }
@@ -73,7 +91,7 @@ namespace DataEntities.DB
         public DbSet<Cities> Cities { get; set; }
         public DbSet<VolunteerPlaces> VolunteerPlaces { get; set; }
         public DbSet<SpHalacha> Halacha { get; set; }
-        public DbSet<SpExcellence> Ecellence { get; set; }
+        public DbSet<SpExcellence> Excellence { get; set; }
 
     }
 }

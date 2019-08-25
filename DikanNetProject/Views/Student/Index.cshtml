@@ -4,9 +4,8 @@
 @{
     ViewBag.Title = "דף סטודנט - ";
     Layout = "~/Views/Student/_Layout.cshtml";
-    ViewBag.StudentName = ((Users)Session["Student"]).FirstName + " " + ((Users)Session["Student"]).LastName;
 }
-@{ var id = ((Users)Session["Student"]).UserId;}
+@{ var id = User.Identity.Name;}
 <!-- Tab panes -->
     <div class="tab-content container-fluid text-center">
         <div class="tab-pane active " id="reqStatuses">

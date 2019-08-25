@@ -8,6 +8,7 @@ using DataEntities.DB;
 
 namespace DikanNetProject.Controllers
 {
+    [Authorize]
     public class DikanController : Controller
     {
         [HttpGet]
@@ -62,9 +63,13 @@ namespace DikanNetProject.Controllers
             return RedirectToAction("SpList",new { response = res });
         }
 
+        
         [HttpGet]
+        [Authorize(Roles ="Student")]
         public ActionResult SpList(string response = "")
         {
+            if (!(User.Identity.IsAuthenticated))
+                return RedirectToAction("Login", "Login");
             ViewBag.response = response;
             List<SpDefinition> SpList;
             using (DikanDbContext ctx = new DikanDbContext())
