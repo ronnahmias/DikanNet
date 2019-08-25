@@ -129,12 +129,12 @@ div#reqStatuses > div:nth-child(odd)
 }
 
 /*Socio*/
-#Funding, #cardiv, #Studfindiv, #FamFinDet {
+#Funding, #cardiv, #Studfindiv, #FamFinDet, #FamMemdiv {
     display: grid;
     grid-template-columns: repeat(4,1fr);
     grid-gap: 5px;
 
-    div.funds, div.cars, .studfin {
+    div.funds, div.cars, div.studfin, div.fam {
         background-color: #f5f5ba;
         position: relative;
         height: 550px;
@@ -204,7 +204,7 @@ div#reqStatuses > div:nth-child(odd)
             }
         }
 
-        .del-fund, .del-car {
+        .del-fund, .del-car, .del-fammem {
             position: absolute;
             top: 90%;
             width: 90%;
@@ -217,8 +217,8 @@ div#reqStatuses > div:nth-child(odd)
         }
     }
 }
-#cardiv {
-    .cars {
+#cardiv, #FamMemdiv {
+    div.cars, div.fam {
         height: 745px !important;
     }
 }
