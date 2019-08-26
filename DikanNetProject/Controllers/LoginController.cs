@@ -330,6 +330,8 @@ namespace DikanNetProject.Controllers
         #endregion
 
         #region Disconnect
+        [HttpGet]
+        [AllowAnonymous]
         public ActionResult Disconnect() // disconnect from user
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
