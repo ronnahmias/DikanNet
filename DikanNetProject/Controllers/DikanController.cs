@@ -8,7 +8,6 @@ using DataEntities.DB;
 
 namespace DikanNetProject.Controllers
 {
-    [Authorize]
     public class DikanController : Controller
     {
         [HttpGet]
@@ -22,37 +21,39 @@ namespace DikanNetProject.Controllers
         [HttpGet]
         public ActionResult CreateEditSp(int? id)
         {
+            // get scholarship 
             ViewBag.Header = "עדכון מלגה";
             SpDefinition TempSp;
             using (DikanDbContext ctx = new DikanDbContext())
             {
-                TempSp = ctx.SpDef.Where(s => s.ScholarshipID == id).FirstOrDefault();
+                TempSp = ctx.SpDef.Where(s => s.ScholarshipID == id).FirstOrDefault(); // try to find by id
             }
-            if (TempSp != null)
+            if (TempSp != null) // if the tempsp not null then get edit scholarship
                 return View(TempSp);
             else
             {
-                ViewBag.Header = "הוספת מלגה";
+                ViewBag.Header = "הוספת מלגה"; // add new scholarship
                 return View();
             }
                 
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult CreateEditSp(SpDefinition ClientSp)
         {
-            string res = string.Empty;
+            string res = string.Empty; // send response message to spllist 
             if(ModelState.IsValid)
             {
                 using(DikanDbContext ctx = new DikanDbContext())
                 {
-                    SpDefinition Temp = ctx.SpDef.Where(s => s.ScholarshipID == ClientSp.ScholarshipID).FirstOrDefault();
-                    if (Temp == null)
+                    SpDefinition Temp = ctx.SpDef.Where(s => s.ScholarshipID == ClientSp.ScholarshipID).FirstOrDefault(); // try to find sp by id
+                    if (Temp == null) // if the object null then he add new scholarship
                     {
                         res = "מלגה נוספה בהצלחה";
                         ctx.SpDef.Add(ClientSp);
                     }
-                    else
+                    else // update existing scholarship
                     {
                         res = "מלגה עודכנה בהצלחה";
                         ctx.Entry(Temp).CurrentValues.SetValues(ClientSp);
@@ -60,21 +61,18 @@ namespace DikanNetProject.Controllers
                     ctx.SaveChanges();
                 }
             }
-            return RedirectToAction("SpList",new { response = res });
+            return RedirectToAction("SpList",new { response = res }); // return to sp list with response message
         }
 
         
         [HttpGet]
-        [Authorize(Roles ="Student")]
         public ActionResult SpList(string response = "")
         {
-            if (!(User.Identity.IsAuthenticated))
-                return RedirectToAction("Login", "Login");
-            ViewBag.response = response;
+            ViewBag.response = response; // add response message if needed
             List<SpDefinition> SpList;
             using (DikanDbContext ctx = new DikanDbContext())
             {
-                SpList = ctx.SpDef.ToList();
+                SpList = ctx.SpDef.ToList(); // get list of all scholarships
             }
             return View(SpList);
         }
