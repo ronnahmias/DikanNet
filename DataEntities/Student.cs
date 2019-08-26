@@ -16,22 +16,22 @@ namespace DataEntities
         [Key, Display(Name ="תעודת זהות")]
         public string StudentId { get; set; }
 
-        [Display(Name = "שם פרטי")]
+        [Display(Name = "שם פרטי"),Required(ErrorMessage ="חובה להזין שם פרטי")]
         public string FirstName { get; set; }
 
-        [Display(Name = "שם משפחה")]
+        [Display(Name = "שם משפחה"), Required(ErrorMessage = "חובה להזין שם משפחה")]
         public string LastName { get; set; }
 
-        [Display(Name = "אימייל - במידה ותשנה את כתובת המייל שלך תצטרך לאמת אותה מחדש")]
+        [Display(Name = "אימייל - במידה ותשנה את כתובת המייל שלך תצטרך לאמת אותה מחדש"), Required(ErrorMessage = "חובה להזין אימייל")]
         public string Email { get; set; }
 
-        [Display(Name = "עיר")]
+        [Display(Name = "עיר"), Required(ErrorMessage = "חובה להזין עיר מגורים")]
         public string City { get; set; }
 
-        [Display(Name = "רחוב")]
+        [Display(Name = "רחוב"), Required(ErrorMessage = "חובה להזין רחוב")]
         public string Street { get; set; }
 
-        [Display(Name = "מספר בית")]
+        [Display(Name = "מספר בית"), Required(ErrorMessage = "חובה להזין מספר בית")]
         public int? HouseNo { get; set; }
 
      
@@ -40,34 +40,34 @@ namespace DataEntities
         [Display(Name = "קובץ תעודת זהות"),NotMapped]
         public HttpPostedFileBase FileId { get; set; }
 
-        [Display(Name = "מגמה")]
+        [Display(Name = "מגמה"),Required(ErrorMessage = "חובה לבחור מגמה")]
         public int? MajorId { get; set; }
 
-        [Display(Name = "שנת לימוד")]
+        [Display(Name = "סוג מסלול"), Required(ErrorMessage = "חובה לבחור מסלול לימודים ")]
         public string LearnPath { get; set; }
 
         [Display(Name = "תאריך לידה")]
-        //[DataType(DataType.Date)]
+        [Required(ErrorMessage = "חובה להזין תאריך לידה")]
         [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true,ConvertEmptyStringToNull =true)]
         public DateTime BirthDay { get; set; }
 
-        [Display(Name = "מגדר")]
+        [Display(Name = "מגדר"), Required(ErrorMessage = "חובה לבחור מגדר")]
         public string Gender { get; set; }
 
-        [Display(Name = "מספר פלאפון")]
+        [Display(Name = "מספר פלאפון"), Required(ErrorMessage = "חובה להזין מספר פלאפון ")]
         public string CellphoneNo { get; set; }
 
         [Display(Name = "טלפון")]
         public string PhoneNo { get; set; }
 
-        [Display(Name = "ארץ לידה")]
+        [Display(Name = "ארץ לידה"), Required(ErrorMessage = "חובה להזין ארץ לידה")]
         public int? CountryBirthId { get; set; }
 
-        [Display(Name = "מצב משפחתי")]
+        [Display(Name = "מצב משפחתי"), Required(ErrorMessage = "חובה לבחור מצב משפחתי")]
         public string MaritalStatus { get; set; }
 
-        public Guid Uniquee { get; set; }
+        public string Uniquee { get; set; }
 
         public virtual Countries Country { get; set; }
         public virtual Major Major { get; set; }

@@ -20,7 +20,7 @@ using Microsoft.AspNet.Identity;
 namespace DikanNetProject.Controllers
 {
     [RequireHttps]
-    [Authorize]
+    [Authorize(Roles ="Student")] // only student can access to controller
     public class StudentController : Controller
     {
         string sStudentId;
@@ -79,6 +79,8 @@ namespace DikanNetProject.Controllers
 #endregion
 
         #region Index
+        [HttpGet]
+        [Authorize(Roles = "Student")]
         public ActionResult Index()
         {
             StudentMain studentMain = new StudentMain();
@@ -110,7 +112,8 @@ namespace DikanNetProject.Controllers
                 studentMain.InPracticeList = ctx.Halacha.Include(s => s.ScholarshipDefinition).Where(s => s.StudentId == sStudentId).ToList(); // send to view inpractice list of student
                 studentMain.ExcelList = ctx.Excellence.Include(s => s.ScholarshipDefinition).Where(s => s.StudentId == sStudentId).ToList(); // send to view excellence list of student
                 studentMain.SocioList = ctx.Socio.Include(s => s.ScholarshipDefinition).Where(s => s.StudentId == sStudentId).ToList(); // send to view socio list of student
-                ViewBag.StudentName = (ctx.Users.Where(s => s.UserName == User.Identity.Name).FirstOrDefault()).FirstName;
+                var user = UserManager.FindByName(sStudentId);
+                ViewBag.StudentName = user.FirstName + " " + user.LastName;
             }
 
             return View(studentMain);
@@ -120,6 +123,7 @@ namespace DikanNetProject.Controllers
         #region Update Info Student
 
         [HttpGet]
+        [Authorize(Roles = "Student")]
         public ActionResult UpdateStudent()
         {
             Student student;
@@ -141,43 +145,42 @@ namespace DikanNetProject.Controllers
                         LastName = user.LastName
                     };
                 }
-                else
-                {
-                }
             }
             return View(student);
         }
 
         [HttpPost]
+        [Authorize(Roles = "Student")]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> UpdateStudent(Student UpdateStudent)
         {
-            UpdateStudent.StudentId = sStudentId;
+            UpdateStudent.StudentId = sStudentId; // bind student id to model
             var tempuser = await UserManager.FindByNameAsync(UpdateStudent.StudentId); // get the student user
+            UpdateStudent.Uniquee = tempuser.Id; // update unique id to student table
+            if (UpdateStudent.PathId == null && UpdateStudent.FileId == null) // there is no file saved and no upload so add error
+                ModelState.AddModelError("FileId", "חובה לצרף קובץ תעודת זהות");
             if (ModelState.IsValid)
             {
                 using (DikanDbContext ctx = new DikanDbContext())
                 {
                     Student dbStudent = ctx.Students.Find(UpdateStudent.StudentId);
-                    if (dbStudent != null)
+                    if (tempuser != null) // if the student changed the name update in users list also
                     {
-                        if (tempuser != null) // if the student changed the name update in users list also
-                        {
-                            tempuser.FirstName = UpdateStudent.FirstName;
-                            tempuser.LastName = UpdateStudent.LastName;
-                        }
-                        if (UpdateStudent.Email != tempuser.Email) // check if the student has change the email address
-                        {
-                            tempuser.Email = UpdateStudent.Email; // update email address in user list
-                            tempuser.EmailConfirmed = false;
-                            var body = "כתובת האימייל שונתה בחשבון<br/>לחץ על התמונה לאימות החשבון";
-                            var username = tempuser.FirstName + " " + tempuser.LastName;
-                            string code = await UserManager.GenerateEmailConfirmationTokenAsync(tempuser.Id);
-                            var callbackUrl = Url.Action("VerifyAccount", "Login", new { userId = tempuser.Id, code = code }, protocol: Request.Url.Scheme);
-                            body = SendMail.CreateBodyEmail(username, callbackUrl, body);
-                            await UserManager.SendEmailAsync(tempuser.Id, "עדכון אימייל בחשבון", body);
-                        }
-                        var result = await UserManager.UpdateAsync(tempuser);
+                        tempuser.FirstName = UpdateStudent.FirstName;
+                        tempuser.LastName = UpdateStudent.LastName;
                     }
+                    if (UpdateStudent.Email != tempuser.Email) // check if the student has change the email address
+                    {
+                        tempuser.Email = UpdateStudent.Email; // update email address in user list
+                        tempuser.EmailConfirmed = false;
+                        var body = "כתובת האימייל שונתה בחשבון<br/>לחץ על התמונה לאימות החשבון";
+                        var username = tempuser.FirstName + " " + tempuser.LastName;
+                        string code = await UserManager.GenerateEmailConfirmationTokenAsync(tempuser.Id);
+                        var callbackUrl = Url.Action("VerifyAccount", "Login", new { userId = tempuser.Id, code = code }, protocol: Request.Url.Scheme);
+                        body = SendMail.CreateBodyEmail(username, callbackUrl, body);
+                        await UserManager.SendEmailAsync(tempuser.Id, "עדכון אימייל בחשבון", body);
+                    }
+                    var result = await UserManager.UpdateAsync(tempuser); // update the detail in users table
 
                     if (UpdateStudent.FileId != null)
                         UpdateStudent.PathId = Files.SaveFileInServer(UpdateStudent.FileId, "Id", UpdateStudent.StudentId, (dbStudent == null) ? null : dbStudent.PathId);
@@ -215,7 +218,8 @@ namespace DikanNetProject.Controllers
             }
             switch (Enum.Parse(typeof(Enums.SpType), temp.Type))
             {
-                case Enums.SpType.סוציואקונומית: return RedirectToAction("Socio", new { scholarshipid }); // type 1 is socio scholarship
+                case Enums.SpType.סוציואקונומית:
+                    return RedirectToAction("Socio", new { scholarshipid }); // type 1 is socio scholarship
 
                 case Enums.SpType.מצוינות:
                     return RedirectToAction("Excellent", new { scholarshipid }); // type 2 is metuyanut scholarship
@@ -223,7 +227,7 @@ namespace DikanNetProject.Controllers
                 case Enums.SpType.הלכה:
                     return RedirectToAction("Halacha", new { scholarshipid }); // type 3 is halacha scholarship
 
-                default: return RedirectToAction("Index"); // index of srudent if not found type
+                default: return RedirectToAction("Index"); // index of student if not found type
             }
         }
         #endregion
