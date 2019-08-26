@@ -7,32 +7,71 @@
 
 <h2>מקומות התנדבות</h2>
 <h5>@ViewBag.response</h5>
-@Html.ActionLink("הוספת מקום חדש", "CreateEditVol", null, new { @class = "btn btn-success" })
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Desc)
-        </th>
-        <th></th>
-    </tr>
+<div>
+    <span>שם מקום ההתנדבות</span><input type="text" id="input-name" />
+    <br />
+    <span>תיאום מקום התנדבות</span><textarea type="text" id="input-desc">  </textarea>
+    <button class="btn btn-outline-primary" id="add-vol">הוספת/עריכת מקום התנדבות</button>
+</div>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Desc)
-            </td>
-            <td>
-                @Html.ActionLink("עריכה", "CreateEditVol", new { id = item.Id }) |
-                @Html.ActionLink("מחיקה", "DeleteVol", new { VolId = item.Id })
-            </td>
-        </tr>
-    }
+<br />
+<div>
+    <ul id="list"></ul>
+</div>
 
-</table>
+
+@section scripts{
+    <script>
+
+        $(document).ready(function () {
+            $.ajax({
+                url: '@Url.Action("GetVolList","Dikan")',
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                method: 'GET',
+                success: function (data) {
+                    Loadlist(data);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.status);
+                    console.log(thrownError);
+                }
+            });
+        });
+
+        $('#add-vol').click(function ()
+        {
+            var name = $('#input-name').val();
+            var desc = $('#input-desc').val();
+            var id = ""; // add the id to edit existing volunteer
+            var vol = [id,name,desc];
+            if (name != "" && desc != "")
+            {
+                $.ajax({
+                url: '@Url.Action("CreateEditVol","Dikan")',
+                data: { Id: id, Name: name, Desc: desc },
+                dataType: 'json',
+                method: 'POST',
+                success: function (data) {
+                    Loadlist(data);
+                    $('#input-name').val("");
+                    $('#input-desc').val("");
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.status);
+                    console.log(thrownError);
+                }
+                });
+            }
+        });
+
+        function Loadlist(data) {
+            $("#list").empty();
+            $.each(data, function (key, value)
+            {
+                //alert(value.Name);
+                $("#list").append("<li name='"+value.Id+"'><span class='name'>"+value.Name+"</span> -- <span class='desc'>"+value.Desc+"</span><button>עריכה</button><button>מחיקה</button></li>");
+            });
+        }
+    </script>
+}

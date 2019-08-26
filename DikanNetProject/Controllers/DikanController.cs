@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using DataEntities;
@@ -83,73 +84,63 @@ namespace DikanNetProject.Controllers
         public ActionResult VolunteerList(string response = "")
         {
             ViewBag.response = response;
-            List<VolunteerPlaces> VoluList;
-            using (DikanDbContext ctx = new DikanDbContext())
-            {
-                VoluList = ctx.VolunteerPlaces.ToList();
-            }
-            return View(VoluList);
+            return View();
         }
 
         [HttpGet]
-        public ActionResult CreateEditVol(int? id)
+        public JsonResult GetVolList() // get list to client of volunteer list in ajax
         {
-            ViewBag.Header = "עדכון מקום התנדבות";
-            VolunteerPlaces TempVol;
-            using (DikanDbContext ctx = new DikanDbContext())
-            {
-                TempVol = ctx.VolunteerPlaces.Where(s => s.Id == id).FirstOrDefault();
-            }
-            if (TempVol != null)
-                return View(TempVol);
-            else
-            {
-                ViewBag.Header = "הוספת מקום התנדבות";
-                return View();
-            }
-
+            return Json(GetActiveVolList(), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public ActionResult CreateEditVol(VolunteerPlaces ClientVol)
+        public ActionResult CreateEditVol(string Id, string Name, string Desc)
         {
-            string res = string.Empty;
-            if (ModelState.IsValid)
-            {
-                using (DikanDbContext ctx = new DikanDbContext())
-                {
-                    VolunteerPlaces Temp = ctx.VolunteerPlaces.Where(s => s.Id == ClientVol.Id).FirstOrDefault();
-                    if (Temp == null)
-                    {
-                        res = "מקום התנדבות נוסף בהצלחה";
-                        ctx.VolunteerPlaces.Add(ClientVol);
-                    }
-                    else
-                    {
-                        res = "מקום התנדבות עודכן בהצלחה";
-                        ctx.Entry(Temp).CurrentValues.SetValues(ClientVol);
-                    }
-                    ctx.SaveChanges();
-                }
-            }
-            return RedirectToAction("VolunteerList", new { response = res });
-        }
-
-        [HttpGet]
-        public ActionResult DeleteVol(int VolId)
-        {
-            string res = string.Empty;
+            VolunteerPlaces Temp = null;
+            var hasid = int.TryParse(Id,out int res);
             using (DikanDbContext ctx = new DikanDbContext())
             {
-                VolunteerPlaces temp = ctx.VolunteerPlaces.Where(s => s.Id == VolId).FirstOrDefault();
+                ctx.Configuration.LazyLoadingEnabled = false;
+                if (hasid) // check if we got id num of vol for edit
+                    Temp = ctx.VolunteerPlaces.Where(s => s.Id == res).FirstOrDefault();
+                if (Temp == null)
+                    ctx.VolunteerPlaces.Add(new VolunteerPlaces { Name=Name, Desc = Desc, Active = true }); // add new vol place
+                else
+                    ctx.Entry(Temp).CurrentValues.SetValues(new VolunteerPlaces { Name = Name, Desc = Desc, Active = true });
+                ctx.SaveChanges();
+            }
+            return Json(GetActiveVolList(), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPut]
+        public ActionResult DeleteVol(string VolId) // update active to false 
+        {
+            int intvolid = -1;
+            intvolid = int.Parse(VolId);
+            if(intvolid == -1)
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            using (DikanDbContext ctx = new DikanDbContext())
+            {
+                VolunteerPlaces temp = ctx.VolunteerPlaces.Where(s => s.Id == intvolid).FirstOrDefault();
                 if (temp != null)
                 {
-                    ctx.VolunteerPlaces.Remove(temp);
+                    ctx.VolunteerPlaces.Attach(temp).Active = false;
                     ctx.SaveChanges();
-                    res = "מקום התנדבות נמחק בהצלחה";
                 }
             }
-            return RedirectToAction("VolunteerList", new { response = res });
+            return Json(GetActiveVolList(), JsonRequestBehavior.AllowGet);
+        }
+
+        [NonAction]
+        public List<VolunteerPlaces> GetActiveVolList() // return list of all vol places that are active true
+        {
+            List<VolunteerPlaces> VoluList;
+            using (DikanDbContext ctx = new DikanDbContext())
+            {
+                VoluList = ctx.VolunteerPlaces.Where(s => s.Active == true).ToList(); // only active places
+                ctx.Configuration.LazyLoadingEnabled = false;
+            }
+            return VoluList;
         }
 
         #endregion

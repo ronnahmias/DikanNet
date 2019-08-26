@@ -20,6 +20,9 @@ namespace DataEntities
         [Display(Name = "תיאור התנדבות"),Column("Descc")]
         public string Desc { get; set; }
 
+        [Display(Name = "פעיל?")]
+        public bool Active { get; set; }
+
         [NotMapped]
         public string Name_desc { get; set; }
 
