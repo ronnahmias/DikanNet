@@ -209,6 +209,8 @@ namespace DikanNetProject.Controllers
         #endregion
 
         #region Redirect To Scholarship
+        [HttpGet]
+        [Authorize(Roles = "Student")]
         public ActionResult RedirectToScholarship(int scholarshipid)
         {
             SpDefinition temp;
@@ -235,6 +237,7 @@ namespace DikanNetProject.Controllers
         #region Halacha Lemaase Scholarship
 
         [HttpGet]
+        [Authorize(Roles = "Student")]
         public ActionResult Halacha(int scholarshipid)
         {
             SpHalacha temphalacha;
@@ -261,6 +264,8 @@ namespace DikanNetProject.Controllers
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Student")]
         public ActionResult Halacha(SpHalacha temphalacha, string uploadmethod) // submit  new halacha scholarship
         {
             ViewBag.ResOk = false;
@@ -303,6 +308,8 @@ namespace DikanNetProject.Controllers
         #region Excellent Scholarship
 
         [HttpGet]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Student")]
         public ActionResult Excellent(int scholarshipid)
         {
             SpExcellence tempmetsuyanut;
@@ -328,6 +335,8 @@ namespace DikanNetProject.Controllers
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Student")]
         public ActionResult Excellent(SpExcellence tempmetmesuyanut, string uploadmethod) // submit  new metsuyanut scholarship
         {
             ViewBag.ResOk = false;
@@ -369,6 +378,7 @@ namespace DikanNetProject.Controllers
         #region SocioEconomic Scholarship
 
         [HttpGet]
+        [Authorize(Roles = "Student")]
         public ActionResult Socio(int scholarshipid)
         {
             SocioAdd socio;
@@ -505,6 +515,7 @@ namespace DikanNetProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Student")]
         public ActionResult Socio(SocioAdd socio, string uploadmethod) // submit  new socio scholarship
         {
             if (socio.ListCarStudent != null)
@@ -954,6 +965,7 @@ namespace DikanNetProject.Controllers
         #region NonActions
 
         [NonAction]
+        [Authorize(Roles = "Student")]
         public List<VolunteerPlaces> SetsvolunteerPlaces() // add to name and desc to name_desc field
         {
             List<VolunteerPlaces> places = new List<VolunteerPlaces>();
@@ -969,6 +981,7 @@ namespace DikanNetProject.Controllers
         }
 
         [NonAction]
+        [Authorize(Roles = "Student")]
         public List<SelectListItem> YearsSelectList()
         {
             List<SelectListItem> years = new List<SelectListItem>();
@@ -980,6 +993,7 @@ namespace DikanNetProject.Controllers
         }
 
         [NonAction]
+        [Authorize(Roles = "Student")]
         public List<SelectListItem> MonthsSelectList()
         {
             List<SelectListItem> months = new List<SelectListItem>();
