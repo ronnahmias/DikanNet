@@ -971,7 +971,7 @@ namespace DikanNetProject.Controllers
             List<VolunteerPlaces> places = new List<VolunteerPlaces>();
             using (DikanDbContext ctx = new DikanDbContext())
             {
-                places = ctx.VolunteerPlaces.ToList();
+                places = ctx.VolunteerPlaces.Where(s=>s.Active == true).ToList(); // only active places
                 foreach (var place in places.ToList()) // sets name+desc field to show in drop down list
                 {
                     place.Name_desc = place.Name + " - " + place.Desc;
