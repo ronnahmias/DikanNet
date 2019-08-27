@@ -166,6 +166,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Models\HtmlPrefixScopeExtensions.cs" />
+    <Compile Include="Models\ViewDikanModels.cs" />
     <Compile Include="Startup.cs" />
     <Content Include="Content\Css\BaseCSS.css" />
     <Content Include="Content\Css\Chosen\chosen.min.css" />
@@ -315,6 +316,7 @@
     <Content Include="Views\Dikan\VolunteerList.cshtml" />
     <Content Include="Views\Dikan\CreateEditVol.cshtml" />
     <Content Include="Views\Student\FamilyFinView.cshtml" />
+    <Content Include="Views\Dikan\UsersList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

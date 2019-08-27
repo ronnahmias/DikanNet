@@ -4,13 +4,66 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Common;
 using DataEntities;
 using DataEntities.DB;
+using DikanNetProject.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 
 namespace DikanNetProject.Controllers
 {
     public class DikanController : Controller
     {
+
+        #region Variables
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
+
+        public DikanController()
+        {
+        }
+
+        public DikanController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        {
+            UserManager = userManager;
+            SignInManager = signInManager;
+        }
+
+        public ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            private set
+            {
+                _signInManager = value;
+            }
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
+        private IAuthenticationManager AuthenticationManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().Authentication;
+            }
+        }
+        #endregion
+
         [HttpGet]
         public ActionResult Index()
         {
@@ -79,7 +132,7 @@ namespace DikanNetProject.Controllers
         }
         #endregion
 
-        #region Volunter Places
+        #region Volunter Places Section
         [HttpGet]
         public ActionResult VolunteerList(string response = "")
         {
@@ -141,6 +194,92 @@ namespace DikanNetProject.Controllers
                 ctx.Configuration.LazyLoadingEnabled = false;
             }
             return VoluList;
+        }
+
+        #endregion
+
+        #region Manage Users Section
+
+        [HttpGet]
+        public ActionResult UsersList(string response = "")
+        {
+            ViewBag.response = response; // add response message if needed
+            List<Users> UsersList;
+            List<UsersView> Users = new List<UsersView>();
+            UsersView tempu;
+            using (DikanDbContext ctx = new DikanDbContext())
+            {
+                UsersList = ctx.Users.ToList(); // get list of all users
+            }
+            foreach(var user in UsersList)
+            {
+                var rolesofuser = UserManager.GetRoles(user.Id)[0];
+                tempu = new UsersView
+                {
+                    FirstName = user.FirstName,
+                    Email = user.Email,
+                    LastName = user.LastName,
+                    UserName = user.UserName,
+                    Role = rolesofuser,
+                    Id = user.Id
+                };
+                Users.Add(tempu);
+            }
+            return View(Users);
+        }
+
+        [HttpPost]
+        public ActionResult EditEmail(string Id, string newemail) // edit email of student
+        {
+            Student dbstudent,tempstudent;
+            var user = UserManager.FindById(Id); // find the user by id
+            if (user != null)
+            {
+                user.Email = newemail; // inserts the new email
+                user.EmailConfirmed = false; // need the new email to be confirmed
+                using(DikanDbContext ctx = new DikanDbContext())
+                {// gets the student to update email address in student table
+                    dbstudent = ctx.Students.Where(s => s.StudentId == user.UserName).FirstOrDefault(); 
+                    tempstudent = dbstudent;
+                    if (dbstudent != null)
+                    {
+                        tempstudent.Email = newemail;
+                        ctx.Entry(dbstudent).CurrentValues.SetValues(tempstudent);// update student with new email
+                    }
+                }
+                UserManager.Update(user); // update the new email
+               // Send an email with this link
+                var body = "כתובת המייל שונתה<br/>לחץ על התמונה לאימות החשבון";
+                var username = user.FirstName + " " + user.LastName;
+                string code = UserManager.GenerateEmailConfirmationToken(user.Id);
+                var callbackUrl = Url.Action("VerifyAccount", "Login", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                body = SendMail.CreateBodyEmail(username, callbackUrl, body);
+                UserManager.SendEmail(user.Id, "יצירת חשבון - דיקאנט", body);
+                return new HttpStatusCodeResult(HttpStatusCode.OK);
+            }
+            else
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        }
+
+        [HttpGet]
+        public ActionResult AddEditUser(string Id="") // 
+        {
+            
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddEditUser(string Id = "") // 
+        {
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult DeleteUser(string Id = "")
+        {
+
+            return View();
         }
 
         #endregion

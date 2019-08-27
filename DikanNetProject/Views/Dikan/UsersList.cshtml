@@ -1,0 +1,133 @@
+﻿@using DikanNetProject.Models;
+@model List<UsersView>
+@{
+    ViewBag.Title = "רשימת משתמשים";
+    Layout = "~/Views/Dikan/_Layout.cshtml";
+}
+
+<h2>רשימת סטודנטים במערכת</h2>
+<h4>@ViewBag.response</h4>
+<div class="row bg-dark text-white py-3 d-none d-md-flex">
+    <!--student users-->
+    <div class="col-lg-1 col-xl-1">
+        #
+    </div>
+    <!--student name-->
+    <div class="col-lg-3 col-xl-3">
+        שם הסטודנט
+    </div>
+    <!--student id-->
+    <div class="col-lg-2 col-xl-2">
+        תז סטודנט
+    </div>
+    <!--student mail-->
+    <div class="col-lg-3 col-xl-3">
+        מייל סטודנט
+    </div>
+    <!--options-->
+    <div class="col-lg-3 col-xl-3">
+        פעולות
+    </div>
+</div>
+
+@{ var counterUpdates = 1;
+    foreach (var student in Model.Where(s => s.Role == "Student").ToList())
+    {
+        <div class="row py-3 border border-secondary">
+            <!--No-->
+            <div class="col-lg-1 col-xl-1">
+                @counterUpdates
+            </div>
+            <!--student name-->
+            <div class="col-lg-3 col-xl-3">
+                @student.FirstName  @student.LastName
+            </div>
+            <!--student id-->
+            <div class="col-lg-2 col-xl-2">
+                @student.UserName
+            </div>
+            <!--student mail-->
+            <div class="col-lg-3 col-xl-3">
+                @student.Email
+            </div>
+            <div class="col-lg-3 col-xl-3">
+                <input type="email" class="email-input" />
+            </div>
+            <!--options-->
+            <div class="col-lg-3 col-xl-3">
+                <button>עריכה</button>
+                <button class="btn btn-dark save-email">שמור</button>
+                @Html.ActionLink("שליחת איפוס סיסמא", "ResetPassStudent", new { username = student.Id }, new { @class = "btn btn-dark" })
+            </div>
+        </div>
+        counterUpdates = counterUpdates + 1;
+    }
+}
+
+<h2>רשימת משתמשים נוספים במערכת</h2>
+@Html.ActionLink("הוספת משתמשים", "AddEditUser",null, new { @class = "btn btn-success" })
+<div class="row bg-dark text-white py-3 d-none d-md-flex">
+    <!--users-->
+    <div class="col-lg-1 col-xl-1">
+        #
+    </div>
+    <!--name-->
+    <div class="col-lg-3 col-xl-3">
+        שם מלא
+    </div>
+    <!--student id-->
+    <div class="col-lg-2 col-xl-2">
+        תז
+    </div>
+    <!--student mail-->
+    <div class="col-lg-3 col-xl-3">
+        מייל
+    </div>
+    <!--options-->
+    <div class="col-lg-3 col-xl-3">
+        פעולות
+    </div>
+</div>
+
+@{ var counterUpdates1 = 1;
+    foreach (var user in Model.Where(s => s.Role != "Student").ToList())
+    {
+        <div class="row py-3 border border-secondary">
+            <!--No-->
+            <div class="col-lg-1 col-xl-1">
+                @counterUpdates
+            </div>
+            <!--name-->
+            <div class="col-lg-3 col-xl-3">
+                @user.FirstName  @user.LastName
+            </div>
+            <!--id-->
+            <div class="col-lg-2 col-xl-2">
+                @user.UserName
+            </div>
+            <!--mail-->
+            <div class="col-lg-3 col-xl-3">
+                @user.Email
+            </div>
+            <div class="col-lg-3 col-xl-3">
+                <input type="email" class="email-input" />
+            </div>
+            <!--options-->
+            <div class="col-lg-3 col-xl-3">
+                @Html.ActionLink("עריכה", "AddEditUser", new { Id = user.Id }, new { @class = "btn btn-dark" })
+                @Html.ActionLink("מחיקה", "DeleteUser", new { Id = user.Id }, new { @class = "btn btn-danger" })
+            </div>
+        </div>
+        counterUpdates1 = counterUpdates1 + 1;
+    }
+}
+
+@section scripts
+{
+    <script>
+
+    </script>
+}
+
+
+
