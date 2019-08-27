@@ -201,7 +201,7 @@ namespace DikanNetProject.Controllers
         #region Manage Users Section
 
         [HttpGet]
-        public ActionResult UsersList(string response = "")
+        public ActionResult UsersList(string response = "")// get all users list view
         {
             ViewBag.response = response; // add response message if needed
             List<Users> UsersList;
@@ -226,10 +226,11 @@ namespace DikanNetProject.Controllers
                 Users.Add(tempu);
             }
             return View(Users);
-        }
+        } 
 
+        #region Student Users Manage Section
         [HttpPost]
-        public ActionResult EditEmail(string Id, string newemail) // edit email of student
+        public ActionResult EditEmail(string Id, string newemail) // edit email of student - ajax
         {
             Student dbstudent,tempstudent;
             var user = UserManager.FindById(Id); // find the user by id
@@ -261,27 +262,53 @@ namespace DikanNetProject.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
         }
 
-        [HttpGet]
-        public ActionResult AddEditUser(string Id="") // 
+        [HttpPost]
+        public ActionResult SendResetPassword(string Id) // send reset password to student - ajax
         {
-            
-            return View();
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        }
+        #endregion
+
+        #region Other Users Manage Section
+
+        [HttpGet]
+        public ActionResult CreateEditUser(string Id="") // create or edit other users
+        {
+            ViewBag.Title = "הוספת משתמש";
+            CreateUser temp = null;
+            if (Id != "") // route came with id -> find user with the id
+            {
+                var user = UserManager.FindById(Id);
+                if (user != null) // there is user so get i to view for edit
+                {
+                    temp = new CreateUser
+                    {
+                        UserName = user.UserName,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        Email = user.Email,
+                        ConfirmEmail = user.Email
+                    };
+                    ViewBag.Title = "עריכת משתמש";
+                }
+            }
+            return View(temp);
         }
 
         [HttpPost]
-        public ActionResult AddEditUser(string Id = "") // 
+        public ActionResult CreateEditUser(UsersView NewUser) // create or edit other users - post
         {
-
+            // need to complete
             return View();
         }
 
         [HttpGet]
-        public ActionResult DeleteUser(string Id = "")
+        public ActionResult DeleteUser(string Id = "")// delete other users
         {
-
+            // need to complete
             return View();
         }
-
+        #endregion
         #endregion
     }
 }
