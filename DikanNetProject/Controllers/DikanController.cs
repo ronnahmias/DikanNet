@@ -9,6 +9,7 @@ using DataEntities;
 using DataEntities.DB;
 using DikanNetProject.Models;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 
@@ -76,7 +77,7 @@ namespace DikanNetProject.Controllers
         public ActionResult CreateEditSp(int? id)
         {
             // get scholarship 
-            ViewBag.Header = "עדכון מלגה";
+            ViewBag.Title = "עדכון מלגה";
             SpDefinition TempSp;
             using (DikanDbContext ctx = new DikanDbContext())
             {
@@ -86,7 +87,7 @@ namespace DikanNetProject.Controllers
                 return View(TempSp);
             else
             {
-                ViewBag.Header = "הוספת מלגה"; // add new scholarship
+                ViewBag.Title = "הוספת מלגה"; // add new scholarship
                 return View();
             }
                 
@@ -209,26 +210,52 @@ namespace DikanNetProject.Controllers
             UsersView tempu;
             using (DikanDbContext ctx = new DikanDbContext())
             {
-                UsersList = ctx.Users.ToList(); // get list of all users
+                UsersList = ctx.Users.ToList(); // get list of users 
             }
             foreach(var user in UsersList)
             {
                 var rolesofuser = UserManager.GetRoles(user.Id)[0];
-                tempu = new UsersView
+                if (rolesofuser == "Mazkira" || rolesofuser == "Dikan")
                 {
-                    FirstName = user.FirstName,
-                    Email = user.Email,
-                    LastName = user.LastName,
-                    UserName = user.UserName,
-                    Role = rolesofuser,
-                    Id = user.Id
-                };
-                Users.Add(tempu);
+                    tempu = new UsersView
+                    {
+                        FirstName = user.FirstName,
+                        Email = user.Email,
+                        LastName = user.LastName,
+                        UserName = user.UserName,
+                        Role = rolesofuser,
+                        Id = user.Id
+                    };
+                    Users.Add(tempu);
+                }
             }
             return View(Users);
-        } 
+        }
 
         #region Student Users Manage Section
+        [HttpGet]
+        public ActionResult FindStudent(string param,string type) // find user student in db - ajax
+        {
+            Users user = null;
+            if(type == "Name") // search user by name
+            {
+                var name = param.Split(' '); // split name to first and lst name
+                using(DikanDbContext ctx = new DikanDbContext())
+                {
+                    user = ctx.Users.Where(s => s.FirstName == name[0] && s.LastName == name[1] ).FirstOrDefault(); // contains only student role
+                }
+            }
+            if(type == "Id") // search by id
+            {
+                user = UserManager.FindByName(param);
+            }
+            else
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            if (user != null && UserManager.IsInRole(user.Id,"Student")) // only if thecuser is student
+                return View(user); //return user
+            else
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+        }
         [HttpPost]
         public ActionResult EditEmail(string Id, string newemail) // edit email of student - ajax
         {
@@ -265,7 +292,18 @@ namespace DikanNetProject.Controllers
         [HttpPost]
         public ActionResult SendResetPassword(string Id) // send reset password to student - ajax
         {
-            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            if (Id != null)
+            {
+                var user = UserManager.FindById(Id); // find user by id
+                // Send an email with this link
+                var body = "לחץ על התמונה <br/> לאיפוס הסיסמא לחשבונך";
+                string code = UserManager.GeneratePasswordResetToken(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Login", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                body = SendMail.CreateBodyEmail(user.FirstName + " " + user.LastName, callbackUrl, body);
+                UserManager.SendEmail(user.Id, "איפוס סיסמא - דיקאנט", body);
+                return new HttpStatusCodeResult(HttpStatusCode.OK);
+            }
+            return new HttpStatusCodeResult(HttpStatusCode.NotFound);
         }
         #endregion
 
@@ -287,7 +325,9 @@ namespace DikanNetProject.Controllers
                         FirstName = user.FirstName,
                         LastName = user.LastName,
                         Email = user.Email,
-                        ConfirmEmail = user.Email
+                        ConfirmEmail = user.Email,
+                        Role = UserManager.GetRoles(user.Id)[0]
+                        
                     };
                     ViewBag.Title = "עריכת משתמש";
                 }
@@ -296,10 +336,44 @@ namespace DikanNetProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateEditUser(UsersView NewUser) // create or edit other users - post
+        public ActionResult CreateEditUser(CreateUser NewUser) // create or edit other users - post
         {
-            // need to complete
-            return View();
+            Users user;
+            user = UserManager.FindByName(NewUser.UserName); // find the user 
+            if (ModelState.IsValid)
+            {
+                if (user == null) // if the user not exist
+                {
+                    user = new Users
+                    {
+                        FirstName = NewUser.FirstName,
+                        LastName = NewUser.LastName,
+                        Email = NewUser.Email,
+                        EmailConfirmed = true,
+                        UserName = NewUser.UserName
+                    };
+                    UserManager.Create(user); // create role without password
+                    user = UserManager.FindByName(user.UserName); // find the user after creation
+                    UserManager.AddToRole(user.Id, NewUser.Role); // add user to role or dikan or mazkira
+                   // Send an email with this link
+                    var body = "לחץ על התמונה <br/> לאיפוס הסיסמא לחשבונך";
+                    string code = UserManager.GeneratePasswordResetToken(user.Id);
+                    var callbackUrl = Url.Action("ResetPassword", "Login", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    body = SendMail.CreateBodyEmail(user.FirstName + " " + user.LastName, callbackUrl, body);
+                    UserManager.SendEmail(user.Id, "איפוס סיסמא - דיקאנט", body);
+                    return RedirectToAction("UsersList", new { response = "משתמש נוצר בהצלחה - נשלח קישור לאיפוס הסיסמא" });
+                }
+                else
+                {
+                    user.FirstName = NewUser.FirstName;
+                    user.LastName = NewUser.LastName;
+                    user.Email = NewUser.Email;
+                    user.UserName = NewUser.UserName;
+                    UserManager.Update(user);
+                    return RedirectToAction("UsersList", new { response = "פרטי המשתמש עודכנו" });
+                }
+            }
+            return View(NewUser);
         }
 
         [HttpGet]

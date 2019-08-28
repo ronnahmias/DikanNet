@@ -38,5 +38,9 @@ namespace DikanNetProject.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "אנא הזן אימייל")]
         [Compare("Email", ErrorMessage = "אימייל אינו תואם")]
         public string ConfirmEmail { get; set; }
+
+        [Display(Name = "תפקיד")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "אנא בחר תפקיד")]
+        public string Role { get; set; }
     }
 }

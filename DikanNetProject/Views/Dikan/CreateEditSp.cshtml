@@ -1,7 +1,6 @@
 ﻿@model DataEntities.SpDefinition
 
 @{
-    ViewBag.Title = "הוספת מלגה חדשה";
     Layout = "~/Views/Dikan/_Layout.cshtml";
 }
 
@@ -10,7 +9,7 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal px-3 py-3">
-        <h4>@ViewBag.Header</h4>
+        <h4>@ViewBag.Title</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="row ">
@@ -33,9 +32,10 @@
                 @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label " })
                 <div class="">
                     @Html.DropDownListFor(model => model.Type,
-                                  new SelectList(Enum.GetValues(typeof(Common.Enums.SpType))), "", new { @class = "form-control chosen", @data_placeholder = "סוג מלגה" })                @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
+                                  new SelectList(Enum.GetValues(typeof(Common.Enums.SpType))), "", new { @class = "form-control chosen", @data_placeholder = "סוג מלגה" })                
+                    @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                </div>
+            </div>
         </div>
         
         <div class="form-group mx-2 col-12">
@@ -64,7 +64,6 @@
         </div>
         <div class="row">
             @Html.HiddenFor(model => model.ScholarshipID)
-
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" value="הכנס" class="btn btn-primary" />
