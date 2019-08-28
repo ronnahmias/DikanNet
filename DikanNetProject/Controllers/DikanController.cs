@@ -215,7 +215,7 @@ namespace DikanNetProject.Controllers
             foreach(var user in UsersList)
             {
                 var rolesofuser = UserManager.GetRoles(user.Id)[0];
-                if (rolesofuser == "Mazkira" || rolesofuser == "Dikan")
+                if (rolesofuser == "Mazkira" || rolesofuser == "Dikan" /*|| !(user.UserName == User.Identity.Name)*/) // dont show the current dikan user 
                 {
                     tempu = new UsersView
                     {
@@ -233,6 +233,7 @@ namespace DikanNetProject.Controllers
         }
 
         #region Student Users Manage Section
+
         [HttpGet]
         public ActionResult FindStudent(string param,string type) // find user student in db - ajax
         {
@@ -256,6 +257,7 @@ namespace DikanNetProject.Controllers
             else
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
         }
+
         [HttpPost]
         public ActionResult EditEmail(string Id, string newemail) // edit email of student - ajax
         {
@@ -288,62 +290,30 @@ namespace DikanNetProject.Controllers
             else
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
         }
-
-        [HttpPost]
-        public ActionResult SendResetPassword(string Id) // send reset password to student - ajax
-        {
-            if (Id != null)
-            {
-                var user = UserManager.FindById(Id); // find user by id
-                // Send an email with this link
-                var body = "לחץ על התמונה <br/> לאיפוס הסיסמא לחשבונך";
-                string code = UserManager.GeneratePasswordResetToken(user.Id);
-                var callbackUrl = Url.Action("ResetPassword", "Login", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                body = SendMail.CreateBodyEmail(user.FirstName + " " + user.LastName, callbackUrl, body);
-                UserManager.SendEmail(user.Id, "איפוס סיסמא - דיקאנט", body);
-                return new HttpStatusCodeResult(HttpStatusCode.OK);
-            }
-            return new HttpStatusCodeResult(HttpStatusCode.NotFound);
-        }
         #endregion
 
         #region Other Users Manage Section
 
         [HttpGet]
-        public ActionResult CreateEditUser(string Id="") // create or edit other users
+        public ActionResult CreateUser() // create other users
         {
-            ViewBag.Title = "הוספת משתמש";
-            CreateUser temp = null;
-            if (Id != "") // route came with id -> find user with the id
-            {
-                var user = UserManager.FindById(Id);
-                if (user != null) // there is user so get i to view for edit
-                {
-                    temp = new CreateUser
-                    {
-                        UserName = user.UserName,
-                        FirstName = user.FirstName,
-                        LastName = user.LastName,
-                        Email = user.Email,
-                        ConfirmEmail = user.Email,
-                        Role = UserManager.GetRoles(user.Id)[0]
-                        
-                    };
-                    ViewBag.Title = "עריכת משתמש";
-                }
-            }
-            return View(temp);
+            return View();
         }
 
         [HttpPost]
-        public ActionResult CreateEditUser(CreateUser NewUser) // create or edit other users - post
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateUser(CreateUser NewUser) // create other users - post
         {
             Users user;
-            user = UserManager.FindByName(NewUser.UserName); // find the user 
             if (ModelState.IsValid)
-            {
-                if (user == null) // if the user not exist
+            { 
+                if (LoginController.IsEmailExist(NewUser.Email) || LoginController.IsIdExist(NewUser.UserName))
                 {
+                    ViewBag.Error = "תעודת זהות ו\\או אימייל נמצאים במערכת";
+                    ModelState.AddModelError("Email", "יש להזין אימייל שונה");
+                    ModelState.AddModelError("UserName", "יש להזין תעודת זהות שונה");
+                    return View(NewUser);
+                }
                     user = new Users
                     {
                         FirstName = NewUser.FirstName,
@@ -362,15 +332,56 @@ namespace DikanNetProject.Controllers
                     body = SendMail.CreateBodyEmail(user.FirstName + " " + user.LastName, callbackUrl, body);
                     UserManager.SendEmail(user.Id, "איפוס סיסמא - דיקאנט", body);
                     return RedirectToAction("UsersList", new { response = "משתמש נוצר בהצלחה - נשלח קישור לאיפוס הסיסמא" });
+            }
+            return View(NewUser);
+        }
+
+        [HttpGet]
+        public ActionResult EditUser(string Id = "") // edit other users
+        {
+            CreateUser temp = null;
+            if (Id != "") // route came with id -> find user with the id
+            {
+                var user = UserManager.FindById(Id);
+                if (user != null) // there is user so get view for edit
+                {
+                    temp = new CreateUser
+                    {
+                        UserName = user.UserName,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        Email = user.Email,
+                        Role = UserManager.GetRoles(user.Id)[0]
+                    };
+                    return View(temp);
+                }
+            }
+            return RedirectToAction("UsersList", new { response = "שגיאה" }); // error back to list
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditUser(CreateUser NewUser) // edit other users - post
+        {
+            Users user;
+            if (ModelState.IsValid)
+            {
+                user = UserManager.FindByName(NewUser.UserName); // find the user 
+                if (LoginController.IsEmailExist(NewUser.Email) && NewUser.Email != user.Email)// checks email unique on edit user
+                {
+                    ViewBag.Error = "שגיאה - נא להזין אימייל אחר";
+                    ModelState.AddModelError("Email", "יש להזין אימייל שונה");
                 }
                 else
                 {
-                    user.FirstName = NewUser.FirstName;
-                    user.LastName = NewUser.LastName;
-                    user.Email = NewUser.Email;
-                    user.UserName = NewUser.UserName;
-                    UserManager.Update(user);
-                    return RedirectToAction("UsersList", new { response = "פרטי המשתמש עודכנו" });
+                    if (user != null) // insert new values to user
+                    {
+                        user.FirstName = NewUser.FirstName;
+                        user.LastName = NewUser.LastName;
+                        user.Email = NewUser.Email;
+                        UserManager.Update(user); // update user in user table
+                        return RedirectToAction("UsersList", new { response = "פרטי המשתמש עודכנו" }); // redirect to list with response
+                    }
                 }
             }
             return View(NewUser);
@@ -379,10 +390,17 @@ namespace DikanNetProject.Controllers
         [HttpGet]
         public ActionResult DeleteUser(string Id = "")// delete other users
         {
-            // need to complete
-            return View();
+            var user = UserManager.FindById(Id);
+            if (user != null)
+            {
+                UserManager.Delete(user);
+                return RedirectToAction("UsersList", new { response = "המשתמש נמחק בהצלחה" });
+            }
+            else
+                return RedirectToAction("UsersList", new { response = "שגיאה המשתמש לא נמחק" });
         }
         #endregion
+
         #endregion
     }
 }

@@ -317,7 +317,8 @@
     <Content Include="Views\Dikan\CreateEditVol.cshtml" />
     <Content Include="Views\Student\FamilyFinView.cshtml" />
     <Content Include="Views\Dikan\UsersList.cshtml" />
-    <Content Include="Views\Dikan\CreateEditUser.cshtml" />
+    <Content Include="Views\Dikan\CreateUser.cshtml" />
+    <Content Include="Views\Dikan\EditUser.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -341,7 +341,7 @@ namespace DikanNetProject.Controllers
         
         #region Non Action
         [NonAction]
-        private bool IsIdExist(string userId)
+        public static bool IsIdExist(string userId)
         {
             using (DikanDbContext ctx = new DikanDbContext())
             {
@@ -351,7 +351,7 @@ namespace DikanNetProject.Controllers
         }
 
         [NonAction]
-        private bool IsEmailExist(string Email) // checks if email exist already
+        public static bool IsEmailExist(string Email) // checks if email exist already
         {
             using (DikanDbContext ctx = new DikanDbContext())
             {

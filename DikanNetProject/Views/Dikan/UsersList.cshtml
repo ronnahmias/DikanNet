@@ -16,12 +16,11 @@
     <span id="user-name"></span>
     <input id="new-mail" type="text" />
     <button class="btn btn-dark" id="update-mail">עדכן מייל</button>
-    <button class="btn btn-dark" id="reset-pass">שליחת איפוס סיסמא</button>
 </div>
            
 
 <h2>רשימת משתמשים נוספים במערכת</h2>
-@Html.ActionLink("הוספת משתמשים", "CreateEditUser",null, new { @class = "btn btn-success" })
+@Html.ActionLink("הוספת משתמשים", "CreateUser",null, new { @class = "btn btn-success" })
 <div class="row bg-dark text-white py-3 d-none d-md-flex">
     <!--users-->
     <div class="col-lg-1 col-xl-1">
@@ -70,11 +69,11 @@
                 @user.Email
             </div>
             <div class="col-lg-2 col-xl-2">
-                @user.Role
+                @if (user.Role == "Dikan"){<span>דיקאן</span>} else {<span>מזכירה</span> }
             </div>
             <!--options-->
             <div class="col-lg-3 col-xl-3">
-                @Html.ActionLink("עריכה", "CreateEditUser", new { Id = user.Id}, new { @class = "btn btn-dark" })
+                @Html.ActionLink("עריכה", "EditUser", new { Id = user.Id }, new { @class = "btn btn-dark" })
                 @Html.ActionLink("מחיקה", "DeleteUser", new { Id = user.Id }, new { @class = "btn btn-danger" })
             </div>
         </div>
