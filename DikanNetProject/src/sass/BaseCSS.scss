@@ -129,12 +129,15 @@ div#reqStatuses > div:nth-child(odd)
 }
 
 /*Socio*/
+div#FamFinDet {
+    margin-bottom: 50px;
+}
 #Funding, #cardiv, #Studfindiv, #FamFinDet, #FamMemdiv {
     display: grid;
     grid-template-columns: repeat(4,1fr);
     grid-gap: 5px;
-
-    div.funds, div.cars, div.studfin, div.fam {
+    
+    div.funds, div.cars, div.studfin, div.fammfin, div.fam {
         background-color: #f5f5ba;
         position: relative;
         height: 550px;

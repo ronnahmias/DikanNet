@@ -156,7 +156,7 @@ namespace DikanNetProject.Controllers
         {
             UpdateStudent.StudentId = sStudentId; // bind student id to model
             var tempuser = await UserManager.FindByNameAsync(UpdateStudent.StudentId); // get the student user
-            UpdateStudent.Uniquee = tempuser.Id; // update unique id to student table
+            //UpdateStudent.Uniquee = tempuser.Id; // update unique id to student table
             if (UpdateStudent.PathId == null && UpdateStudent.FileId == null) // there is no file saved and no upload so add error
                 ModelState.AddModelError("FileId", "חובה לצרף קובץ תעודת זהות");
             if (ModelState.IsValid)
