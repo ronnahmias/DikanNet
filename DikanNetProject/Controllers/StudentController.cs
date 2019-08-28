@@ -308,7 +308,6 @@ namespace DikanNetProject.Controllers
         #region Excellent Scholarship
 
         [HttpGet]
-        [ValidateAntiForgeryToken]
         [Authorize(Roles = "Student")]
         public ActionResult Excellent(int scholarshipid)
         {
