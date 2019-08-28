@@ -67,7 +67,7 @@ namespace DataEntities
         [Display(Name = "מצב משפחתי"), Required(ErrorMessage = "חובה לבחור מצב משפחתי")]
         public string MaritalStatus { get; set; }
 
-        //public string Uniquee { get; set; }
+        public string Uniquee { get; set; }
 
         public virtual Countries Country { get; set; }
         public virtual Major Major { get; set; }
