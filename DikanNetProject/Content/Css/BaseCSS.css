@@ -162,6 +162,7 @@ div#FamFinDet {
 #Studfindiv, #FamFinDet {
   grid-template-columns: repeat(3, 1fr); }
 
+/****Dikan******/
 @media (max-width: 768px) {
   #reqScholarship {
     max-width: 100%; } }
