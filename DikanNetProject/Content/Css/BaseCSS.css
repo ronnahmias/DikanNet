@@ -163,6 +163,46 @@ div#FamFinDet {
   grid-template-columns: repeat(3, 1fr); }
 
 /****Dikan******/
+section#volunteer .mrow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px; }
+
+section#volunteer input, section#volunteer textarea {
+  outline: none;
+  padding: 3px 10px; }
+
+section#volunteer ul {
+  list-style-type: none;
+  padding: 0; }
+  section#volunteer ul li {
+    display: grid;
+    grid-template-columns: 120px 10px 2fr 1fr;
+    margin: 10px 0px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+    padding: 5px; }
+    section#volunteer ul li:hover {
+      border-bottom: 1px solid black; }
+    section#volunteer ul li .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 10px; }
+  section#volunteer ul div.edit {
+    grid-column-start: 1;
+    grid-column-end: 5;
+    display: grid;
+    grid-template-columns: 20% 70% auto;
+    grid-gap: 10px;
+    display: none; }
+  section#volunteer ul input[data-toggle='edit'] {
+    background-color: #fff;
+    border: 1px solid black; }
+  section#volunteer ul .row-data:focus {
+    background-color: #ddd;
+    padding: 3px 8px;
+    border-radius: 7px;
+    outline: none; }
+
 @media (max-width: 768px) {
   #reqScholarship {
     max-width: 100%; } }

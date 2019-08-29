@@ -41,7 +41,7 @@ $(document).ready(function () {
     
 });
 
-// Function agter ajax calls
+// Function after ajax calls
 $(document).ajaxComplete(function () {
     onlyNumbers();
     chosen();

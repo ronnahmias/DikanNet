@@ -4,20 +4,29 @@
     ViewBag.Title = "מקומות התנדבות";
     Layout = "~/Views/Dikan/_Layout.cshtml";
 }
+    <section id="volunteer">
+        <div class="container">
+            <h2>מקומות התנדבות</h2>
+            <h5>@ViewBag.response</h5>
+            <div class="mrow">
+                <span class="">שם מקום ההתנדבות</span>
+                <span class="">תיאור מקום התנדבות</span>
+            </div>
+            <div class="mrow">
+                <input type="text" id="input-name" placeholder="שם מקום התנדבות" class="" />
+                <textarea type="text" id="input-desc" placeholder="תיאור מקום התנדבות" class=""></textarea>
+            </div>
+            <div class="my-3 text-center">
+                <button class="btn btn-outline-primary" id="add-vol">הוספת/עריכת מקום התנדבות</button>
+            </div>
+            <br />
+            <div>
+                <ul id="list"></ul>
+            </div>
+        </div>
+        
+    </section>
 
-<h2>מקומות התנדבות</h2>
-<h5>@ViewBag.response</h5>
-<div>
-    <span>שם מקום ההתנדבות</span><input type="text" id="input-name" />
-    <br />
-    <span>תיאום מקום התנדבות</span><textarea type="text" id="input-desc">  </textarea>
-    <button class="btn btn-outline-primary" id="add-vol">הוספת/עריכת מקום התנדבות</button>
-</div>
-
-<br />
-<div>
-    <ul id="list"></ul>
-</div>
 
 
 @section scripts{
@@ -70,8 +79,65 @@
             $.each(data, function (key, value)
             {
                 //alert(value.Name);
-                $("#list").append("<li name='"+value.Id+"'><span class='name'>"+value.Name+"</span> -- <span class='desc'>"+value.Desc+"</span><button>עריכה</button><button>מחיקה</button></li>");
+                $("#list").append("<li name='" + value.Id + "'>" +
+                    "<span name='name' class='name row-data' contenteditable='true'>" + value.Name + "</span> -- <span name='desc' class='desc row-data' contenteditable='true'>" + value.Desc + "</span><div class='actions'><input class='btn' data-toggle='edit' value='עריכה'/><button class='del' name='" + value.Id + "'>מחיקה</button></div>" +
+                    "<div class='edit'> <input type='text' placeholder='שם מקום התנדבות' value='" + value.Name + "' /> " +
+                    "<input type='text' placeholder='תיאור מקום התנדבות' value='" + value.Desc + "' /> " +
+                    "<button class='done' name='" + value.Id + "'>עדכן </button> </div>" +
+                    "</li>");
             });
         }
+
+        // Function after ajax calls
+        $(document).ajaxComplete(function () {
+            $('.del').click(function (){
+                var id = $(this).attr('name');
+                if (id > -1) {
+                    $.ajax({
+                        url: '@Url.Action("DeleteVol","Dikan")',
+                        data: { VolId: id },
+                        dataType: 'json',
+                        method: 'PUT',
+                        success: function (data) {
+                            Loadlist(data);
+                            $('#input-name').val("");
+                            $('#input-desc').val("");
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            console.log(xhr.status);
+                            console.log(thrownError);
+                        }
+                    });
+                }
+            });
+            $('.row-data').focusout(function () {
+                event.preventDefault();
+                
+                var $row = $(this).closest('li'),
+                    rowId = $row.attr('name'),
+                    name = $row.children('span[name="name"]').html(),
+                    desc = $row.children('span[name="desc"]').html();
+                console.log("rowId = " + rowId + "Name = " + name + " Desc = " + desc);
+                if (name != "" && desc != "")
+                {
+                    $.ajax({
+                        url: '@Url.Action("CreateEditVol","Dikan")',
+                        data: { Id: rowId, Name: name, Desc: desc },
+                        dataType: 'json',
+                        method: 'POST',
+                        success: function (data) {
+                            Loadlist(data);
+                            $('#input-name').val("");
+                            $('#input-desc').val("");
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            console.log(xhr.status);
+                            console.log(thrownError);
+                        }
+                    });
+                }
+            });
+
+        });
     </script>
 }
