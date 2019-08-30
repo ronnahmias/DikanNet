@@ -166,7 +166,7 @@ namespace DikanNetProject.Controllers
             return Json(GetActiveVolList(), JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPut]
+        [HttpPost]
         public ActionResult DeleteVol(string VolId) // update active to false 
         {
             int intvolid = -1;

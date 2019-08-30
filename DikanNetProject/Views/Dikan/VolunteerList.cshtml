@@ -92,12 +92,13 @@
         $(document).ajaxComplete(function () {
             $('.del').click(function (){
                 var id = $(this).attr('name');
+                //var pack = { "VolId": id };
                 if (id > -1) {
                     $.ajax({
                         url: '@Url.Action("DeleteVol","Dikan")',
                         data: { VolId: id },
                         dataType: 'json',
-                        method: 'PUT',
+                        method: 'POST',
                         success: function (data) {
                             Loadlist(data);
                             $('#input-name').val("");
