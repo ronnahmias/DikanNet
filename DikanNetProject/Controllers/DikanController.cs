@@ -408,5 +408,79 @@ namespace DikanNetProject.Controllers
         #endregion
 
         #endregion
+
+        #region Manage Exception Requests
+
+        [HttpGet]
+        public ActionResult ExceptionUsersList(string res = "")// get all users list view
+        {
+            ViewBag.Res = res;
+            List<ViewExceptionUsers> ExList = new List<ViewExceptionUsers>();
+            ViewExceptionUsers temp;
+            using (DikanDbContext ctx = new DikanDbContext())
+            {
+                foreach(var Ex in ctx.SpExceptions.ToList())
+                {
+                    temp = new ViewExceptionUsers
+                    {
+                        Id = Ex.Id,
+                        LockDate = Ex.LockDate,
+                        Name = UserManager.FindById(Ex.UserId).FirstName + " " + UserManager.FindById(Ex.UserId).LastName,
+                        SpId = Ex.SpId,
+                        SpType = ctx.SpDef.Where(a => a.ScholarshipID == Ex.SpId).FirstOrDefault().Type,
+                        UserName = UserManager.FindById(Ex.UserId).UserName
+                    };
+                    ExList.Add(temp);
+                }
+            }
+            return View(ExList);
+        }
+
+        [HttpGet]
+        public ActionResult CreateExceptionUser()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreateExceptionUser(CreateExceptionUser ExUser)
+        {
+            Users user = null;
+            if (string.IsNullOrEmpty(ExUser.UserName) && string.IsNullOrEmpty(ExUser.Name)) // if the two fields are empty
+            {
+                ModelState.AddModelError("UserName", "אחד מהשדות בלבד צריך להיות מלא - או תעודת זהות או שם מלא");
+                ModelState.AddModelError("Name", "אחד מהשדות בלבד צריך להיות מלא - או תעודת זהות או שם מלא");
+            }
+            if (!string.IsNullOrEmpty(ExUser.UserName) && !string.IsNullOrEmpty(ExUser.Name)) // if the two fields are not empty
+            {
+                ModelState.AddModelError("UserName", "אחד מהשדות בלבד צריך להיות מלא - או תעודת זהות או שם מלא");
+                ModelState.AddModelError("Name", "אחד מהשדות בלבד צריך להיות מלא - או תעודת זהות או שם מלא");
+            }
+            if (ModelState.IsValid)
+            {
+                using (DikanDbContext ctx = new DikanDbContext())
+                {
+                    if (string.IsNullOrEmpty(ExUser.UserName)) // if the student id is empty search by name
+                    {
+                        var name = ExUser.Name.Split(' '); // seperate name to first and last
+                        user = ctx.Users.Where(s => s.FirstName == name[0] && s.LastName== name[1]).FirstOrDefault(); // get user by name
+                    }
+                    else
+                        user = UserManager.FindByName(ExUser.UserName); // find by student id
+                
+                    ctx.SpExceptions.Add(new SpException { UserId = user.Id, SpId = ExUser.SpId, LockDate = ExUser.LockDate  });
+                    ctx.SaveChanges();
+                }
+                // Send an email with the link to continue fill the sp
+                var body = "שים לב המלגה נפתחה לצורך המשך מילוי לזמן הקצוב" + "<br/>" + "המלגה תנעל בתאריך:" + ExUser.LockDate.ToString("dd-MM-yyyy") + "<br/>" +"לחץ על התמונה להמשך מילוי";
+                var username = user.FirstName + " " + user.LastName;
+                var callbackUrl = Url.Action("SpExRequest", "Student", new { Id = user.Id, SpId = ExUser.SpId }, protocol: Request.Url.Scheme);
+                body = SendMail.CreateBodyEmail(username, callbackUrl, body);
+                UserManager.SendEmail(user.Id, "המשך מילוי מלגה", body);
+            }
+            return View(ExUser);
+        }
+
+        #endregion
     }
 }

@@ -117,6 +117,7 @@
     <Compile Include="FamilyStudentFinance.cs" />
     <Compile Include="Funding.cs" />
     <Compile Include="HeadMajor.cs" />
+    <Compile Include="SpException.cs" />
     <Compile Include="SpHalacha.cs" />
     <Compile Include="Major.cs" />
     <Compile Include="SpDefinition.cs" />

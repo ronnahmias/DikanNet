@@ -952,6 +952,36 @@ namespace DikanNetProject.Controllers
 
         #endregion
 
+        #region Scholarship Exception Request
+        [HttpGet]
+        [Authorize(Roles ="Student")]
+        public ActionResult SpExRequest(string Id, string SpId) // open link for edit sp after deadline date end
+        {
+            if (Id == null || SpId == null) // error no parameters
+                return RedirectToAction("Login", "Login", null);
+            bool ok = int.TryParse(SpId, out int iSpId); // try to parse spid to int
+            using(DikanDbContext ctx = new DikanDbContext())
+            {
+                var Ex = ctx.SpExceptions.Where(s => s.UserId == Id && s.SpId == iSpId).FirstOrDefault(); // find if the exception is gueniue
+                if(Ex == null || Ex.LockDate < DateTime.Now) // no row found or the date has over -> return to login page
+                    return RedirectToAction("Login", "Login", null);
+                var sptype = Enum.Parse(typeof(Enums.SpType),ctx.SpDef.Where(s => s.ScholarshipID == Ex.SpId).FirstOrDefault().Type); // get the type of spdef that match to spid
+                var studId = UserManager.FindById(Id).UserName;
+                switch (sptype)
+                {
+                    case Enums.SpType.סוציואקונומית:
+                        var model = ctx.Socio.Where(s => s.ScholarshipId == Ex.SpId && s.StudentId == studId).FirstOrDefault();
+                        if(model != null)
+                            return View("Socio", model);
+                        break;
+                    default: break;
+                }
+            }
+            return View();
+        }
+
+        #endregion
+
         #region Save Signature
         [HttpPost]
         public ActionResult SaveSignature(string pDataUri, string pName)

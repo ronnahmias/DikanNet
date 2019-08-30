@@ -319,6 +319,8 @@
     <Content Include="Views\Dikan\UsersList.cshtml" />
     <Content Include="Views\Dikan\CreateUser.cshtml" />
     <Content Include="Views\Dikan\EditUser.cshtml" />
+    <Content Include="Views\Dikan\CreateExceptionUser.cshtml" />
+    <Content Include="Views\Dikan\ExceptionUsersList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

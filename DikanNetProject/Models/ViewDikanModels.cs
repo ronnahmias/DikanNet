@@ -43,4 +43,45 @@ namespace DikanNetProject.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "אנא בחר תפקיד")]
         public string Role { get; set; }
     }
+
+    public class CreateExceptionUser
+    {
+        [Display(Name = "שם מלא")]
+        public string Name { get; set; }
+
+        [Display(Name = "תעודת זהות")]
+        [MinLength(9)]
+        [MaxLength(9)]
+        public string UserName { get; set; }
+
+        [Display(Name = "מלגות פעילות")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "אנא בחר מלגה להארכה")]
+        public int SpId { get; set; }
+
+        [Display(Name = "תאריך נעילה")]
+        [Required(ErrorMessage = "אנא בחר תאריך נעילת מלגה")]
+        public DateTime LockDate { get; set; }
+    }
+
+    public class ViewExceptionUsers
+    {
+        public int Id { get; set; }
+
+        [Display(Name = "שם מלא")]
+        public string Name { get; set; }
+
+        [Display(Name = "תעודת זהות")]
+        [MinLength(9)]
+        [MaxLength(9)]
+        public string UserName { get; set; }
+
+        [Display(Name = "קוד מלגה")]
+        public int SpId { get; set; }
+
+        [Display(Name = "סוג מלגה")]
+        public string SpType { get; set; }
+
+        [Display(Name = "תאריך נעילה")]
+        public DateTime LockDate { get; set; }
+    }
 }

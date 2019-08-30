@@ -1,0 +1,81 @@
+﻿@model IEnumerable<DikanNetProject.Models.ViewExceptionUsers>
+
+@{
+    ViewBag.Title = "רשימת פתיחת מלגות לסטודנט";
+    Layout = "~/Views/Dikan/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+@ViewBag.Res
+<p>
+    @Html.ActionLink("פתיחת בקשה חריגה נוספת", "CreateExceptionUser", null, new { @class = "btn btn-success" })
+</p>
+<div class="row bg-dark text-white py-3 d-none d-md-flex">
+    <!--Exceptions-->
+    <!--No-->
+    <div class="col-lg-1 col-xl-1">
+        #
+    </div>
+    <!--name-->
+    <div class="col-lg-2 col-xl-2">
+        שם מלא
+    </div>
+    <!--id-->
+    <div class="col-lg-2 col-xl-2">
+        תז סטודנט
+    </div>
+    <!--SpId-->
+    <div class="col-lg-2 col-xl-2">
+        קוד מלגה
+    </div>
+    <!--Sptype-->
+    <div class="col-lg-2 col-xl-2">
+        סוג מלגה
+    </div>
+    <!--lockdate-->
+    <div class="col-lg-2 col-xl-2">
+        תאריך נעילה
+    </div>
+    <!--options-->
+    <div class="col-lg-3 col-xl-3">
+        פעולות נוספות
+    </div>
+</div>
+
+@{ var counterUpdates = 1;
+    foreach (var user in Model)
+    {
+    <div class="row py-3 border border-secondary">
+        <!--No-->
+        <div class="col-lg-1 col-xl-1">
+            @counterUpdates
+        </div>
+        <!--name-->
+        <div class="col-lg-2 col-xl-2">
+            @user.Name
+        </div>
+        <!--id-->
+        <div class="col-lg-2 col-xl-2">
+            @user.UserName
+        </div>
+        <!--SpId-->
+        <div class="col-lg-2 col-xl-2">
+            @user.SpId
+        </div>
+        <!--Sptype-->
+        <div class="col-lg-2 col-xl-2">
+            @user.SpType
+        </div>
+        <!--lockdate-->
+        <div class="col-lg-2 col-xl-2">
+            @user.LockDate
+        </div>
+        <!--options-->
+        <div class="col-lg-3 col-xl-3">
+            @Html.ActionLink("עריכה", "EditUser", new { Id = user.Id }, new { @class = "btn btn-dark" })
+            @Html.ActionLink("מחיקה", "DeleteUser", new { Id = user.Id }, new { @class = "btn btn-danger" })
+        </div>
+    </div>
+        counterUpdates = counterUpdates + 1;
+    }
+}
