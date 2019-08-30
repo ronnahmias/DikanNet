@@ -150,17 +150,24 @@ namespace DikanNetProject.Controllers
         [HttpPost]
         public ActionResult CreateEditVol(string Id, string Name, string Desc)
         {
-            VolunteerPlaces Temp = null;
-            var hasid = int.TryParse(Id,out int res);
+            VolunteerPlaces tempdb = null;
+            bool hasid = false;
+            int res = -1;
+            if (Id != null) // if came id we neet to edit the row
+                hasid = int.TryParse(Id,out res);
             using (DikanDbContext ctx = new DikanDbContext())
             {
                 ctx.Configuration.LazyLoadingEnabled = false;
                 if (hasid) // check if we got id num of vol for edit
-                    Temp = ctx.VolunteerPlaces.Where(s => s.Id == res).FirstOrDefault();
-                if (Temp == null)
+                    tempdb = ctx.VolunteerPlaces.Where(s => s.Id == res).FirstOrDefault();
+                if (tempdb == null)
                     ctx.VolunteerPlaces.Add(new VolunteerPlaces { Name=Name, Desc = Desc, Active = true }); // add new vol place
                 else
-                    ctx.Entry(Temp).CurrentValues.SetValues(new VolunteerPlaces { Name = Name, Desc = Desc, Active = true });
+                {
+                    tempdb.Name = Name;
+                    tempdb.Desc = Desc;
+                }
+                    //ctx.Entry(Temp).CurrentValues.SetValues(new VolunteerPlaces { Name = Name, Desc = Desc, Active = true });
                 ctx.SaveChanges();
             }
             return Json(GetActiveVolList(), JsonRequestBehavior.AllowGet);
@@ -169,13 +176,12 @@ namespace DikanNetProject.Controllers
         [HttpPost]
         public ActionResult DeleteVol(string VolId) // update active to false 
         {
-            int intvolid = -1;
-            intvolid = int.Parse(VolId);
-            if(intvolid == -1)
+            bool parsevalid = int.TryParse(VolId, out int res);
+            if(!parsevalid)
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             using (DikanDbContext ctx = new DikanDbContext())
             {
-                VolunteerPlaces temp = ctx.VolunteerPlaces.Where(s => s.Id == intvolid).FirstOrDefault();
+                VolunteerPlaces temp = ctx.VolunteerPlaces.Where(s => s.Id == res).FirstOrDefault();
                 if (temp != null)
                 {
                     ctx.VolunteerPlaces.Attach(temp).Active = false;

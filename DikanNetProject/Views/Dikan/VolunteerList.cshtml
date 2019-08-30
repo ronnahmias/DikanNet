@@ -17,7 +17,7 @@
                 <textarea type="text" id="input-desc" placeholder="תיאור מקום התנדבות" class=""></textarea>
             </div>
             <div class="my-3 text-center">
-                <button class="btn btn-outline-primary" id="add-vol">הוספת/עריכת מקום התנדבות</button>
+                <button class="btn btn-outline-primary" id="add-vol">הוספת מקום התנדבות</button>
             </div>
             <br />
             <div>
@@ -80,7 +80,7 @@
             {
                 //alert(value.Name);
                 $("#list").append("<li name='" + value.Id + "'>" +
-                    "<span name='name' class='name row-data' contenteditable='true'>" + value.Name + "</span> -- <span name='desc' class='desc row-data' contenteditable='true'>" + value.Desc + "</span><div class='actions'><input class='btn' data-toggle='edit' value='עריכה'/><button class='del' name='" + value.Id + "'>מחיקה</button></div>" +
+                    "<span name='name' class='name row-data' contenteditable='true'>" + value.Name + "</span> -- <span name='desc' class='desc row-data' contenteditable='true'>" + value.Desc + "</span><div class='actions'><button class='del' name='" + value.Id + "'>מחיקה</button></div>" +
                     "<div class='edit'> <input type='text' placeholder='שם מקום התנדבות' value='" + value.Name + "' /> " +
                     "<input type='text' placeholder='תיאור מקום התנדבות' value='" + value.Desc + "' /> " +
                     "<button class='done' name='" + value.Id + "'>עדכן </button> </div>" +
