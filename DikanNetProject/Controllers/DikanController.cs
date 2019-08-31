@@ -412,7 +412,7 @@ namespace DikanNetProject.Controllers
         #region Manage Exception Requests
 
         [HttpGet]
-        public ActionResult ExceptionUsersList(string res = "")// get all users list view
+        public ActionResult ExceptionStudentList(string res = "")// all exceptions list
         {
             ViewBag.Res = res;
             List<ViewExceptionUsers> ExList = new List<ViewExceptionUsers>();
@@ -423,7 +423,7 @@ namespace DikanNetProject.Controllers
                 {
                     temp = new ViewExceptionUsers
                     {
-                        Id = Ex.Id,
+                        UserId = Ex.UserId,
                         LockDate = Ex.LockDate,
                         Name = UserManager.FindById(Ex.UserId).FirstName + " " + UserManager.FindById(Ex.UserId).LastName,
                         SpId = Ex.SpId,
@@ -437,50 +437,114 @@ namespace DikanNetProject.Controllers
         }
 
         [HttpGet]
-        public ActionResult CreateExceptionUser()
+        public ActionResult CreateEditExStudent(string userid = "", int spid = -1) // create or edit ex
         {
-            return View();
+            SpException tempEx = new SpException();
+            if(userid != "" && spid !=-1) // is edit ex
+            {
+                using(DikanDbContext ctx = new DikanDbContext())
+                {
+                    tempEx = ctx.SpExceptions.Where(s => s.UserId == userid && s.SpId == spid).FirstOrDefault(); // find ex to edit
+                }
+            }
+            ViewBag.StudentsList = new SelectList(GetStudentList(), "Uniquee", "StudentRow"); // to show students list in drop down
+            ViewBag.SpList = new SelectList(GetSpList(), "ScholarshipID", "SpRow"); // to show sp list in drop down
+            return View(tempEx);
         }
 
         [HttpPost]
-        public ActionResult CreateExceptionUser(CreateExceptionUser ExUser)
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateEditExStudent(SpException ExUser)
         {
-            Users user = null;
-            if (string.IsNullOrEmpty(ExUser.UserName) && string.IsNullOrEmpty(ExUser.Name)) // if the two fields are empty
-            {
-                ModelState.AddModelError("UserName", "אחד מהשדות בלבד צריך להיות מלא - או תעודת זהות או שם מלא");
-                ModelState.AddModelError("Name", "אחד מהשדות בלבד צריך להיות מלא - או תעודת זהות או שם מלא");
-            }
-            if (!string.IsNullOrEmpty(ExUser.UserName) && !string.IsNullOrEmpty(ExUser.Name)) // if the two fields are not empty
-            {
-                ModelState.AddModelError("UserName", "אחד מהשדות בלבד צריך להיות מלא - או תעודת זהות או שם מלא");
-                ModelState.AddModelError("Name", "אחד מהשדות בלבד צריך להיות מלא - או תעודת זהות או שם מלא");
-            }
             if (ModelState.IsValid)
             {
+                var user = UserManager.FindById(ExUser.UserId);
+                if (user == null)
+                    return View(ExUser); // error not found user
                 using (DikanDbContext ctx = new DikanDbContext())
                 {
-                    if (string.IsNullOrEmpty(ExUser.UserName)) // if the student id is empty search by name
-                    {
-                        var name = ExUser.Name.Split(' '); // seperate name to first and last
-                        user = ctx.Users.Where(s => s.FirstName == name[0] && s.LastName== name[1]).FirstOrDefault(); // get user by name
-                    }
+                    var Ex = ctx.SpExceptions.Where(s => s.UserId == ExUser.UserId && s.SpId == ExUser.SpId).FirstOrDefault(); // checks if the student has already exception open for this sp
+                    if(Ex==null) // if there is no ex open for this student with this sp -> add new
+                        ctx.SpExceptions.Add(ExUser);
                     else
-                        user = UserManager.FindByName(ExUser.UserName); // find by student id
-                
-                    ctx.SpExceptions.Add(new SpException { UserId = user.Id, SpId = ExUser.SpId, LockDate = ExUser.LockDate  });
+                        Ex.LockDate = ExUser.LockDate; // have already ex open so update lockdate
                     ctx.SaveChanges();
                 }
+                
                 // Send an email with the link to continue fill the sp
-                var body = "שים לב המלגה נפתחה לצורך המשך מילוי לזמן הקצוב" + "<br/>" + "המלגה תנעל בתאריך:" + ExUser.LockDate.ToString("dd-MM-yyyy") + "<br/>" +"לחץ על התמונה להמשך מילוי";
+                var body = "מלגת " + GetSptype(ExUser.SpId) + " נפתחה להמשך מילוי עד לתאריך: " + ExUser.LockDate.ToString("dd-MM-yyyy") + "<br/>" +"לחץ על התמונה להמשך מילוי";
                 var username = user.FirstName + " " + user.LastName;
                 var callbackUrl = Url.Action("SpExRequest", "Student", new { Id = user.Id, SpId = ExUser.SpId }, protocol: Request.Url.Scheme);
                 body = SendMail.CreateBodyEmail(username, callbackUrl, body);
-                UserManager.SendEmail(user.Id, "המשך מילוי מלגה", body);
+                UserManager.SendEmail(user.Id, "המשך מילוי מלגת" + " " + GetSptype(ExUser.SpId), body);
+                return RedirectToAction("ExceptionStudentList", "Dikan", new { res = "פתיחת המלגה נוספה בהצלחה - מייל עם קישור נשלח לסטודנט" });
             }
-            return View(ExUser);
+            ViewBag.StudentsList = new SelectList(GetStudentList(), "Uniquee", "StudentRow"); // to show students list in drop down
+            ViewBag.SpList = new SelectList(GetSpList(), "ScholarshipID", "SpRow"); // to show sp list in drop down
+            return View(ExUser); // error
         }
 
+        [HttpGet]
+        public ActionResult DeleteExStudent(string userid = "", int spid = -1) // remove ex 
+        {
+            if (userid != "" && spid != -1)
+            {
+                using(DikanDbContext ctx = new DikanDbContext())
+                {
+                    var ex = ctx.SpExceptions.Where(s => s.UserId == userid && s.SpId == spid).FirstOrDefault();
+                    if(ex != null)
+                    {
+                        ctx.SpExceptions.Remove(ex);
+                        ctx.SaveChanges();
+                        return RedirectToAction("ExceptionStudentList", new { res = "נמחק בהצלחה" });
+                    }
+                }
+            }
+            return RedirectToAction("ExceptionStudentList",new { res = "אירעה שגיאה בעת המחיקה" });
+        }
+
+        #endregion
+
+            #region Non Actions
+
+        [NonAction]
+        public List<Student> GetStudentList() // add to student id and full name to studentrow field
+        {
+            List<Student> students = new List<Student>();
+            using (DikanDbContext ctx = new DikanDbContext())
+            {
+                students = ctx.Students.ToList(); // all students in the system
+                foreach (var student in students.ToList()) // sets student id and drop down list
+                {
+                    student.StudentRow = student.StudentId + " - " + student.FirstName + " " + student.LastName;
+                }
+            }
+            return students;
+        }
+
+        [NonAction]
+        public List<SpDefinition> GetSpList() // add to sprow field scholrshipid + name + type
+        {
+            List<SpDefinition> spDef = new List<SpDefinition>();
+            using (DikanDbContext ctx = new DikanDbContext())
+            {
+                spDef = ctx.SpDef.Where(s=> s.DateDeadLine < DateTime.Now).OrderByDescending(s=>s.DateDeadLine).ToList(); // show only sp that has over and order it by the last one
+                foreach (var def in spDef.ToList()) // sets row for drop down list
+                {
+                    def.SpRow = def.ScholarshipID + " - " + def.ScholarshipName + " - " + def.Type;
+                }
+            }
+            return spDef;
+        }
+
+        [NonAction]
+        public string GetSptype(int spid) // get sp type according to spid
+        {
+            using (DikanDbContext ctx = new DikanDbContext())
+            {
+                return ctx.SpDef.Where(s => s.ScholarshipID == spid).FirstOrDefault().Type;
+            }
+        }
         #endregion
     }
 }

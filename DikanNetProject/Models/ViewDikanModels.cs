@@ -44,28 +44,9 @@ namespace DikanNetProject.Models
         public string Role { get; set; }
     }
 
-    public class CreateExceptionUser
-    {
-        [Display(Name = "שם מלא")]
-        public string Name { get; set; }
-
-        [Display(Name = "תעודת זהות")]
-        [MinLength(9)]
-        [MaxLength(9)]
-        public string UserName { get; set; }
-
-        [Display(Name = "מלגות פעילות")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "אנא בחר מלגה להארכה")]
-        public int SpId { get; set; }
-
-        [Display(Name = "תאריך נעילה")]
-        [Required(ErrorMessage = "אנא בחר תאריך נעילת מלגה")]
-        public DateTime LockDate { get; set; }
-    }
-
     public class ViewExceptionUsers
     {
-        public int Id { get; set; }
+        public string UserId { get; set; }
 
         [Display(Name = "שם מלא")]
         public string Name { get; set; }

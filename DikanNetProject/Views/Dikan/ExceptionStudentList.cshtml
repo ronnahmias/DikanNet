@@ -8,7 +8,7 @@
 <h2>@ViewBag.Title</h2>
 @ViewBag.Res
 <p>
-    @Html.ActionLink("פתיחת בקשה חריגה נוספת", "CreateExceptionUser", null, new { @class = "btn btn-success" })
+    @Html.ActionLink("פתיחת בקשה חריגה נוספת", "CreateEditExStudent", null, new { @class = "btn btn-success" })
 </p>
 <div class="row bg-dark text-white py-3 d-none d-md-flex">
     <!--Exceptions-->
@@ -68,12 +68,12 @@
         </div>
         <!--lockdate-->
         <div class="col-lg-2 col-xl-2">
-            @user.LockDate
+            @DateTime.Parse(user.LockDate.ToString()).ToString("dd/MM/yyyy")
         </div>
         <!--options-->
         <div class="col-lg-3 col-xl-3">
-            @Html.ActionLink("עריכה", "EditUser", new { Id = user.Id }, new { @class = "btn btn-dark" })
-            @Html.ActionLink("מחיקה", "DeleteUser", new { Id = user.Id }, new { @class = "btn btn-danger" })
+            @Html.ActionLink("עריכה", "CreateEditExStudent", new { userid = user.UserId , spid = user.SpId}, new { @class = "btn btn-dark" })
+            @Html.ActionLink("מחיקה", "DeleteExStudent", new { userid = user.UserId , spid = user.SpId}, new { @class = "btn btn-danger" })
         </div>
     </div>
         counterUpdates = counterUpdates + 1;

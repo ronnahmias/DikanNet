@@ -76,8 +76,9 @@ namespace DikanNetProject.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult Login(string response="")
+        public ActionResult Login(string returnUrl, string response = "")
         {
+            ViewBag.ReturnUrl = returnUrl;
             ViewBag.Status = response; // if cames from role redirect method with error
             if (User.Identity.IsAuthenticated)
             {
@@ -90,7 +91,7 @@ namespace DikanNetProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(UserLogin loginuser)
+        public async Task<ActionResult> Login(UserLogin loginuser, string ReturnUrl)
         {
             ViewBag.Status = false;
             Users user = UserManager.FindByName(loginuser.UserName); // find the user by id
@@ -98,10 +99,11 @@ namespace DikanNetProject.Controllers
                 return View(loginuser); // return with error
 
             var result = await SignInManager.PasswordSignInAsync(loginuser.UserName, loginuser.Password, loginuser.RememberMe, shouldLockout: false); // sign in
-            
             switch (result)
             {
                 case SignInStatus.Success:
+                    if (Url.IsLocalUrl(ReturnUrl))
+                        return Redirect(ReturnUrl);
                     ViewBag.Status = true;
                     var role = (UserManager.GetRoles(user.Id))[0]; // get role[0] of the user
                     return RedirectToAction("RedirectUserByRole", new { pRole = role } );

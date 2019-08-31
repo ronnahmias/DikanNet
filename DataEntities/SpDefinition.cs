@@ -32,6 +32,9 @@ namespace DataEntities
         [Display(Name = "תאריך אחרון להגשה")]
         public DateTime DateDeadLine { get; set; }
 
+        [NotMapped]
+        public string SpRow { get; set; } // show the sp parameters in one row for drop down
+
         public virtual ICollection<SpSocio> Socioeconomicc { get; set; }
         public virtual ICollection<SpHalacha> InPractices { get; set; }
         public virtual ICollection<SpExcellence> ExcellenceStudents { get; set; }

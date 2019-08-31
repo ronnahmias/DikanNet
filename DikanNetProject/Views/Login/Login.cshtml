@@ -9,7 +9,7 @@
 }
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Login","Login",new { ReturnUrl = ViewBag.ReturnUrl },FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 

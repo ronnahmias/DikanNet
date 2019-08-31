@@ -238,7 +238,7 @@ namespace DikanNetProject.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Student")]
-        public ActionResult Halacha(int scholarshipid)
+        public ActionResult Halacha(int scholarshipid, bool open = false)
         {
             SpHalacha temphalacha;
             ViewBag.VolunteerPlacesList = new SelectList(SetsvolunteerPlaces(), "Id", "Name_desc"); // to show volunteer places list in drop down
@@ -256,7 +256,7 @@ namespace DikanNetProject.Controllers
             }
             else
             {
-                if (temphalacha.DateSubmitScholarship != null) // if already has entered this milga
+                if (temphalacha.DateSubmitScholarship != null && !open) // if already has entered this milga and not exception open
                     return RedirectToAction("Index");
             }
             return View(temphalacha);
@@ -309,7 +309,7 @@ namespace DikanNetProject.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Student")]
-        public ActionResult Excellent(int scholarshipid)
+        public ActionResult Excellent(int scholarshipid, bool open = false)
         {
             SpExcellence tempmetsuyanut;
             using (DikanDbContext ctx = new DikanDbContext())
@@ -326,7 +326,7 @@ namespace DikanNetProject.Controllers
             }
             else
             {
-                if (tempmetsuyanut.DateSubmitScholarship != null) // if already has entered this milga
+                if (tempmetsuyanut.DateSubmitScholarship != null && !open) // if already has entered this milga and not exception open
                     return RedirectToAction("Index");
             }
             return View(tempmetsuyanut);
@@ -378,7 +378,7 @@ namespace DikanNetProject.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Student")]
-        public ActionResult Socio(int scholarshipid)
+        public ActionResult Socio(int scholarshipid, bool open = false)
         {
             SocioAdd socio;
             int numofFamMem = 0; // says how many row of family member with finance needed
@@ -402,6 +402,8 @@ namespace DikanNetProject.Controllers
                 socio.SocioMod = ctx.Socio.Where(s => s.StudentId == sStudentId && s.ScholarshipId == scholarshipid).SingleOrDefault(); // get socio model of student from db
                 if (socio.SocioMod == null) socio.SocioMod = new SpSocio();
                 socio.SocioMod.ScholarshipId = scholarshipid; // insert scholarship id in socio model
+                if(socio.SocioMod.DateSubmitScholarship != null && !open) // if already has entered this milga and not exception open
+                    return RedirectToAction("Index");
                 #endregion
 
                 #region Car Student + Fundings
@@ -953,6 +955,7 @@ namespace DikanNetProject.Controllers
         #endregion
 
         #region Scholarship Exception Request
+
         [HttpGet]
         [Authorize(Roles ="Student")]
         public ActionResult SpExRequest(string Id, string SpId) // open link for edit sp after deadline date end
@@ -960,24 +963,39 @@ namespace DikanNetProject.Controllers
             if (Id == null || SpId == null) // error no parameters
                 return RedirectToAction("Login", "Login", null);
             bool ok = int.TryParse(SpId, out int iSpId); // try to parse spid to int
-            using(DikanDbContext ctx = new DikanDbContext())
+            if(!ok)
+                return RedirectToAction("Login", "Login", null);
+            using (DikanDbContext ctx = new DikanDbContext())
             {
                 var Ex = ctx.SpExceptions.Where(s => s.UserId == Id && s.SpId == iSpId).FirstOrDefault(); // find if the exception is gueniue
                 if(Ex == null || Ex.LockDate < DateTime.Now) // no row found or the date has over -> return to login page
                     return RedirectToAction("Login", "Login", null);
                 var sptype = Enum.Parse(typeof(Enums.SpType),ctx.SpDef.Where(s => s.ScholarshipID == Ex.SpId).FirstOrDefault().Type); // get the type of spdef that match to spid
-                var studId = UserManager.FindById(Id).UserName;
-                switch (sptype)
+                var user = UserManager.FindById(Id);
+                if(user == null)
+                    return RedirectToAction("Login", "Login", null);
+                switch (sptype) // redirect to sp according to type
                 {
-                    case Enums.SpType.סוציואקונומית:
-                        var model = ctx.Socio.Where(s => s.ScholarshipId == Ex.SpId && s.StudentId == studId).FirstOrDefault();
-                        if(model != null)
-                            return View("Socio", model);
+                    case Enums.SpType.הלכה:
+                        var halacha = ctx.Halacha.Where(s => s.ScholarshipId == Ex.SpId && s.StudentId == user.UserName).FirstOrDefault();
+                        if (halacha != null)
+                            return RedirectToAction("Halacha", new { scholarshipid = iSpId, open = true });
                         break;
-                    default: break;
+                    case Enums.SpType.מצוינות:
+                        var metsuyanut = ctx.Excellence.Where(s => s.ScholarshipId == Ex.SpId && s.StudentId == user.UserName).FirstOrDefault();
+                        if (metsuyanut != null)
+                            return RedirectToAction("Excellent", new { scholarshipid = iSpId, open = true });
+                        break;
+                    case Enums.SpType.סוציואקונומית:
+                        var socio = ctx.Socio.Where(s => s.ScholarshipId == Ex.SpId && s.StudentId == user.UserName).FirstOrDefault();
+                        if (socio != null)
+                            return RedirectToAction("Socio", new { scholarshipid = iSpId, open = true });
+                        break;
+                    default:
+                        break;
                 }
             }
-            return View();
+            return RedirectToAction("Login", "Login", null);
         }
 
         #endregion
