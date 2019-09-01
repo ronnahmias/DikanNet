@@ -164,6 +164,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Models\HtmlPrefixScopeExtensions.cs" />
     <Compile Include="Models\ViewDikanModels.cs" />
@@ -331,6 +332,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="UsersFiles\" />
+    <Folder Include="Views\File\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

@@ -15,6 +15,8 @@ namespace DikanNetProject
 
             //routes.RouteExistingFiles = true; // mvc handle request and not iis
 
+         
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
