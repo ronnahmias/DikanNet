@@ -16,5 +16,6 @@ namespace DataEntities
         public string HeadMajorName { get; set; }
         public string HeadMajorEmail { get; set; }
         public virtual ICollection<Major> Majors { get; set; }
+        public virtual ICollection<DisciplineCommittee> DisciplineCommittees { get; set; }
     }
 }

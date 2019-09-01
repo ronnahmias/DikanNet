@@ -112,6 +112,7 @@
     <Compile Include="Cities.cs" />
     <Compile Include="Countries.cs" />
     <Compile Include="DB\DikanDbContext.cs" />
+    <Compile Include="DisciplineCommittee.cs" />
     <Compile Include="SpExcellence.cs" />
     <Compile Include="FamilyMember.cs" />
     <Compile Include="FamilyStudentFinance.cs" />

@@ -505,7 +505,37 @@ namespace DikanNetProject.Controllers
 
         #endregion
 
-            #region Non Actions
+        #region Displine committee
+
+        [HttpGet]
+        public ActionResult DisciplineList(string res = "")// all discipline list
+        {
+            ViewBag.Res = res;
+            List<DisciplineCommittee> disList = new List<DisciplineCommittee>();
+            using (DikanDbContext ctx = new DikanDbContext())
+            {
+                disList = ctx.DisCommite.OrderByDescending(s=>s.CommitteeDate).ToList();
+            }
+            return View(disList);
+        }
+
+        [HttpGet]
+        public ActionResult CreateEditDiscipline(int id = -1)// all discipline list
+        {
+            DisciplineCommittee temp = new DisciplineCommittee();
+            if (id != -1)
+            {
+                using (DikanDbContext ctx = new DikanDbContext())
+                {
+                    temp = ctx.DisCommite.Where(s => s.CommitteeId == id).FirstOrDefault();
+                }
+            }
+            return View(temp);
+        }
+
+        #endregion
+
+        #region Non Actions
 
         [NonAction]
         public List<Student> GetStudentList() // add to student id and full name to studentrow field

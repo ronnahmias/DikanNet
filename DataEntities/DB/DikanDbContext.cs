@@ -93,5 +93,6 @@ namespace DataEntities.DB
         public DbSet<SpHalacha> Halacha { get; set; }
         public DbSet<SpExcellence> Excellence { get; set; }
         public DbSet<SpException> SpExceptions { get; set; }
+        public DbSet<DisciplineCommittee> DisCommite { get; set; }
     }
 }
