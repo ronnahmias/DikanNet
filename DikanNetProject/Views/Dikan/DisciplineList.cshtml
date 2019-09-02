@@ -1,0 +1,80 @@
+﻿@using DataEntities;
+@model List<DisciplineCommittee>
+@{
+    ViewBag.Title = "רשימת ועדות משמעת";
+    Layout = "~/Views/Dikan/_Layout.cshtml";
+}
+<h4 class="text-success">@ViewBag.response</h4>
+ 
+<h2>רשימת ועדות משמעת</h2>
+@Html.ActionLink("הוספת ועדה חדשה", "CreateEditDiscipline",null, new { @class = "btn btn-success" })
+<div class="row bg-dark text-white py-3 d-none d-md-flex">
+    <!--No-->
+    <div class="col-lg-1 col-xl-1">
+        #
+    </div>
+    <!--committee type-->
+    <div class="col-lg-2 col-xl-2">
+        סוג ועדה
+    </div>
+    <!-- committee date-->
+    <div class="col-lg-2 col-xl-2">
+        תאריך ועדה
+    </div>
+    <!--name-->
+    <div class="col-lg-2 col-xl-2">
+        שם סטודנט
+    </div>
+    <!--student mail-->
+    <div class="col-lg-2 col-xl-2">
+        מייל סטודנט
+    </div>
+    <!--options-->
+    <div class="col-lg-3 col-xl-3">
+        פעולות
+    </div>
+</div>
+
+@{ var counterUpdates = 1;
+    foreach (var dis in Model)
+    {
+    <div class="row py-3 border border-secondary">
+        <!--No-->
+        <div class="col-lg-1 col-xl-1">
+            @counterUpdates
+        </div>
+        <!--committee type-->
+        <div class="col-lg-2 col-xl-2">
+            @dis.CommitteeType
+        </div>
+        <!-- committee date-->
+        <div class="col-lg-2 col-xl-2">
+            @dis.CommitteeDate
+        </div>
+        <!--name-->
+        <div class="col-lg-2 col-xl-2">
+            @dis.StudentFirstName  @dis.StudentLastName
+        </div>
+        <!--student mail-->
+        <div class="col-lg-2 col-xl-2">
+            @dis.StudentMail
+        </div>
+        <!--options-->
+        <div class="col-lg-3 col-xl-3">
+            @Html.ActionLink("עריכה", "CreateEditDiscipline", new { Id = dis.CommitteeId }, new { @class = "btn btn-dark" })
+            @Html.ActionLink("מחיקה", "DeleteUser", new { Id = dis.CommitteeId }, new { @class = "btn btn-danger" })
+        </div>
+    </div>
+        counterUpdates = counterUpdates + 1;
+    }
+}
+
+@section scripts
+{
+    <script>
+
+    </script>
+}
+
+
+

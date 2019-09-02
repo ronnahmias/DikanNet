@@ -522,15 +522,30 @@ namespace DikanNetProject.Controllers
         [HttpGet]
         public ActionResult CreateEditDiscipline(int id = -1)// all discipline list
         {
-            DisciplineCommittee temp = new DisciplineCommittee();
+            ViewBag.Title = "הוספת ועדה";
+            DisciplineCommittee temp = null;
             if (id != -1)
             {
                 using (DikanDbContext ctx = new DikanDbContext())
                 {
                     temp = ctx.DisCommite.Where(s => s.CommitteeId == id).FirstOrDefault();
+                    if(temp != null)
+                        ViewBag.Title = "עריכת ועדה";
                 }
             }
             return View(temp);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateEditDiscipline(DisciplineCommittee tempDis)// all discipline list
+        {
+            if(ModelState.IsValid)
+                using (DikanDbContext ctx = new DikanDbContext())
+                {
+                  
+                }
+            return View(tempDis);
         }
 
         #endregion

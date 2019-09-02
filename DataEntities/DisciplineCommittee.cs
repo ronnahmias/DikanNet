@@ -32,10 +32,10 @@ namespace DataEntities
         [Display(Name = "אימייל סטודנט")]
         public string StudentMail { get; set; }
 
-        [Display(Name = "אימייל סטודנט")]
+        [Display(Name = "סוג ועדה")]
         public string CommitteeType { get; set; }
 
-        [Display(Name = "אימייל סטודנט")]
+        [Display(Name = "סיכום ועדה")]
         public string CommitteeSummary { get; set; }
 
         // forgein key

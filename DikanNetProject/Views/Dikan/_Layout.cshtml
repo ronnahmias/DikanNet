@@ -23,7 +23,7 @@
             <!-- Dropdown -->
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                    ניהול הגדרות מלגה
+                    הגדרות מלגה
                 </a>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="@Url.Action("CreateEditSp", "Dikan")">הוספת מלגה חדשה</a>
@@ -33,12 +33,29 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                    ניהול משתמשי מערכת
+                    משתמשי המערכת
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="@Url.Action("CreateUser", "Dikan")">הוספת משתמש חדש</a>
+                    <a class="dropdown-item" href="@Url.Action("UsersList", "Dikan")">רשימת משתמשים</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                    הארכות מלגות
                 </a>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="@Url.Action("CreateEditExStudent", "Dikan")">הארכת זמן מלגה לסטודנט</a>
-                    <a class="dropdown-item" href="@Url.Action("UsersList", "Dikan")">רשימת משתמשים</a>
-                    <a class="dropdown-item" href="@Url.Action("CreateUser", "Dikan")">הוספת משתמש חדש</a>
+                    <a class="dropdown-item" href="@Url.Action("ExceptionStudentList", "Dikan")">רשימת הארכות</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                    ועדות משמעת
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="@Url.Action("CreateEditExStudent", "Dikan")">פתיחת ועדה חדשה</a>
+                    <a class="dropdown-item" href="@Url.Action("DisciplineList", "Dikan")">רשימת ועדות</a>
                 </div>
             </li>
             <li class="nav-item">

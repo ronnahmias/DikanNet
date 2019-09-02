@@ -322,6 +322,8 @@
     <Content Include="Views\Dikan\EditUser.cshtml" />
     <Content Include="Views\Dikan\CreateEditExStudent.cshtml" />
     <Content Include="Views\Dikan\ExceptionStudentList.cshtml" />
+    <Content Include="Views\Dikan\DisciplineList.cshtml" />
+    <Content Include="Views\Dikan\CreateEditDiscipline.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
