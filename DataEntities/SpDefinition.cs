@@ -27,9 +27,13 @@ namespace DataEntities
         public string Type { get; set; }
 
         [Display(Name = "תאריך תחילת הגשה")]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true, ConvertEmptyStringToNull = true)]
         public DateTime DateOpenScholarship { get; set; }
 
         [Display(Name = "תאריך אחרון להגשה")]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true, ConvertEmptyStringToNull = true)]
         public DateTime DateDeadLine { get; set; }
 
         [NotMapped]

@@ -7,6 +7,8 @@
     <link rel="icon" href="~/Content/Pic/Logo.png" type="image/x-icon" />
     <link href="https://fonts.googleapis.com/css?family=Heebo&display=swap" rel="stylesheet">
     @Styles.Render("~/Content/Css")
+    @Styles.Render("~/Content/datepicker")
+
 </head>
 <body class="text-right" style="background-color:#fdfdee; padding: 0">
 
@@ -34,7 +36,7 @@
                     ניהול משתמשי מערכת
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">הארכת זמן מלגה לסטודנט</a>
+                    <a class="dropdown-item" href="@Url.Action("CreateEditExStudent", "Dikan")">הארכת זמן מלגה לסטודנט</a>
                     <a class="dropdown-item" href="@Url.Action("UsersList", "Dikan")">רשימת משתמשים</a>
                     <a class="dropdown-item" href="@Url.Action("CreateUser", "Dikan")">הוספת משתמש חדש</a>
                 </div>
@@ -52,7 +54,6 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/datepicker")
-
     @Scripts.Render("~/bundles/javascript")
     @RenderSection("scripts", required: false)
 

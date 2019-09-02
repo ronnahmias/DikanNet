@@ -76,15 +76,12 @@
 
         function Loadlist(data) {
             $("#list").empty();
+            $("#list").append("<li class='title'><span name='name-title' class='title row-data'>שם המקום</span><span name='desc-title' class='title row-data'>תיאור</span></li>");
             $.each(data, function (key, value)
             {
                 //alert(value.Name);
                 $("#list").append("<li name='" + value.Id + "'>" +
-                    "<span name='name' class='name row-data' contenteditable='true'>" + value.Name + "</span> -- <span name='desc' class='desc row-data' contenteditable='true'>" + value.Desc + "</span><div class='actions'><button class='del' name='" + value.Id + "'>מחיקה</button></div>" +
-                    "<div class='edit'> <input type='text' placeholder='שם מקום התנדבות' value='" + value.Name + "' /> " +
-                    "<input type='text' placeholder='תיאור מקום התנדבות' value='" + value.Desc + "' /> " +
-                    "<button class='done' name='" + value.Id + "'>עדכן </button> </div>" +
-                    "</li>");
+                    "<span name='name' class='name row-data' contenteditable='true'>" + value.Name + "</span><span name='desc' class='desc row-data' contenteditable='true'>" + value.Desc + "</span><div class='actions'><button class='del' name='" + value.Id + "'>מחיקה</button></div></li>");
             });
         }
 
