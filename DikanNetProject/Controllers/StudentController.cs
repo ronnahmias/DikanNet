@@ -276,7 +276,7 @@ namespace DikanNetProject.Controllers
             using (DikanDbContext ctx = new DikanDbContext())
             {
                 Studentinpractice = ctx.Halacha.Where(s => s.StudentId == temphalacha.StudentId && s.ScholarshipId == temphalacha.ScholarshipId).SingleOrDefault(); // find if he insert already draft     
-                if (uploadmethod.Equals("הגש מלגה"))
+                if (uploadmethod.Equals("submit"))
                 {// submit scholarship
                     if (ModelState.IsValid)
                     {
@@ -400,7 +400,7 @@ namespace DikanNetProject.Controllers
                 #region Socio Model
                 // socio model get
                 socio.SocioMod = ctx.Socio.Where(s => s.StudentId == sStudentId && s.ScholarshipId == scholarshipid).SingleOrDefault(); // get socio model of student from db
-                if (socio.SocioMod == null) socio.SocioMod = new SpSocio();
+                if (socio.SocioMod == null) socio.SocioMod = new SpSocio { WorkSt = "שכיר" }; // init workst radio button
                 socio.SocioMod.ScholarshipId = scholarshipid; // insert scholarship id in socio model
                 if(socio.SocioMod.DateSubmitScholarship != null && !open) // if already has entered this milga and not exception open
                     return RedirectToAction("Index");
@@ -479,7 +479,7 @@ namespace DikanNetProject.Controllers
                         do
                         {
                             IList<FamilyStudentFinance> familyStudentFinances = new List<FamilyStudentFinance>(); // init new list of finance to each family member
-                            socio.ListFamMemFin.Add(new FamilyMember { FamilyStudentFinances = familyStudentFinances }); // add family member row to list
+                            socio.ListFamMemFin.Add(new FamilyMember { FamilyStudentFinances = familyStudentFinances, WorkSt = "שכיר" }); // add family member row to list and init finance and work st
                         } while (socio.ListFamMemFin.Count < numofFamMem);
                     }
 
@@ -519,8 +519,9 @@ namespace DikanNetProject.Controllers
         [Authorize(Roles = "Student")]
         public ActionResult Socio(SocioAdd socio, string uploadmethod) // submit  new socio scholarship
         {
-
-            if (!socioIsValid(socio)) {
+            ViewBag.ResOk = "False";
+            if (!socioIsValid(socio))
+            {
                 if (socio.ListCarStudent == null) socio.ListCarStudent = new List<CarStudent>(); // if there is no rows in car student list
                 if (socio.ListFundings == null) socio.ListFundings = new List<Funding>(); // if there is no rows in fundings list
                 if (socio.ListFamMemFin == null) socio.ListFamMemFin = new List<FamilyMember>(); // if there is no rows in family member finance list
@@ -529,45 +530,39 @@ namespace DikanNetProject.Controllers
 
                 ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
                 ViewBag.MonthsList = new SelectList(MonthsSelectList(), null, "Text"); // to show months list in drop down
-                return View(socio); }
+                ViewBag.ResOk = "Error";
+                return View(socio);
+            }
 
             if (socio.SocioMod.CarOwner && socio.ListCarStudent != null)
-                SaveSocioCars(socio.ListCarStudent); //Save Cars Detailes
+                SaveSocioCars(socio.ListCarStudent); // if there is cars -> Save Cars Detailes
 
             if (socio.ListFundings != null)
-                SaveFundings(socio.ListFundings);  // Save Funding
+                SaveFundings(socio.ListFundings);  //  if there is fundings -> Save Funding
 
             SaveStudentFinance(socio.ListStudentFinances, socio.SocioMod.ScholarshipId); // Save Student Finance
 
             SaveFamilyMemberFinance(socio.ListFamMemFin, socio.SocioMod.ScholarshipId);  // Save Family Member + Finance
 
             if (socio.ListFamMem != null)
-                SaveFamilyMember(socio.ListFamMem);// Save Family Members
+                SaveFamilyMember(socio.ListFamMem);// if there is family members -> Save Family Members
 
             socio.SocioMod = SaveSocioModel(socio.SocioMod); // Save Socio model
-
-            if (uploadmethod.Equals("הגש מלגה"))
+            ViewBag.ResOk = "True";
+            ViewBag.Response = "הטיוטא נשמרה בהצלחה!";
+            if (uploadmethod.Equals("submit")) // if there is submit the sp and not a draft
             {
                 using (DikanDbContext ctx = new DikanDbContext())
                 {
                     socio.SocioMod.Statuss = Enums.Status.בטיפול.ToString(); // insert status betipul
                     socio.SocioMod.StatusUpdateDate = socio.SocioMod.DateSubmitScholarship = DateTime.Now; // insert date submit + update status 
                     SpSocio Dbsocio = ctx.Socio.Where(s => s.StudentId == socio.SocioMod.StudentId && s.ScholarshipId == socio.SocioMod.ScholarshipId).SingleOrDefault();
-                    ctx.Entry(Dbsocio).CurrentValues.SetValues(socio.SocioMod); // update
+                    ctx.Entry(Dbsocio).CurrentValues.SetValues(socio.SocioMod); // update socio model
                     ctx.SaveChanges();
+                    ViewBag.ResOk = "True";
+                    ViewBag.Response = "המלגה הוגשה בהצלחה!";
                 }
             }
-
-            #region init null lists of soicoAdd model
-            if (socio.ListCarStudent == null) socio.ListCarStudent = new List<CarStudent>(); // if there is no rows in car student list
-            if (socio.ListFundings == null) socio.ListFundings = new List<Funding>(); // if there is no rows in fundings list
-            if (socio.ListFamMemFin == null) socio.ListFamMemFin = new List<FamilyMember>(); // if there is no rows in family member finance list
-            if (socio.ListStudentFinances == null) socio.ListStudentFinances = new List<StudentFinance>(); // if there is no rows in finance list
-
-            ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
-            ViewBag.MonthsList = new SelectList(MonthsSelectList(), null, "Text"); // to show months list in drop down
-            #endregion
-
             return View(socio);
         }
 
@@ -777,7 +772,6 @@ namespace DikanNetProject.Controllers
                 }
             }
             #endregion
-            
 
             #region FamilyFinanceValid
             /* בתחילה אני בודק שמצב העבודה הוא לא ריק אם ריק יש לחזור ולתקן
@@ -1236,44 +1230,55 @@ namespace DikanNetProject.Controllers
         #endregion
 
         #region Partial Views
+        [Authorize(Roles ="Student")]
         public PartialViewResult CarsView()
         {
             ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
             return PartialView("CarsView", new CarStudent());
         }
 
+        [Authorize(Roles = "Student")]
         public PartialViewResult FundView()
         {
             ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
             return PartialView("FundView", new Funding());
         }
 
+        [Authorize(Roles = "Student")]
+        [ChildActionOnly]
         public PartialViewResult StudFinView()
         {
             ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
             return PartialView("StudFinView", new StudentFinance());
         }
 
+        [Authorize(Roles = "Student")]
+        [ChildActionOnly]
         public PartialViewResult FamMemView() // family member with finance
         {
             ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
             return PartialView("FamMemView", new FamilyMember());
         }
 
-        public PartialViewResult FamilyView() // family member
-        {
-            return PartialView("FamilyView", new FamilyMember());
-        }
-
+        [Authorize(Roles = "Student")]
+        [ChildActionOnly]
         public PartialViewResult FamilyFinView(string containerPrefix) // finance of family member
         {
             ViewData["ContainerPrefix"] = containerPrefix;
             return PartialView("FamilyFinView", new FamilyStudentFinance());
         }
 
+        [Authorize(Roles = "Student")]
+        public PartialViewResult FamilyView() // family member
+        {
+            return PartialView("FamilyView", new FamilyMember());
+        }
+
         #endregion
 
         #region Delete Rows Functions
+
+        [Authorize(Roles = "Student")]
         public ActionResult DeleteCar(string CarNum)
         {
             CarStudent tempcar;
@@ -1291,6 +1296,7 @@ namespace DikanNetProject.Controllers
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
+        [Authorize(Roles = "Student")]
         public ActionResult DeleteFund(string FundId)
         {
             Funding tempfund;
@@ -1309,6 +1315,7 @@ namespace DikanNetProject.Controllers
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
+        [Authorize(Roles = "Student")]
         public ActionResult DeleteFamMem(string FamilyId) // delete row family member
         {
             FamilyMember tempfamily;
@@ -1377,6 +1384,7 @@ namespace DikanNetProject.Controllers
 
         #region Save Signature
         [HttpPost]
+        [Authorize(Roles = "Student")]
         public ActionResult SaveSignature(string pDataUri, string pName)
         {
             var ok = Files.signatureSave(pDataUri, pName, sStudentId);

@@ -18,7 +18,6 @@
             </div>
             <div class="text-center">
                 @Html.DropDownListFor(model => model.CarYear, ViewBag.YearsList as SelectList, "", htmlAttributes: new { @class = "control-label chosen", @data_placeholder = "שנת ייצור" })
-                @*@Html.LabelFor(model => model.CarYear, htmlAttributes: new { @class = "title" })*@
             </div>
             <div class="form-row">
                 @Html.EditorFor(model => model.CarComment, new { htmlAttributes = new { @class = "control-label", @placeholder = "." } })

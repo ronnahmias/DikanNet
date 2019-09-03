@@ -333,8 +333,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="UsersFiles\" />
+    <Folder Include="App_Data\UsersFiles\" />
     <Folder Include="Views\File\" />
   </ItemGroup>
   <ItemGroup>

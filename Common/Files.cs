@@ -14,7 +14,7 @@ namespace Common
         private static string getServerPath(string pId)
         {
             if (string.IsNullOrEmpty(pId)) return null;
-            var serverpathsave = Path.Combine(HttpContext.Current.Server.MapPath("~/UsersFiles/") + pId);
+            var serverpathsave = Path.Combine(HttpContext.Current.Server.MapPath("~/App_Data/UsersFiles/") + pId);
 
             return serverpathsave;
         }
