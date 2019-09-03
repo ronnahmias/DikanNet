@@ -167,6 +167,7 @@
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Models\HtmlPrefixScopeExtensions.cs" />
+    <Compile Include="Models\StaticVar.cs" />
     <Compile Include="Models\ViewDikanModels.cs" />
     <Compile Include="Startup.cs" />
     <Content Include="Content\Css\BaseCSS.css" />

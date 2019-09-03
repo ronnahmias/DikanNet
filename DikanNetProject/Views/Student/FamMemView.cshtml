@@ -1,5 +1,6 @@
 ﻿@using listhelper;
 @using Common;
+@using DikanNetProject.Models;
 @model DataEntities.FamilyMember
 <!--show family member info-->
     <div class="fammember">
@@ -35,7 +36,7 @@
         <div class="col-md-10">
             @Html.LabelFor(model => model.WorkSt, htmlAttributes: new { @class = "control-label col-md-2" })
 
-            @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.שכיר, htmlAttributes: new { @Name = "FemWork" })
+            @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.שכיר, htmlAttributes: new { @Name = string.Format("FemWork{0}", StaticVar.getIdd)})
             <span>@Common.Enums.WorkingStatus.שכיר</span>
 
             @Html.RadioButtonFor(model => model.WorkSt, Common.Enums.WorkingStatus.עצמאי, htmlAttributes: new { @Name = "FemWork" })
@@ -62,15 +63,15 @@
             @Html.ValidationMessageFor(model => model.WorkSt, "", new { @class = "text-danger" })
         </div>
 
-        <div id="FamFinDet">
+        <div id=@string.Format("FamFinDet{0}", StaticVar.getDivId)>
             @{ if (Model.FamilyStudentFinances != null)
-               {
+                {
                     foreach (var FamFinn in Model.FamilyStudentFinances.ToList())
                     {
                         @Html.Partial("FamilyFinView", FamFinn)
                     }
-               }
+                }
              }
         </div>
-        }
-        </div>
+                }
+    </div>

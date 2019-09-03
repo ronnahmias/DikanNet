@@ -10,6 +10,7 @@ namespace listhelper
     public static class HtmlPrefixScopeExtensions
     {
         private const string idsToReuseKey = "__htmlPrefixScopeExtensions_IdsToReuse_";
+        public static int idd = 0;
 
         public static IDisposable BeginCollectionItem(this HtmlHelper html, string collectionName,string some)
         {
@@ -27,7 +28,6 @@ namespace listhelper
 
             // autocomplete="off" is needed to work around a very annoying Chrome behaviour whereby it reuses old values after the user clicks "Back", which causes the xyz.index and xyz[...] values to get out of sync.
             html.ViewContext.Writer.WriteLine(string.Format("<input type=\"hidden\" name=\"{0}.index\" autocomplete=\"off\" value=\"{1}\" />", collectionName, html.Encode(itemIndex)));
-
             return BeginHtmlFieldPrefixScope(html, htmlFieldPrefix);
         }
 
