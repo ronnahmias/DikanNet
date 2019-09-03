@@ -519,7 +519,19 @@ namespace DikanNetProject.Controllers
         [Authorize(Roles = "Student")]
         public ActionResult Socio(SocioAdd socio, string uploadmethod) // submit  new socio scholarship
         {
-            if (socio.ListCarStudent != null)
+
+            if (!socioIsValid(socio)) {
+                if (socio.ListCarStudent == null) socio.ListCarStudent = new List<CarStudent>(); // if there is no rows in car student list
+                if (socio.ListFundings == null) socio.ListFundings = new List<Funding>(); // if there is no rows in fundings list
+                if (socio.ListFamMemFin == null) socio.ListFamMemFin = new List<FamilyMember>(); // if there is no rows in family member finance list
+                if (socio.ListStudentFinances == null) socio.ListStudentFinances = new List<StudentFinance>(); // if there is no rows in finance list
+                if (socio.ListFamMem == null) socio.ListFamMem = new List<FamilyMember>(); // if there is no rows in family list
+
+                ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
+                ViewBag.MonthsList = new SelectList(MonthsSelectList(), null, "Text"); // to show months list in drop down
+                return View(socio); }
+
+            if (socio.SocioMod.CarOwner && socio.ListCarStudent != null)
                 SaveSocioCars(socio.ListCarStudent); //Save Cars Detailes
 
             if (socio.ListFundings != null)
@@ -560,6 +572,367 @@ namespace DikanNetProject.Controllers
         }
 
         #region Post Socio Methods
+
+        private bool socioIsValid(SocioAdd socio)
+        {
+            
+            #region BasicValidtion
+            if (string.IsNullOrEmpty(socio.SocioMod.SchoolYear))
+            {
+                ModelState.AddModelError("SchoolYear", "חובה לציין שנת לימוד");
+                return false;
+            }
+            if (socio.SocioMod.Apartment)
+            {
+                if (socio.SocioMod.FileApartmentLease == null && socio.SocioMod.PathApartmentLease == null)
+                {
+                    ModelState.AddModelError("FileApartmentLease", "חובה לצרף קובץ");
+                    return false;
+                }
+            }
+            if (socio.SocioMod.Newcomer)
+            {
+                if (socio.SocioMod.FileNewcomer == null && socio.SocioMod.PathNewcomer == null)
+                {
+                    ModelState.AddModelError("FileNewcomer", "חובה לצרף קובץ");
+                    return false;
+                }
+            }
+            if (socio.SocioMod.SingleParent)
+            {
+                if (socio.SocioMod.FileSingleParent == null && socio.SocioMod.PathSingleParent == null)
+                {
+                    ModelState.AddModelError("FileSingleParent", "חובה לצרף קובץ");
+                    return false;
+                }
+            }
+            if (socio.SocioMod.BereavedFam)
+            {
+                if (socio.SocioMod.FileBereavedFam == null && socio.SocioMod.PathBereavedFam == null)
+                {
+                    ModelState.AddModelError("FileBereavedFam", "חובה לצרף קובץ");
+                    return false;
+                }
+            }
+            if (string.IsNullOrEmpty(socio.SocioMod.MilitaryService))
+            {
+                ModelState.AddModelError("MilitaryService", "חובה לציין סוג שירות");
+                return false;
+            }
+            else // check file of miltary service
+            {
+                if (socio.SocioMod.FileMilitaryService == null && socio.SocioMod.PathMilitaryService == null)
+                {
+                    ModelState.AddModelError("FileMilitaryService", "חובה לצרף קובץ");
+                    return false;
+                }
+            }
+            if (socio.SocioMod.ReserveMilitaryService)
+            {
+                if (socio.SocioMod.FileReserveMilitaryService == null && socio.SocioMod.PathReserveMilitaryService == null)
+                {
+                    ModelState.AddModelError("FileReserveMilitaryService", "חובה לצרף קובץ");
+                    return false;
+                }
+            }
+            if (!string.IsNullOrEmpty(socio.SocioMod.DisabilityType))
+            {
+                if (socio.SocioMod.FileDisabilityType == null && socio.SocioMod.PathDisabilityType == null)
+                {
+                    ModelState.AddModelError("FileDisabilityType", "חובה לצרף קובץ");
+                    return false;
+                }
+            }
+            #endregion
+
+            #region Check Funding Valid
+            // check funding valid
+            if (socio.SocioMod.HasFunding)
+            {
+                foreach(var fund in socio.ListFundings)
+                {
+                    if(string.IsNullOrEmpty(fund.FinancingInstitution))
+                    {
+                        ModelState.AddModelError("FinancingInstitution", "חובה לציין גוף ממן");
+                        return false;
+                    }
+                    if (fund.FinancingHeight <= 0)
+                    {
+                        ModelState.AddModelError("FinancingHeight", "חובה לציין גובה מימון");
+                        return false;
+                    }
+                    if (fund.YearFinancing == null)
+                    {
+                        ModelState.AddModelError("YearFinancing", "חובה לציין שנת מימון");
+                        return false;
+                    }
+                    if (fund.FileFunding == null && fund.PathFunding == null)
+                    {
+                        ModelState.AddModelError("FileFunding", "חובה לצרף קובץ");
+                        return false;
+                    }
+                }
+            }
+            #endregion
+
+            #region CarStudentValid
+            if (socio.SocioMod.CarOwner)
+            {
+                foreach (var car in socio.ListCarStudent)
+                {
+                    if(car.CarNumber.Length < 6 && car.CarNumber.Length > 8)
+                    {
+                        ModelState.AddModelError("CarNumber", "מספר רכב לא תקין");
+                        return false;
+                    }
+                    if(string.IsNullOrEmpty(car.CarCompany))
+                    {
+                        ModelState.AddModelError("CarCompany", "חובה לציין יצרן רכב");
+                        return false;
+                    }
+                    if (string.IsNullOrEmpty(car.CarModel))
+                    {
+                        ModelState.AddModelError("CarModel", "חובה לציין מודל רכב");
+                        return false;
+                    }
+                    if (car.CarYear < 0 || car.CarYear == null)
+                    {
+                        ModelState.AddModelError("CarYear", "חובה לציין שנת רכב");
+                        return false;
+                    }
+                    if(car.FileCarLicense == null && car.PathCarLicense == null)
+                    {
+                        ModelState.AddModelError("FileCarLicense", "חובה לצרף קובץ");
+                        return false;
+                    }
+                }
+            }
+
+            #endregion
+
+            #region StudentFinanceValid
+            /* בתחילה אני בודק שמצב העבודה הוא לא ריק אם ריק יש לחזור ולתקן
+             * לאחר מכן אני בודק את מצב העבודה ועל פי זה מוחק שורות לא רלוונטיות
+             * לדוגמא אם הוא עצמאי הוא צריך להגיש טופס אחד ולכן נמחק את 2 השורות האחרונות
+             * לאחר מכן נעשת בדיקה על כל שדה ושדה לראות שהשדות תקינות
+             */
+             
+            if (string.IsNullOrEmpty(socio.SocioMod.WorkSt))
+            {
+                ModelState.AddModelError("WorkSt", "חובה לציין מצב עבודה");
+                return false;
+            }
+            else
+            {
+                switch (Enum.Parse(typeof(Enums.WorkingStatus),socio.SocioMod.WorkSt))
+                {
+                    case Enums.WorkingStatus.עצמאי:
+                    case Enums.WorkingStatus.חבר_קיבוץ:
+                    case Enums.WorkingStatus.לא_עובד:
+                    case Enums.WorkingStatus.נכה:
+                    case Enums.WorkingStatus.אחר:
+                        socio.ListStudentFinances.RemoveAt(1);
+                        socio.ListStudentFinances.RemoveAt(2);
+                        break;
+                    case Enums.WorkingStatus.פנסיונר:
+                        socio.ListStudentFinances.RemoveAt(2);
+                        break;
+                    default:
+                        break;
+                }
+
+                foreach (var fin in socio.ListStudentFinances)
+                {
+                    //until last year
+                    if(fin.Year < DateTime.Now.Year - 1 || fin.Year == null)
+                    {
+                        ModelState.AddModelError("Year", "שנה לא תקינה");
+                        return false;
+                    }
+                    if(fin.Month > 12 && fin.Month < 1)
+                    {
+                        ModelState.AddModelError("Month", "חודש לא תקין");
+                        return false;
+                    }
+                    if(fin.Salary < 0)
+                    {
+                        ModelState.AddModelError("Salary", "הכנסה לא תקינה");
+                        return false;
+                    }
+                    if(fin.Expense < 0)
+                    {
+                        ModelState.AddModelError("Expense", "הוצאה לא תקינה");
+                        return false;
+                    }
+                    if(fin.FileSalary == null && fin.PathSalary == null)
+                    {
+                        ModelState.AddModelError("FileSalary", "חובה לצרף קובץ");
+                        return false;
+                    }
+                    if (fin.FileExpense == null && fin.PathExpense == null)
+                    {
+                        ModelState.AddModelError("FileExpense", "חובה לצרף קובץ");
+                        return false;
+                    }
+                }
+            }
+            #endregion
+            
+
+            #region FamilyFinanceValid
+            /* בתחילה אני בודק שמצב העבודה הוא לא ריק אם ריק יש לחזור ולתקן
+             * לאחר מכן אני בודק את מצב העבודה ועל פי זה מוחק שורות לא רלוונטיות
+             * לדוגמא אם הוא עצמאי הוא צריך להגיש טופס אחד ולכן נמחק את 2 השורות האחרונות
+             * לאחר מכן נעשת בדיקה על כל שדה ושדה לראות שהשדות תקינות
+             */
+            foreach (var family in socio.ListFamMemFin)
+            {
+
+                bool needExpenseFile = true;
+
+                if (string.IsNullOrEmpty(family.WorkSt))
+                {
+                    ModelState.AddModelError("WorkSt", "חובה לציין מצב עבודה");
+                    return false;
+                }
+                switch (Enum.Parse(typeof(Enums.WorkingStatus), socio.SocioMod.WorkSt))
+                {
+                    case Enums.WorkingStatus.עצמאי:
+                    case Enums.WorkingStatus.חבר_קיבוץ:
+                    case Enums.WorkingStatus.לא_עובד:
+                    case Enums.WorkingStatus.נכה:
+                    case Enums.WorkingStatus.אחר:
+                        socio.ListStudentFinances.RemoveAt(1);
+                        socio.ListStudentFinances.RemoveAt(2);
+                        break;
+                    case Enums.WorkingStatus.נפטר:
+                        socio.ListStudentFinances.RemoveAt(1);
+                        socio.ListStudentFinances.RemoveAt(2);
+                        needExpenseFile = false;
+                        break;
+                    case Enums.WorkingStatus.פנסיונר:
+                        socio.ListStudentFinances.RemoveAt(2);
+                        break;
+                    default:
+                        break;
+                }
+
+                /* כעת אני לוקח את השנים והחודשים שם אותם במערך דו ממדי
+                 * ובודק אם הם כפולים גם השנה וגם החודש אם כן זאת שגיאה ולכן חוזר
+                 */
+                int[,] matYM = new int[2,3];
+                for (int i = 0; i < family.FamilyStudentFinances.Count; i++)
+                {
+                    matYM[0, i] = family.FamilyStudentFinances[i].Year;
+                    matYM[1, i] = family.FamilyStudentFinances[i].Month;
+                }
+                for (int i = 0; i < family.FamilyStudentFinances.Count - 1; i++)
+                {
+                    if (matYM[0, i] == matYM[0, i + 1] && matYM[1, i] == matYM[1, i + 1])
+                        return false;
+                }
+
+
+                foreach (var fin in family.FamilyStudentFinances)
+                {
+                    //until last year
+                    if (fin.Year < DateTime.Now.Year - 1 || fin.Year == null)
+                    {
+                        ModelState.AddModelError("Year", "שנה לא תקינה");
+                        return false;
+                    }
+                    if (fin.Month > 12 && fin.Month < 1)
+                    {
+                        ModelState.AddModelError("Month", "חודש לא תקין");
+                        return false;
+                    }
+                    if (fin.Salary < 0)
+                    {
+                        ModelState.AddModelError("Salary", "הכנסה לא תקינה");
+                        return false;
+                    }
+                    if (fin.Expense < 0)
+                    {
+                        ModelState.AddModelError("Expense", "הוצאה לא תקינה");
+                        return false;
+                    }
+                    if (fin.FileSalary == null && fin.PathSalary == null)
+                    {
+                        ModelState.AddModelError("FileSalary", "חובה לצרף קובץ");
+                        return false;
+                    }
+
+                    if (needExpenseFile && fin.FileExpense == null && fin.PathExpense == null)
+                    {
+                        ModelState.AddModelError("FileExpense", "חובה לצרף קובץ");
+                        return false;
+                    }
+                }
+            }
+            #endregion
+
+            #region FamilyMemeberValid
+            foreach(var family in socio.ListFamMem)
+            {
+                if(!IdValidtion(family.FamilyMemberId))
+                {
+                    ModelState.AddModelError("FamilyMemberId", "תז לא תקין");
+                    return false;
+                }
+
+                if(string.IsNullOrEmpty(family.Name))
+                {
+                    ModelState.AddModelError("Name", "חובה לציין שם");
+                    return false;
+                }
+                if (string.IsNullOrEmpty(family.Realationship))
+                {
+                    ModelState.AddModelError("Realationship", "חובה לציין קשר משפחתי");
+                    return false;
+                }
+                if (string.IsNullOrEmpty(family.Gender))
+                {
+                    ModelState.AddModelError("Gender", "חובה לציין מגדר");
+                    return false;
+                }
+                if(family.BirthDay == null)
+                {
+                    ModelState.AddModelError("BirthDay", "חובה להזין תאריך לידה");
+                    return false;
+                }
+                if (family.FileFamId == null && family.PathFmId == null)
+                {
+                    ModelState.AddModelError("FileFamId", "חובה לצרף קובץ");
+                    return false;
+                }
+            }
+
+            #endregion
+
+            return true;
+        }
+
+        private bool IdValidtion(string strID)
+        {
+            int[] id_12_digits = { 1, 2, 1, 2, 1, 2, 1, 2, 1 };
+            int count = 0;
+
+            if (strID == null)
+                return false;
+
+            strID = strID.PadLeft(9, '0');
+
+            for (int i = 0; i < 9; i++)
+            {
+                int num = Int32.Parse(strID.Substring(i, 1)) * id_12_digits[i];
+
+                if (num > 9)
+                    num = (num / 10) + (num % 10);
+
+                count += num;
+            }
+            return (count % 10 == 0);
+        }
 
         [NonAction]
         public void SaveSocioCars(List<CarStudent> ClientList)
