@@ -8,6 +8,7 @@ using System.Web;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.Mime;
+using System.Web.Mvc;
 
 namespace Common
 {
@@ -41,6 +42,7 @@ namespace Common
 
         public static string CreateBodyEmail(string name, string link, string message) // create email body templete
         {
+            UrlHelper url = new UrlHelper(HttpContext.Current.Request.RequestContext);
             string body = string.Empty;
             using (StreamReader read = new StreamReader(HttpContext.Current.Server.MapPath("~/Content/EmailTmp/EmailTemplete.html")))
             {
@@ -49,6 +51,7 @@ namespace Common
             body = body.Replace("{name}", name);
             body = body.Replace("{link}",link);
             body = body.Replace("{message}", message);
+            body = body.Replace("{homepage}", url.Action("Login", "Login", null));
             return body;
         }
     }
