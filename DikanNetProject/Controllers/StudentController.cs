@@ -915,6 +915,7 @@ namespace DikanNetProject.Controllers
 
         private bool IdValidtion(string strID)
         {
+            /* עדיין לא נבדק*/
             int[] id_12_digits = { 1, 2, 1, 2, 1, 2, 1, 2, 1 };
             int count = 0;
 
