@@ -8,7 +8,7 @@
 
 <h2 class="text-center">מלגת הלכה למעשה</h2>
 <div id="halaca-container" class="container">
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("Halacha", "Student", FormMethod.Post, new { @class = "SpForm" }))
     {
         @Html.AntiForgeryToken()
 
@@ -33,7 +33,7 @@
                     @Html.ValidationMessageFor(model => model.VolunteerExp, "", new { @class = "text-danger" })
                 </div>
             </div>
-             
+
             <div class="form-group col-12">
                 @Html.LabelFor(model => model.VoluntaryAvailability, htmlAttributes: new { @class = "control-label " })
                 <div class="">
@@ -66,7 +66,7 @@
                     </div>
                 </div>
             </div>
-            
+
 
             <p>חתימה</p>
 
