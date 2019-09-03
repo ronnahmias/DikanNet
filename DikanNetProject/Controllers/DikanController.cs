@@ -472,7 +472,7 @@ namespace DikanNetProject.Controllers
                 }
                 
                 // Send an email with the link to continue fill the sp
-                var body = "מלגת " + GetSptype(ExUser.SpId) + " נפתחה להמשך מילוי עד לתאריך: " + ExUser.LockDate.ToString("dd-MM-yyyy") + "<br/>" +"לחץ על התמונה להמשך מילוי";
+                var body = "מלגת " + GetSptype(ExUser.SpId) + " נפתחה להמשך מילוי עד לתאריך: " + ExUser.LockDate.ToString("dd-MM-yyyy") + "<br/>" +"לחץ על התמונה להמשך מילוי" + "<br/>" + "<strong>שים לב, ניתן להיכנס למלגה זו אך ורק דרך מייל זה<strong>";
                 var username = user.FirstName + " " + user.LastName;
                 var callbackUrl = Url.Action("SpExRequest", "Student", new { Id = user.Id, SpId = ExUser.SpId }, protocol: Request.Url.Scheme);
                 body = SendMail.CreateBodyEmail(username, callbackUrl, body);
@@ -524,14 +524,17 @@ namespace DikanNetProject.Controllers
         {
             ViewBag.Title = "הוספת ועדה";
             DisciplineCommittee temp = null;
-            if (id != -1)
-            {
-                using (DikanDbContext ctx = new DikanDbContext())
+            using (DikanDbContext ctx = new DikanDbContext())
+            {  
+                if (id != -1)
                 {
+             
                     temp = ctx.DisCommite.Where(s => s.CommitteeId == id).FirstOrDefault();
                     if(temp != null)
                         ViewBag.Title = "עריכת ועדה";
+                
                 }
+            ViewBag.MajorList = new SelectList(ctx.Majors.ToList(), "HeadMajorId", "MajorName"); // to show students list in drop down
             }
             return View(temp);
         }
@@ -551,6 +554,21 @@ namespace DikanNetProject.Controllers
         #endregion
 
         #region Non Actions
+
+        [NonAction]
+        public List<Major> GetMajorList() // add to student id and full name to studentrow field
+        {
+            List<Major> majors = new List<Major>();
+            using (DikanDbContext ctx = new DikanDbContext())
+            {
+                majors = ctx.Majors.ToList(); // all students in the system
+                foreach (var major in majors.ToList()) // sets student id and drop down list
+                {
+                    
+                }
+            }
+            return majors;
+        }
 
         [NonAction]
         public List<Student> GetStudentList() // add to student id and full name to studentrow field
