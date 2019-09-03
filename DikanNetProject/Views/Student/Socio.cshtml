@@ -266,25 +266,25 @@
         <div class="form-group">
             @Html.LabelFor(model => model.SocioMod.WorkSt, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.שכיר)
+                @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.שכיר , htmlAttributes: new { @data_target="#Studfindiv",@class="workset" })
                 <span>@Common.Enums.WorkingStatus.שכיר</span>
 
-                @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.עצמאי)
+                @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.עצמאי , htmlAttributes: new { @data_target="#Studfindiv",@class="workset" })
                 <span>@Common.Enums.WorkingStatus.עצמאי</span>
 
-                @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.חבר_קיבוץ)
+                @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.חבר_קיבוץ , htmlAttributes: new { @data_target="#Studfindiv",@class="workset" })
                 <span>@Common.Enums.WorkingStatus.חבר_קיבוץ</span>
 
-                @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.לא_עובד)
+                @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.לא_עובד , htmlAttributes: new { @data_target="#Studfindiv",@class="workset" })
                 <span>@Common.Enums.WorkingStatus.לא_עובד</span>
 
-                @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.פנסיונר)
+                @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.פנסיונר , htmlAttributes: new { @data_target="#Studfindiv",@class="workset" })
                 <span>@Common.Enums.WorkingStatus.פנסיונר</span>
 
-                @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.נכה)
+                @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.נכה , htmlAttributes: new { @data_target="#Studfindiv",@class="workset" })
                 <span>@Common.Enums.WorkingStatus.נכה</span>
 
-                @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.אחר)
+                @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.אחר , htmlAttributes: new { @data_target="#Studfindiv",@class="workset" })
                 <span>@Common.Enums.WorkingStatus.אחר</span>
 
                 @Html.ValidationMessageFor(model => model.SocioMod.WorkSt, "", new { @class = "text-danger" })
@@ -473,11 +473,10 @@
             }
         });
 
-    $('input[name="SocioMod.WorkSt"]').change(function () {
-        var $container = $('#Studfindiv');
+    $('input.workset').change(function () {
+        var $container = $($(this).attr('data-target'));
         var $children = $container.children();
         var value = $(this).val();
-        console.log($container);
 
         switch (value) {
             /*three box*/
@@ -500,7 +499,7 @@
                 $children.first().css("display", "block");
                 $container.css("grid-template-columns", "700px");
             break;
-
+            /*tow box*/
             case 'פנסיונר':
                 $children.each(function () {
                     $(this).css("display", "block");
@@ -508,47 +507,6 @@
                 $children.last().css("display", "none");
                 $container.css("grid-template-columns", "repeat(2,1fr)");
             break;
-
-            default:console.log("ברירת מחדל");
-        }
-    });
-
-    $('input[name="FemWork"]').change(function () {
-        var $container = $('#FamFinDet');
-        var $children = $container.children();
-        var value = $(this).val();
-        console.log($container);
-
-        switch (value) {
-            /*three box*/
-            case 'שכיר':
-                $children.each(function () {
-                    $(this).css("display", "block");
-                });
-                $container.css("grid-template-columns", "repeat(3,1fr)");
-                break;
-            /*one box*/
-            case 'עצמאי':
-            case 'חבר_קיבוץ':
-            case 'לא_עובד':
-            case 'נכה':
-            case 'נפטר':
-            case 'אחר':
-                $children.each(function () {
-                    $(this).css("display", "none");
-                });
-                $children.first().css("display", "block");
-                $container.css("grid-template-columns", "700px");
-            break;
-
-            case 'פנסיונר':
-                $children.each(function () {
-                    $(this).css("display", "block");
-                });
-                $children.last().css("display", "none");
-                $container.css("grid-template-columns", "repeat(2,1fr)");
-            break;
-
             default:console.log("ברירת מחדל");
         }
     });

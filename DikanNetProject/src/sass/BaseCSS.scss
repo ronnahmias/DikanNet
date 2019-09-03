@@ -133,11 +133,11 @@ div#reqStatuses > div:nth-child(odd)
 div#FamFinDet {
     margin-bottom: 50px;
 }
-#Funding, #cardiv, #Studfindiv, #FamFinDet, #FamMemdiv {
+#Funding, #cardiv, #Studfindiv, .FamFinDet, #FamMemdiv {
     display: grid;
     grid-template-columns: repeat(4,1fr);
     grid-gap: 5px;
-    
+
     div.funds, div.cars, div.studfin, div.fammfin, div.fam {
         background-color: #f5f5ba;
         position: relative;
@@ -227,7 +227,7 @@ div#FamFinDet {
     }
 }
 
-#Studfindiv, #FamFinDet {
+#Studfindiv, .FamFinDet {
     grid-template-columns: repeat(3,1fr);
 }
 

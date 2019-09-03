@@ -575,7 +575,7 @@ namespace DikanNetProject.Controllers
 
         private bool socioIsValid(SocioAdd socio)
         {
-            
+           
             #region BasicValidtion
             if (string.IsNullOrEmpty(socio.SocioMod.SchoolYear))
             {
@@ -793,8 +793,9 @@ namespace DikanNetProject.Controllers
                 if (string.IsNullOrEmpty(family.WorkSt))
                 {
                     ModelState.AddModelError("WorkSt", "חובה לציין מצב עבודה");
-                    return false;
+                    //return false;
                 }
+                
                 switch (Enum.Parse(typeof(Enums.WorkingStatus), socio.SocioMod.WorkSt))
                 {
                     case Enums.WorkingStatus.עצמאי:
@@ -816,7 +817,7 @@ namespace DikanNetProject.Controllers
                     default:
                         break;
                 }
-
+                
                 /* כעת אני לוקח את השנים והחודשים שם אותם במערך דו ממדי
                  * ובודק אם הם כפולים גם השנה וגם החודש אם כן זאת שגיאה ולכן חוזר
                  */

@@ -2,6 +2,11 @@
 @using Common;
 @using DikanNetProject.Models;
 @model DataEntities.FamilyMember
+
+@{
+    var dataToggle = string.Format("FemWork{0}", StaticVar.Idd);
+    var dataTarget = string.Format("#FamFinDet{0}", StaticVar.Idd);
+}
 <!--show family member info-->
     <div class="fammember">
         @using (Html.BeginCollectionItem("ListFamMemFin", ""))
@@ -36,34 +41,33 @@
         <div class="col-md-10">
             @Html.LabelFor(model => model.WorkSt, htmlAttributes: new { @class = "control-label col-md-2" })
 
-            @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.שכיר, htmlAttributes: new { @Name = string.Format("FemWork{0}", StaticVar.getIdd)})
+            @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.שכיר, htmlAttributes: new {@data_toggle=dataToggle ,@data_target=dataTarget,@class="workset"})
             <span>@Common.Enums.WorkingStatus.שכיר</span>
 
-            @Html.RadioButtonFor(model => model.WorkSt, Common.Enums.WorkingStatus.עצמאי, htmlAttributes: new { @Name = "FemWork" })
+            @Html.RadioButtonFor(model => model.WorkSt, Common.Enums.WorkingStatus.עצמאי, htmlAttributes: new { @data_toggle=dataToggle ,@data_target=dataTarget,@class="workset" })
             <span>@Common.Enums.WorkingStatus.עצמאי</span>
 
-            @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.חבר_קיבוץ, htmlAttributes: new { @Name = "FemWork" })
+            @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.חבר_קיבוץ, htmlAttributes: new { @data_toggle=dataToggle ,@data_target=dataTarget,@class="workset" })
             <span>@Common.Enums.WorkingStatus.חבר_קיבוץ</span>
 
-            @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.לא_עובד, htmlAttributes: new { @Name = "FemWork" })
+            @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.לא_עובד, htmlAttributes: new { @data_toggle=dataToggle ,@data_target=dataTarget,@class="workset" })
             <span>@Common.Enums.WorkingStatus.לא_עובד</span>
 
-            @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.פנסיונר, htmlAttributes: new { @Name = "FemWork" })
+            @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.פנסיונר, htmlAttributes: new { @data_toggle=dataToggle ,@data_target=dataTarget,@class="workset" })
             <span>@Common.Enums.WorkingStatus.פנסיונר</span>
 
-            @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.נכה, htmlAttributes: new { @Name = "FemWork" })
+            @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.נכה, htmlAttributes: new { @data_toggle=dataToggle ,@data_target=dataTarget,@class="workset" })
             <span>@Common.Enums.WorkingStatus.נכה</span>
 
-            @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.נפטר, htmlAttributes: new { @Name = "FemWork" })
+            @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.נפטר, htmlAttributes: new { @data_toggle=dataToggle ,@data_target=dataTarget,@class="workset" })
             <span>@Common.Enums.WorkingStatus.נפטר</span>
 
-            @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.אחר, htmlAttributes: new { @Name = "FemWork" })
+            @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.אחר, htmlAttributes: new { @data_toggle=dataToggle ,@data_target=dataTarget ,@class="workset"})
             <span>@Common.Enums.WorkingStatus.אחר</span>
 
             @Html.ValidationMessageFor(model => model.WorkSt, "", new { @class = "text-danger" })
         </div>
-
-        <div id=@string.Format("FamFinDet{0}", StaticVar.getDivId)>
+        <div id=@string.Format("FamFinDet{0}", @StaticVar.Idd) class="FamFinDet">
             @{ if (Model.FamilyStudentFinances != null)
                 {
                     foreach (var FamFinn in Model.FamilyStudentFinances.ToList())
@@ -72,6 +76,7 @@
                     }
                 }
              }
+            <span style="display:none;">@StaticVar.getIdd</span>
         </div>
                 }
     </div>

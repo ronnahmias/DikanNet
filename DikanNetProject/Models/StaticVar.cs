@@ -21,6 +21,8 @@ namespace DikanNetProject.Models
             }
         }
 
+   
+
         public static int getDivId
         {
             get
