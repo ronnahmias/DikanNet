@@ -38,6 +38,7 @@ $(document).ready(function () {
     datepicker();
     choseFile();
     onChangeIdValid();
+    onChangeEmailValid();
 });
 
 // Function after ajax calls
@@ -47,12 +48,23 @@ $(document).ajaxComplete(function () {
     datepicker();
     choseFile();
     onChangeIdValid();
+    onChangeEmailValid();
 });
 
 function onChangeIdValid() {
     $('input.id').change(function () {
         var $this = $(this);
         if (validId($this.val()))
+            $this.removeClass('border-danger');
+        else
+            $this.addClass('border-danger');
+    });
+}
+
+function onChangeEmailValid() {
+    $('input.email').change(function () {
+        var $this = $(this);
+        if (validEmail($this.val()))
             $this.removeClass('border-danger');
         else
             $this.addClass('border-danger');
@@ -148,11 +160,12 @@ function validEmail(email) {
     return re.test(email);
 }
 
-/* The function get the checked value(true or false)
- * and the elemnt that need to be show
- * if checked true it will fade in else it will fade out
- */
+
 function showHidenPortion(checked, idElement) {
+/* The function get the checked value(true or false)
+* and the elemnt that need to be show
+* if checked true it will fade in else it will fade out
+*/
     if (checked == true) {
         $('#' + idElement).fadeIn();
         $('#' + idElement + ' :input').each(function () {
