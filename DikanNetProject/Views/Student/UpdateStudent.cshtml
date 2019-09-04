@@ -175,13 +175,14 @@
     <script>
              $.ajax({
                  url: "/File/GetFile",
-                 dataType: 'text',
+                 dataType: "json",
                  data: { pFilePath: 'Id.jpg' },
                  dataType: 'image/jpg',
                  method: "POST",
                  success: function (file) {
-                     //alert(file);
-                     $('.embed-file').attr('src', file);
+                     alert('sucss');
+                     //console.log(file);
+                     //$('.embed-file').attr('src', file);
                  },
                  error: function (xhr, ajaxOptions, thrownError) {
                      console.log(xhr.status);
