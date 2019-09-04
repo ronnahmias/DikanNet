@@ -47,7 +47,6 @@ $(document).ajaxComplete(function () {
     datepicker();
     choseFile();
     onChangeIdValid();
-    showHidenPortion(checked, idElement);
 });
 
 function onChangeIdValid() {
