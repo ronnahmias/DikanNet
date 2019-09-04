@@ -24,13 +24,12 @@ $(document).ready(function () {
         $('input#ConfirmPassword').attr('type', 'password');
     });
 
-     // added by ron ---
+
     var carcount = $("#carstdcount").val();
 
     $("#addCar").click(function () {
         $("#carsdiv").append("<input class='control-label col-md-2 text-box single-line' data-val='true' data-val-number='The field CarNumber must be a number.' data-val-required='השדה CarNumber נדרש.' id='CarStudent1_" + carcount + "__CarNumber' name='CarStudent1[" + carcount + "].CarNumber' type='number' >");
         $("#carsdiv").append("<input class='control-label col-md-2 text-box single-line' data-val='true' data-val-number='The field CarNumber must be a number.' data-val-required='השדה CarNumber נדרש.' id='CarStudent1_" + carcount + "__CarCompany' name='CarStudent1[" + carcount + "].CarCompany' type='number' >");
-
         carcount++;
     });
 
@@ -38,7 +37,7 @@ $(document).ready(function () {
     chosen();
     datepicker();
     choseFile();
-    
+    onChangeIdValid();
 });
 
 // Function after ajax calls
@@ -47,8 +46,19 @@ $(document).ajaxComplete(function () {
     chosen();
     datepicker();
     choseFile();
-
+    onChangeIdValid();
+    showHidenPortion(checked, idElement);
 });
+
+function onChangeIdValid() {
+    $('input.id').change(function () {
+        var $this = $(this);
+        if (validId($this.val()))
+            $this.removeClass('border-danger');
+        else
+            $this.addClass('border-danger');
+    });
+}
 
 // Function for date picker
 function datepicker() {
@@ -72,6 +82,7 @@ function chosen() {
 //add attrbute onkeypress inly numbers allow
 function onlyNumbers(){
     $('.only-numbers').attr('onkeypress', 'return event.charCode >= 48 && event.charCode <=57');
+    $('input.id').attr('onkeypress', 'return event.charCode >= 48 && event.charCode <=57');
 }
 
 // chose file change the style of button
@@ -176,5 +187,10 @@ function checkMust() {
 }
 
 function validPasswordsAndEmail() {
+    var email = $('#Email').val();
+    return checkPasswordsValid() && validEmail(email);
+}
+
+function validSocio() {
 
 }

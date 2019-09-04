@@ -22,7 +22,7 @@
             @Html.LabelFor(model => model.PathFmId, htmlAttributes: new { @class = "control-label col-md-1" })
         </div>
         <div class="form-group row text-center">
-            @Html.EditorFor(model => model.FamilyMemberId, new { htmlAttributes = new { @class = "control-label col-md-2" } })
+            @Html.EditorFor(model => model.FamilyMemberId, new { htmlAttributes = new { @class = "control-label id col-md-2" } })
             @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "control-label col-md-2" } })
             @Html.EditorFor(model => model.BirthDay, new { htmlAttributes = new { @class = "control-label col-md-2" } })
             @Html.DropDownListFor(model => model.Realationship, new SelectList(Enum.GetValues(typeof(Enums.Realationship)), null, new List<Enums.Realationship> { Enums.Realationship.אח, Enums.Realationship.אחות, Enums.Realationship.בן, Enums.Realationship.בת }), "", new { @class = "control-label col-md-2", @data_placeholder = "מגדר" })
