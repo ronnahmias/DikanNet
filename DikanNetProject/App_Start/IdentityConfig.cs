@@ -21,10 +21,11 @@ namespace DikanNetProject
     {
         public Task SendAsync(IdentityMessage message)
         {
-            return configSendGridasync(message);
+            return Common.SendMail.configSendGridasync(message);
+             //configSendGridasync(message);
         }
 
-        private async Task configSendGridasync(IdentityMessage message)
+        public async Task configSendGridasync(IdentityMessage message)
         {
             var apikey = ConfigurationManager.AppSettings["SendGridAPIKey"]; // token of send grid from web.config
             var client = new SendGridClient(apikey);

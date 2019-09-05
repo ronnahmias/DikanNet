@@ -17,7 +17,7 @@
     <div class="col-lg-2 col-xl-2">
         סוג ועדה
     </div>
-    <!-- committee date-->
+    <!-- committee date and time-->
     <div class="col-lg-2 col-xl-2">
         תאריך ועדה
     </div>
@@ -36,7 +36,7 @@
 </div>
 
 @{ var counterUpdates = 1;
-    foreach (var dis in Model)
+    foreach (var dis in Model.OrderByDescending(s=>s.CommitteeDate).OrderByDescending(x=>x.CommitteeTime))
     {
     <div class="row py-3 border border-secondary">
         <!--No-->
@@ -47,9 +47,9 @@
         <div class="col-lg-2 col-xl-2">
             @dis.CommitteeType
         </div>
-        <!-- committee date-->
+        <!-- committee date and time-->
         <div class="col-lg-2 col-xl-2">
-            @dis.CommitteeDate
+            @dis.CommitteeDate.ToString("dd/MM/yyyy") בשעה: @dis.CommitteeTime.ToString("hh\\:mm")
         </div>
         <!--name-->
         <div class="col-lg-2 col-xl-2">
@@ -62,7 +62,7 @@
         <!--options-->
         <div class="col-lg-3 col-xl-3">
             @Html.ActionLink("עריכה", "CreateEditDiscipline", new { Id = dis.CommitteeId }, new { @class = "btn btn-dark" })
-            @Html.ActionLink("מחיקה", "DeleteUser", new { Id = dis.CommitteeId }, new { @class = "btn btn-danger" })
+            @Html.ActionLink("מחיקה", "DeleteDiscipline", new { Id = dis.CommitteeId }, new { @class = "btn btn-danger" })
         </div>
     </div>
         counterUpdates = counterUpdates + 1;

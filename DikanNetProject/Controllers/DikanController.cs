@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Common;
@@ -520,9 +521,10 @@ namespace DikanNetProject.Controllers
         }
 
         [HttpGet]
-        public ActionResult CreateEditDiscipline(int id = -1)// all discipline list
+        public ActionResult CreateEditDiscipline(int id = -1)// create or edit discipline
         {
             ViewBag.Title = "הוספת ועדה";
+            ViewBag.btn = "הוסף";
             DisciplineCommittee temp = null;
             using (DikanDbContext ctx = new DikanDbContext())
             {  
@@ -530,8 +532,11 @@ namespace DikanNetProject.Controllers
                 {
              
                     temp = ctx.DisCommite.Where(s => s.CommitteeId == id).FirstOrDefault();
-                    if(temp != null)
+                    if (temp != null)
+                    {
                         ViewBag.Title = "עריכת ועדה";
+                        ViewBag.btn = "עדכן";
+                    }
                 
                 }
             ViewBag.MajorList = new SelectList(ctx.Majors.ToList(), "HeadMajorId", "MajorName"); // to show students list in drop down
@@ -541,14 +546,72 @@ namespace DikanNetProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateEditDiscipline(DisciplineCommittee tempDis)// all discipline list
+        public async Task<ActionResult> CreateEditDiscipline(DisciplineCommittee tempDis)
         {
-            if(ModelState.IsValid)
-                using (DikanDbContext ctx = new DikanDbContext())
+            DisciplineCommittee dbdis;
+            using (DikanDbContext ctx = new DikanDbContext())
+            {
+                ModelState.Remove("CommitteeId");
+                if (ModelState.IsValid)
                 {
-                  
+                
+                    var respond = string.Empty;
+                    dbdis = ctx.DisCommite.Where(s => s.CommitteeId == tempDis.CommitteeId).FirstOrDefault();
+                    if(dbdis == null) // no committe exist
+                    {
+                        ctx.DisCommite.Add(tempDis);
+                        respond = "ועדת משמעת נוספה בהצלחה";
+                    }
+                    else
+                    {
+                        ctx.Entry(dbdis).CurrentValues.SetValues(tempDis);// update comittee
+                        respond = "ועדת משמעת עודכנה בהצלחה";
+                    }
+                    ctx.SaveChanges();
+                    await SendDisNotificationEmailAsync(dis: tempDis, NewDis: true); // send mail to student and head major
+                    return RedirectToAction("DisciplineList", new { res = respond});
+                
                 }
-            return View(tempDis);
+                ViewBag.MajorList = new SelectList(ctx.Majors.ToList(), "HeadMajorId", "MajorName"); // to show students list in drop down
+            }
+            return View(tempDis); // return view -> error
+        }
+
+        [HttpGet]
+        public ActionResult DeleteDiscipline(int id = -1)// delete discipline
+        {
+            if(id == -1)
+                return RedirectToAction("DisciplineList", new { res = "שגיאה" });
+            using(DikanDbContext ctx = new DikanDbContext())
+            {
+                ctx.DisCommite.Remove(ctx.DisCommite.Where(s => s.CommitteeId == id).FirstOrDefault()); // remove discipline
+                ctx.SaveChanges();
+            }
+            return RedirectToAction("DisciplineList", new { res = "הועדה נמחקה בהצלחה" });
+        }
+
+        public async Task SendDisNotificationEmailAsync(DisciplineCommittee dis, bool NewDis) // function that send mail to headmajor and student 
+        {
+            HeadMajor hm = null;
+            // Send an email for call to discipline to student
+            var body = "הנך מוזמן לועדת משמעת בתאריך: " + dis.CommitteeDate.ToString("dd/MM/yyyy") + " בשעה: " + dis.CommitteeTime.ToString("hh\\:mm");
+            var username = dis.StudentFirstName + " " + dis.StudentLastName;
+            var callbackUrl = Url.Action("Login", "Login", null, protocol: Request.Url.Scheme);
+            body = SendMail.CreateBodyEmail(username, callbackUrl, body);
+            await SendMail.configSendGridasync(new IdentityMessage { Body = body, Destination = dis.StudentMail, Subject = "זימון לועדת משמעת" });
+
+            // Send an email for call to discipline to headmajor
+            using (DikanDbContext ctx = new DikanDbContext())
+            {
+                hm = ctx.HeadMajor.Where(s => s.HeadMajorId == dis.HeadMajorId).FirstOrDefault();
+            }
+            if(hm != null)
+            {
+                body = "רצינו לעדכן אותך שנקבעה ועדת משמעת לסטודנט" + dis.StudentFirstName + " " + dis.StudentLastName + "<br/>" + "בתאריך: " + dis.CommitteeDate.ToString("dd/MM/yyyy") + " בשעה: " + dis.CommitteeTime.ToString("hh\\:mm");
+                callbackUrl = Url.Action("Login", "Login", null, protocol: Request.Url.Scheme);
+                body = SendMail.CreateBodyEmail(hm.HeadMajorName, callbackUrl, body);
+                await SendMail.configSendGridasync(new IdentityMessage { Body = body, Destination = dis.StudentMail, Subject = "זימון לועדת משמעת" });
+            }
         }
 
         #endregion

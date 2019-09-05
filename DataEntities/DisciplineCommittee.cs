@@ -48,6 +48,12 @@ namespace DataEntities
         [Display(Name = "סיכום ועדה")]
         public string CommitteeSummary { get; set; }
 
+        [Display(Name = "שעת ועדה")]
+        //[Required(ErrorMessage = "חובה לבחור שעת ועדה")]
+        [DataType(DataType.Time)]
+        [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true, ConvertEmptyStringToNull = true)]
+        public TimeSpan CommitteeTime { get; set; }
+
         // forgein key
         public HeadMajor HeadMajor { get; set; }
     }
