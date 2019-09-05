@@ -12,7 +12,7 @@ namespace DikanNetProject.Controllers
     {
         [HttpGet]
         [Authorize]
-        public ActionResult GetFile(string pFilePath) // return file acording to file path and user name
+        public FileResult GetFile(string pFilePath) // return file acording to file path and user name
         {
             string path = Path.Combine(Server.MapPath("~/App_Data/UsersFiles/"), User.Identity.Name, pFilePath); // path of the file
             string contentType = MimeMapping.GetMimeMapping(path); // type of file
