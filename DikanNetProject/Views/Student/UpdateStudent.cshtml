@@ -155,7 +155,7 @@
                         </label>
                         @Html.ValidationMessageFor(model => model.FileId, "", new { @class = "text-danger mb-3" })
                     </div>
-                    <embed src='' class=" @(@Model.PathId == null ? "d-none" : " ") embed-file" />
+                    <embed src="@Url.Action("GetFile","File",new { pFilePath =  Model.PathId})" class=" @(@Model.PathId == null ? "d-none" : " ") embed-file" />
                 </div>
             </div>
             @Html.HiddenFor(model=>model.PathId)
@@ -173,21 +173,5 @@
 
 @section scripts{
     <script>
-             $.ajax({
-                 url: "/File/GetFile",
-                 dataType: "json",
-                 data: { pFilePath: 'Id.jpg' },
-                 dataType: 'image/jpg',
-                 method: "POST",
-                 success: function (file) {
-                     alert('sucss');
-                     //console.log(file);
-                     //$('.embed-file').attr('src', file);
-                 },
-                 error: function (xhr, ajaxOptions, thrownError) {
-                     console.log(xhr.status);
-                     console.log(thrownError);
-                 }
-             });
     </script>
 }
