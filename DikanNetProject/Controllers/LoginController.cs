@@ -203,7 +203,8 @@ namespace DikanNetProject.Controllers
                     body = SendMail.CreateBodyEmail(username, callbackUrl, body);
                     await UserManager.SendEmailAsync(user.Id, "יצירת חשבון - דיקאנט", body);
                     ViewBag.ModelTitle = "רישום";
-                    ViewBag.ModelMessageBody = "הרישום הצליח! עלייך לאמת את החשבון דרך תיבת הדואר האלקטרוני לפני ההתחברות הראשונה";
+                    //ViewBag.ModelMessageBody = "הרישום הצליח! עלייך לאמת את החשבון דרך תיבת הדואר האלקטרוני לפני ההתחברות הראשונה";
+                    ViewBag.ModelMessageBody = code;
                     ViewBag.ChangeColor = true;
                     return View();
                 }
@@ -320,13 +321,16 @@ namespace DikanNetProject.Controllers
         #region Verify Account
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult> VerifyAccount(string userId, string code)
+        public ActionResult VerifyAccount(string userId, string code)
         {
             ViewBag.Statuss = false;
             if (userId == null || code == null)
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
-            var result = await UserManager.ConfirmEmailAsync(userId, code);
-            if (result.Succeeded) ViewBag.Statuss = true;
+            var result = UserManager.ConfirmEmail(userId, code);
+            if (result.Succeeded)
+                ViewBag.Statuss = true;
+            else
+                ViewBag.errors = result.Errors.ToString();
             return View();
         }
         #endregion
