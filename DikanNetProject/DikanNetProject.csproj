@@ -300,7 +300,6 @@
     <Content Include="src\sass\BaseCSS.scss" />
     <Content Include="Scripts\jquery.form.min.js.map" />
     <Content Include="Views\Student\_Sp_Layout.cshtml" />
-    <Content Include="Views\Student\UploadFileAjax.cshtml" />
     <Content Include="Views\Student\CarsView.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Collection.cshtml" />
     <Content Include="Views\Student\FundView.cshtml" />
