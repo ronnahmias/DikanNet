@@ -203,8 +203,7 @@ namespace DikanNetProject.Controllers
                     body = SendMail.CreateBodyEmail(username, callbackUrl, body);
                     await UserManager.SendEmailAsync(user.Id, "יצירת חשבון - דיקאנט", body);
                     ViewBag.ModelTitle = "רישום";
-                    //ViewBag.ModelMessageBody = "הרישום הצליח! עלייך לאמת את החשבון דרך תיבת הדואר האלקטרוני לפני ההתחברות הראשונה";
-                    ViewBag.ModelMessageBody = code;
+                    ViewBag.ModelMessageBody = "הרישום הצליח! עלייך לאמת את החשבון דרך תיבת הדואר האלקטרוני לפני ההתחברות הראשונה";
                     ViewBag.ChangeColor = true;
                     return View();
                 }
@@ -329,8 +328,6 @@ namespace DikanNetProject.Controllers
             var result = UserManager.ConfirmEmail(userId, code);
             if (result.Succeeded)
                 ViewBag.Statuss = true;
-            else
-                ViewBag.errors = result.Errors.ToString();
             return View();
         }
         #endregion
@@ -368,14 +365,5 @@ namespace DikanNetProject.Controllers
         }
         #endregion
 
-        [HttpGet]
-        [AllowAnonymous]
-        public ActionResult log()
-        {
-            var user = UserManager.FindByName("315355057");
-            SignInManager.SignIn(user, false, false);
-            return RedirectToAction("Index","Student", null);
-
-        }
     }
 }

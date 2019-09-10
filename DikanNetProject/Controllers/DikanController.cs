@@ -170,6 +170,7 @@ namespace DikanNetProject.Controllers
         public ActionResult CreateEditSp(SpDefinition ClientSp)
         {
             string res = string.Empty; // send response message to spllist 
+            ModelState.Remove("ScholarshipID"); // if the scholarship is 0
             if(ModelState.IsValid)
             {
                 using(DikanDbContext ctx = new DikanDbContext())
