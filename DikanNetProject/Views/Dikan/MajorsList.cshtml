@@ -1,0 +1,62 @@
+﻿@model IEnumerable<DataEntities.Major>
+
+@{
+    ViewBag.Title = "רשימת מגמות";
+    Layout = "~/Views/Dikan/_Layout.cshtml";
+}
+
+<h2>רשימת מגמות</h2>
+<h4>@ViewBag.response</h4>
+@Html.ActionLink("הוספת מגמה", "CreateMajor", null, new { @class = "btn btn-success" })
+<div class="row bg-dark text-white py-3 d-none d-md-flex">
+    <!--majors-->
+    <!--No-->
+    <div class="col-lg-2 col-xl-2">
+        #
+    </div>
+    <!--name-->
+    <div class="col-lg-2 col-xl-2">
+        שם מגמה
+    </div>
+    <!--id-->
+    <div class="col-lg-2 col-xl-2">
+       שם ראש מגמה
+    </div>
+    <!--mail-->
+    <div class="col-lg-3 col-xl-3">
+        מייל ראש מגמה
+    </div>
+    <!--options-->
+    <div class="col-lg-3 col-xl-3">
+        פעולות
+    </div>
+</div>
+
+@{ var counterUpdates = 1;
+    foreach (var major in Model)
+    {
+        <div class="row py-3 border border-secondary">
+            <!--No-->
+            <div class="col-lg-2 col-xl-2">
+                @counterUpdates
+            </div>
+            <!--name-->
+            <div class="col-lg-2 col-xl-2">
+                @major.MajorName
+            </div>
+            <!--id-->
+            <div class="col-lg-2 col-xl-2">
+                @major.HeadMajor.HeadMajorName
+            </div>
+            <!--mail-->
+            <div class="col-lg-3 col-xl-3">
+                @major.HeadMajor.HeadMajorEmail
+            </div>
+            <!--options-->
+            <div class="col-lg-3 col-xl-3">
+                @Html.ActionLink("עריכה", "CreateMajor", new { Id = major.MajorId }, new { @class = "btn btn-dark" })
+            </div>
+        </div>
+        counterUpdates = counterUpdates + 1;
+    }
+}

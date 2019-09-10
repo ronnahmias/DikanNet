@@ -72,6 +72,77 @@ namespace DikanNetProject.Controllers
             return View();
         }
 
+        #region Manage Head Major + Majors
+
+        [HttpGet]
+        public ActionResult MajorsList(string response = "")
+        {
+            ViewBag.response = response; // add response message if needed
+            List<Major> MajorsList;
+            using (DikanDbContext ctx = new DikanDbContext())
+            {
+                MajorsList = ctx.Majors.Include("HeadMajor").ToList(); // get list of all majors and head majors
+            }
+            return View(MajorsList);
+        }
+
+        [HttpGet]
+        public ActionResult CreateMajor(int? id)
+        {
+            // get major
+            ViewBag.Title = "עדכון מגמה";
+            Major TempMj;
+            using (DikanDbContext ctx = new DikanDbContext())
+            {
+                //ctx.Configuration.LazyLoadingEnabled = false;
+                TempMj = ctx.Majors.Include("HeadMajor").Where(s => s.MajorId == id).FirstOrDefault(); // try to find by id
+            }
+            if (TempMj != null) // if the tempmj not null then get edit major
+                return View(TempMj);
+            else
+            {
+                ViewBag.Title = "הוספת מגמה"; // add new major
+                return View();
+            }
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateMajor(Major ClientMj)
+        {
+            string res = string.Empty; // send response message to majorlist 
+            ClientMj.HeadMajorId = ClientMj.HeadMajor.HeadMajorId;
+            ModelState.Remove("MajorId");
+            if (ModelState.IsValid)
+            {
+                using (DikanDbContext ctx = new DikanDbContext())
+                {
+                    Major Temp = null;
+                    Temp = ctx.Majors.Where(s => s.MajorId == ClientMj.MajorId).FirstOrDefault();
+                    if (Temp == null) // if the object null then he add new major
+                    {
+                        ctx.HeadMajor.Add(ClientMj.HeadMajor);
+                        ctx.Majors.Add(ClientMj);
+                        res = "מגמה נוספה בהצלחה";
+                    }
+                    else // update existing major
+                    {
+                        res = "מגמה עודכנה בהצלחה";
+                        var Hmajor = ctx.HeadMajor.Where(s => s.HeadMajorId == Temp.HeadMajorId).FirstOrDefault(); // get the head major to update
+                        ctx.Entry(Hmajor).CurrentValues.SetValues(ClientMj.HeadMajor); // update head major
+                        ctx.Entry(Temp).CurrentValues.SetValues(ClientMj); // update major
+                    }
+                    ctx.SaveChanges();
+                }
+                return RedirectToAction("MajorsList", new { response = res }); // return to majors list with response message
+
+            }
+            return View(ClientMj);
+        }
+
+        #endregion
+
         #region ScholarShip Section
 
         [HttpGet]

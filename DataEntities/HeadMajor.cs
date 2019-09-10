@@ -12,8 +12,13 @@ namespace DataEntities
     public class HeadMajor
     {
         [Key]
+        [Display(Name = "תעודת זהות ראש מגמה"),Required]
         public string HeadMajorId { get; set; }
+
+        [Display(Name = "שם ראש מגמה"), Required]
         public string HeadMajorName { get; set; }
+
+        [Display(Name = "מייל ראש מגמה"), Required]
         public string HeadMajorEmail { get; set; }
         public virtual ICollection<Major> Majors { get; set; }
         public virtual ICollection<DisciplineCommittee> DisciplineCommittees { get; set; }
