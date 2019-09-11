@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css?family=Heebo&display=swap" rel="stylesheet">
     @Styles.Render("~/Content/Css")
     @Styles.Render("~/Content/datepicker")
-
+    <link href="~/Content/MvcGrid/mvc-grid.css" rel="stylesheet" />
 </head>
 <body class="text-right" style="background-color:#fdfdee; padding: 0">
 
@@ -81,10 +81,14 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/datepicker")
     @Scripts.Render("~/bundles/javascript")
+    <script src="~/Scripts/MvcGrid/mvc-grid.js"></script>
     @RenderSection("scripts", required: false)
 
     <script>
-
+    [].forEach.call(document.getElementsByClassName('mvc-grid'), function (element)
+    {
+            new MvcGrid(element);
+    });
     </script>
 </body>
 </html>

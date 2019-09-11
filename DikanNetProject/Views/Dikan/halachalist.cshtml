@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<DataEntities.SpHalacha>
-@using GridMvc.Html
+@using NonFactors.Mvc.Grid;
 
 @{
     ViewBag.Title = "מלגת הלכה למעשה";
@@ -8,11 +8,5 @@
 
 <h2>halachalist</h2>
 
-<div style="width:500px;">
-    @Html.Grid(Model).Columns(columns =>
-                {
-                    columns.Add(c => c.StudentId).Titled("תעודת זהות");
-                    columns.Add(c => c.Student.FirstName).Titled("שם").Filterable(true);
-                    columns.Add(c => c.SchoolYear).Titled("שנת לימוד");
-                }).WithPaging(3).Sortable(true)
-</div>
+@(Html
+)
