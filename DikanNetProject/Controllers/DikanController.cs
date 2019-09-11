@@ -76,7 +76,12 @@ namespace DikanNetProject.Controllers
 
         public ActionResult halachalist()
         {
-            return View();
+            List<SpHalacha> list;
+            using(DikanDbContext ctx = new DikanDbContext())
+            {
+                list = ctx.Halacha.Include("Student").ToList();
+            }
+            return View(list);
         }
 
         #endregion
