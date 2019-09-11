@@ -72,6 +72,15 @@ namespace DikanNetProject.Controllers
             return View();
         }
 
+        #region Manage Sp Halacha
+
+        public ActionResult halachalist()
+        {
+            return View();
+        }
+
+        #endregion
+
         #region Manage Head Major + Majors
 
         [HttpGet]
