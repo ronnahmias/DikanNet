@@ -308,40 +308,34 @@ namespace DikanNetProject.Controllers
                     Users.Add(tempu);
                 }
             }
+            ViewBag.StudentsList = new SelectList(GetStudentList(), "Uniquee", "StudentRow"); // to show students list in drop down
             return View(Users);
         }
 
         #region Student Users Manage Section
 
         [HttpGet]
-        public ActionResult FindStudent(string param,string type) // find user student in db - ajax
+        public ActionResult FindStudent(string studentId) // find user student in db - ajax
         {
             Users user = null;
-            if(type == "Name") // search user by name
-            {
-                var name = param.Split(' '); // split name to first and lst name
-                using(DikanDbContext ctx = new DikanDbContext())
-                {
-                    user = ctx.Users.Where(s => s.FirstName == name[0] && s.LastName == name[1] ).FirstOrDefault(); // contains only student role
-                }
-            }
-            if(type == "Id") // search by id
-            {
-                user = UserManager.FindByName(param);
-            }
-            else
+            if(studentId == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            if (user != null && UserManager.IsInRole(user.Id,"Student")) // only if thecuser is student
-                return View(user); //return user
+            user = UserManager.FindByName(studentId);
+            if(user == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            if (user != null && UserManager.IsInRole(user.Id,"Student")) // only if the user is student
+                return Json(user.Email,JsonRequestBehavior.AllowGet); //return user email
             else
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
         }
 
         [HttpPost]
-        public ActionResult EditEmail(string Id, string newemail) // edit email of student - ajax
+        public ActionResult EditEmail(string studentId, string newemail) // edit email of student - ajax
         {
             Student dbstudent,tempstudent;
-            var user = UserManager.FindById(Id); // find the user by id
+            if(studentId == null || newemail == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            var user = UserManager.FindByName(studentId); // find the user by id
             if (user != null)
             {
                 user.Email = newemail; // inserts the new email

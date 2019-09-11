@@ -7,17 +7,14 @@
 <h4 class="text-success">@ViewBag.response</h4>
 <h2>חיפוש סטודנט במערכת</h2>
 <p>יש לחפש לפי תעודת זהות או שם מלא</p>
-<div>
-    <input type="text" />
-    <button class="btn btn-dark" id="search-student">חפש</button><!--checks if it is id or name and send in ajax-->
+
+<div class="form-group col-md-6 col-sm-6 col-12">
+        @Html.DropDownList("סטודנטים במערכת", ViewBag.StudentsList as SelectList, "", htmlAttributes: new { @class = "form-control chosen must", @data_placeholder = "בחר סטודנט", @id = "StudentDropDown" })
 </div>
 
 <div>
-    <span id="user-name"></span>
-    <input id="new-mail" type="text" />
-    <button class="btn btn-dark" id="update-mail">עדכן מייל</button>
+    <span id="user-mail"></span>
 </div>
-           
 
 <h2>רשימת משתמשים נוספים במערכת</h2>
 @Html.ActionLink("הוספת משתמשים", "CreateUser",null, new { @class = "btn btn-success" })
@@ -84,6 +81,29 @@
 @section scripts
 {
     <script>
+        $("#StudentDropDown").change(function () {
+            var op = $('option:selected', $(this)).text();
+            console.log(op);
+            var studentid = op.split("-");
+            if (studentid != '') {
+                $.ajax({
+                    url: '@Url.Action("FindStudent","Dikan")',
+                    data: { studentId: studentid[0] },
+                    dataType: 'text',
+                    method: 'GET',
+                    success: function (data) {
+                        console.log(data);
+                        $('#user-mail').text(data);
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        console.log(xhr.status);
+                        console.log(thrownError);
+                        $('#user-mail').val("");
+                    }
+                });
+            }
+        });
+
 
     </script>
 }
