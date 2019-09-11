@@ -55,8 +55,7 @@
                 @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.DateDeadLine))
             </td>
             <td>
-                @Html.ActionLink("ערוך מלגה", "CreateEditSp", new { id = item.ScholarshipID }) |
-
+                @Html.ActionLink("ערוך מלגה", "CreateEditSp", new { id = item.ScholarshipID }, new { @class = "btn btn-dark" })
             </td>
         </tr>
     }
@@ -108,7 +107,7 @@
                 @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.DateDeadLine))
             </td>
             <td>
-                @Html.ActionLink("ערוך מלגה", "CreateEditSp", new { id = item.ScholarshipID }) |
+                @Html.ActionLink("ערוך מלגה", "CreateEditSp", new { id = item.ScholarshipID },new { @class="btn btn-dark" }) 
 
             </td>
         </tr>
