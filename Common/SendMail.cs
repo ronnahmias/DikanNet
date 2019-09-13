@@ -18,11 +18,11 @@ namespace Common
 {
     public static class SendMail
     {
-        public static void SendEmailLink(string UserEmail, string body, string subject) // send activation code
+        public static void SendEmailLink(IdentityMessage message) // send activation code
         {
-            var fromEmail = new MailAddress("DikannetProject@gmail.com", "דיקאנט");
-            var toEmail = new MailAddress(UserEmail);
-            var fromEmailPassword = "r&r123456";
+            var fromEmail = new MailAddress("System.no-replay@dekan.co.il", "דיקאנט");
+            var toEmail = new MailAddress(message.Destination);
+            var fromEmailPassword = "R&r123456789";
            
             var smtp = new SmtpClient
             {
@@ -31,17 +31,17 @@ namespace Common
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(fromEmail.Address, fromEmailPassword)
+                Credentials = new NetworkCredential(fromEmail.Address, fromEmailPassword,"mail.dekan.co.il")
             };
            
-            using (var message = new MailMessage(fromEmail, toEmail)
+            using (var message1 = new MailMessage(fromEmail, toEmail)
             {
-                Subject = subject,
-                Body = body,
+                Subject = message.Subject,
+                Body = message.Body,
                 IsBodyHtml = true
             })
 
-            smtp.Send(message);
+            smtp.Send(message1);
         }
 
         public static string CreateBodyEmail(string name, string link, string message) // create email body templete
@@ -63,7 +63,7 @@ namespace Common
         {
             var apikey = ConfigurationManager.AppSettings["SendGridAPIKey"]; // token of send grid from web.config
             var client = new SendGridClient(apikey);
-            var from = new EmailAddress("dikannetproject@gmail.com", "דיקאנט");
+            var from = new EmailAddress("System.no-replay@dekan.co.il", "דיקאנט");
             var to = new EmailAddress(message.Destination);
             var msg = MailHelper.CreateSingleEmail(from, to, message.Subject, null, message.Body);
             var response = await client.SendEmailAsync(msg);
