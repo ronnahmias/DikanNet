@@ -70,6 +70,7 @@ namespace DataEntities
         public string Uniquee { get; set; }
 
         [NotMapped]
+        [Display(Name ="שם מלא")]
         public string StudentRow { get; set; } // shows the student id + full name together
 
         public virtual Countries Country { get; set; }

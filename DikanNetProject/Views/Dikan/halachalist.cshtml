@@ -7,6 +7,68 @@
 }
 
 <h2>halachalist</h2>
+<div class="table-responsive">
+    @(Html
+        .Grid(Model).Css("table")
+        .Build(columns =>
+        {
+            columns.Add(model => model.Student.FirstName + " " + model.Student.LastName).Titled(Html.DisplayNameFor(s => s.Student.StudentRow));
+            columns.Add(model => model.SchoolYear).Titled(Html.DisplayNameFor(s => s.SchoolYear));
+            columns.Add(model => model.VolunteerPlacess.Name).Titled(Html.DisplayNameFor(s => s.Volunteer1Id));
+            columns.Add(model => model.Statuss).Titled(Html.DisplayNameFor(s => s.Statuss));
+            columns.Add(model => @Html.ActionLink("פרטים ופעולות", "StudHalacha", new { studentid = model.StudentId, scholarshipid = model.ScholarshipId }, new { @class = "btn btn-dark" })).Titled("פעולות");
+            
+            })
+        .Empty("אין נתונים")
+        .Filterable()
+    )
+</div>
 
-@(Html
-)
+<script>
+    MvcGrid.prototype.lang = {
+        text: {
+            'contains': 'מכיל',
+            'equals': 'שווה ל',
+            'not-equals': 'אינו שווה',
+            'starts-with': 'מתחיל עם',
+            'ends-with': 'נגמר עם'
+        },
+        number: {
+            'equals': 'Egale',
+            'not-equals': 'Pas égal',
+            'less-than': 'Inférieur à',
+            'greater-than': 'Supérieur à',
+            'less-than-or-equal': 'Inférieur ou égale à',
+            'greater-than-o-requal': 'Supérieur ou égale à'
+        },
+        date: {
+            'equals': 'Egale',
+            'not-equals': 'Pas égal',
+            'earlier-than': 'Inférieur à',
+            'later-than': 'Supérieur à',
+            'earlier-than-or-equal': 'Inférieur ou égale à',
+            'later-than-or-equal': 'Supérieur ou égale à'
+        },
+        enum: {
+            'equals': 'Egale',
+            'not-equals': 'Pas égal'
+        },
+        boolean: {
+            'equals': 'Egale',
+            'not-equals': 'Pas égal'
+        },
+        guid: {
+            'equals': 'Egale',
+            'not-equals': 'Pas égal',
+        },
+        filter: {
+            'apply': '✔',
+            'remove': '✘'
+        },
+        operator: {
+            'select': '',
+            'and': 'et',
+            'or': 'ou'
+        }
+    };
+</script>

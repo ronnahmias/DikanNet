@@ -79,7 +79,7 @@ namespace DikanNetProject.Controllers
             List<SpHalacha> list;
             using(DikanDbContext ctx = new DikanDbContext())
             {
-                list = ctx.Halacha.Include("Student").ToList();
+                list = ctx.Halacha.Include("Student").Include("VolunteerPlacess").ToList();
             }
             return View(list);
         }
