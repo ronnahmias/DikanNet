@@ -72,16 +72,40 @@ namespace DikanNetProject.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult UpdateSpStatus(int ScholarId = -1, string StudId = "", string status = "") // update sp status of student
+        {
+            return View();
+        }
+
         #region Manage Sp Halacha
 
-        public ActionResult halachalist()
+        [HttpGet]
+        public ActionResult ListHalacha(string res = "") // show list of halacha student 
         {
+            ViewBag.res = res;
             List<SpHalacha> list;
             using(DikanDbContext ctx = new DikanDbContext())
             {
                 list = ctx.Halacha.Include("Student").Include("VolunteerPlacess").ToList();
             }
             return View(list);
+        }
+
+        [HttpGet]
+        public ActionResult StudHalacha(int ScholarId = -1, string StudId = "") // show halacha student full details
+        {
+            SpHalacha StudentHalacha = null;
+            if (ScholarId == -1 || StudId == "") // not have parameters
+                return RedirectToAction("ListHalacha", new { res = "שגיאה" });
+            using (DikanDbContext ctx = new DikanDbContext())
+            {
+                StudentHalacha = ctx.Halacha.Include("Student").Include("VolunteerPlacess").Include("ScholarshipDefinition")
+                    .Where(s=>s.ScholarshipId == ScholarId && s.StudentId == StudId).FirstOrDefault(); // find student in halacha sp
+            }
+            if(StudentHalacha == null) // not fount student
+                return RedirectToAction("ListHalacha", new { res = "שגיאה" });
+            return View(StudentHalacha); // display student parameters
         }
 
         #endregion

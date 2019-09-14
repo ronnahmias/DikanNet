@@ -23,6 +23,16 @@
             <!-- Dropdown -->
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                    מלגות שהוגשו
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="@Url.Action("ListHalacha", "Dikan")">מלגת הלכה</a>
+                    <a class="dropdown-item" href="@Url.Action("SpList", "Dikan")"></a>
+                    <a class="dropdown-item" href="@Url.Action("VolunteerList", "Dikan")"></a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
                     הגדרות מלגה
                 </a>
                 <div class="dropdown-menu">
@@ -85,10 +95,9 @@
     @RenderSection("scripts", required: false)
 
     <script>
-    [].forEach.call(document.getElementsByClassName('mvc-grid'), function (element)
-    {
+        [].forEach.call(document.getElementsByClassName('mvc-grid'), function (element) {
             new MvcGrid(element);
-    });
+        });
     </script>
 </body>
 </html>

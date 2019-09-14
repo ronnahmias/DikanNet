@@ -7,24 +7,43 @@
 }
 
 <h2>מלגת הלכה למעשה</h2>
+<h2 class="text-danger">@ViewBag.res</h2>
 <div class="table-responsive">
     @(Html
         .Grid(Model).Css("table")
         .Build(columns =>
         {
-            columns.Add(model => model.Student.FirstName + " " + model.Student.LastName).Titled(Html.DisplayNameFor(s => s.Student.StudentRow));
+            columns.Add().Titled("#");
+            columns.Add(model => "<a href='#' title='Header' data-toggle='popover' data-placement='top' data-content="+ model.StudentId +">" + model.Student.FirstName + " " + model.Student.LastName + "</a>").Titled(Html.DisplayNameFor(s => s.Student.StudentRow)).Encoded(false);
             columns.Add(model => model.SchoolYear).Titled(Html.DisplayNameFor(s => s.SchoolYear));
             columns.Add(model => model.VolunteerPlacess.Name).Titled(Html.DisplayNameFor(s => s.Volunteer1Id));
             columns.Add(model => model.Statuss).Titled(Html.DisplayNameFor(s => s.Statuss));
-            columns.Add(model => @Html.ActionLink("פרטים ופעולות", "StudHalacha", new { studentid = model.StudentId, scholarshipid = model.ScholarshipId }, new { @class = "btn btn-dark" })).Titled("פעולות");
-            
+            columns.Add(model => @Html.ActionLink("פרטים ופעולות", "StudHalacha", new { ScholarId = model.ScholarshipId, StudId = model.StudentId}, new { @class = "btn btn-dark" })).Titled("פעולות");
+
             })
         .Empty("אין נתונים")
+        .Sortable()
         .Filterable()
+        .Pageable(pager =>
+            {
+                pager.PageSizes = new Dictionary<int, string> { { 0, "All" }, { 2, "2" }, { 4, "4" } };
+                pager.ShowPageSizes = true;
+                pager.PagesToDisplay = 3;
+                pager.CurrentPage = 2;
+                pager.RowsPerPage = 15;
+            })
     )
 </div>
 
-<script>
+@section scripts
+{
+    <script>
+    $(document).ready(function () {
+        $('[data-toggle="popover"]').popover();
+    });
+
+
+
     MvcGrid.prototype.lang = {
         text: {
             'contains': 'מכיל',
@@ -34,16 +53,16 @@
             'ends-with': 'נגמר עם'
         },
         number: {
-            'equals': 'Egale',
-            'not-equals': 'Pas égal',
-            'less-than': 'Inférieur à',
-            'greater-than': 'Supérieur à',
-            'less-than-or-equal': 'Inférieur ou égale à',
-            'greater-than-o-requal': 'Supérieur ou égale à'
+            'equals': 'שווה',
+            'not-equals': 'לא שווה',
+            'less-than': 'קטן',
+            'greater-than': 'גדול',
+            'less-than-or-equal': 'קטן שווה',
+            'greater-than-o-requal': 'גדול שווה'
         },
         date: {
-            'equals': 'Egale',
-            'not-equals': 'Pas égal',
+            'equals': 'שווה',
+            'not-equals': 'לא שווה',
             'earlier-than': 'Inférieur à',
             'later-than': 'Supérieur à',
             'earlier-than-or-equal': 'Inférieur ou égale à',
@@ -72,3 +91,5 @@
         }
     };
 </script>
+
+}
