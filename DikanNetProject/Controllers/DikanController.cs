@@ -75,7 +75,40 @@ namespace DikanNetProject.Controllers
         [HttpPost]
         public ActionResult UpdateSpStatus(int ScholarId = -1, string StudId = "", string status = "") // update sp status of student
         {
-            return View();
+            if(ScholarId == -1 || StudId == "" || status == "") // not have parameters 
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            using(DikanDbContext ctx = new DikanDbContext())
+            {
+                var sp = ctx.SpDef.Where(s => s.ScholarshipID == ScholarId).FirstOrDefault();
+                if(sp == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+
+                switch(Enum.Parse(typeof(Enums.SpType), sp.Type)) // find the sp according to the type
+                {
+                    case Enums.SpType.סוציואקונומית:
+                        var studsocio = ctx.Socio.Where(s => s.ScholarshipId == ScholarId && s.StudentId == StudId).FirstOrDefault();
+                        if (studsocio != null) // if found update status
+                            studsocio.Statuss = status;
+                        break;
+
+                    case Enums.SpType.הלכה:
+                        var studhalacha = ctx.Halacha.Where(s => s.ScholarshipId == ScholarId && s.StudentId == StudId).FirstOrDefault();
+                        if (studhalacha != null) // if found update status
+                            studhalacha.Statuss = status;
+                        break;
+
+                    case Enums.SpType.מצוינות:
+                        var studEx = ctx.Halacha.Where(s => s.ScholarshipId == ScholarId && s.StudentId == StudId).FirstOrDefault();
+                        if (studEx != null) // if found update status
+                            studEx.Statuss = status;
+                        break;
+
+                    default: return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                }
+                SendUpdateMail(StudId, status, sp); // send update mail to student according to status
+                ctx.SaveChanges();
+            }
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
         #region Manage Sp Halacha
@@ -721,6 +754,46 @@ namespace DikanNetProject.Controllers
         #endregion
 
         #region Non Actions
+
+        [NonAction]
+        private void SendUpdateMail(string studId, string status, SpDefinition sp)// send email to student about update status
+        {
+            if (studId == "" || status == "") // if no parameters return
+                return;
+
+            var enumstatus = Enum.Parse(typeof(Enums.Status),status); // parse string to enum
+            if (enumstatus == null)
+                return;
+
+            var body = string.Empty;
+            Student tempstudent = null;
+
+            using(DikanDbContext ctx = new DikanDbContext())
+            {
+                tempstudent = ctx.Students.Where(s => s.StudentId == studId).FirstOrDefault(); // find student accroding to studid
+            }
+            if (tempstudent == null) // if student null (not found) return
+                return;
+            var username = tempstudent.FirstName + " " + tempstudent.LastName;
+            var callbackUrl = Url.Action("Login", "Login", null, protocol: Request.Url.Scheme);
+
+            switch (enumstatus)
+            {
+                case Enums.Status.מאושר:
+                    body = "ברכות!" + "בקשתך למלגת " + sp.Type + " " + " אושרה. " + "נא לפנות למשרד הדיקאן להמשך";
+                    break;
+                case Enums.Status.נדחה:
+                    body = "ברצוננו לעדכן אותך כי " + "בקשתך למלגת " + sp.Type + " נדחתה.";
+                    break;
+
+                case Enums.Status.בטיפול: // no mail need to send return
+                default:
+                    return;
+            }
+            // Send an email
+            body = SendMail.CreateBodyEmail(username, callbackUrl, body);
+            _ = SendMail.configSendGridasync(new IdentityMessage { Body = body, Destination = tempstudent.Email, Subject = "עדכון מלגת " + sp.Type });
+        }
 
         [NonAction]
         public List<Major> GetMajorList() // add to student id and full name to studentrow field
