@@ -18,7 +18,7 @@
             columns.Add(model => model.SchoolYear).Titled(Html.DisplayNameFor(s => s.SchoolYear));
             columns.Add(model => model.VolunteerPlacess.Name).Titled(Html.DisplayNameFor(s => s.Volunteer1Id));
             columns.Add(model => model.Statuss).Titled(Html.DisplayNameFor(s => s.Statuss));
-            columns.Add(model => @Html.ActionLink("פרטים ופעולות", "StudHalacha", new { ScholarId = model.ScholarshipId, StudId = model.StudentId}, new { @class = "btn btn-dark" })).Titled("פעולות");
+            columns.Add(model => @Html.ActionLink("פרטים ופעולות", "StudentSp", new { spId = model.ScholarshipId, spType = model.ScholarshipDefinition.Type , StudId = model.StudentId}, new { @class = "btn btn-dark" })).Titled("פעולות");
 
             })
         .Empty("אין נתונים")

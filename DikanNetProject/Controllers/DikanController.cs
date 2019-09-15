@@ -111,19 +111,80 @@ namespace DikanNetProject.Controllers
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
-        #region Manage Sp Halacha
-
         [HttpGet]
-        public ActionResult ListHalacha(string res = "") // show list of halacha student 
+        public ActionResult SubmitedSp(string res = "", int spId = -1, string spType = "") // redirect sp list of submited sp
         {
             ViewBag.res = res;
-            List<SpHalacha> list;
-            using(DikanDbContext ctx = new DikanDbContext())
+            if (spType == "") // no type parameters return to index
+                return RedirectToAction("Index");
+
+            var EspType = Enum.Parse(typeof(Enums.SpType), spType); // parse string type to enum
+            if(EspType == null) // if no type -> return to index
+                return RedirectToAction("Index");
+
+            using (DikanDbContext ctx = new DikanDbContext())
             {
-                list = ctx.Halacha.Include("Student").Include("VolunteerPlacess").ToList();
+                if (spId == -1) // if there is no spid then get the list of the latest sp of the type
+                    spId = ctx.SpDef.Where(s => s.Type == EspType.ToString()).ToList().OrderByDescending(x => x.DateDeadLine).FirstOrDefault().ScholarshipID; // get the latest spid
+
+                switch (EspType)
+                {
+                    case Enums.SpType.סוציואקונומית:
+                         List<SpSocio> sociolist = ctx.Socio.Where(s => s.ScholarshipId == spId).ToList();
+                        return View("ListSocio", sociolist); // return view with this list
+                        
+                    case Enums.SpType.הלכה:
+                         List<SpHalacha> halachalist = ctx.Halacha.Include("Student").Include("VolunteerPlacess").Include("ScholarshipDefinition").Where(s => s.ScholarshipId == spId).ToList();
+                        return View("ListHalacha", halachalist); // return view with this list   
+
+                    case Enums.SpType.מצוינות:
+                         List<SpExcellence> excellentlist = ctx.Excellence.Where(s => s.ScholarshipId == spId).ToList();
+                        return View("ListExcellence", excellentlist); // return view with this list
+
+                    default: return RedirectToAction("Index"); // error return to index
+
+                }
             }
-            return View(list);
         }
+
+        [HttpGet]
+        public ActionResult StudentSp(int spId = -1, string spType = "", string StudId = "") // redirect student details about sp against type of sp
+        {
+            if (StudId == "" || spType == "" || spId == -1) // no t parameters return to index
+                return RedirectToAction("Index");
+
+            var EspType = Enum.Parse(typeof(Enums.SpType), spType); // parse string type to enum
+            if(EspType == null) // if no type -> return to index
+                return RedirectToAction("Index");
+
+            using (DikanDbContext ctx = new DikanDbContext())
+            {
+                switch (EspType)
+                {
+                    case Enums.SpType.סוציואקונומית:
+                         SpSocio Studsocio = ctx.Socio.Where(s => s.ScholarshipId == spId && s.StudentId == StudId).FirstOrDefault();
+                        return View("StudSocio", Studsocio); // return view with the object
+
+                    case Enums.SpType.הלכה:
+                         SpHalacha Studhalacha = ctx.Halacha
+                                                    .Include("Student")
+                                                    .Include("VolunteerPlacess")
+                                                    .Include("ScholarshipDefinition")
+                                                    .Where(s => s.ScholarshipId == spId && s.StudentId == StudId)
+                                                    .FirstOrDefault();
+                        return View("StudHalacha", Studhalacha); // return view with the object  
+
+                    case Enums.SpType.מצוינות:
+                         SpExcellence Studexcellent = ctx.Excellence.Where(s => s.ScholarshipId == spId && s.StudentId == StudId).FirstOrDefault();
+                        return View("StudExcellence", Studexcellent); // return view with the object
+
+                    default: return RedirectToAction("Index"); // error return to index
+                }
+            }
+        }
+
+        #region Manage Sp Halacha
+
 
         [HttpGet]
         public ActionResult StudHalacha(int ScholarId = -1, string StudId = "") // show halacha student full details
