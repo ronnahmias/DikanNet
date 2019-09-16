@@ -96,6 +96,9 @@ namespace DikanNetProject.Controllers
                 if (spId == -1) // if there is no spid then get the list of the latest sp of the type
                     spId = ctx.SpDef.Where(s => s.Type == EspType.ToString()).ToList().OrderByDescending(x => x.DateDeadLine).FirstOrDefault().ScholarshipID; // get the latest spid
 
+                if(spId == -1) // not found sp at all -> return to index
+                    return RedirectToAction("Index", new { response = StringError });
+
                 switch (EspType)
                 {
                     case Enums.SpType.סוציואקונומית:
