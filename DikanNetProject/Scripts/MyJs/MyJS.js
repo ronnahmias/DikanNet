@@ -198,6 +198,59 @@ function checkMust() {
     return ok;
 }
 
+/* The function check that all the must filed are filed */
+function checkDate(date) {
+    var ok = true;
+    var c = date.split('-');
+    return ok;
+}
+
+function validUpdateStu() {
+    //valid all inputs
+    var ok = checkMust();
+    var $btDay = $('#BirthDay');
+    var path = $('#PathId').val();
+    var file = $('#FileId').val();
+    //valid date
+    if (!dateIsValid($btDay.val(), 1920)) {
+        $btDay.addClass('border-danger');
+        ok = false;
+    }
+    else {
+        $btDay.removeClass('border-danger');
+    }
+    //valid file
+    if (path.length <= 0 && file.length <= 0) {
+        $('#validFile').removeClass('d-none');
+        ok = false;
+    }
+    else {
+        $('#validFile').addClass('d-none');
+    }
+    return ok;
+}
+
+/* The function check that date is valid */
+function dateIsValid(pDate, pMinYear) {
+    console.log('checkDate');
+    var ok = true;
+    var c = pDate.split('-');
+    // check year valid
+    if (c[2] < pMinYear) {
+        ok = false;
+    }
+    // replace year and mount
+    var temp = c[0];
+    c[0] = c[1];
+    c[1] = temp;
+    // combain the array to date format
+    c = c.join('/');
+    date = new Date(c);
+    if (date.toString() == "Invalid Date")
+        ok = false;
+    return ok;
+}
+
 function validPasswordsAndEmail() {
     var email = $('#Email').val();
     return checkPasswordsValid() && validEmail(email);

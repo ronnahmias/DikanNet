@@ -14,6 +14,7 @@ namespace DikanNetProject.Controllers
         [Authorize]
         public FileResult GetFile(string pFilePath) // return file acording to file path and user name
         {
+            if (string.IsNullOrEmpty(pFilePath)) return null;
             string path = Path.Combine(Server.MapPath("~/App_Data/UsersFiles/"), User.Identity.Name, pFilePath); // path of the file
             string contentType = MimeMapping.GetMimeMapping(path); // type of file
             FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
