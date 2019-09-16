@@ -102,11 +102,20 @@ namespace DikanNetProject.Controllers
                 switch (EspType)
                 {
                     case Enums.SpType.סוציואקונומית:
-                         List<SpSocio> sociolist = ctx.Socio.Where(s => s.ScholarshipId == spId).ToList();
+                         List<SpSocio> sociolist = ctx.Socio
+                                                        .Include("Student")
+                                                        .Include("ScholarshipDefinition")
+                                                        .Where(s => s.ScholarshipId == spId)
+                                                        .ToList();
                         return View("ListSocio", sociolist); // return view with this list
                         
                     case Enums.SpType.הלכה:
-                         List<SpHalacha> halachalist = ctx.Halacha.Include("Student").Include("VolunteerPlacess").Include("ScholarshipDefinition").Where(s => s.ScholarshipId == spId).ToList();
+                         List<SpHalacha> halachalist = ctx.Halacha
+                                                            .Include("Student")
+                                                            .Include("VolunteerPlacess")
+                                                            .Include("ScholarshipDefinition")
+                                                            .Where(s => s.ScholarshipId == spId)
+                                                            .ToList();
                         return View("ListHalacha", halachalist); // return view with this list   
 
                     case Enums.SpType.מצוינות:
@@ -135,7 +144,11 @@ namespace DikanNetProject.Controllers
                 switch (EspType)
                 {
                     case Enums.SpType.סוציואקונומית:
-                         SpSocio Studsocio = ctx.Socio.Where(s => s.ScholarshipId == spId && s.StudentId == StudId).FirstOrDefault();
+                         SpSocio Studsocio = ctx.Socio
+                                                    .Include("Student")
+                                                    .Include("ScholarshipDefinition")
+                                                    .Where(s => s.ScholarshipId == spId && s.StudentId == StudId)
+                                                    .FirstOrDefault();
                         return View("StudSocio", Studsocio); // return view with the object
 
                     case Enums.SpType.הלכה:
@@ -148,7 +161,11 @@ namespace DikanNetProject.Controllers
                         return View("StudHalacha", Studhalacha); // return view with the object  
 
                     case Enums.SpType.מצוינות:
-                         SpExcellence Studexcellent = ctx.Excellence.Where(s => s.ScholarshipId == spId && s.StudentId == StudId).FirstOrDefault();
+                         SpExcellence Studexcellent = ctx.Excellence
+                                                    .Include("Student")
+                                                    .Include("ScholarshipDefinition")
+                                                    .Where(s => s.ScholarshipId == spId && s.StudentId == StudId)
+                                                    .FirstOrDefault();
                         return View("StudExcellence", Studexcellent); // return view with the object
 
                     default: return RedirectToAction("SubmitedSp", new { response = StringError, spId = spId, spType = spType }); // error return to index

@@ -1,0 +1,107 @@
+﻿@model DataEntities.SpExcellence
+
+@{
+    ViewBag.Title = "מלגת מצוינות";
+    Layout = "~/Views/Dikan/_Layout.cshtml";
+}
+
+<h2>@Html.DisplayFor(model => model.Student.FirstName) @Html.DisplayFor(model => model.Student.LastName)</h2>
+
+<div>
+    <h4>מלגת @Html.DisplayFor(model => model.ScholarshipDefinition.Type)</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SchoolYear)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SchoolYear)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Iswork)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Iswork)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WorkJob)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WorkJob)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WorkPlace)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WorkPlace)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WantSp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WantSp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MentorSub)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MentorSub)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Comments)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Comments)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AboutMe)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AboutMe)
+        </dd>
+
+    </dl>
+</div>
+<div>
+    @Html.DropDownListFor(model => model.Statuss,
+        new SelectList(Enum.GetValues(typeof(Common.Enums.Status))), "", new
+        { @class = "form-control chosen", @data_placeholder = "בחר סטטוס", @id = "new-status" })
+    <button class="btn btn-success" id="update-status">עדכן סטטוס</button>
+    <br />
+    @Html.ActionLink("חזרה לטבלה", "SubmitedSp", new { spId = Model.ScholarshipId, spType = Model.ScholarshipDefinition.Type }, new { @class = "btn btn-danger" })
+</div>
+
+@section scripts{
+    <script>
+        $('#update-status').click(function () {
+            $.ajax({
+                url: "/Dikan/UpdateSpStatus",
+                dataType: 'text',
+                data: {ScholarId: @Model.ScholarshipId, StudId: @Model.StudentId, status: $('#new-status').val() },
+	            method: "POST",
+                success: function () {
+                    // show success message
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.status);
+                    console.log(thrownError);
+                }
+            });
+        });
+    </script>
+}

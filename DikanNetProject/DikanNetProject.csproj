@@ -497,6 +497,9 @@
     <Content Include="Views\Shared\MvcGrid\_Pager.cshtml" />
     <Content Include="Views\Shared\MvcGrid\_Grid.cshtml" />
     <Content Include="Views\Dikan\StudHalacha.cshtml" />
+    <Content Include="Views\Dikan\ListSocio.cshtml" />
+    <Content Include="Views\Dikan\ListExcellence.cshtml" />
+    <Content Include="Views\Dikan\StudExcellence.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
