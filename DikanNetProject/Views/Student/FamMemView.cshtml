@@ -22,11 +22,12 @@
             @Html.LabelFor(model => model.PathFmId, htmlAttributes: new { @class = "control-label col-md-1" })
         </div>
         <div class="form-group row text-center">
-            @Html.EditorFor(model => model.FamilyMemberId, new { htmlAttributes = new { @class = "control-label id col-md-2" } })
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "control-label col-md-2" } })
-            @Html.EditorFor(model => model.BirthDay, new { htmlAttributes = new { @class = "control-label col-md-2" } })
-            @Html.DropDownListFor(model => model.Realationship, new SelectList(Enum.GetValues(typeof(Enums.Realationship)), null, new List<Enums.Realationship> { Enums.Realationship.אח, Enums.Realationship.אחות, Enums.Realationship.בן, Enums.Realationship.בת }), "", new { @class = "control-label col-md-2", @data_placeholder = "מגדר" })
-            @Html.DropDownListFor(model => model.Gender, new SelectList(Enum.GetValues(typeof(Enums.Genders))), "", new { @class = "control-label col-md-1", @data_placeholder = "מגדר" })
+            @Html.EditorFor(model => model.FamilyMemberId, new { htmlAttributes = new { @class = "control-label id must col-md-2" } })
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "control-label must col-md-2" } })
+
+            @Html.EditorFor(model => model.BirthDay, new { htmlAttributes = new { @class = "control-label must col-md-2 datepicker only-numbers", @data_toggle = "datepicker" } })
+            @Html.DropDownListFor(model => model.Realationship, new SelectList(Enum.GetValues(typeof(Enums.Realationship)), null, new List<Enums.Realationship> { Enums.Realationship.אח, Enums.Realationship.אחות, Enums.Realationship.בן, Enums.Realationship.בת }), "", new { @class = "control-label must chosen col-md-2", @data_placeholder = "סוג קרבה" })
+            @Html.DropDownListFor(model => model.Gender, new SelectList(Enum.GetValues(typeof(Enums.Genders))), "", new { @class = "control-label must chosen col-md-1", @data_placeholder = "מגדר" })
             @Html.TextBoxFor(model => model.FileFamId, new { @class = "control-label col-md-2", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
             @Html.DisplayFor(model => model.PathFmId, new { @class = "control-label col-md-1" })
         </div>

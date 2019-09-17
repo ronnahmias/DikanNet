@@ -28,7 +28,7 @@
                 @Html.LabelFor(model => model.SocioMod.SchoolYear, htmlAttributes: new { @class = "control-label" })
                 <div class="">
                     @Html.DropDownListFor(model => model.SocioMod.SchoolYear,
-                    new SelectList(Enum.GetNames(typeof(Common.Enums.SchoolYear))), "שנת לימוד", new { @class = "form-control" })
+                    new SelectList(Enum.GetNames(typeof(Common.Enums.SchoolYear))), "", new { @class = "form-control chosen must", @data_placeholder = "שנת לימוד" })
                     @Html.ValidationMessageFor(model => model.SocioMod.SchoolYear, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -46,12 +46,20 @@
             </div>
 
             <div id="ApartmentFile" style="display:@(Model.SocioMod.Apartment ? "" : "none")" class="form-group mx-5">
-                @Html.LabelFor(model => model.SocioMod.FileApartmentLease, "קובץ", htmlAttributes: new { @class = "control-label" })
-                <div class="">
-                    @Html.TextBoxFor(model => model.SocioMod.FileApartmentLease, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
-                    @Html.ValidationMessageFor(model => model.SocioMod.FileApartmentLease, "", new { @class = "text-danger" })
+                @Html.LabelFor(model => model.SocioMod.FileApartmentLease, "קובץ - דירה", htmlAttributes: new { @class = "control-label", @for = "" })
+                <div class="row">
+                    <div class="chose-file m-3 mt-0">
+                        @Html.TextBoxFor(model => model.SocioMod.FileApartmentLease, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;" })
+                        <label for="SocioMod_FileApartmentLease">
+                            <i class="ml-1 material-icons">add_photo_alternate</i>
+                            בחר קובץ
+                        </label>
+                    </div>
                 </div>
             </div>
+
+            @Html.HiddenFor(model => model.SocioMod.PathApartmentLease)
+
         </div>
 
         <div class="row">
@@ -68,13 +76,24 @@
                 <div class="form-group mx-5">
                     @Html.LabelFor(model => model.SocioMod.DateImmigration, htmlAttributes: new { @class = "control-label " })
                     <div class="">
-                        @Html.EditorFor(model => model.SocioMod.DateImmigration, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.SocioMod.DateImmigration, new { htmlAttributes = new { @class = "form-control datepicker only-numbers", @data_toggle = "datepicker" } })
                         @Html.ValidationMessageFor(model => model.SocioMod.DateImmigration, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.SocioMod.FileNewcomer, htmlAttributes: new { @class = "control-label " })
+                    @Html.LabelFor(model => model.SocioMod.FileNewcomer, htmlAttributes: new { @class = "control-label ", @for = "" })
+                    <div class="row">
+                        <div class="chose-file m-3 mt-0">
+                            @Html.TextBoxFor(model => model.SocioMod.FileNewcomer, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;" })
+                            <label for="SocioMod_FileNewcomer">
+                                <i class="ml-1 material-icons">add_photo_alternate</i>
+                                בחר קובץ
+                            </label>
+                        </div>
+                    </div>
+                    @Html.HiddenFor(model => model.SocioMod.PathNewcomer)
+
                     <div class="">
                         @Html.TextBoxFor(model => model.SocioMod.FileNewcomer, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
                         @Html.ValidationMessageFor(model => model.SocioMod.FileNewcomer, "", new { @class = "text-danger" })
@@ -96,7 +115,19 @@
             </div>
 
             <div id="SingleParent" style="display:@(Model.SocioMod.SingleParent ? "" : "none")" class="mx-5 form-group">
-                @Html.LabelFor(model => model.SocioMod.FileSingleParent, htmlAttributes: new { @class = "control-label " })
+                @Html.LabelFor(model => model.SocioMod.FileSingleParent, htmlAttributes: new { @class = "control-label ",@for="" })
+
+                <div class="row">
+                    <div class="chose-file m-3 mt-0">
+                        @Html.TextBoxFor(model => model.SocioMod.FileSingleParent, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;" })
+                        <label for="SocioMod_FileSingleParent">
+                            <i class="ml-1 material-icons">add_photo_alternate</i>
+                            בחר קובץ
+                        </label>
+                    </div>
+                </div>
+                @Html.HiddenFor(model => model.SocioMod.PathSingleParent)
+
                 <div class="">
                     @Html.TextBoxFor(model => model.SocioMod.FileSingleParent, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
                     @Html.ValidationMessageFor(model => model.SocioMod.FileSingleParent, "", new { @class = "text-danger" })
@@ -116,7 +147,18 @@
             </div>
 
             <div id="BereavedFam" style="display:@(Model.SocioMod.BereavedFam ? "" : "none")" class="mx-5 form-group">
-                @Html.LabelFor(model => model.SocioMod.FileBereavedFam, htmlAttributes: new { @class = "control-label" })
+                @Html.LabelFor(model => model.SocioMod.FileBereavedFam, htmlAttributes: new { @class = "control-label", @for = "" })
+                <div class="row">
+                    <div class="chose-file m-3 mt-0">
+                        @Html.TextBoxFor(model => model.SocioMod.FileBereavedFam, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;" })
+                        <label for="SocioMod_FileBereavedFam">
+                            <i class="ml-1 material-icons">add_photo_alternate</i>
+                            בחר קובץ
+                        </label>
+                    </div>
+                </div>
+                @Html.HiddenFor(model => model.SocioMod.PathBereavedFam)
+
                 <div class="">
                     @Html.TextBoxFor(model => model.SocioMod.FileBereavedFam, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
                     @Html.ValidationMessageFor(model => model.SocioMod.FileBereavedFam, "", new { @class = "text-danger" })
@@ -151,7 +193,19 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.SocioMod.FileMilitaryService, htmlAttributes: new { @class = "control-label" })
+                @Html.LabelFor(model => model.SocioMod.FileMilitaryService, htmlAttributes: new { @class = "control-label",@for="" })
+
+                <div class="row">
+                    <div class="chose-file m-3 mt-0">
+                        @Html.TextBoxFor(model => model.SocioMod.FileMilitaryService, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;" })
+                        <label for="SocioMod_FileMilitaryService">
+                            <i class="ml-1 material-icons">add_photo_alternate</i>
+                            בחר קובץ
+                        </label>
+                    </div>
+                </div>
+                @Html.HiddenFor(model => model.SocioMod.PathMilitaryService)
+
                 <div class="">
                     @Html.TextBoxFor(model => model.SocioMod.FileMilitaryService, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
                     @Html.ValidationMessageFor(model => model.SocioMod.FileMilitaryService, "", new { @class = "text-danger" })
@@ -172,7 +226,19 @@
             </div>
 
             <div id="ReserveMilitary" style="display:@(Model.SocioMod.ReserveMilitaryService ? "" : "none")" class="mx-5 form-group">
-                @Html.LabelFor(model => model.SocioMod.FileReserveMilitaryService, htmlAttributes: new { @class = "control-label" })
+                @Html.LabelFor(model => model.SocioMod.FileReserveMilitaryService, htmlAttributes: new { @class = "control-label",@for="" })
+
+                <div class="row">
+                    <div class="chose-file m-3 mt-0">
+                        @Html.TextBoxFor(model => model.SocioMod.FileReserveMilitaryService, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;" })
+                        <label for="SocioMod_FileReserveMilitaryService">
+                            <i class="ml-1 material-icons">add_photo_alternate</i>
+                            בחר קובץ
+                        </label>
+                    </div>
+                </div>
+                @Html.HiddenFor(model => model.SocioMod.PathReserveMilitaryService)
+
                 <div class="">
                     @Html.TextBoxFor(model => model.SocioMod.FileReserveMilitaryService, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
                     @Html.ValidationMessageFor(model => model.SocioMod.FileReserveMilitaryService, "", new { @class = "text-danger" })
@@ -197,7 +263,19 @@
                 </div>
 
                 <div class="form-group mx-5">
-                    @Html.LabelFor(model => model.SocioMod.FileDisabilityType, htmlAttributes: new { @class = "control-label" })
+                    @Html.LabelFor(model => model.SocioMod.FileDisabilityType, htmlAttributes: new { @class = "control-label",@for="" })
+
+                    <div class="row">
+                        <div class="chose-file m-3 mt-0">
+                            @Html.TextBoxFor(model => model.SocioMod.FileDisabilityType, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;" })
+                            <label for="SocioMod_FileDisabilityType">
+                                <i class="ml-1 material-icons">add_photo_alternate</i>
+                                בחר קובץ
+                            </label>
+                        </div>
+                    </div>
+                    @Html.HiddenFor(model => model.SocioMod.PathDisabilityType)
+
                     <div class="">
                         @Html.TextBoxFor(model => model.SocioMod.FileDisabilityType, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
                         @Html.ValidationMessageFor(model => model.SocioMod.FileDisabilityType, "", new { @class = "text-danger" })
@@ -387,28 +465,28 @@
             }
         });
 
-    $('#addFund').click(function () {
-        $.ajax({
-            url: fundviewurl,
-            dataType: 'text',
-            data: null,
-            method: "GET",
-            success: function (response) {
-                //funddiv.prepend(response);
-                funddiv.last().before(response);
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                console.log(xhr.status);
-                console.log(thrownError);
-                }
+        $('#addFund').click(function () {
+            $.ajax({
+                url: fundviewurl,
+                dataType: 'text',
+                data: null,
+                method: "GET",
+                success: function (response) {
+                    //funddiv.prepend(response);
+                    funddiv.last().before(response);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.status);
+                    console.log(thrownError);
+                    }
+                });
+                //$.get(fundviewurl, function(response) {
+                //funddiv.html(response);
+                // Reparse the validator for client side validation
+                //form.data('validator', null);
+                //$.validator.unobtrusive.parse(form);
+               // });
             });
-            //$.get(fundviewurl, function(response) {
-            //funddiv.html(response);
-            // Reparse the validator for client side validation
-            //form.data('validator', null);
-            //$.validator.unobtrusive.parse(form);
-           // });
-        });
 
         $(document).on('click','.del-fund',function() {
             var container = $(this).closest('.funds');
@@ -473,42 +551,63 @@
             }
         });
 
-    $('input.workset').change(function () {
-        var $container = $($(this).attr('data-target'));
-        var $children = $container.children();
-        var value = $(this).val();
+        $('input.workset').change(function () {
+            var $container = $($(this).attr('data-target'));
+            var $children = $container.children();
+            var value = $(this).val();
 
-        switch (value) {
-            /*three box*/
-            case 'שכיר':
-                $children.each(function () {
-                    $(this).css("display", "block");
-                });
-                $container.css("grid-template-columns", "repeat(3,1fr)");
+            switch (value) {
+                /*three box*/
+                case 'שכיר':
+                    $children.each(function () {
+                        $(this).css("display", "block");
+                        $(this).find(':input').each(function () {
+                            $(this).addClass('must');
+                        });
+                    });
+                    $container.css("grid-template-columns", "repeat(3,1fr)");
+                    break;
+                /*one box*/
+                case 'עצמאי':
+                case 'חבר_קיבוץ':
+                case 'לא_עובד':
+                case 'נכה':
+                case 'נפטר':
+                case 'אחר':
+                    $children.each(function () {
+                        $(this).css("display", "none");
+                        $(this).find(':input').each(function () {
+                            $(this).removeClass('must');
+                        });
+                    });
+                    $children.first().css("display", "block");
+                    $children.first().find(':input').each(function () {
+                            $(this).addClass('must');
+                        });
+                    $container.css("grid-template-columns", "700px");
                 break;
-            /*one box*/
-            case 'עצמאי':
-            case 'חבר_קיבוץ':
-            case 'לא_עובד':
-            case 'נכה':
-            case 'נפטר':
-            case 'אחר':
-                $children.each(function () {
-                    $(this).css("display", "none");
-                });
-                $children.first().css("display", "block");
-                $container.css("grid-template-columns", "700px");
-            break;
-            /*tow box*/
-            case 'פנסיונר':
-                $children.each(function () {
-                    $(this).css("display", "block");
-                });
-                $children.last().css("display", "none");
-                $container.css("grid-template-columns", "repeat(2,1fr)");
-            break;
-            default:console.log("ברירת מחדל");
+                /*tow box*/
+                case 'פנסיונר':
+                    $children.each(function () {
+                        $(this).css("display", "block");
+                        $(this).find(':input').each(function () {
+                            $(this).addClass('must');
+                        });
+                    });
+                    $children.last().css("display", "none");
+                    $children.last().find(':input').each(function () {
+                            $(this).removeClass('must');
+                        });
+                    $container.css("grid-template-columns", "repeat(2,1fr)");
+                break;
+                default:console.log("ברירת מחדל");
+            }
+        });
+
+        function validSocio() {
+            var ok = checkMust();
+
+            return ok;
         }
-    });
     </script>
 }

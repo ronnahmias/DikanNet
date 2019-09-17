@@ -5,16 +5,16 @@
         @using (Html.BeginCollectionItem("ListFundings"))
         {
             <div class="form-row">
-                @Html.EditorFor(model => model.FinancingInstitution, new { htmlAttributes = new { @class = "control-label", @placeholder = "." } })
+                @Html.EditorFor(model => model.FinancingInstitution, new { htmlAttributes = new { @class = "control-label must", @placeholder = "." } })
                 @Html.LabelFor(model => model.FinancingInstitution, htmlAttributes: new { @class = "title" })
             </div>
             <div class="form-row">
-                @Html.EditorFor(model => model.FinancingHeight, new { htmlAttributes = new { @class = "control-label only-numbers", @placeholder = ".", @type = "text" } })
+                @Html.EditorFor(model => model.FinancingHeight, new { htmlAttributes = new { @class = "control-label only-numbers must", @placeholder = ".", @type = "text" } })
                 @Html.LabelFor(model => model.FinancingHeight, htmlAttributes: new { @class = "title" })
             </div>
             <div class="text-center">
                 @*@Html.LabelFor(model => model.YearFinancing, htmlAttributes: new { @class = "" })*@
-                @Html.DropDownListFor(model => model.YearFinancing, ViewBag.YearsList as SelectList, "", htmlAttributes: new { @class = "control-label chosen", @data_placeholder = "שנת מימון" })
+                @Html.DropDownListFor(model => model.YearFinancing, ViewBag.YearsList as SelectList, "", htmlAttributes: new { @class = "control-label chosen must", @data_placeholder = "שנת מימון" })
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.FileFunding, htmlAttributes: new { @class = "", @for = "" })
