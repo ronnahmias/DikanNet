@@ -522,6 +522,7 @@ namespace DikanNetProject.Controllers
         public ActionResult Socio(SocioAdd socio, string uploadmethod) // submit  new socio scholarship
         {
             ViewBag.ResOk = "False";
+
             if (!socioIsValid(socio))
             {
                 if (socio.ListCarStudent == null) socio.ListCarStudent = new List<CarStudent>(); // if there is no rows in car student list
@@ -535,7 +536,7 @@ namespace DikanNetProject.Controllers
                 ViewBag.ResOk = "Error";
                 return View(socio);
             }
-
+            
             if (socio.SocioMod.CarOwner && socio.ListCarStudent != null)
                 SaveSocioCars(socio.ListCarStudent); // if there is cars -> Save Cars Detailes
 

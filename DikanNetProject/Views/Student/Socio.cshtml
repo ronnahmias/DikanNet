@@ -49,15 +49,15 @@
                 @Html.LabelFor(model => model.SocioMod.FileApartmentLease, "קובץ - דירה", htmlAttributes: new { @class = "control-label", @for = "" })
                 <div class="row">
                     <div class="chose-file m-3 mt-0">
-                        @Html.TextBoxFor(model => model.SocioMod.FileApartmentLease, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;" })
-                        <label for="SocioMod_FileApartmentLease">
+                        @Html.TextBoxFor(model => model.SocioMod.FileApartmentLease, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;",@path=Model.SocioMod.PathApartmentLease })
+                        <label for="SocioMod_FileApartmentLease" value="@Model.SocioMod.PathApartmentLease">
                             <i class="ml-1 material-icons">add_photo_alternate</i>
                             בחר קובץ
                         </label>
                     </div>
                 </div>
             </div>
-
+            
             @Html.HiddenFor(model => model.SocioMod.PathApartmentLease)
 
         </div>
@@ -85,7 +85,7 @@
                     @Html.LabelFor(model => model.SocioMod.FileNewcomer, htmlAttributes: new { @class = "control-label ", @for = "" })
                     <div class="row">
                         <div class="chose-file m-3 mt-0">
-                            @Html.TextBoxFor(model => model.SocioMod.FileNewcomer, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;" })
+                            @Html.TextBoxFor(model => model.SocioMod.FileNewcomer, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;" ,@path=Model.SocioMod.PathNewcomer})
                             <label for="SocioMod_FileNewcomer">
                                 <i class="ml-1 material-icons">add_photo_alternate</i>
                                 בחר קובץ
@@ -119,7 +119,7 @@
 
                 <div class="row">
                     <div class="chose-file m-3 mt-0">
-                        @Html.TextBoxFor(model => model.SocioMod.FileSingleParent, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;" })
+                        @Html.TextBoxFor(model => model.SocioMod.FileSingleParent, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;",@path=Model.SocioMod.PathSingleParent })
                         <label for="SocioMod_FileSingleParent">
                             <i class="ml-1 material-icons">add_photo_alternate</i>
                             בחר קובץ
@@ -150,7 +150,7 @@
                 @Html.LabelFor(model => model.SocioMod.FileBereavedFam, htmlAttributes: new { @class = "control-label", @for = "" })
                 <div class="row">
                     <div class="chose-file m-3 mt-0">
-                        @Html.TextBoxFor(model => model.SocioMod.FileBereavedFam, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;" })
+                        @Html.TextBoxFor(model => model.SocioMod.FileBereavedFam, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;",@path=Model.SocioMod.PathBereavedFam })
                         <label for="SocioMod_FileBereavedFam">
                             <i class="ml-1 material-icons">add_photo_alternate</i>
                             בחר קובץ
@@ -197,7 +197,7 @@
 
                 <div class="row">
                     <div class="chose-file m-3 mt-0">
-                        @Html.TextBoxFor(model => model.SocioMod.FileMilitaryService, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;" })
+                        @Html.TextBoxFor(model => model.SocioMod.FileMilitaryService, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;",@path=Model.SocioMod.PathMilitaryService })
                         <label for="SocioMod_FileMilitaryService">
                             <i class="ml-1 material-icons">add_photo_alternate</i>
                             בחר קובץ
@@ -230,7 +230,7 @@
 
                 <div class="row">
                     <div class="chose-file m-3 mt-0">
-                        @Html.TextBoxFor(model => model.SocioMod.FileReserveMilitaryService, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;" })
+                        @Html.TextBoxFor(model => model.SocioMod.FileReserveMilitaryService, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;",@path=Model.SocioMod.PathReserveMilitaryService })
                         <label for="SocioMod_FileReserveMilitaryService">
                             <i class="ml-1 material-icons">add_photo_alternate</i>
                             בחר קובץ
@@ -267,7 +267,7 @@
 
                     <div class="row">
                         <div class="chose-file m-3 mt-0">
-                            @Html.TextBoxFor(model => model.SocioMod.FileDisabilityType, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;" })
+                            @Html.TextBoxFor(model => model.SocioMod.FileDisabilityType, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;",@path=Model.SocioMod.PathDisabilityType })
                             <label for="SocioMod_FileDisabilityType">
                                 <i class="ml-1 material-icons">add_photo_alternate</i>
                                 בחר קובץ
@@ -410,7 +410,8 @@
 
     <div class="form-group mt-5">
         <div class="col-md-offset-2 col-md-10">
-            <input type="button" value="הגש מלגה" class="btn btn-success" name="uploadmethod" onclick="return beforeSumbit('socio')" />
+            @*<input type="button" value="הגש מלגה" class="btn btn-success" name="uploadmethod" onclick="return beforeSumbit('socio')" />*@
+            <input type="button" value="הגש מלגה" class="btn btn-success" name="uploadmethod" onclick="return validSocio()" />
             <input type="submit" value="שמור טיוטה" class="btn btn-warning" name="uploadmethod" />
         </div>
     </div>
@@ -604,10 +605,44 @@
             }
         });
 
-        function validSocio() {
-            var ok = checkMust();
-
-            return ok;
+    function validSocio() {
+        var $this, $fileDiv, file, path;
+        var ok = checkMust();
+        /*
+        // דירה בבעלות/משכיר דירה
+        if ($('#SocioMod_Apartment').val()) {
+            $this = $('#SocioMod_FileApartmentLease');
+            $fileDiv = $this.parent();
+            file = $this.val();
+            path = $this.attr('path');
+            if (isEmpty(file) && isEmpty(path)) {
+                $fileDiv.addClass('bg-red');
+                ok = false;
+            }
+            else
+            $fileDiv.removeClass('bg-red');
         }
+
+        // עולה חדש
+        if ($('#SocioMod_Apartment').val()) {
+            $this = $('#SocioMod_FileApartmentLease');
+            $fileDiv = $this.parent();
+            file = $this.val();
+            path = $('#SocioMod_PathApartmentLease').val();
+            if (isEmpty(file) && isEmpty(path)) {
+                $fileDiv.addClass('bg-red');
+                ok = false;
+            }
+            else
+            $fileDiv.removeClass('bg-red');
+        }*/
+        ok = false;
+        return ok;
+    }
+
+    function isEmpty(str) {
+        return str.length <= 0;
+    }
+        
     </script>
 }

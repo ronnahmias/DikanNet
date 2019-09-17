@@ -32,7 +32,7 @@
                 <div class="form-row chose-file-warp">
                     @Html.LabelFor(model => model.FileSalary, htmlAttributes: new { @class = "", @for = "" })
                     <div class="chose-file text-center">
-                        @Html.TextBoxFor(model => model.FileSalary, new { @class = "control-label", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;" })
+                        @Html.TextBoxFor(model => model.FileSalary, new { @class = "control-label", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;",@path=Model.PathSalary })
                         <label for="@Html.IdFor(m => m.FileSalary)">
                             <i class="ml-1 material-icons">add_photo_alternate</i>
                             בחר קובץ
@@ -48,7 +48,7 @@
                 <div class="form-row chose-file-warp">
                     @Html.LabelFor(model => model.FileExpense, htmlAttributes: new { @class = "", @for = "" })
                     <div class="chose-file text-center">
-                        @Html.TextBoxFor(model => model.FileExpense, new { @class = "control-label", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;" })
+                        @Html.TextBoxFor(model => model.FileExpense, new { @class = "control-label", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;",@path=Model.PathExpense })
                         <label for="@Html.IdFor(m => m.FileExpense)">
                             <i class="ml-1 material-icons">add_photo_alternate</i>
                             בחר קובץ

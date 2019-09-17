@@ -36,7 +36,7 @@
             <div class="form-row">
                 @Html.LabelFor(model => model.FileFamId, htmlAttributes: new { @class = "", @for = "" })
                 <div class="chose-file text-center">
-                    @Html.TextBoxFor(model => model.FileFamId, new { @class = "control-label", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;" })
+                    @Html.TextBoxFor(model => model.FileFamId, new { @class = "control-label", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;",@path=Model.PathFmId })
                     <label for="@Html.IdFor(m => m.FileFamId)">
                         <i class="ml-1 material-icons">add_photo_alternate</i>
                         בחר קובץ

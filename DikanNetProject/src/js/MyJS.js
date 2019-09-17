@@ -1,4 +1,4 @@
-﻿/*************
+/*************
 Version: 1.1;
 Last Update: 26/7/19
 
@@ -185,23 +185,40 @@ function checkMust() {
     var ok = true;
     $('.must').each(function () {
         var $this = $(this);
+        var type = $this.attr('type');
         var $singleChosen = $this.parent().find('.chosen-single'); //for chosen drop down.
         $this.removeClass('border-danger');
         $singleChosen.removeClass('border-danger');
         var txt = $this.val();
-        if (txt.length == 0 || txt == null) {
-            ok = false;
-            $this.addClass('border-danger');
-            $singleChosen.addClass('border-danger');
+
+        if (type == "file") {
+            if (!checkMustFile($this))
+                ok = false;
         }
-    })
+        else
+            if (txt.length == 0 || txt == null) {
+                ok = false;
+                $this.addClass('border-danger');
+                $singleChosen.addClass('border-danger');
+            }
+    });
     return ok;
 }
 
-/* The function check that all the must filed are filed */
-function checkDate(date) {
-    var ok = true;
-    var c = date.split('-');
+function checkMustFile($file) {
+    ok = true;
+    $fileDiv = $file.parent();
+    file = $file.val();
+    path = $file.attr('path');
+    if (path == null)
+        path = "";
+    if (file.length <= 0 && path.length <= 0) {
+        $fileDiv.addClass('bg-red');
+        ok = false;
+    }
+    else
+        $fileDiv.removeClass('bg-red');
+    
     return ok;
 }
 
@@ -254,8 +271,4 @@ function dateIsValid(pDate, pMinYear) {
 function validPasswordsAndEmail() {
     var email = $('#Email').val();
     return checkPasswordsValid() && validEmail(email);
-}
-
-function validSocio() {
-
 }
