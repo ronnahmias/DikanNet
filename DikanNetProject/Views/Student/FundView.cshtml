@@ -19,7 +19,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.FileFunding, htmlAttributes: new { @class = "", @for = "" })
                 <div class="chose-file text-center">
-                    @Html.TextBoxFor(model => model.FileFunding, new { @class = "control-label", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;" })
+                    @Html.TextBoxFor(model => model.FileFunding, new { @class = "must control-label", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;",@path=Model.PathFunding })
                     <label for="@Html.IdFor(m => m.FileFunding)">
                         <i class="ml-1 material-icons">add_photo_alternate</i>
                         בחר קובץ

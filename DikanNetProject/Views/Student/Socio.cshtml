@@ -5,7 +5,6 @@
     ViewBag.Title = "סוציואקונומית";
     Layout = "~/Views/Student/_Sp_Layout.cshtml";
 }
-
 <h2>סוציואקונומי</h2>
 
 @using (Html.BeginForm("Socio", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -45,7 +44,7 @@
                 </div>
             </div>
 
-            <div id="ApartmentFile" style="display:@(Model.SocioMod.Apartment ? "" : "none")" class="form-group mx-5">
+            <div id="ApartmentFile" style="display:@(Model.SocioMod.Apartment ? "" : "none")" class="form-group mx-5 box-open">
                 @Html.LabelFor(model => model.SocioMod.FileApartmentLease, "קובץ - דירה", htmlAttributes: new { @class = "control-label", @for = "" })
                 <div class="row">
                     <div class="chose-file m-3 mt-0">
@@ -72,7 +71,7 @@
                     </div>
                 </div>
             </div>
-            <div id="NewComer" style="display:@(Model.SocioMod.Newcomer ? "" : "none")" class="row mx-5">
+            <div id="NewComer" style="display:@(Model.SocioMod.Newcomer ? "" : "none")" class="row mx-5 box-open">
                 <div class="form-group mx-5">
                     @Html.LabelFor(model => model.SocioMod.DateImmigration, htmlAttributes: new { @class = "control-label " })
                     <div class="">
@@ -114,7 +113,7 @@
                 </div>
             </div>
 
-            <div id="SingleParent" style="display:@(Model.SocioMod.SingleParent ? "" : "none")" class="mx-5 form-group">
+            <div id="SingleParent" style="display:@(Model.SocioMod.SingleParent ? "" : "none")" class="mx-5 form-group box-open">
                 @Html.LabelFor(model => model.SocioMod.FileSingleParent, htmlAttributes: new { @class = "control-label ",@for="" })
 
                 <div class="row">
@@ -146,7 +145,7 @@
                 </div>
             </div>
 
-            <div id="BereavedFam" style="display:@(Model.SocioMod.BereavedFam ? "" : "none")" class="mx-5 form-group">
+            <div id="BereavedFam" style="display:@(Model.SocioMod.BereavedFam ? "" : "none")" class="mx-5 form-group box-open">
                 @Html.LabelFor(model => model.SocioMod.FileBereavedFam, htmlAttributes: new { @class = "control-label", @for = "" })
                 <div class="row">
                     <div class="chose-file m-3 mt-0">
@@ -187,233 +186,234 @@
                     <span>@Common.Enums.MilitaryTypes.לאומי</span>
 
                     @Html.RadioButtonFor(model => model.SocioMod.MilitaryService, Common.Enums.MilitaryTypes.אחר)
-                    <span>@Common.Enums.MilitaryTypes.אחר</span>
-                    @Html.ValidationMessageFor(model => model.SocioMod.MilitaryService, "", new { @class = "text-danger" })
-                </div>
-            </div>
+                    <input type="text" value="אחר - " id="otherMili" placeholder="אחר - ">
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.SocioMod.FileMilitaryService, htmlAttributes: new { @class = "control-label",@for="" })
-
-                <div class="row">
-                    <div class="chose-file m-3 mt-0">
-                        @Html.TextBoxFor(model => model.SocioMod.FileMilitaryService, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;",@path=Model.SocioMod.PathMilitaryService })
-                        <label for="SocioMod_FileMilitaryService">
-                            <i class="ml-1 material-icons">add_photo_alternate</i>
-                            בחר קובץ
-                        </label>
-                    </div>
-                </div>
-                @Html.HiddenFor(model => model.SocioMod.PathMilitaryService)
-
-                <div class="">
-                    @Html.TextBoxFor(model => model.SocioMod.FileMilitaryService, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
-                    @Html.ValidationMessageFor(model => model.SocioMod.FileMilitaryService, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-        </div>
-
-        <div class=" row">
-            <div class="form-group">
-                @Html.LabelFor(model => model.SocioMod.ReserveMilitaryService, htmlAttributes: new { @class = "control-label" })
-                <div class="">
-                    <div class="checkbox">
-                        @Html.EditorFor(model => model.SocioMod.ReserveMilitaryService, new { htmlAttributes = new { onchange = "showHidenPortion(this.checked,'ReserveMilitary')" } })
-                        @Html.ValidationMessageFor(model => model.SocioMod.ReserveMilitaryService, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
-
-            <div id="ReserveMilitary" style="display:@(Model.SocioMod.ReserveMilitaryService ? "" : "none")" class="mx-5 form-group">
-                @Html.LabelFor(model => model.SocioMod.FileReserveMilitaryService, htmlAttributes: new { @class = "control-label",@for="" })
-
-                <div class="row">
-                    <div class="chose-file m-3 mt-0">
-                        @Html.TextBoxFor(model => model.SocioMod.FileReserveMilitaryService, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;",@path=Model.SocioMod.PathReserveMilitaryService })
-                        <label for="SocioMod_FileReserveMilitaryService">
-                            <i class="ml-1 material-icons">add_photo_alternate</i>
-                            בחר קובץ
-                        </label>
-                    </div>
-                </div>
-                @Html.HiddenFor(model => model.SocioMod.PathReserveMilitaryService)
-
-                <div class="">
-                    @Html.TextBoxFor(model => model.SocioMod.FileReserveMilitaryService, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
-                    @Html.ValidationMessageFor(model => model.SocioMod.FileReserveMilitaryService, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="form-group">
-                <span>נכות?</span>
-                <div>
-                    <input type="checkbox" onchange="showHidenPortion(this.checked,'DisabilityType')" />
-                </div>
-            </div>
-            <div id="DisabilityType" style="display:@(Model.SocioMod.DisabilityType.IsEmpty() ? "none" : "")" class="row mx-5">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.SocioMod.DisabilityType, htmlAttributes: new { @class = "control-label" })
-                    <div class="">
-                        @Html.EditorFor(model => model.SocioMod.DisabilityType, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.SocioMod.DisabilityType, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.SocioMod.MilitaryService, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group mx-5">
-                    @Html.LabelFor(model => model.SocioMod.FileDisabilityType, htmlAttributes: new { @class = "control-label",@for="" })
+                    @Html.LabelFor(model => model.SocioMod.FileMilitaryService, htmlAttributes: new { @class = "control-label",@for="" })
 
                     <div class="row">
                         <div class="chose-file m-3 mt-0">
-                            @Html.TextBoxFor(model => model.SocioMod.FileDisabilityType, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;",@path=Model.SocioMod.PathDisabilityType })
-                            <label for="SocioMod_FileDisabilityType">
+                            @Html.TextBoxFor(model => model.SocioMod.FileMilitaryService, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;",@path=Model.SocioMod.PathMilitaryService })
+                            <label for="SocioMod_FileMilitaryService">
                                 <i class="ml-1 material-icons">add_photo_alternate</i>
                                 בחר קובץ
                             </label>
                         </div>
                     </div>
-                    @Html.HiddenFor(model => model.SocioMod.PathDisabilityType)
+                    @Html.HiddenFor(model => model.SocioMod.PathMilitaryService)
 
                     <div class="">
-                        @Html.TextBoxFor(model => model.SocioMod.FileDisabilityType, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
-                        @Html.ValidationMessageFor(model => model.SocioMod.FileDisabilityType, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(model => model.SocioMod.FileMilitaryService, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
+                        @Html.ValidationMessageFor(model => model.SocioMod.FileMilitaryService, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            </div>
+
+            <div class=" row">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SocioMod.ReserveMilitaryService, htmlAttributes: new { @class = "control-label" })
+                    <div class="">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.SocioMod.ReserveMilitaryService, new { htmlAttributes = new { onchange = "showHidenPortion(this.checked,'ReserveMilitary')" } })
+                            @Html.ValidationMessageFor(model => model.SocioMod.ReserveMilitaryService, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div id="ReserveMilitary" style="display:@(Model.SocioMod.ReserveMilitaryService ? "" : "none")" class="mx-5 form-group box-open">
+                    @Html.LabelFor(model => model.SocioMod.FileReserveMilitaryService, htmlAttributes: new { @class = "control-label",@for="" })
+
+                    <div class="row">
+                        <div class="chose-file m-3 mt-0">
+                            @Html.TextBoxFor(model => model.SocioMod.FileReserveMilitaryService, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;",@path=Model.SocioMod.PathReserveMilitaryService })
+                            <label for="SocioMod_FileReserveMilitaryService">
+                                <i class="ml-1 material-icons">add_photo_alternate</i>
+                                בחר קובץ
+                            </label>
+                        </div>
+                    </div>
+                    @Html.HiddenFor(model => model.SocioMod.PathReserveMilitaryService)
+
+                    <div class="">
+                        @Html.TextBoxFor(model => model.SocioMod.FileReserveMilitaryService, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
+                        @Html.ValidationMessageFor(model => model.SocioMod.FileReserveMilitaryService, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
 
+            <div class="row">
+                <div class="form-group">
+                    <span>נכות?</span>
+                    <div>
+                        <input type="checkbox" onchange="showHidenPortion(this.checked,'DisabilityType')" />
+                    </div>
+                </div>
+                <div id="DisabilityType" style="display:@(Model.SocioMod.DisabilityType.IsEmpty() ? "none" : "")" class="row mx-5 box-open">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SocioMod.DisabilityType, htmlAttributes: new { @class = "control-label" })
+                        <div class="">
+                            @Html.EditorFor(model => model.SocioMod.DisabilityType, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.SocioMod.DisabilityType, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group mx-5">
+                        @Html.LabelFor(model => model.SocioMod.FileDisabilityType, htmlAttributes: new { @class = "control-label",@for="" })
+
+                        <div class="row">
+                            <div class="chose-file m-3 mt-0">
+                                @Html.TextBoxFor(model => model.SocioMod.FileDisabilityType, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;",@path=Model.SocioMod.PathDisabilityType })
+                                <label for="SocioMod_FileDisabilityType">
+                                    <i class="ml-1 material-icons">add_photo_alternate</i>
+                                    בחר קובץ
+                                </label>
+                            </div>
+                        </div>
+                        @Html.HiddenFor(model => model.SocioMod.PathDisabilityType)
+
+                        <div class="">
+                            @Html.TextBoxFor(model => model.SocioMod.FileDisabilityType, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
+                            @Html.ValidationMessageFor(model => model.SocioMod.FileDisabilityType, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            @Html.HiddenFor(model => model.MatrialStatus)
+
         </div>
-        @Html.HiddenFor(model => model.MatrialStatus)
+        <!-- #endregion -->
+        <!-- #region Funding -->
+        <button type="button" class="btn btn-primary col-12 my-2" data-toggle="collapse" data-target="#FundingWarpper">מימון נוסף</button>
 
-    </div>
-    <!-- #endregion -->
-    <!-- #region Funding -->
-    <button type="button" class="btn btn-primary col-12 my-2" data-toggle="collapse" data-target="#FundingWarpper">מימון נוסף</button>
-
-    <div id="FundingWarpper" class="collapse p-3">
-        <div class="row form-group">
-            @Html.LabelFor(model => model.SocioMod.HasFunding, htmlAttributes: new { @class = "control-label" })
-            <div class="">
-                <div class="checkbox mx-3">
-                    @Html.EditorFor(model => model.SocioMod.HasFunding, new { htmlAttributes = new { onchange = "showHidenPortion(this.checked,'Funding')" } })
-                    @Html.ValidationMessageFor(model => model.SocioMod.HasFunding, "", new { @class = "text-danger" })
+        <div id="FundingWarpper" class="collapse p-3">
+            <div class="row form-group">
+                @Html.LabelFor(model => model.SocioMod.HasFunding, htmlAttributes: new { @class = "control-label" })
+                <div class="">
+                    <div class="checkbox mx-3">
+                        @Html.EditorFor(model => model.SocioMod.HasFunding, new { htmlAttributes = new { onchange = "showHidenPortion(this.checked,'Funding')" } })
+                        @Html.ValidationMessageFor(model => model.SocioMod.HasFunding, "", new { @class = "text-danger" })
+                    </div>
                 </div>
             </div>
+            <div id="Funding" style="display:@(Model.SocioMod.HasFunding ? "" : "none")">
+                @foreach (var fund in Model.ListFundings)
+                {
+                    @Html.Partial("FundView", fund)
+                }
+                <button class="funds btn btn-outline-success" id="addFund" type="button" style="font-size:50px;">+</button>
+            </div>
         </div>
-        <div id="Funding" style="display:@(Model.SocioMod.HasFunding ? "" : "none")">
-            @foreach (var fund in Model.ListFundings)
-            {
-                @Html.Partial("FundView", fund)
-            }
-            <button class="funds btn btn-outline-success" id="addFund" type="button" style="font-size:50px;">+</button>
-        </div>
-    </div>
 
-    <!-- #endregion -->
-    <!-- #region Car Student -->
-    <button type="button" class="btn btn-primary col-12 my-2" data-toggle="collapse" data-target="#CarWarpper">רכבים</button>
+        <!-- #endregion -->
+        <!-- #region Car Student -->
+        <button type="button" class="btn btn-primary col-12 my-2" data-toggle="collapse" data-target="#CarWarpper">רכבים</button>
 
-    <div id="CarWarpper" class="collapse p-3">
-        <div class="form-group row">
-            @Html.LabelFor(model => model.SocioMod.CarOwner, htmlAttributes: new { @class = "control-label" })
-            <div class="">
-                <div class="checkbox mx-3">
-                    @Html.EditorFor(model => model.SocioMod.CarOwner, new { htmlAttributes = new { onchange = "showHidenPortion(this.checked,'cardiv')" } })
-                    @Html.ValidationMessageFor(model => model.SocioMod.CarOwner, "", new { @class = "text-danger" })
+        <div id="CarWarpper" class="collapse p-3">
+            <div class="form-group row">
+                @Html.LabelFor(model => model.SocioMod.CarOwner, htmlAttributes: new { @class = "control-label" })
+                <div class="">
+                    <div class="checkbox mx-3">
+                        @Html.EditorFor(model => model.SocioMod.CarOwner, new { htmlAttributes = new { onchange = "showHidenPortion(this.checked,'cardiv')" } })
+                        @Html.ValidationMessageFor(model => model.SocioMod.CarOwner, "", new { @class = "text-danger" })
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div id="cardiv" style="display:@(Model.SocioMod.CarOwner ? "" : "none")">
-            @foreach (var car in Model.ListCarStudent)
-            {
-                @Html.Partial("CarsView", car)
-            }
-            <button class="cars btn btn-outline-success" id="addCar" type="button">+</button>
+            <div id="cardiv" style="display:@(Model.SocioMod.CarOwner ? "" : "none")">
+                @foreach (var car in Model.ListCarStudent)
+                {
+                    @Html.Partial("CarsView", car)
+                }
+                <button class="cars btn btn-outline-success" id="addCar" type="button">+</button>
 
-        </div>
-    </div>
-    <!-- #endregion -->
-    <!-- #region Student Finance -->
-    <button type="button" class="btn btn-primary col-12 my-2" data-toggle="collapse" data-target="#StudentFinanceWarpper">הכנסות סטודנט</button>
-
-    <div id="StudentFinanceWarpper" class="collapse p-3">
-        <h4>הכנסות</h4>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.SocioMod.WorkSt, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.שכיר , htmlAttributes: new { @data_target="#Studfindiv",@class="workset" })
-                <span>@Common.Enums.WorkingStatus.שכיר</span>
-
-                @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.עצמאי , htmlAttributes: new { @data_target="#Studfindiv",@class="workset" })
-                <span>@Common.Enums.WorkingStatus.עצמאי</span>
-
-                @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.חבר_קיבוץ , htmlAttributes: new { @data_target="#Studfindiv",@class="workset" })
-                <span>@Common.Enums.WorkingStatus.חבר_קיבוץ</span>
-
-                @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.לא_עובד , htmlAttributes: new { @data_target="#Studfindiv",@class="workset" })
-                <span>@Common.Enums.WorkingStatus.לא_עובד</span>
-
-                @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.פנסיונר , htmlAttributes: new { @data_target="#Studfindiv",@class="workset" })
-                <span>@Common.Enums.WorkingStatus.פנסיונר</span>
-
-                @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.נכה , htmlAttributes: new { @data_target="#Studfindiv",@class="workset" })
-                <span>@Common.Enums.WorkingStatus.נכה</span>
-
-                @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.אחר , htmlAttributes: new { @data_target="#Studfindiv",@class="workset" })
-                <span>@Common.Enums.WorkingStatus.אחר</span>
-
-                @Html.ValidationMessageFor(model => model.SocioMod.WorkSt, "", new { @class = "text-danger" })
             </div>
         </div>
+        <!-- #endregion -->
+        <!-- #region Student Finance -->
+        <button type="button" class="btn btn-primary col-12 my-2" data-toggle="collapse" data-target="#StudentFinanceWarpper">הכנסות סטודנט</button>
 
-        <div id="Studfindiv">
-            @foreach (var StudFin in Model.ListStudentFinances)
+        <div id="StudentFinanceWarpper" class="collapse p-3">
+            <h4>הכנסות</h4>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.SocioMod.WorkSt, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.שכיר , htmlAttributes: new { @data_target="#Studfindiv",@class="workset" })
+                    <span>@Common.Enums.WorkingStatus.שכיר</span>
+
+                    @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.עצמאי , htmlAttributes: new { @data_target="#Studfindiv",@class="workset" })
+                    <span>@Common.Enums.WorkingStatus.עצמאי</span>
+
+                    @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.חבר_קיבוץ , htmlAttributes: new { @data_target="#Studfindiv",@class="workset" })
+                    <span>@Common.Enums.WorkingStatus.חבר_קיבוץ</span>
+
+                    @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.לא_עובד , htmlAttributes: new { @data_target="#Studfindiv",@class="workset" })
+                    <span>@Common.Enums.WorkingStatus.לא_עובד</span>
+
+                    @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.פנסיונר , htmlAttributes: new { @data_target="#Studfindiv",@class="workset" })
+                    <span>@Common.Enums.WorkingStatus.פנסיונר</span>
+
+                    @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.נכה , htmlAttributes: new { @data_target="#Studfindiv",@class="workset" })
+                    <span>@Common.Enums.WorkingStatus.נכה</span>
+
+                    @Html.RadioButtonFor(model => model.SocioMod.WorkSt, Common.Enums.WorkingStatus.אחר , htmlAttributes: new { @data_target="#Studfindiv",@class="workset" })
+                    <span>@Common.Enums.WorkingStatus.אחר</span>
+
+                    @Html.ValidationMessageFor(model => model.SocioMod.WorkSt, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div id="Studfindiv">
+                @foreach (var StudFin in Model.ListStudentFinances)
+                {
+                    @Html.Partial("StudFinView", StudFin)
+                }
+            </div>
+        </div>
+        <!-- #endregion -->
+        <!-- #region Family Member Finance -->
+
+        <button type="button" class="btn btn-primary col-12 my-2" data-toggle="collapse" data-target="#FamilyFinanceWarpper">הכנסות בן-בת זוג / הורים</button>
+
+        <div id="FamilyFinanceWarpper" class="collapse p-3">
+            <h4>הכנסות בן-בת זוג / הורים</h4>
+            <!--table of family member with finance-->
+            @foreach (var FamFin in Model.ListFamMemFin.ToList())
             {
-                @Html.Partial("StudFinView", StudFin)
+                @Html.Partial("FamMemView", FamFin)
             }
         </div>
-    </div>
-    <!-- #endregion -->
-    <!-- #region Family Member Finance -->
 
-    <button type="button" class="btn btn-primary col-12 my-2" data-toggle="collapse" data-target="#FamilyFinanceWarpper">הכנסות בן-בת זוג / הורים</button>
+        <!-- #endregion -->
+        <!-- #region Family Member -->
 
-    <div id="FamilyFinanceWarpper" class="collapse p-3">
-        <h4>הכנסות בן-בת זוג / הורים</h4>
-        <!--table of family member with finance-->
-        @foreach (var FamFin in Model.ListFamMemFin.ToList())
-        {
-            @Html.Partial("FamMemView", FamFin)
-        }
-    </div>
+        <button type="button" class="btn btn-primary col-12 my-2" data-toggle="collapse" data-target="#FamMemWarpper">בני משפחה</button>
 
-    <!-- #endregion -->
-    <!-- #region Family Member -->
-
-    <button type="button" class="btn btn-primary col-12 my-2" data-toggle="collapse" data-target="#FamMemWarpper">בני משפחה</button>
-
-    <div id="FamMemWarpper" class="collapse p-3">
-        <h4>בני משפחה</h4>
-        <div id="FamMemdiv">
-            <!--table of family member-->
-            @foreach (var Fam in Model.ListFamMem.ToList())
-            {
-                @Html.Partial("FamilyView", Fam)
-            }
-            <button class="btn btn-outline-success fam" id="addFamMem" type="button">+</button>
+        <div id="FamMemWarpper" class="collapse p-3">
+            <h4>בני משפחה</h4>
+            <div id="FamMemdiv">
+                <!--table of family member-->
+                @foreach (var Fam in Model.ListFamMem.ToList())
+                {
+                    @Html.Partial("FamilyView", Fam)
+                }
+                <button class="btn btn-outline-success fam" id="addFamMem" type="button">+</button>
+            </div>
         </div>
-    </div>
-    <!-- #endregion -->
+        <!-- #endregion -->
 
-    <div class="form-group mt-5">
-        <div class="col-md-offset-2 col-md-10">
-            @*<input type="button" value="הגש מלגה" class="btn btn-success" name="uploadmethod" onclick="return beforeSumbit('socio')" />*@
-            <input type="button" value="הגש מלגה" class="btn btn-success" name="uploadmethod" onclick="return validSocio()" />
-            <input type="submit" value="שמור טיוטה" class="btn btn-warning" name="uploadmethod" />
-        </div>
+        <div class="form-group mt-5">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="הגש מלגה" class="btn btn-success" name="uploadmethod" onclick="return beforeSumbit('socio')" />
+                @*<input type="button" value="הגש מלגה" class="btn btn-success" name="uploadmethod" onclick="return validSocio()" />*@
+                <input type="submit" value="שמור טיוטה" class="btn btn-warning" name="uploadmethod" />
+            </div>
     </div>
 </div>
 }
@@ -429,6 +429,33 @@
         var carsdiv = $('#cardiv .cars'); // cars div inside all pratial rows
         var funddiv = $('#Funding .funds'); // fund div inside all pratial rows
         var fammemdiv = $('#FamMemdiv .fam'); // family member div inside all pratial rows
+
+    $(document).ready(function(){
+        //if box open is children elment need must class
+        $('.box-open').each(function () {
+            var $this = $(this);
+            //console.log($this);
+            if ($this.css('display') != 'none') {
+                $this.find(':input').each(function () {
+                    $(this).addClass('must');
+                });
+
+            }
+        });
+    });
+
+    $('#otherMili').on('change', function () {
+        /* אנחנו פונים לאחרון שבקבוצה כי הוא האחר ומשנים לו את הערך כי זה מה שנשלח לשרת
+         * אני בודק שהמילה 'אחר' נמצאת אם לא אני אוסיף אותה
+         */
+        var e = $(this);
+        var $input = $('input[name="SocioMod.MilitaryService"]').last();
+        $input.prop('checked', true);
+        if(!e.val().includes('אחר '))
+            e.val('אחר - ' + e.val());
+        $input.val(e.val());
+    });
+
 
         $('#addCar').click(function() {
             $.get(carviewurl, function(response) {
@@ -606,43 +633,10 @@
         });
 
     function validSocio() {
-        var $this, $fileDiv, file, path;
         var ok = checkMust();
-        /*
-        // דירה בבעלות/משכיר דירה
-        if ($('#SocioMod_Apartment').val()) {
-            $this = $('#SocioMod_FileApartmentLease');
-            $fileDiv = $this.parent();
-            file = $this.val();
-            path = $this.attr('path');
-            if (isEmpty(file) && isEmpty(path)) {
-                $fileDiv.addClass('bg-red');
-                ok = false;
-            }
-            else
-            $fileDiv.removeClass('bg-red');
-        }
-
-        // עולה חדש
-        if ($('#SocioMod_Apartment').val()) {
-            $this = $('#SocioMod_FileApartmentLease');
-            $fileDiv = $this.parent();
-            file = $this.val();
-            path = $('#SocioMod_PathApartmentLease').val();
-            if (isEmpty(file) && isEmpty(path)) {
-                $fileDiv.addClass('bg-red');
-                ok = false;
-            }
-            else
-            $fileDiv.removeClass('bg-red');
-        }*/
         ok = false;
         return ok;
     }
 
-    function isEmpty(str) {
-        return str.length <= 0;
-    }
-        
     </script>
 }
