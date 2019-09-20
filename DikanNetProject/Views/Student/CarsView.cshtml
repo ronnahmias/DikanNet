@@ -5,19 +5,19 @@
         @using (Html.BeginCollectionItem("ListCarStudent"))
         {
             <div class="form-row">
-                @Html.EditorFor(model => model.CarNumber, new { htmlAttributes = new { @class = "control-label id", @placeholder = "." } })
+                @Html.EditorFor(model => model.CarNumber, new { htmlAttributes = new { @class = "control-label id must", @placeholder = "." } })
                 @Html.LabelFor(model => model.CarNumber, htmlAttributes: new { @class = "title" })
             </div>
             <div class="form-row">
-                @Html.EditorFor(model => model.CarCompany, new { htmlAttributes = new { @class = "control-label", @placeholder = "." } })
+                @Html.EditorFor(model => model.CarCompany, new { htmlAttributes = new { @class = "control-label must", @placeholder = "." } })
                 @Html.LabelFor(model => model.CarCompany, htmlAttributes: new { @class = "title" })
             </div>
             <div class="form-row">
-                @Html.EditorFor(model => model.CarModel, new { htmlAttributes = new { @class = "control-label", @placeholder = "." } })
+                @Html.EditorFor(model => model.CarModel, new { htmlAttributes = new { @class = "control-label must", @placeholder = "." } })
                 @Html.LabelFor(model => model.CarModel, htmlAttributes: new { @class = "title" })
             </div>
             <div class="text-center">
-                @Html.DropDownListFor(model => model.CarYear, ViewBag.YearsList as SelectList, "", htmlAttributes: new { @class = "control-label chosen", @data_placeholder = "שנת ייצור" })
+                @Html.DropDownListFor(model => model.CarYear, ViewBag.YearsList as SelectList, "", htmlAttributes: new { @class = "control-label chosen must", @data_placeholder = "שנת ייצור" })
             </div>
             <div class="form-row">
                 @Html.EditorFor(model => model.CarComment, new { htmlAttributes = new { @class = "control-label", @placeholder = "." } })
@@ -27,7 +27,7 @@
             <div class="form-row">
                 @Html.LabelFor(model => model.FileCarLicense, htmlAttributes: new { @class = "", @for = "" })
                 <div class="chose-file text-center">
-                    @Html.TextBoxFor(model => model.FileCarLicense, new { @class = "control-label", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;" })
+                    @Html.TextBoxFor(model => model.FileCarLicense, new { @class = "must control-label", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;",@path= Model.PathCarLicense })
                     <label for="@Html.IdFor(m => m.FileCarLicense)">
                         <i class="ml-1 material-icons">add_photo_alternate</i>
                         בחר קובץ

@@ -13,6 +13,9 @@ textarea, input {
   border-radius: 10px !important;
   outline: none; }
 
+.bg-red {
+  background-color: red !important; }
+
 div.chose-file {
   color: white;
   height: 60px;
@@ -97,6 +100,10 @@ div#reqStatuses > div:nth-child(odd) {
   max-width: 100%; }
 
 /*Socio*/
+#otherMili {
+  background-color: transparent;
+  border: none; }
+
 div#FamFinDet {
   margin-bottom: 50px; }
 

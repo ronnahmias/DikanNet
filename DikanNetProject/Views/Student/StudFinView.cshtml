@@ -9,8 +9,8 @@
             </div>
 
             <div class="text-center">
-                @Html.DropDownListFor(model => model.Year, ViewBag.YearsList as SelectList, "", htmlAttributes: new { @class = "control-label chosen", @data_placeholder = "שנה" })
-                @Html.DropDownListFor(model => model.Month, ViewBag.MonthsList as SelectList, "", htmlAttributes: new { @class = "control-label chosen", @data_placeholder = "חודש" })
+                @Html.DropDownListFor(model => model.Year, ViewBag.YearsList as SelectList, "", htmlAttributes: new { @class = "must control-label chosen", @data_placeholder = "שנה" })
+                @Html.DropDownListFor(model => model.Month, ViewBag.MonthsList as SelectList, "", htmlAttributes: new { @class = "must control-label chosen", @data_placeholder = "חודש" })
 
             </div>
             <div class="text-center">
@@ -18,12 +18,12 @@
             </div>
             <div class="half-row mb-5">
                 <div class="form-row">
-                    @Html.EditorFor(model => model.Salary, new { htmlAttributes = new { @class = "control-label" } })
+                    @Html.EditorFor(model => model.Salary, new { htmlAttributes = new { @class = "must control-label" } })
                     @Html.LabelFor(model => model.Salary, htmlAttributes: new { @class = "title" })
 
                 </div>
                 <div class="form-row">
-                    @Html.EditorFor(model => model.Expense, new { htmlAttributes = new { @class = "control-label " } })
+                    @Html.EditorFor(model => model.Expense, new { htmlAttributes = new { @class = "must control-label " } })
                     @Html.LabelFor(model => model.Expense, htmlAttributes: new { @class = "title" })
 
                 </div>
@@ -32,7 +32,7 @@
                 <div class="form-row chose-file-warp">
                     @Html.LabelFor(model => model.FileSalary, htmlAttributes: new { @class = "", @for = "" })
                     <div class="chose-file text-center">
-                        @Html.TextBoxFor(model => model.FileSalary, new { @class = "control-label", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;" })
+                        @Html.TextBoxFor(model => model.FileSalary, new { @class = "must control-label", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;",@path=Model.PathSalary })
                         <label for="@Html.IdFor(m => m.FileSalary)">
                             <i class="ml-1 material-icons">add_photo_alternate</i>
                             בחר קובץ
@@ -48,7 +48,7 @@
                 <div class="form-row chose-file-warp">
                     @Html.LabelFor(model => model.FileExpense, htmlAttributes: new { @class = "", @for = "" })
                     <div class="chose-file text-center">
-                        @Html.TextBoxFor(model => model.FileExpense, new { @class = "control-label", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;" })
+                        @Html.TextBoxFor(model => model.FileExpense, new { @class = "must control-label", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;",@path=Model.PathExpense })
                         <label for="@Html.IdFor(m => m.FileExpense)">
                             <i class="ml-1 material-icons">add_photo_alternate</i>
                             בחר קובץ

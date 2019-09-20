@@ -6,37 +6,37 @@
         @using (Html.BeginCollectionItem("ListFamMem"))
         {
         <div class="form-row">
-            @Html.EditorFor(model => model.FamilyMemberId, new { htmlAttributes = new { @class = "control-label id", @placeholder = "." } })
+            @Html.EditorFor(model => model.FamilyMemberId, new { htmlAttributes = new { @class = "control-label id must", @placeholder = "." } })
             @Html.LabelFor(model => model.FamilyMemberId, htmlAttributes: new { @class = "title" })
             @Html.ValidationMessageFor(model => model.FamilyMemberId, "", new { @class = "control-label" })
 
         </div>
             <div class="form-row">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "control-label", @placeholder = "."} })
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "control-label must", @placeholder = "."} })
                 @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "title" })
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "control-label" })
 
             </div>
             <div class="form-row">
-                @Html.EditorFor(model => model.BirthDay, new { htmlAttributes = new { @class = "control-label" } })
+                @Html.EditorFor(model => model.BirthDay, new { htmlAttributes = new { @class = "control-label datepicker only-numbers must", @data_toggle = "datepicker" } })
                 @Html.LabelFor(model => model.BirthDay, htmlAttributes: new { @class = "title" })
                 @Html.ValidationMessageFor(model => model.BirthDay, "", new { @class = "control-label" })
 
             </div>
             <div class="from-row">
-                @Html.DropDownListFor(model => model.Realationship, new SelectList(Enum.GetValues(typeof(Enums.Realationship)), null, new List<Enums.Realationship> { Enums.Realationship.אב, Enums.Realationship.אם, Enums.Realationship.בעל, Enums.Realationship.אישה }), "", new { @class = "control-label chosen", @data_placeholder = "סוג קרבה" })
+                @Html.DropDownListFor(model => model.Realationship, new SelectList(Enum.GetValues(typeof(Enums.Realationship)), null, new List<Enums.Realationship> { Enums.Realationship.אב, Enums.Realationship.אם, Enums.Realationship.בעל, Enums.Realationship.אישה }), "", new { @class = "control-label must chosen", @data_placeholder = "סוג קרבה" })
                 @Html.ValidationMessageFor(model => model.Realationship, "", new { @class = "control-label" })
 
             </div>
             <div class="form-row">
-                @Html.DropDownListFor(model => model.Gender, new SelectList(Enum.GetValues(typeof(Enums.Genders))), "", new { @class = "control-label chosen", @data_placeholder = "מגדר" })
+                @Html.DropDownListFor(model => model.Gender, new SelectList(Enum.GetValues(typeof(Enums.Genders))), "", new { @class = "control-label must chosen", @data_placeholder = "מגדר" })
                 @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "control-label" })
 
             </div>
             <div class="form-row">
                 @Html.LabelFor(model => model.FileFamId, htmlAttributes: new { @class = "", @for = "" })
                 <div class="chose-file text-center">
-                    @Html.TextBoxFor(model => model.FileFamId, new { @class = "control-label", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;" })
+                    @Html.TextBoxFor(model => model.FileFamId, new { @class = "must control-label", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;",@path=Model.PathFmId })
                     <label for="@Html.IdFor(m => m.FileFamId)">
                         <i class="ml-1 material-icons">add_photo_alternate</i>
                         בחר קובץ
