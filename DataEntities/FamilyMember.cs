@@ -26,9 +26,9 @@ namespace DataEntities
         [Display(Name ="סוג קרבה")]
         public string Realationship { get; set; }
 
-        [Display(Name = "תאריך לידה"),
-        DataType(DataType.Date),
-        DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Display(Name = "תאריך לידה")]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true, ConvertEmptyStringToNull = true)]
         public DateTime? BirthDay { get; set; }
 
         [Display(Name = "סוג עבודה")]

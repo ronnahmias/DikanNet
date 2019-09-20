@@ -526,19 +526,22 @@ namespace DikanNetProject.Controllers
         public ActionResult Socio(SocioAdd socio, string uploadmethod) // submit  new socio scholarship
         {
             ViewBag.ResOk = "False";
+            if (socio.ListCarStudent == null) socio.ListCarStudent = new List<CarStudent>(); // if there is no rows in car student list
+            if (socio.ListFundings == null) socio.ListFundings = new List<Funding>(); // if there is no rows in fundings list
+            if (socio.ListFamMemFin == null) socio.ListFamMemFin = new List<FamilyMember>(); // if there is no rows in family member finance list
+            if (socio.ListStudentFinances == null) socio.ListStudentFinances = new List<StudentFinance>(); // if there is no rows in finance list
+            if (socio.ListFamMem == null) socio.ListFamMem = new List<FamilyMember>(); // if there is no rows in family list
 
-            if (!socioIsValid(socio))
+            ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
+            ViewBag.MonthsList = new SelectList(MonthsSelectList(), null, "Text"); // to show months list in drop down
+
+            if (uploadmethod.Equals("submit")) // if submit socio
             {
-                if (socio.ListCarStudent == null) socio.ListCarStudent = new List<CarStudent>(); // if there is no rows in car student list
-                if (socio.ListFundings == null) socio.ListFundings = new List<Funding>(); // if there is no rows in fundings list
-                if (socio.ListFamMemFin == null) socio.ListFamMemFin = new List<FamilyMember>(); // if there is no rows in family member finance list
-                if (socio.ListStudentFinances == null) socio.ListStudentFinances = new List<StudentFinance>(); // if there is no rows in finance list
-                if (socio.ListFamMem == null) socio.ListFamMem = new List<FamilyMember>(); // if there is no rows in family list
-
-                ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
-                ViewBag.MonthsList = new SelectList(MonthsSelectList(), null, "Text"); // to show months list in drop down
-                ViewBag.ResOk = "Error";
-                return View(socio);
+                if (!socioIsValid(socio)) // validation to all socio model
+                {
+                    ViewBag.ResOk = "Error";
+                    return View(socio);
+                }
             }
             
             if (socio.SocioMod.CarOwner && socio.ListCarStudent != null)
@@ -557,6 +560,7 @@ namespace DikanNetProject.Controllers
             socio.SocioMod = SaveSocioModel(socio.SocioMod); // Save Socio model
             ViewBag.ResOk = "True";
             ViewBag.Response = "הטיוטא נשמרה בהצלחה!";
+
             if (uploadmethod.Equals("submit")) // if there is submit the sp and not a draft
             {
                 using (DikanDbContext ctx = new DikanDbContext())
@@ -1087,6 +1091,8 @@ namespace DikanNetProject.Controllers
 
                 foreach (var mem in ClientList)
                 {
+                    if (mem.FamilyMemberId == null) // if there is no id dont save even if draft
+                        continue;
                     /*Start finance*/
                     dbFamFinance = ctx.FamilyStudentFinances.Where(s => s.FamilyMemberId == mem.FamilyMemberId && s.SpId == SpId).ToList();
                     foreach (var finDb in dbFamFinance)
