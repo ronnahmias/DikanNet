@@ -17,8 +17,9 @@ namespace DikanNetProject.Controllers
             if (string.IsNullOrEmpty(pFilePath)) return null;
             string path = Path.Combine(Server.MapPath("~/App_Data/UsersFiles/"), User.Identity.Name, pFilePath); // path of the file
             string contentType = MimeMapping.GetMimeMapping(path); // type of file
-            FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
-            return File(fs, contentType); // return the file
+            //FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+            byte[] filedata = System.IO.File.ReadAllBytes(path);
+            return File(filedata, contentType); // return the file
         }
     }
 }
