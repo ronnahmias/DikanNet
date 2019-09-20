@@ -96,6 +96,9 @@ namespace DataEntities
         [Display(Name ="סטטוס עבודה")]
         public string WorkSt { get; set; }
 
+        [Display(Name = "הערות נוספות")]
+        public string Comments { get; set; }
+
 
 
 
