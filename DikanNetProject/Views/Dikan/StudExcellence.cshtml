@@ -5,9 +5,9 @@
     Layout = "~/Views/Dikan/_Layout.cshtml";
 }
 
-<h2>@Html.DisplayFor(model => model.Student.FirstName) @Html.DisplayFor(model => model.Student.LastName)</h2>
+    <h2>@Html.DisplayFor(model => model.Student.FirstName) @Html.DisplayFor(model => model.Student.LastName) - @Html.DisplayFor(model => model.Student.StudentId)</h2>
 
-<div>
+<div class="w-75 mx-auto">
     <h4>מלגת @Html.DisplayFor(model => model.ScholarshipDefinition.Type)</h4>
     <hr />
     <dl class="dl-horizontal">
@@ -81,8 +81,9 @@
     @Html.DropDownListFor(model => model.Statuss,
         new SelectList(Enum.GetValues(typeof(Common.Enums.Status))), "", new
         { @class = "form-control chosen", @data_placeholder = "בחר סטטוס", @id = "new-status" })
+
+    <br /><br />
     <button class="btn btn-success" id="update-status">עדכן סטטוס</button>
-    <br />
     @Html.ActionLink("חזרה לטבלה", "SubmitedSp", new { spId = Model.ScholarshipId, spType = Model.ScholarshipDefinition.Type }, new { @class = "btn btn-danger" })
 </div>
 

@@ -14,7 +14,7 @@
         .Build(columns =>
         {
             columns.Add().Titled("#");
-            columns.Add(model => "<a href='#' title='Header' data-toggle='popover' data-placement='top' data-content="+ model.StudentId +">" + model.Student.FirstName + " " + model.Student.LastName + "</a>").Titled(Html.DisplayNameFor(s => s.Student.StudentRow)).Encoded(false);
+            columns.Add(model => "<a href='#' data-toggle='popover' data-placement='top' title='top' data-content="+ model.StudentId +">" + model.Student.FirstName + " " + model.Student.LastName + "</a>").Titled(Html.DisplayNameFor(s => s.Student.StudentRow)).Encoded(false);
             columns.Add(model => model.SchoolYear).Titled(Html.DisplayNameFor(s => s.SchoolYear));
             columns.Add(model => model.WorkPlace).Titled(Html.DisplayNameFor(s => s.WorkPlace));
             columns.Add(model => model.Statuss).Titled(Html.DisplayNameFor(s => s.Statuss));
@@ -38,10 +38,6 @@
 @section scripts
 {
     <script>
-    $(document).ready(function () {
-        $('[data-toggle="popover"]').popover();
-    });
-
 
 
     MvcGrid.prototype.lang = {
