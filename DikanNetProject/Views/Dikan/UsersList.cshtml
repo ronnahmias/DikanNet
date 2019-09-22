@@ -13,7 +13,8 @@
 </div>
 
 <div>
-    <span id="user-mail"></span>
+    <input type="email" id="user-mail" class="w-75 px-3 py-1">
+    <button id="save-mail" type="button" class="btn btn-success">עדכן</button>
 </div>
 
 <h2>רשימת משתמשים נוספים במערכת</h2>
@@ -93,7 +94,9 @@
                     method: 'GET',
                     success: function (data) {
                         console.log(data);
-                        $('#user-mail').text(data);
+                        data = data.split('"');
+                        console.log(data[1]);
+                        $('#user-mail').val(data[1]);
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                         console.log(xhr.status);
@@ -102,9 +105,39 @@
                     }
                 });
             }
+            else {
+                $('#user-mail').val("");
+            }
         });
 
-
+        $("#save-mail").click(function () {
+            var op = $('option:selected').text();
+            var studentid = op.split("-")[0];
+            var mail = $('#user-mail').val();
+            console.log("Id: " + studentid +" Mail: " + mail );
+            
+            if (studentid != '' && validEmail(mail)) {
+                $.ajax({
+                    url: '@Url.Action("EditEmail","Dikan")',
+                    data: { studentId: studentid, newemail: mail },
+                    dataType: 'text',
+                    method: 'POST',
+                    success: function (data) {
+                        console.log(data);
+                        $('#user-mail').val("");
+                        $('option:selected').val("");
+                        alert('העידכון בוצע בהצלחה');
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        console.log(xhr.status);
+                        console.log(thrownError);
+                        alert('העידכון נכשל נסה שוב');
+                    }
+                });
+            }
+            else
+                alert('אחד מהפרטים לעדכון שגוי');
+        });
     </script>
 }
 

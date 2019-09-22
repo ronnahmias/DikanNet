@@ -236,4 +236,9 @@ section#volunteer ul {
   #reqScholarship div.tab-content p {
     font-size: 1.1rem; }
   #reqScholarship div.tab-content a.btn {
-    font-size: 1.1rem; } }
+    font-size: 1.1rem; }
+  div.chose-file {
+    max-width: 150px;
+    min-width: 150px; }
+  #Funding, #cardiv, #Studfindiv, .FamFinDet, #FamMemdiv {
+    grid-template-columns: repeat(1, 1fr) !important; } }
