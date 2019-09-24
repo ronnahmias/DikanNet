@@ -11,30 +11,30 @@
 <h2 class="text-danger">@ViewBag.res</h2>
 <div class="table-responsive">
 
-    <a href="#" data-toggle="popover" title="Popover Header" data-content="Some content inside the popover">Toggle popover</a>
     @(Html
         .Grid(Model).Css("table")
         .Build(columns =>
         {
             columns.Add().Titled("#");
-            columns.Add(model => "<a href='#' title='Header' data-toggle='popover' data-placement='top' data-content=" + model.StudentId + ">" + model.Student.FirstName + " " + model.Student.LastName + "</a>").Titled(Html.DisplayNameFor(s => s.Student.StudentRow)).Encoded(false);
+            columns.Add(model => "<a href='#' title='"+model.Student.FirstName + " " + model.Student.LastName+"' data-html='true'  data-toggle='popover' data-placement='top' " +
+                "data-content='ת.ז: " + model.StudentId + " <br />'>" + model.Student.FirstName + " " + model.Student.LastName + "</a>").Titled(Html.DisplayNameFor(s => s.Student.StudentRow)).Encoded(false);
             columns.Add(model => model.SchoolYear).Titled(Html.DisplayNameFor(s => s.SchoolYear));
             columns.Add(model => model.VolunteerPlacess.Name).Titled(Html.DisplayNameFor(s => s.Volunteer1Id));
             columns.Add(model => model.Statuss).Titled(Html.DisplayNameFor(s => s.Statuss));
             columns.Add(model => @Html.ActionLink("פרטים ופעולות", "StudentSp", new { spId = model.ScholarshipId, spType = model.ScholarshipDefinition.Type, StudId = model.StudentId }, new { @class = "btn btn-dark" })).Titled("פעולות");
 
-            })
+        })
         .Empty("אין נתונים")
         .Sortable()
         .Filterable()
         .Pageable(pager =>
-            {
-                pager.PageSizes = new Dictionary<int, string> { { 0, "All" }, { 2, "2" }, { 4, "4" } };
-                pager.ShowPageSizes = true;
-                pager.PagesToDisplay = 3;
-                pager.CurrentPage = 2;
-                pager.RowsPerPage = 15;
-            })
+        {
+            pager.PageSizes = new Dictionary<int, string> { { 0, "All" }, { 2, "2" }, { 4, "4" } };
+            pager.ShowPageSizes = true;
+            pager.PagesToDisplay = 3;
+            pager.CurrentPage = 2;
+            pager.RowsPerPage = 15;
+        })
     )
 </div>
 
