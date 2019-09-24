@@ -5,20 +5,23 @@
     ViewBag.Title = "מלגת הלכה למעשה";
     Layout = "~/Views/Dikan/_Layout.cshtml";
 }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 
 <h2>מלגת הלכה למעשה</h2>
 <h2 class="text-danger">@ViewBag.res</h2>
 <div class="table-responsive">
+
+    <a href="#" data-toggle="popover" title="Popover Header" data-content="Some content inside the popover">Toggle popover</a>
     @(Html
         .Grid(Model).Css("table")
         .Build(columns =>
         {
             columns.Add().Titled("#");
-            columns.Add(model => "<a href='#' title='Header' data-toggle='popover' data-placement='top' data-content="+ model.StudentId +">" + model.Student.FirstName + " " + model.Student.LastName + "</a>").Titled(Html.DisplayNameFor(s => s.Student.StudentRow)).Encoded(false);
+            columns.Add(model => "<a href='#' title='Header' data-toggle='popover' data-placement='top' data-content=" + model.StudentId + ">" + model.Student.FirstName + " " + model.Student.LastName + "</a>").Titled(Html.DisplayNameFor(s => s.Student.StudentRow)).Encoded(false);
             columns.Add(model => model.SchoolYear).Titled(Html.DisplayNameFor(s => s.SchoolYear));
             columns.Add(model => model.VolunteerPlacess.Name).Titled(Html.DisplayNameFor(s => s.Volunteer1Id));
             columns.Add(model => model.Statuss).Titled(Html.DisplayNameFor(s => s.Statuss));
-            columns.Add(model => @Html.ActionLink("פרטים ופעולות", "StudentSp", new { spId = model.ScholarshipId, spType = model.ScholarshipDefinition.Type , StudId = model.StudentId}, new { @class = "btn btn-dark" })).Titled("פעולות");
+            columns.Add(model => @Html.ActionLink("פרטים ופעולות", "StudentSp", new { spId = model.ScholarshipId, spType = model.ScholarshipDefinition.Type, StudId = model.StudentId }, new { @class = "btn btn-dark" })).Titled("פעולות");
 
             })
         .Empty("אין נתונים")
@@ -39,52 +42,52 @@
 {
     <script>
 
-    MvcGrid.prototype.lang = {
-        text: {
-            'contains': 'מכיל',
-            'equals': 'שווה ל',
-            'not-equals': 'אינו שווה',
-            'starts-with': 'מתחיל עם',
-            'ends-with': 'נגמר עם'
-        },
-        number: {
-            'equals': 'שווה',
-            'not-equals': 'לא שווה',
-            'less-than': 'קטן',
-            'greater-than': 'גדול',
-            'less-than-or-equal': 'קטן שווה',
-            'greater-than-o-requal': 'גדול שווה'
-        },
-        date: {
-            'equals': 'שווה',
-            'not-equals': 'לא שווה',
-            'earlier-than': 'Inférieur à',
-            'later-than': 'Supérieur à',
-            'earlier-than-or-equal': 'Inférieur ou égale à',
-            'later-than-or-equal': 'Supérieur ou égale à'
-        },
-        enum: {
-            'equals': 'Egale',
-            'not-equals': 'Pas égal'
-        },
-        boolean: {
-            'equals': 'Egale',
-            'not-equals': 'Pas égal'
-        },
-        guid: {
-            'equals': 'Egale',
-            'not-equals': 'Pas égal',
-        },
-        filter: {
-            'apply': '✔',
-            'remove': '✘'
-        },
-        operator: {
-            'select': '',
-            'and': 'et',
-            'or': 'ou'
-        }
-    };
-</script>
+        MvcGrid.prototype.lang = {
+            text: {
+                'contains': 'מכיל',
+                'equals': 'שווה ל',
+                'not-equals': 'אינו שווה',
+                'starts-with': 'מתחיל עם',
+                'ends-with': 'נגמר עם'
+            },
+            number: {
+                'equals': 'שווה',
+                'not-equals': 'לא שווה',
+                'less-than': 'קטן',
+                'greater-than': 'גדול',
+                'less-than-or-equal': 'קטן שווה',
+                'greater-than-o-requal': 'גדול שווה'
+            },
+            date: {
+                'equals': 'שווה',
+                'not-equals': 'לא שווה',
+                'earlier-than': 'Inférieur à',
+                'later-than': 'Supérieur à',
+                'earlier-than-or-equal': 'Inférieur ou égale à',
+                'later-than-or-equal': 'Supérieur ou égale à'
+            },
+            enum: {
+                'equals': 'Egale',
+                'not-equals': 'Pas égal'
+            },
+            boolean: {
+                'equals': 'Egale',
+                'not-equals': 'Pas égal'
+            },
+            guid: {
+                'equals': 'Egale',
+                'not-equals': 'Pas égal',
+            },
+            filter: {
+                'apply': '✔',
+                'remove': '✘'
+            },
+            operator: {
+                'select': '',
+                'and': 'et',
+                'or': 'ou'
+            }
+        };
+    </script>
 
 }

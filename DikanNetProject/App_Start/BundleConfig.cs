@@ -12,8 +12,7 @@ namespace DikanNetProject
                         "~/Scripts/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js",
-                      "~/Scripts/popper.min.js"));
+                      "~/Scripts/bootstrap.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/javascript").Include(
                       "~/Scripts/MyJs/chosen.min.js",
