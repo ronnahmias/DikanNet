@@ -99,6 +99,9 @@ namespace DikanNetProject.Controllers
                 if(spId == -1) // not found sp at all -> return to index
                     return RedirectToAction("Index", new { response = StringError });
 
+                // get the name of scholarship to view bag
+                ViewBag.SpTitle = ctx.SpDef.Where(s => s.ScholarshipID == spId).FirstOrDefault().ScholarshipName;
+
                 switch (EspType)
                 {
                     case Enums.SpType.סוציואקונומית:
@@ -119,7 +122,12 @@ namespace DikanNetProject.Controllers
                         return View("ListHalacha", halachalist); // return view with this list   
 
                     case Enums.SpType.מצוינות:
-                         List<SpExcellence> excellentlist = ctx.Excellence.Where(s => s.ScholarshipId == spId).ToList();
+                         List<SpExcellence> excellentlist = ctx.Excellence
+                                                            .Include("Student")
+                                                            .Include("Student.Major")
+                                                            .Include("ScholarshipDefinition")
+                                                            .Where(s => s.ScholarshipId == spId)
+                                                            .ToList();
                         return View("ListExcellence", excellentlist); // return view with this list
 
                     default: return RedirectToAction("Index", new { response = StringError }); // error return to index
