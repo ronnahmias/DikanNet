@@ -26,6 +26,11 @@ namespace DataEntities.DB
                 .WithRequired(s => s.Country)
                 .HasForeignKey(s => s.CountryBirthId);
 
+            modelBuilder.Entity<Cities>()
+                .HasMany(s => s.Student)
+                .WithRequired(s => s.Cities)
+                .HasForeignKey(s => s.City);
+
             modelBuilder.Entity<SpDefinition>()
              .HasMany(s => s.Socioeconomicc)
             .WithRequired(s => s.ScholarshipDefinition)
@@ -41,14 +46,14 @@ namespace DataEntities.DB
            .WithRequired(s => s.ScholarshipDefinition)
            .HasForeignKey(s => s.ScholarshipId);
 
-            modelBuilder.Entity<VolunteerPlaces>()
-                .HasMany(s => s.InPracticess)
-                .WithRequired(s => s.VolunteerPlacess)
+            modelBuilder.Entity<SpHalacha>()
+                .HasRequired(s => s.VolunteerPlaces1)
+                .WithMany(s => s.Halacha)
                 .HasForeignKey(s => s.Volunteer1Id);
 
-            modelBuilder.Entity<VolunteerPlaces>()
-                .HasMany(s => s.InPracticess)
-                .WithRequired(s => s.VolunteerPlacess)
+            modelBuilder.Entity<SpHalacha>()
+                .HasRequired(s => s.VolunteerPlaces2)
+                .WithMany()
                 .HasForeignKey(s => s.Volunteer2Id);
 
             modelBuilder.Entity<SpDefinition>()

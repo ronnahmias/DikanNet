@@ -1,0 +1,98 @@
+﻿@model DataEntities.SpSocio
+
+
+@{
+    ViewBag.Title = "מלגת הלכה";
+    Layout = "~/Views/Dikan/_Layout.cshtml";
+}
+
+    <h2>@Html.DisplayFor(model => model.Student.FirstName) @Html.DisplayFor(model => model.Student.LastName) - @Html.DisplayFor(model => model.Student.StudentId)</h2>
+
+    <div class="w-75 mx-auto">
+        <h4>מלגת @Html.DisplayFor(model => model.ScholarshipDefinition.ScholarshipName)</h4>
+        <hr />
+        <div>
+            <dl class="dl-horizontal">
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.SchoolYear)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.SchoolYear)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.VolunteerExp)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.VolunteerExp)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.VoluntaryAvailability)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.VoluntaryAvailability)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Volunteer1Id)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.VolunteerPlaces1.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Volunteer2Id)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.VolunteerPlaces2.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.AboutMe)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.AboutMe)
+                </dd>
+
+            </dl>
+        </div>
+        <div>
+
+            @Html.DropDownListFor(model => model.Statuss,
+                new SelectList(Enum.GetValues(typeof(Common.Enums.Status))), "", new
+                { @class = "form-control chosen", @data_placeholder = "בחר סטטוס", @id = "new-status" })
+            <br /><br />
+            <button class="btn btn-success" id="update-status">עדכן סטטוס</button>
+            @Html.ActionLink("חזרה לטבלה", "SubmitedSp", new { spId = Model.ScholarshipId, spType = Model.ScholarshipDefinition.Type }, new { @class = "btn btn-danger" })
+        </div>
+    </div>
+
+        @section scripts{
+            <script>
+        $('#update-status').click(function () {
+            $.ajax({
+                url: "/Dikan/UpdateSpStatus",
+                dataType: 'text',
+                data: {ScholarId: @Model.ScholarshipId, StudId: @Model.StudentId, status: $('#new-status').val() },
+	            method: "POST",
+                success: function () {
+                    // show success message
+                    alert('סטטוס עודכן בהצלחה');
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.status);
+                    console.log(thrownError);
+                }
+            });
+        });
+            </script>
+        }
+

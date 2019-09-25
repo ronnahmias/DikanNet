@@ -16,5 +16,8 @@ namespace DataEntities
 
         [Column("Namee")]
         public string Name { get; set; }
+
+        public virtual ICollection<Student> Student { get; set; }
+
     }
 }

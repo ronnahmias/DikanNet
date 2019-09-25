@@ -26,7 +26,7 @@ namespace DataEntities
         public string Email { get; set; }
 
         [Display(Name = "עיר"), Required(ErrorMessage = "חובה להזין עיר מגורים")]
-        public string City { get; set; }
+        public int City { get; set; }
 
         [Display(Name = "רחוב"), Required(ErrorMessage = "חובה להזין רחוב")]
         public string Street { get; set; }
@@ -73,11 +73,12 @@ namespace DataEntities
         [Display(Name ="שם מלא")]
         public string StudentRow { get; set; } // shows the student id + full name together
 
+        public virtual Cities Cities { get; set; }
         public virtual Countries Country { get; set; }
         public virtual Major Major { get; set; }
 
         public virtual ICollection<SpSocio> Socioeconomics { get; set; }
-        public virtual ICollection<SpHalacha> InPractice { get; set; }
+        public virtual ICollection<SpHalacha> Halacha { get; set; }
         public virtual ICollection<SpExcellence> ExcellenceStudents { get; set; }
         public virtual ICollection<CarStudent> CarStudents { get; set; }
         public virtual ICollection<FamilyMember> FamilyMembers { get; set; }

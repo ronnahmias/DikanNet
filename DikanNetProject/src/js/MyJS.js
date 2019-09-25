@@ -1,8 +1,5 @@
 /*************
-Version: 1.1;
-Last Update: 26/7/19
-
-
+Version: 2.1;
 
 **************/
 
@@ -12,17 +9,17 @@ $(document).ready(function () {
     $('.review-password').hover(function () {
         $('input#Password').attr('type', 'text');
     },
-    function () {
-        $('input#Password').attr('type', 'password');
+        function () {
+            $('input#Password').attr('type', 'password');
         });
 
     //review password function on hover
     $('.review-confirm-password').hover(function () {
         $('input#ConfirmPassword').attr('type', 'text');
     },
-    function () {
-        $('input#ConfirmPassword').attr('type', 'password');
-    });
+        function () {
+            $('input#ConfirmPassword').attr('type', 'password');
+        });
 
 
     var carcount = $("#carstdcount").val();
@@ -32,17 +29,15 @@ $(document).ready(function () {
         $("#carsdiv").append("<input class='control-label col-md-2 text-box single-line' data-val='true' data-val-number='The field CarNumber must be a number.' data-val-required='השדה CarNumber נדרש.' id='CarStudent1_" + carcount + "__CarCompany' name='CarStudent1[" + carcount + "].CarCompany' type='number' >");
         carcount++;
     });
-    pophover();
-    onlyNumbers();
-    chosen();
-    datepicker();
-    choseFile();
-    onChangeIdValid();
-    onChangeEmailValid();
+    docReadyAndAjax();
 });
 
 // Function after ajax calls
 $(document).ajaxComplete(function () {
+    docReadyAndAjax();
+});
+
+function docReadyAndAjax(){
     pophover();
     onlyNumbers();
     chosen();
@@ -50,10 +45,11 @@ $(document).ajaxComplete(function () {
     choseFile();
     onChangeIdValid();
     onChangeEmailValid();
-});
+}
 
 function pophover() {
     $("[data-toggle='popover']").popover();
+    $("[data-toggle='popover']").attr('data-html', 'true');
 }
 
 function onChangeIdValid() {

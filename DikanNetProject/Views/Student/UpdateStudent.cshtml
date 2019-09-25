@@ -202,8 +202,16 @@
         $('#btn-file').click(function () {
             $('#fileModal').modal('show');
             var pathfile = $(this).attr('name');
-            var url = '@Url.Action("GetFile","File")'+ '?pFilePath=' + pathfile;
+            var url = '@Url.Action("GetFile","File")' + '?pFilePath=' + pathfile;
+            var type = pathfile.split('.').pop();
+            console.log(type);
+            if (type == "pdf")
+                type = "application/pdf";
+            else
+                type = "image/" + type;
+            $('.embed-file').attr('type', type);
             $('.embed-file').attr('src', url);
+
         });
     </script>
 }

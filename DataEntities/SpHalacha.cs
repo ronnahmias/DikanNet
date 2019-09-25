@@ -21,6 +21,7 @@ namespace DataEntities
         [Display(Name = "שנת לימוד"),Required(ErrorMessage ="חובה למלא שנת לימוד")]
         public string SchoolYear { get; set; }
 
+        [Display(Name = "סטטוס")]
         public string Statuss { get; set; }
         public DateTime? StatusUpdateDate { get; set; }
         public DateTime? DateSubmitScholarship { get; set; }
@@ -31,11 +32,11 @@ namespace DataEntities
         [Display(Name = "זמינות להתנדבות"), DataType(DataType.MultilineText), Required(ErrorMessage = "חובה למלא זמינות להתנדבות")]
         public string VoluntaryAvailability { get; set; }
 
-        [Display(Name = "מקום התנדבות ראשון"), Required(ErrorMessage = "חובה למלא לפחות אופציה אחת להתנדבות")]
-        public int? Volunteer1Id { get; set; }
+        [Display(Name = "מקום התנדבות ראשון"), Required(ErrorMessage = "חובה למלא אופציות התנדבות")]
+        public int Volunteer1Id { get; set; }
 
-        [Display(Name = "מקום התנדבות שני")]
-        public int? Volunteer2Id { get; set; }
+        [Display(Name = "מקום התנדבות שני"), Required(ErrorMessage = "חובה למלא אופציה נוספת")]
+        public int Volunteer2Id { get; set; }
 
         [Display(Name = "ספר קצת על עצמך"),DataType(DataType.MultilineText), Required(ErrorMessage = "יש לרשום קצת על עצמך")]
         public string AboutMe { get; set; }
@@ -44,6 +45,7 @@ namespace DataEntities
 
         public virtual SpDefinition ScholarshipDefinition { get; set; }
         public virtual Student Student { get; set; }
-        public virtual VolunteerPlaces VolunteerPlacess { get; set; }
+        public virtual VolunteerPlaces VolunteerPlaces1 { get; set; }
+        public virtual VolunteerPlaces VolunteerPlaces2 { get; set; }
     }
 }

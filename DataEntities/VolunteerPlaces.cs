@@ -27,7 +27,7 @@ namespace DataEntities
         public string Name_desc { get; set; }
 
 
-        public virtual ICollection<SpHalacha> InPracticess { get; set; }
+        public virtual ICollection<SpHalacha> Halacha { get; set; }
 
     }
 }

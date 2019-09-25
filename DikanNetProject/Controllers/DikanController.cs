@@ -13,6 +13,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using System.Data.Entity;
 
 namespace DikanNetProject.Controllers
 {
@@ -93,6 +94,7 @@ namespace DikanNetProject.Controllers
 
             using (DikanDbContext ctx = new DikanDbContext())
             {
+                ctx.Configuration.LazyLoadingEnabled = false;
                 if (spId == -1) // if there is no spid then get the list of the latest sp of the type
                     spId = ctx.SpDef.Where(s => s.Type == EspType.ToString()).ToList().OrderByDescending(x => x.DateDeadLine).FirstOrDefault().ScholarshipID; // get the latest spid
 
@@ -106,26 +108,30 @@ namespace DikanNetProject.Controllers
                 {
                     case Enums.SpType.סוציואקונומית:
                          List<SpSocio> sociolist = ctx.Socio
-                                                        .Include("Student")
-                                                        .Include("ScholarshipDefinition")
+                                                        .Include(i=>i.Student)
+                                                        .Include(i => i.Student.Major)
+                                                        .Include(i=>i.Student.Fundings)
+                                                        .Include(i=>i.ScholarshipDefinition)
                                                         .Where(s => s.ScholarshipId == spId)
                                                         .ToList();
                         return View("ListSocio", sociolist); // return view with this list
                         
                     case Enums.SpType.הלכה:
                          List<SpHalacha> halachalist = ctx.Halacha
-                                                            .Include("Student")
-                                                            .Include("VolunteerPlacess")
-                                                            .Include("ScholarshipDefinition")
+                                                            .Include(i=>i.Student)
+                                                            .Include(i=>i.Student.Major)
+                                                            .Include(i=>i.VolunteerPlaces1)
+                                                            .Include(i=>i.VolunteerPlaces2)
+                                                            .Include(i => i.ScholarshipDefinition)
                                                             .Where(s => s.ScholarshipId == spId)
                                                             .ToList();
                         return View("ListHalacha", halachalist); // return view with this list   
 
                     case Enums.SpType.מצוינות:
                          List<SpExcellence> excellentlist = ctx.Excellence
-                                                            .Include("Student")
-                                                            .Include("Student.Major")
-                                                            .Include("ScholarshipDefinition")
+                                                            .Include(i => i.Student)
+                                                            .Include(i => i.Student.Major)
+                                                            .Include(i => i.ScholarshipDefinition)
                                                             .Where(s => s.ScholarshipId == spId)
                                                             .ToList();
                         return View("ListExcellence", excellentlist); // return view with this list
@@ -153,25 +159,31 @@ namespace DikanNetProject.Controllers
                 {
                     case Enums.SpType.סוציואקונומית:
                          SpSocio Studsocio = ctx.Socio
-                                                    .Include("Student")
-                                                    .Include("ScholarshipDefinition")
+                                                    .Include(i=>i.Student)
+                                                    .Include(i => i.Student.Major)
+                                                    .Include(i => i.Student.Country)
+                                                    .Include(i=>i.ScholarshipDefinition)
                                                     .Where(s => s.ScholarshipId == spId && s.StudentId == StudId)
                                                     .FirstOrDefault();
                         return View("StudSocio", Studsocio); // return view with the object
 
                     case Enums.SpType.הלכה:
                          SpHalacha Studhalacha = ctx.Halacha
-                                                    .Include("Student")
-                                                    .Include("VolunteerPlacess")
-                                                    .Include("ScholarshipDefinition")
+                                                    .Include(i => i.Student)
+                                                    .Include(i => i.ScholarshipDefinition)
+                                                    .Include(i => i.Student.Major)
+                                                    .Include(i => i.Student.Country)
+                                                    .Include(i => i.Student.Cities)
+                                                    .Include(i => i.VolunteerPlaces1)
+                                                    .Include(i => i.VolunteerPlaces2)
                                                     .Where(s => s.ScholarshipId == spId && s.StudentId == StudId)
                                                     .FirstOrDefault();
                         return View("StudHalacha", Studhalacha); // return view with the object  
 
                     case Enums.SpType.מצוינות:
                          SpExcellence Studexcellent = ctx.Excellence
-                                                    .Include("Student")
-                                                    .Include("ScholarshipDefinition")
+                                                    .Include(i => i.Student)
+                                                    .Include(i => i.ScholarshipDefinition)
                                                     .Where(s => s.ScholarshipId == spId && s.StudentId == StudId)
                                                     .FirstOrDefault();
                         return View("StudExcellence", Studexcellent); // return view with the object

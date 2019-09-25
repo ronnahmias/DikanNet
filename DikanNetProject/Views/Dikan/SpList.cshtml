@@ -56,10 +56,10 @@
             </td>
             <td>
                 @Html.ActionLink("ערוך מלגה", "CreateEditSp", new { id = item.ScholarshipID }, new { @class = "btn btn-dark" })
+                @Html.ActionLink("צפייה בהגשות מלגה", "SubmitedSp", new { spId = item.ScholarshipID, spType = item.Type }, new { @class = "btn btn-dark" })
             </td>
         </tr>
     }
-
 </table>
 <h4>מלגות לא פעילות</h4>
 <table class="table">
@@ -108,7 +108,7 @@
             </td>
             <td>
                 @Html.ActionLink("ערוך מלגה", "CreateEditSp", new { id = item.ScholarshipID },new { @class="btn btn-dark" }) 
-
+                @Html.ActionLink("צפייה בהגשות מלגה", "SubmitedSp", new { spId = item.ScholarshipID , spType = item.Type },new { @class="btn btn-dark" }) 
             </td>
         </tr>
     }

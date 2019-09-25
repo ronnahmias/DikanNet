@@ -6,18 +6,22 @@
     Layout = "~/Views/Dikan/_Layout.cshtml";
 }
 
-<h2>@ViewBag.SpTitle</h2>
+<h2 class="text-center mb-3">@ViewBag.SpTitle</h2>
 <h2 class="text-danger">@ViewBag.res</h2>
 <div class="table-responsive">
     @(Html
         .Grid(Model).Css("table")
         .Build(columns =>
         {
-        columns.Add().Titled("#");
-        columns.Add(model => "<a href='#' data-toggle='popover' data-placement='right' title='תעודת זהות' data-content="+ model.StudentId +">" + model.Student.FirstName + " " + model.Student.LastName + "</a>").Titled(Html.DisplayNameFor(s => s.Student.StudentRow)).Encoded(false);
-        columns.Add(model => "<a href='#' data-toggle='popover' data-placement='left' title='שנת לימוד' data-content="+ model.SchoolYear +">" + model.Student.Major.MajorName + " - " + model.Student.LearnPath + "</a>").Titled("מגמה").Encoded(false);
-        columns.Add(model => model.MentorSub).Titled(Html.DisplayNameFor(s => s.MentorSub));
-        columns.Add(model => model.Statuss).Titled(Html.DisplayNameFor(s => s.Statuss));
+        columns.Add(model => "<a href='#' data-html='true' data-toggle='popover' data-placement='left' title='תעודת זהות' data-content="+ model.StudentId +">" + model.Student.FirstName + " " + model.Student.LastName + "</a>").Titled(Html.DisplayNameFor(s => s.Student.StudentRow)).Encoded(false).Filterable(true).Sortable(true);
+        columns.Add(model => "<a href='#' data-html='true' data-toggle='popover' data-placement='left' title='שנת לימוד' data-content="+ model.SchoolYear +">" + model.Student.Major.MajorName + " - " + model.Student.LearnPath + "</a>").Titled("מגמה").Encoded(false).Filterable(true).Sortable(true);
+        columns.Add(model => model.MentorSub).Titled(Html.DisplayNameFor(s => s.MentorSub)).Filterable(true);
+        columns.Add(model => model.Statuss).Titled(Html.DisplayNameFor(s => s.Statuss)).Filterable(true).UsingFilterOptions(new[]
+        {
+            new SelectListItem { Value = "בטיפול", Text = "בטיפול" },
+            new SelectListItem { Value = "מאושר", Text = "מאושר" },
+            new SelectListItem { Value = "נדחה", Text = "נדחה" }
+        });
         columns.Add(model => @Html.ActionLink("פרטים ופעולות", "StudentSp", new { spId = model.ScholarshipId, spType = model.ScholarshipDefinition.Type , StudId = model.StudentId}, new { @class = "btn btn-dark" })).Titled("פעולות");
 
     })
@@ -26,66 +30,11 @@
         .Filterable()
         .Pageable(pager =>
         {
-        pager.PageSizes = new Dictionary<int, string> { { 0, "All" }, { 2, "2" }, { 4, "4" } };
+        pager.PageSizes = new Dictionary<int, string> { { 0, "All" }, { 10, "10" }, { 15, "15" }, { 20, "20" }, { 25, "25" } };
         pager.ShowPageSizes = true;
         pager.PagesToDisplay = 3;
         pager.CurrentPage = 2;
-        pager.RowsPerPage = 15;
+        pager.RowsPerPage = 25;
     })
     )
 </div>
-
-@section scripts
-{
-    <script>
-
-
-    MvcGrid.prototype.lang = {
-        text: {
-            'contains': 'מכיל',
-            'equals': 'שווה ל',
-            'not-equals': 'אינו שווה',
-            'starts-with': 'מתחיל עם',
-            'ends-with': 'נגמר עם'
-        },
-        number: {
-            'equals': 'שווה',
-            'not-equals': 'לא שווה',
-            'less-than': 'קטן',
-            'greater-than': 'גדול',
-            'less-than-or-equal': 'קטן שווה',
-            'greater-than-o-requal': 'גדול שווה'
-        },
-        date: {
-            'equals': 'שווה',
-            'not-equals': 'לא שווה',
-            'earlier-than': 'Inférieur à',
-            'later-than': 'Supérieur à',
-            'earlier-than-or-equal': 'Inférieur ou égale à',
-            'later-than-or-equal': 'Supérieur ou égale à'
-        },
-        enum: {
-            'equals': 'Egale',
-            'not-equals': 'Pas égal'
-        },
-        boolean: {
-            'equals': 'Egale',
-            'not-equals': 'Pas égal'
-        },
-        guid: {
-            'equals': 'Egale',
-            'not-equals': 'Pas égal',
-        },
-        filter: {
-            'apply': '✔',
-            'remove': '✘'
-        },
-        operator: {
-            'select': '',
-            'and': 'et',
-            'or': 'ou'
-        }
-    };
-</script>
-
-}

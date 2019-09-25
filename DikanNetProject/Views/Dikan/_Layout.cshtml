@@ -96,10 +96,59 @@
     @RenderSection("scripts", required: false)
 
     <script>
+        MvcGrid.prototype.lang = {
+            text: {
+                'contains': 'מכיל',
+                'equals': 'שווה ל',
+                'not-equals': 'אינו שווה',
+                'starts-with': 'מתחיל עם',
+                'ends-with': 'נגמר עם'
+            },
+            number: {
+                'equals': 'שווה',
+                'not-equals': 'לא שווה',
+                'less-than': 'קטן',
+                'greater-than': 'גדול',
+                'less-than-or-equal': 'קטן שווה',
+                'greater-than-o-requal': 'גדול שווה'
+            },
+            date: {
+                'equals': 'שווה',
+                'not-equals': 'לא שווה',
+                'earlier-than': 'מוקדם מ',
+                'later-than': 'מאוחר מ',
+                'earlier-than-or-equal': 'מוקדם מ או שווה',
+                'later-than-or-equal': 'מאוחר מ או שווה'
+            },
+            enum: {
+                'equals': 'שווה',
+                'not-equals': 'לא שווה'
+            },
+            boolean: {
+                'equals': 'שווה',
+                'not-equals': 'לא שווה'
+            },
+            guid: {
+                'equals': 'שווה',
+                'not-equals': 'לא שווה'
+            },
+            filter: {
+                'apply': '✔',
+                'remove': '✘'
+            },
+            operator: {
+                'select': '',
+                'and': 'וגם',
+                'or': 'או'
+            }
+        };
+
         [].forEach.call(document.getElementsByClassName('mvc-grid'), function (element) {
             new MvcGrid(element);
         });
     </script>
+
+    
 </body>
 </html>
 

@@ -22,6 +22,7 @@ namespace DataEntities
         [Display(Name = "שנת לימוד"),Required(ErrorMessage ="חובה לבחור שנת לימוד")]
         public string SchoolYear { get; set; }
 
+        [Display(Name = "סטטוס")]
         public string Statuss { get; set; }
         public DateTime? StatusUpdateDate { get; set; }
         public DateTime? DateSubmitScholarship { get; set; }
