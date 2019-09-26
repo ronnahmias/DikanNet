@@ -143,20 +143,19 @@
                 </div>
 
             </div>
-            <a id="btn-file" name="@Model.PathId" class="btn btn-light">צפייה בקובץ שמור</a>
             <div class="form-group">
                 @Html.LabelFor(model => model.FileId, htmlAttributes: new { @class = "control-label", @for = "" })
-                <p id="validFile" class="text-danger m-0 d-none">חובה לעלות קובץ</p>
                 @Html.ValidationMessageFor(model => model.FileId, "", new { @class = "text-danger" })
                 <div class="row">
                     <div class="chose-file m-3 mt-0">
-                        @Html.TextBoxFor(model => model.FileId, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;" })
+                        @Html.TextBoxFor(model => model.FileId, new { @class = "must form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;", @path = @Model.PathId })
                         <label for="FileId">
                             <i class="ml-1 material-icons">add_photo_alternate</i>
                             בחר קובץ
                         </label>
                     </div>
-                    <embed src="@Url.Action("GetFile","File",new { pFilePath =  Model.PathId})" class=" @(@Model.PathId == null ? "d-none" : " ") embed-file" />
+                    <a name="@Model.PathId" style="display:@(Model.PathId != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
+
                 </div>
             </div>
             @Html.HiddenFor(model => model.PathId)
@@ -171,40 +170,17 @@
     }
 </div>
 
-<!-- File Modal -->
-<div class="modal fade" id="fileModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-            <!-- Modal Header -->
-            <div class="modal-header text-success">
-                <h4 class="modal-title">קובץ</h4>
-                <button type="button" class="close ml-0" data-dismiss="modal">&times;</button>
-            </div>
-
-            <!-- Modal body -->
-            <div class="modal-body text-success text-center">
-                <embed src="" class=" @(@Model.PathId == null ? "d-none" : " ") embed-file" type="image/jpeg" />
-            </div>
-
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">סגירה</button>
-            </div>
-
-        </div>
-    </div>
-</div>
 
 
+@*
 @section scripts{
     <script>
-        $('#btn-file').click(function () {
+        $('.btn-file').click(function () {
             $('#fileModal').modal('show');
             var pathfile = $(this).attr('name');
             var url = '@Url.Action("GetFile","File")' + '?pFilePath=' + pathfile;
             var type = pathfile.split('.').pop();
-            console.log(type);
+            //console.log(type);
             if (type == "pdf")
                 type = "application/pdf";
             else
@@ -215,3 +191,4 @@
         });
     </script>
 }
+*@

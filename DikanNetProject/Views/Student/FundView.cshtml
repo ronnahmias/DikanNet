@@ -29,7 +29,7 @@
             </div>
             
             <div class="text-center">
-                <embed src='/UsersFiles/@Model.StudentId/@Model.PathFunding' class=" @(@Model.PathFunding == null ? "d-none" : " ") embed-file" style="" />
+                <a name="@Model.PathFunding" style="display:@(Model.PathFunding != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
             </div>
 
             @Html.HiddenFor(model => model.PathFunding)

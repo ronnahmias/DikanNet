@@ -54,6 +54,7 @@
                             בחר קובץ
                         </label>
                     </div>
+                    <a name="@Model.SocioMod.PathApartmentLease" style="display:@(Model.SocioMod.PathApartmentLease != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
                 </div>
             </div>
 
@@ -90,13 +91,9 @@
                                 בחר קובץ
                             </label>
                         </div>
+                        <a name="@Model.SocioMod.PathNewcomer" style="display:@(Model.SocioMod.PathNewcomer != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
                     </div>
                     @Html.HiddenFor(model => model.SocioMod.PathNewcomer)
-
-                    <div class="">
-                        @Html.TextBoxFor(model => model.SocioMod.FileNewcomer, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
-                        @Html.ValidationMessageFor(model => model.SocioMod.FileNewcomer, "", new { @class = "text-danger" })
-                    </div>
                 </div>
             </div>
 
@@ -124,13 +121,9 @@
                             בחר קובץ
                         </label>
                     </div>
+                    <a name="@Model.SocioMod.PathSingleParent" style="display:@(Model.SocioMod.PathSingleParent != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
                 </div>
                 @Html.HiddenFor(model => model.SocioMod.PathSingleParent)
-
-                <div class="">
-                    @Html.TextBoxFor(model => model.SocioMod.FileSingleParent, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
-                    @Html.ValidationMessageFor(model => model.SocioMod.FileSingleParent, "", new { @class = "text-danger" })
-                </div>
             </div>
         </div>
 
@@ -155,13 +148,9 @@
                             בחר קובץ
                         </label>
                     </div>
+                    <a name="@Model.SocioMod.PathBereavedFam" style="display:@(Model.SocioMod.PathBereavedFam != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
                 </div>
                 @Html.HiddenFor(model => model.SocioMod.PathBereavedFam)
-
-                <div class="">
-                    @Html.TextBoxFor(model => model.SocioMod.FileBereavedFam, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
-                    @Html.ValidationMessageFor(model => model.SocioMod.FileBereavedFam, "", new { @class = "text-danger" })
-                </div>
             </div>
         </div>
 
@@ -203,13 +192,9 @@
                             בחר קובץ
                         </label>
                     </div>
+                    <a name="@Model.SocioMod.PathMilitaryService" style="display:@(Model.SocioMod.PathMilitaryService != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
                 </div>
                 @Html.HiddenFor(model => model.SocioMod.PathMilitaryService)
-
-                <div class="">
-                    @Html.TextBoxFor(model => model.SocioMod.FileMilitaryService, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
-                    @Html.ValidationMessageFor(model => model.SocioMod.FileMilitaryService, "", new { @class = "text-danger" })
-                </div>
             </div>
 
         </div>
@@ -236,13 +221,10 @@
                             בחר קובץ
                         </label>
                     </div>
+                    <a name="@Model.SocioMod.PathReserveMilitaryService" style="display:@(Model.SocioMod.PathReserveMilitaryService != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
                 </div>
                 @Html.HiddenFor(model => model.SocioMod.PathReserveMilitaryService)
 
-                <div class="">
-                    @Html.TextBoxFor(model => model.SocioMod.FileReserveMilitaryService, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
-                    @Html.ValidationMessageFor(model => model.SocioMod.FileReserveMilitaryService, "", new { @class = "text-danger" })
-                </div>
             </div>
         </div>
 
@@ -264,7 +246,6 @@
 
                 <div class="form-group mx-5">
                     @Html.LabelFor(model => model.SocioMod.FileDisabilityType, htmlAttributes: new { @class = "control-label", @for = "" })
-
                     <div class="row">
                         <div class="chose-file m-3 mt-0">
                             @Html.TextBoxFor(model => model.SocioMod.FileDisabilityType, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;", @path = Model.SocioMod.PathDisabilityType })
@@ -273,13 +254,9 @@
                                 בחר קובץ
                             </label>
                         </div>
+                        <a name="@Model.SocioMod.PathDisabilityType" style="display:@(Model.SocioMod.PathDisabilityType != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
                     </div>
                     @Html.HiddenFor(model => model.SocioMod.PathDisabilityType)
-
-                    <div class="">
-                        @Html.TextBoxFor(model => model.SocioMod.FileDisabilityType, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
-                        @Html.ValidationMessageFor(model => model.SocioMod.FileDisabilityType, "", new { @class = "text-danger" })
-                    </div>
                 </div>
             </div>
 

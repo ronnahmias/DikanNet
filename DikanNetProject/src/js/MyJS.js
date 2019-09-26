@@ -37,6 +37,7 @@ $(document).ajaxComplete(function () {
     docReadyAndAjax();
 });
 
+
 function docReadyAndAjax(){
     pophover();
     onlyNumbers();
@@ -45,8 +46,10 @@ function docReadyAndAjax(){
     choseFile();
     onChangeIdValid();
     onChangeEmailValid();
+    //watchSaveFile();
 }
 
+// pophover init
 function pophover() {
     $("[data-toggle='popover']").popover();
     $("[data-toggle='popover']").attr('data-html', 'true');
@@ -71,7 +74,23 @@ function onChangeEmailValid() {
             $this.addClass('border-danger');
     });
 }
-
+/*
+function watchSaveFile() {
+    $('.btn-file').click(function () {
+        $('#fileModal').modal('show');
+        var pathfile = $(this).attr('name');
+        var url = '@Url.Action("GetFile","File")' + '?pFilePath=' + pathfile;
+        var type = pathfile.split('.').pop();
+        //console.log(type);
+        if (type == "pdf")
+            type = "application/pdf";
+        else
+            type = "image/" + type;
+        $('.embed-file').attr('type', type);
+        $('.embed-file').attr('src', url);
+    });
+}
+*/
 // Function for date picker
 function datepicker() {
     $('[data-toggle="datepicker"]').attr('readonly', true);
@@ -227,8 +246,6 @@ function validUpdateStu() {
     //valid all inputs
     var ok = checkMust();
     var $btDay = $('#BirthDay');
-    var path = $('#PathId').val();
-    var file = $('#FileId').val();
     //valid date
     if (!dateIsValid($btDay.val(), 1920)) {
         $btDay.addClass('border-danger');
@@ -236,14 +253,6 @@ function validUpdateStu() {
     }
     else {
         $btDay.removeClass('border-danger');
-    }
-    //valid file
-    if (path.length <= 0 && file.length <= 0) {
-        $('#validFile').removeClass('d-none');
-        ok = false;
-    }
-    else {
-        $('#validFile').addClass('d-none');
     }
     return ok;
 }

@@ -46,7 +46,9 @@
             </div>
 
             <div class="text-center">
-                <embed src='/UsersFiles/@Model.StudentId/@Model.PathFmId' class=" @(@Model.PathFmId == null ? "d-none" : " ") embed-file" style="" />
+                @*<embed src='/UsersFiles/@Model.StudentId/@Model.PathFmId' class=" @(@Model.PathFmId == null ? "d-none" : " ") embed-file" style="" />*@
+                <a name="@Model.PathFmId" style="display:@(Model.PathFmId != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
+
             </div>
 
 

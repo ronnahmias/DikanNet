@@ -23,22 +23,29 @@ textarea,input{
     background-color: red !important;
 }
 
-div.chose-file {
-    color: white;
-    height: 60px;
-    min-width: 250px;
-    max-width: 500px;
-    background-color: #ffd800;
-    font-size: 20px;
-    overflow: hidden;
+div.chose-file, a.btn-file {
     cursor: pointer;
-    box-shadow: 0px 5px 20px rgba(0,0,0,.3);
+    height: 60px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    padding: 5px;
+    padding: 5px 10px;
     border-radius: 10px;
+    margin: 1rem !important;
+    font-size: 20px;
+}
+
+a.btn-file {
+
+}
+div.chose-file {
+    color: white;
+    min-width: 250px;
+    max-width: 500px;
+    background-color: #ffd800;
+    overflow: hidden;
+    box-shadow: 0px 5px 20px rgba(0,0,0,.3);
 
     label {
         display: flex;
@@ -54,11 +61,13 @@ div.chose-file {
 }
 
 .embed-file {
-    max-width: 250px;
-    max-height: 250px;
+    max-width: 100%;
     display: inline-block;
     border: 1px solid black;
 }
+
+
+
 .chosen-container, .chosen {
     max-width: 200px;
     font-size: 17px;

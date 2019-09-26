@@ -5,7 +5,7 @@
         @using (Html.BeginCollectionItem("ListCarStudent"))
         {
             <div class="form-row">
-                @Html.EditorFor(model => model.CarNumber, new { htmlAttributes = new { @class = "control-label id must", @placeholder = "." } })
+                @Html.EditorFor(model => model.CarNumber, new { htmlAttributes = new { @class = "control-label must only-numbers", @placeholder = "." } })
                 @Html.LabelFor(model => model.CarNumber, htmlAttributes: new { @class = "title" })
             </div>
             <div class="form-row">
@@ -37,7 +37,7 @@
             </div>
 
             <div class="text-center">
-                <embed src='/UsersFiles/@Model.StudentId/@Model.PathCarLicense' class=" @(@Model.PathCarLicense == null ? "d-none" : " ") embed-file" style="" />
+                <a name="@Model.PathCarLicense" style="display:@(Model.PathCarLicense != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
             </div>
 
             <button class="btn btn-danger del-car" type="button">X</button>

@@ -41,7 +41,8 @@
                     </div>
                 </div>
                 <div class="text-center">
-                    <embed src='/UsersFiles/@Model.StudentId/@Model.PathSalary' class=" @(@Model.PathSalary == null ? "d-none" : " ") embed-file" style="" />
+                    @*<embed src='/UsersFiles/@Model.FamilyMemberId/@Model.PathSalary' class=" @(@Model.PathSalary == null ? "d-none" : " ") embed-file" style="" />*@
+                    <a name="@Model.PathSalary" style="display:@(Model.PathSalary != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
                 </div>
             </div>
             <div class="half-row">
@@ -57,7 +58,8 @@
                     </div>
                 </div>
                 <div class="text-center chose-file-show">
-                    <embed src='/UsersFiles/@Model.StudentId/@Model.PathExpense' class=" @(@Model.PathExpense == null ? "d-none" : " ") embed-file" style="" />
+                    @*<embed src='/UsersFiles/@Model.FamilyMemberId/@Model.PathExpense' class=" @(@Model.PathExpense == null ? "d-none" : " ") embed-file" style="" />*@
+                    <a name="@Model.PathExpense" style="display:@(Model.PathExpense != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
                 </div>
             </div>
             @Html.HiddenFor(model => model.FinNo)
