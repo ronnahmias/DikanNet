@@ -19,6 +19,8 @@ namespace DikanNetProject.Controllers
             string contentType = MimeMapping.GetMimeMapping(path); // type of file
             //FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
             byte[] filedata = System.IO.File.ReadAllBytes(path);
+            if (filedata == null)
+                return null;
             return File(filedata, contentType); // return the file
         }
     }

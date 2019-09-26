@@ -543,6 +543,8 @@ namespace DikanNetProject.Controllers
                     return View(socio);
                 }
             }
+            else
+                socio = SocioDraftValid(socio); // checks errors to save draft
             
             if (socio.SocioMod.CarOwner && socio.ListCarStudent != null)
                 SaveSocioCars(socio.ListCarStudent); // if there is cars -> Save Cars Detailes
@@ -578,6 +580,115 @@ namespace DikanNetProject.Controllers
         }
 
         #region Post Socio Methods
+
+        private SocioAdd SocioDraftValid(SocioAdd socio)
+        {
+            #region socio model
+            if (socio.SocioMod.Newcomer && socio.SocioMod.DateImmigration == null)
+            {
+                socio.SocioMod.Newcomer = false;
+                ModelState.Remove("SocioMod.Newcomer");
+            }
+            #endregion
+
+            #region Fundings
+            List<Funding> tempfund = new List<Funding>();
+            foreach(var fund in socio.ListFundings) // remove funds that dont have all fields
+            {
+                if (string.IsNullOrEmpty(fund.FinancingInstitution) ||
+                    fund.FinancingHeight == null ||
+                    fund.YearFinancing == null)
+                        tempfund.Add(fund);
+            }
+
+            if(tempfund != null)
+            {
+                foreach (var delfund in tempfund) // remove all funds from the temp table
+                    socio.ListFundings.Remove(delfund);
+            }
+            #endregion
+
+            #region cars
+            List<CarStudent> tempcar = new List<CarStudent>();
+            foreach (var car in socio.ListCarStudent) // remove funds that dont have all fields
+            {
+                if (car.CarNumber == null ||
+                    string.IsNullOrEmpty(car.CarCompany) ||
+                    string.IsNullOrEmpty(car.CarModel) ||
+                    car.CarYear == 0)
+                        tempcar.Add(car);
+            }
+
+            if (tempcar != null)
+            {
+                foreach (var delcar in tempcar) // remove all cars from the temp table
+                    socio.ListCarStudent.Remove(delcar);
+            }
+            #endregion
+
+            #region student finance
+            List<StudentFinance> studfintemp = new List<StudentFinance>();
+            foreach (var fin in socio.ListStudentFinances) // remove student finance rows that dont have filled
+            {
+                if (fin.Year == 0 ||
+                    fin.Month == 0)
+                        studfintemp.Add(fin);
+            }
+
+            if (studfintemp != null)
+            {
+                foreach (var delfin in studfintemp) // remove all student finance from the temp table
+                    socio.ListStudentFinances.Remove(delfin);
+            }
+            #endregion
+
+            #region family members
+            List<FamilyMember> fammemtemp = new List<FamilyMember>();
+            foreach (var fammem in socio.ListFamMem) // if there is no familymember id delete row
+            {
+                if (string.IsNullOrEmpty(fammem.FamilyMemberId)|| !IdValidtion(fammem.FamilyMemberId))
+                    fammemtemp.Add(fammem);
+            }
+
+            if (fammemtemp != null)
+            {
+                foreach (var familymem in fammemtemp) // remove all family members from the temp table
+                    socio.ListFamMem.Remove(familymem);
+            }
+            #endregion
+
+            #region family members with finance
+            fammemtemp = new List<FamilyMember>();
+            List<FamilyStudentFinance> familyfintemp = new List<FamilyStudentFinance>();
+            foreach (var famfin in socio.ListFamMemFin) // if there is no familymember id delete row
+            {
+                if (string.IsNullOrEmpty(famfin.FamilyMemberId) || !IdValidtion(famfin.FamilyMemberId))
+                {
+                    fammemtemp.Add(famfin);
+                    continue;
+                }
+                if (famfin.FamilyStudentFinances != null) // check finance rows
+                {
+                    foreach (var fin in famfin.FamilyStudentFinances)
+                    {
+                        if (fin.Year == 0 ||
+                            fin.Month == 0)
+                            familyfintemp.Add(fin); // remove row if not fill month or year
+                    }
+                }
+            }
+
+            if (fammemtemp != null)
+            {
+                foreach (var familymem in fammemtemp) // remove all family members finance   from the temp table
+                {
+                    socio.ListFamMemFin.Remove(familymem);
+                }
+            }
+            #endregion
+
+            return socio;
+        } // check all socio to save draft
 
         private bool socioIsValid(SocioAdd socio)
         {
@@ -941,6 +1052,7 @@ namespace DikanNetProject.Controllers
             return (count % 10 == 0);
         }
 
+        #region Save socio models
         [NonAction]
         public void SaveSocioCars(List<CarStudent> ClientList)
         {
@@ -1009,7 +1121,8 @@ namespace DikanNetProject.Controllers
                     if (fund.FileFunding != null)
                     {
                         fund.PathFunding = Files.SaveFileInServer(fund.FileFunding, "Fund" + fund.FundingId, sStudentId, fund.PathFunding);
-                        TempDbFund.PathFunding = fund.PathFunding;
+                        if(TempDbFund != null)
+                            TempDbFund.PathFunding = fund.PathFunding;
                     }
                     ctx.SaveChanges();
                 }
@@ -1225,21 +1338,21 @@ namespace DikanNetProject.Controllers
             if (socio.FileSingleParent != null) // save file if not null
                 socio.PathSingleParent = Files.SaveFileInServer(socio.FileSingleParent, "SingleParent", sStudentId, socio.PathSingleParent);
 
+
             using (DikanDbContext ctx = new DikanDbContext())
             {
                 Dbsocio = ctx.Socio.Where(s => s.StudentId == socio.StudentId && s.ScholarshipId == socio.ScholarshipId).SingleOrDefault(); // find if he insert already draft     
-                if (Dbsocio == null)
-                {
-                    ctx.Socio.Add(socio); // add new sp socio
-                }
-                else
-                    ctx.Entry(Dbsocio).CurrentValues.SetValues(socio); // update
+                if (Dbsocio != null)
+                    ctx.Socio.Remove(Dbsocio); // remove previous socio
+                ctx.SaveChanges();
+                ctx.Socio.Add(socio); // add new sp socio
 
                 ctx.SaveChanges();
             }
-
             return socio;
         }
+        #endregion
+
         #endregion
 
         #region Partial Views

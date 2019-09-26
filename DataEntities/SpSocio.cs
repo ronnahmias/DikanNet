@@ -28,7 +28,7 @@ namespace DataEntities
         [Display(Name = "האם הנך משכיר\\ה או בעל\\ת דירה?")]
         public bool Apartment { get; set; }
 
-        [Display(Name = "\\ בעלות דירהקובץ - שכירות מגורים"),NotMapped,RequiredIf("Apartment",true,ErrorMessage ="חובה לצרף קובץ מתאים")]
+        [Display(Name = "\\ בעלות דירהקובץ - שכירות מגורים"),NotMapped]
         public HttpPostedFileBase FileApartmentLease { get; set; }
         public string PathApartmentLease { get; set; }
 
@@ -38,7 +38,7 @@ namespace DataEntities
         [Display(Name = "תאריך עלייה"), RequiredIf("Newcomer", true, ErrorMessage = "חובה להזין תאריך עלייה")]
         public DateTime? DateImmigration { get; set; }
 
-        [Display(Name = "קובץ - עולה חדש"),NotMapped, RequiredIf("Newcomer", true, ErrorMessage = "חובה לצרף קובץ מתאים")]
+        [Display(Name = "קובץ - עולה חדש"),NotMapped]
         public HttpPostedFileBase FileNewcomer { get; set; }
         public string PathNewcomer { get; set; }
 
@@ -47,7 +47,7 @@ namespace DataEntities
         public bool SingleParent { get; set; }
 
 
-        [Display(Name = "קובץ - משפחה חד-הורית"), NotMapped, RequiredIf("SingleParent", true, ErrorMessage = "חובה לצרף קובץ מתאים")]
+        [Display(Name = "קובץ - משפחה חד-הורית"), NotMapped]
         public HttpPostedFileBase FileSingleParent { get; set; }
         public string PathSingleParent { get; set; }
 
@@ -56,7 +56,7 @@ namespace DataEntities
         public bool BereavedFam { get; set; }
 
 
-        [Display(Name = "קובץ - משפחה שכולה"), NotMapped, RequiredIf("BereavedFam", true, ErrorMessage = "חובה לצרף קובץ מתאים")]
+        [Display(Name = "קובץ - משפחה שכולה"), NotMapped]
         public HttpPostedFileBase FileBereavedFam { get; set; }
         public string PathBereavedFam { get; set; }
 
@@ -67,7 +67,7 @@ namespace DataEntities
         [Display(Name = "שירות צבאי")]
         public string MilitaryService { get; set; }
 
-        [Display(Name = "קובץ - תעודת שחרור"), NotMapped, RequiredIfNotEmpty("MilitaryService", ErrorMessage = "חובה לצרף קובץ מתאים")]
+        [Display(Name = "קובץ - תעודת שחרור"), NotMapped]
         public HttpPostedFileBase FileMilitaryService { get; set; }
         public string PathMilitaryService { get; set; }
 
@@ -75,7 +75,7 @@ namespace DataEntities
         [Display(Name = "שירות מילואים")]
         public bool ReserveMilitaryService { get; set; }
 
-        [Display(Name = "קובץ - שירות מילואים"), NotMapped, RequiredIf("ReserveMilitaryService", true, ErrorMessage = "חובה לצרף קובץ מתאים")]
+        [Display(Name = "קובץ - שירות מילואים"), NotMapped]
         public HttpPostedFileBase FileReserveMilitaryService { get; set; }
         public string PathReserveMilitaryService { get; set; }
 
@@ -89,7 +89,7 @@ namespace DataEntities
         [Display(Name = "סוג נכות")]
         public string DisabilityType { get; set; }
 
-        [Display(Name = "קובץ - סוג נכות"), NotMapped, RequiredIfNotEmpty("DisabilityType", ErrorMessage = "חובה לצרף קובץ מתאים")]
+        [Display(Name = "קובץ - סוג נכות"), NotMapped]
         public HttpPostedFileBase FileDisabilityType { get; set; }
         public string PathDisabilityType { get; set; }
 
