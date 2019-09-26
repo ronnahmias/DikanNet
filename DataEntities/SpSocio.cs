@@ -21,6 +21,8 @@ namespace DataEntities
 
         [Display(Name = "שנת לימוד")]
         public string SchoolYear { get; set; }
+
+        [Display(Name = "סטטוס")]
         public string Statuss { get; set; }
         public DateTime? StatusUpdateDate { get; set; }
         public DateTime? DateSubmitScholarship { get; set; }
@@ -100,7 +102,14 @@ namespace DataEntities
         public string Comments { get; set; }
 
 
+        [NotMapped]
+        public int AvgIncome { get; set; }
 
+        [NotMapped]
+        public int AvgExpense { get; set; }
+
+        [NotMapped]
+        public int NumOfPersons { get; set; }
 
         //FORGEIN KEYS
         public virtual SpDefinition ScholarshipDefinition { get; set; }

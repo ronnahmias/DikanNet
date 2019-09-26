@@ -113,6 +113,7 @@ namespace DikanNetProject.Controllers
                                                         .Include(i=>i.ScholarshipDefinition)
                                                         .Where(s => s.ScholarshipId == spId && s.Statuss != null)
                                                         .ToList();
+                        sociolist = CalcSocioParam(sociolist); // calc income average 
                         return View("ListSocio", sociolist); // return view with this list
                         
                     case Enums.SpType.הלכה:
@@ -139,6 +140,36 @@ namespace DikanNetProject.Controllers
 
                 }
             }
+        }
+
+        [NonAction]
+        private List<SpSocio> CalcSocioParam(List<SpSocio> sociolist)
+        {
+            foreach (var socio in sociolist) // each row of socio calc income and expense average
+            {
+                int sumincome = 0, sumexpense = 0, persons =1 ; // init persons 1 student
+                using(DikanDbContext ctx = new DikanDbContext())
+                {
+                    // get all student finance rows
+                    List<StudentFinance> studfin = ctx.StudentFinances.Where(s => s.StudentId == socio.StudentId && s.SpId == socio.ScholarshipDefinition.ScholarshipID).ToList();
+                    foreach(var fin in studfin) // add to sum student finance
+                    {
+                        sumincome += fin.Salary;
+                        sumexpense += fin.Expense;
+                    }
+                    List<FamilyStudentFinance> familyfinance = ctx.FamilyStudentFinances.Include(i=>i.FamilyMember).Where(s => s.FamilyMember.StudentId == socio.StudentId && s.SpId == socio.ScholarshipDefinition.ScholarshipID).ToList();
+                    foreach (var fin in familyfinance) // add to sum family member finance
+                    {
+                        sumincome += fin.Salary;
+                        sumexpense += fin.Expense;
+                    }
+                    persons += ctx.FamilyMembers.Where(s => s.StudentId == socio.StudentId).ToList().Count(); // sum persons of the family
+                }
+                socio.AvgIncome = sumincome / persons;
+                socio.AvgExpense = sumexpense / persons;
+                socio.NumOfPersons = persons;
+            }
+            return sociolist;
         }
 
         [HttpGet]
