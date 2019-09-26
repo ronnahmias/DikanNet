@@ -659,22 +659,28 @@ namespace DikanNetProject.Controllers
 
             #region family members with finance
             fammemtemp = new List<FamilyMember>();
-            List<FamilyStudentFinance> familyfintemp = new List<FamilyStudentFinance>();
+            List<FamilyStudentFinance> familyfintemp;
             foreach (var famfin in socio.ListFamMemFin) // if there is no familymember id delete row
             {
-                if (string.IsNullOrEmpty(famfin.FamilyMemberId) || !IdValidtion(famfin.FamilyMemberId))
+                if (string.IsNullOrEmpty(famfin.FamilyMemberId) || !IdValidtion(famfin.FamilyMemberId)) // if not correct add to delete list
                 {
                     fammemtemp.Add(famfin);
                     continue;
                 }
+                familyfintemp = new List<FamilyStudentFinance>();
                 if (famfin.FamilyStudentFinances != null) // check finance rows
                 {
                     foreach (var fin in famfin.FamilyStudentFinances)
                     {
                         if (fin.Year == 0 ||
                             fin.Month == 0)
-                            familyfintemp.Add(fin); // remove row if not fill month or year
+                            familyfintemp.Add(fin); // add row if not fill month or year to delete list
                     }
+                }
+                if(familyfintemp != null) // if delete list of finance is not empty delete rows 
+                {
+                    foreach(var delfin in familyfintemp)
+                        famfin.FamilyStudentFinances.Remove(delfin);
                 }
             }
 
