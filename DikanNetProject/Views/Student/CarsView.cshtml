@@ -5,7 +5,7 @@
         @using (Html.BeginCollectionItem("ListCarStudent"))
         {
             <div class="form-row">
-                @Html.EditorFor(model => model.CarNumber, new { htmlAttributes = new { @class = "control-label must only-numbers", @placeholder = "." } })
+                @Html.EditorFor(model => model.CarNumber, new { htmlAttributes = new { @class = "control-label must only-numbers", @placeholder = ".",@maxlength="8" } })
                 @Html.LabelFor(model => model.CarNumber, htmlAttributes: new { @class = "title" })
             </div>
             <div class="form-row">
