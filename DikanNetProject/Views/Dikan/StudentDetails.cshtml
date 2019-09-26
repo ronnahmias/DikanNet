@@ -1,105 +1,93 @@
 ﻿@model DataEntities.Student
 
 <div>
-    <h4>Student</h4>
+    <h4>
+        @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName) - @Html.DisplayFor(model => model.StudentId)
+    </h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayName("אימייל")
-        </dt>
-
-        <dd>
+    <div class="row">
+        <div class="col-md-4 col-sm-6 col-12 mt-2">
+            <p class="font-weight-bold m-0">@Html.DisplayName("אימייל")</p>
             @Html.DisplayFor(model => model.Email)
-        </dd>
+        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.City)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Cities.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Street)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Street)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.HouseNo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.HouseNo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MajorId)
-        </dt>
-
-        <dd>
+        <div class="col-md-4 col-sm-6 col-12 mt-2">
+            <p class="font-weight-bold m-0">
+                @Html.DisplayNameFor(model => model.MajorId)
+            </p>
             @Html.DisplayFor(model => model.Major.MajorName)
-        </dd>
+        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.LearnPath)
-        </dt>
-
-        <dd>
+        <div class="col-md-4 col-sm-6 col-12 mt-2">
+            <p class="font-weight-bold m-0">
+                @Html.DisplayNameFor(model => model.LearnPath)
+            </p>
             @Html.DisplayFor(model => model.LearnPath)
-        </dd>
+        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.BirthDay)
-        </dt>
+        <div class="col-md-4 col-sm-6 col-12 mt-2">
+            <p class="font-weight-bold m-0">@Html.DisplayNameFor(model => model.City)</p>
+            @Html.DisplayFor(model => model.Cities.Name)
+        </div>
 
-        <dd>
+        <div class="col-md-4 col-sm-6 col-12 mt-2">
+            <p class="font-weight-bold m-0">
+                @Html.DisplayNameFor(model => model.Street)
+            </p>
+            @Html.DisplayFor(model => model.Street)
+        </div>
+
+        <div class="col-md-4 col-sm-6 col-12 mt-2">
+            <p class="font-weight-bold m-0">
+                @Html.DisplayNameFor(model => model.HouseNo)
+            </p>
+            @Html.DisplayFor(model => model.HouseNo)
+        </div>
+
+        <div class="col-md-4 col-sm-6 col-12 mt-2">
+            <p class="font-weight-bold m-0">
+                @Html.DisplayNameFor(model => model.BirthDay)
+            </p>
             @{ var birthday = @DateTime.Parse(Model.BirthDay.ToString()).ToString("dd/MM/yyyy");}
             @Html.DisplayFor(model => birthday)
-        </dd>
+        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Gender)
-        </dt>
-
-        <dd>
+        <div class="col-md-4 col-sm-6 col-12 mt-2">
+            <p class="font-weight-bold m-0">
+                @Html.DisplayNameFor(model => model.Gender)
+            </p>
             @Html.DisplayFor(model => model.Gender)
-        </dd>
+        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CellphoneNo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CellphoneNo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PhoneNo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PhoneNo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CountryBirthId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Country.CountryName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MaritalStatus)
-        </dt>
-
-        <dd>
+        <div class="col-md-4 col-sm-6 col-12 mt-2">
+            <p class="font-weight-bold m-0">
+                @Html.DisplayNameFor(model => model.MaritalStatus)
+            </p>
             @Html.DisplayFor(model => model.MaritalStatus)
+        </div>
 
-    </dl>
-</div>
+        <div class="col-md-4 col-sm-6 col-12 mt-2">
+            <p class="font-weight-bold m-0">
+                @Html.DisplayNameFor(model => model.CellphoneNo)
+            </p>
+            @Html.DisplayFor(model => model.CellphoneNo)
+        </div>
+
+        <div class="col-md-4 col-sm-6 col-12 mt-2">
+            <p class="font-weight-bold m-0">
+                @Html.DisplayNameFor(model => model.PhoneNo)
+            </p>
+            @Html.DisplayFor(model => model.PhoneNo)
+        </div>
+
+        <div class="col-md-4 col-sm-6 col-12 mt-2">
+            <p class="font-weight-bold m-0">
+                @Html.DisplayNameFor(model => model.CountryBirthId)
+            </p>
+            @Html.DisplayFor(model => model.Country.CountryName)
+        </div>
+
+
+
+    </div>
 </div>
