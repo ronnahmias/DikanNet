@@ -818,7 +818,7 @@ namespace DikanNetProject.Controllers
                         ModelState.AddModelError("CarModel", "חובה לציין מודל רכב");
                         return false;
                     }
-                    if (car.CarYear < 0 || car.CarYear == null)
+                    if (car.CarYear < 0 || car.CarYear == 0)
                     {
                         ModelState.AddModelError("CarYear", "חובה לציין שנת רכב");
                         return false;
@@ -867,7 +867,7 @@ namespace DikanNetProject.Controllers
                 foreach (var fin in socio.ListStudentFinances)
                 {
                     //until last year
-                    if(fin.Year < DateTime.Now.Year - 1 || fin.Year == null)
+                    if(fin.Year < DateTime.Now.Year - 1 || fin.Year == 0)
                     {
                         ModelState.AddModelError("Year", "שנה לא תקינה");
                         return false;
@@ -959,7 +959,7 @@ namespace DikanNetProject.Controllers
                 foreach (var fin in family.FamilyStudentFinances)
                 {
                     //until last year
-                    if (fin.Year < DateTime.Now.Year - 1 || fin.Year == null)
+                    if (fin.Year < DateTime.Now.Year - 1 || fin.Year == 0)
                     {
                         ModelState.AddModelError("Year", "שנה לא תקינה");
                         return false;

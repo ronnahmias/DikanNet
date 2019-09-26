@@ -7,7 +7,7 @@
 }
 <h2>סוציואקונומי</h2>
 
-@using (Html.BeginForm("Socio", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Socio", "Student", FormMethod.Post, new { enctype = "multipart/form-data" ,@class= "SpForm" }))
 {
     @Html.AntiForgeryToken()
 

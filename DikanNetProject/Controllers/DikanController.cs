@@ -19,7 +19,6 @@ namespace DikanNetProject.Controllers
 {
     public class DikanController : Controller
     {
-
         #region Variables
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
@@ -112,7 +111,7 @@ namespace DikanNetProject.Controllers
                                                         .Include(i => i.Student.Major)
                                                         .Include(i=>i.Student.Fundings)
                                                         .Include(i=>i.ScholarshipDefinition)
-                                                        .Where(s => s.ScholarshipId == spId)
+                                                        .Where(s => s.ScholarshipId == spId && s.Statuss != null)
                                                         .ToList();
                         return View("ListSocio", sociolist); // return view with this list
                         
@@ -123,7 +122,7 @@ namespace DikanNetProject.Controllers
                                                             .Include(i=>i.VolunteerPlaces1)
                                                             .Include(i=>i.VolunteerPlaces2)
                                                             .Include(i => i.ScholarshipDefinition)
-                                                            .Where(s => s.ScholarshipId == spId)
+                                                            .Where(s => s.ScholarshipId == spId && s.Statuss != null)
                                                             .ToList();
                         return View("ListHalacha", halachalist); // return view with this list   
 
@@ -132,7 +131,7 @@ namespace DikanNetProject.Controllers
                                                             .Include(i => i.Student)
                                                             .Include(i => i.Student.Major)
                                                             .Include(i => i.ScholarshipDefinition)
-                                                            .Where(s => s.ScholarshipId == spId)
+                                                            .Where(s => s.ScholarshipId == spId && s.Statuss != null)
                                                             .ToList();
                         return View("ListExcellence", excellentlist); // return view with this list
 
