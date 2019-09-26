@@ -6,8 +6,8 @@
     Layout = "~/Views/Dikan/_Layout.cshtml";
 }
 
-    <a class="" href="#StudentModal" data-toggle="modal">@Html.DisplayFor(model => model.Student.FirstName) @Html.DisplayFor(model => model.Student.LastName) - @Html.DisplayFor(model => model.Student.StudentId)</a>
-
+@Html.DisplayFor(model => model.Student.FirstName) @Html.DisplayFor(model => model.Student.LastName) - @Html.DisplayFor(model => model.Student.StudentId)
+    @Html.Partial("StudentDetails", Model.Student)
 <div class="w-75 mx-auto">
     <h4>מלגת @Html.DisplayFor(model => model.ScholarshipDefinition.ScholarshipName)</h4>
     <hr />
@@ -75,126 +75,6 @@
     </div>
 </div>
 
-<!-- Student Modal -->
-<div class="modal fade" id="StudentModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">@Model.Student.FirstName  @Model.Student.LastName - @Model.StudentId</h4>
-                <button type="button" class="close ml-0" data-dismiss="modal">&times;</button>
-            </div>
-
-            <!-- Modal body -->
-            <div class="modal-body text-center">
-                <dl class="dl-horizontal">
-                    <dt>
-                        @Html.DisplayName("אימייל")
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.Student.Email)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Student.City)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.Student.Cities.Name)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Student.Street)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.Student.Street)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Student.HouseNo)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.Student.HouseNo)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Student.MajorId)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.Student.Major.MajorName)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Student.LearnPath)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.Student.LearnPath)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Student.BirthDay)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.Student.BirthDay)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Student.Gender)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.Student.Gender)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Student.CellphoneNo)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.Student.CellphoneNo)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Student.PhoneNo)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.Student.PhoneNo)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Student.CountryBirthId)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.Student.Country.CountryName)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Student.MaritalStatus)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.Student.MaritalStatus)
-
-                </dl>
-            </div>
-
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">סגירה</button>
-            </div>
-
-        </div>
-    </div>
-</div>
 
 @section scripts{
     <script>

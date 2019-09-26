@@ -5,7 +5,8 @@
     Layout = "~/Views/Dikan/_Layout.cshtml";
 }
 
-    <h2>@Html.DisplayFor(model => model.Student.FirstName) @Html.DisplayFor(model => model.Student.LastName) - @Html.DisplayFor(model => model.Student.StudentId)</h2>
+<h2>@Html.DisplayFor(model => model.Student.FirstName) @Html.DisplayFor(model => model.Student.LastName) - @Html.DisplayFor(model => model.Student.StudentId)</h2>
+@Html.Partial("StudentDetails", Model.Student)
 
 <div class="w-75 mx-auto">
     <h4>מלגת @Html.DisplayFor(model => model.ScholarshipDefinition.ScholarshipName)</h4>

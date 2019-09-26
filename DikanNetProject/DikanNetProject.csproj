@@ -502,6 +502,7 @@
     <Content Include="Views\Dikan\StudExcellence.cshtml" />
     <Content Include="Views\Dikan\StudSocio.cshtml" />
     <Content Include="Views\Dikan\View.cshtml" />
+    <Content Include="Views\Dikan\StudentDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

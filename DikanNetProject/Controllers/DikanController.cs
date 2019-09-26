@@ -231,6 +231,8 @@ namespace DikanNetProject.Controllers
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
+        
+
         #endregion
 
         #region Manage Head Major + Majors
