@@ -173,10 +173,10 @@
 
                     @Html.RadioButtonFor(model => model.SocioMod.MilitaryService, Common.Enums.MilitaryTypes.לאומי)
                     <span>@Common.Enums.MilitaryTypes.לאומי</span>
-                    
-                    @Html.RadioButtonFor(model => model.SocioMod.MilitaryService, Common.Enums.MilitaryTypes.אחר , new {Checked = (@Model.SocioMod.MilitaryService.Contains("אחר")) ? "checked" : "" })
-                    <input type="text" value='@((@Model.SocioMod.MilitaryService.Contains("אחר")) ? @Model.SocioMod.MilitaryService : "אחר - " )' id="otherMili" placeholder="אחר - ">
 
+                    @* @Html.RadioButtonFor(model => model.SocioMod.MilitaryService, Common.Enums.MilitaryTypes.אחר , new {Checked = (@Model.SocioMod.MilitaryService.Contains("אחר")) ? "checked" : "" })
+        <input type="text" value='@((@Model.SocioMod.MilitaryService.Contains("אחר")) ? @Model.SocioMod.MilitaryService : "אחר - " )' id="otherMili" placeholder="אחר - ">
+                    *@
                     @Html.ValidationMessageFor(model => model.SocioMod.MilitaryService, "", new { @class = "text-danger" })
                 </div>
             </div>

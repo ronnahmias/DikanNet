@@ -58,8 +58,7 @@
                 @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "control-label col-md-4 col-12" })
                 @Html.ValidationMessageFor(model => model.FileFamId, "", new { @class = "control-label col-md-4 col-12" })
             </div>
-            @Html.HiddenFor(model => model.WorkSt, new { htmlAttributes = new { @class = "control-label must col-12 " } })
-
+            
             <div class="col-md-10">
                 @Html.LabelFor(model => model.WorkSt, htmlAttributes: new { @class = "control-label col-md-2" })
 
