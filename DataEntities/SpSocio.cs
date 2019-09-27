@@ -102,6 +102,8 @@ namespace DataEntities
         public string Comments { get; set; }
 
 
+
+        // avg of sp for list
         [NotMapped]
         public int AvgIncome { get; set; }
 
@@ -110,6 +112,9 @@ namespace DataEntities
 
         [NotMapped]
         public int NumOfPersons { get; set; }
+
+        [NotMapped]
+        public string fundingList { get; set; }
 
         //FORGEIN KEYS
         public virtual SpDefinition ScholarshipDefinition { get; set; }

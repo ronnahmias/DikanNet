@@ -165,9 +165,15 @@ namespace DikanNetProject.Controllers
                     }
                     persons += ctx.FamilyMembers.Where(s => s.StudentId == socio.StudentId).ToList().Count(); // sum persons of the family
                 }
-                socio.AvgIncome = sumincome / persons;
-                socio.AvgExpense = sumexpense / persons;
-                socio.NumOfPersons = persons;
+                socio.AvgIncome = sumincome / persons; // insert average income
+                socio.AvgExpense = sumexpense / persons; // insert average expense
+                socio.NumOfPersons = persons; // insert persons
+
+                foreach(var fund in socio.Student.Fundings.ToList()) // make list of fundings into field on spsocio
+                {
+                    socio.fundingList += "<li>" + fund.FinancingInstitution + " - " + fund.FinancingHeight + " ש\"ח" + "</li>";
+                    //socio.fundingList += "</br>";
+                }
             }
             return sociolist;
         }

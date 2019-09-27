@@ -18,7 +18,11 @@
             columns.Add(model => model.AvgIncome).Titled("הכנסה ממוצעת לנפש");
             columns.Add(model => model.AvgExpense).Titled("הוצאה ממוצעת לנפש");
             columns.Add(model => model.NumOfPersons).Titled("מספר נפשות");
-            columns.Add(model => model.HasFunding).Titled("מימון").RenderedAs(model => model.HasFunding == false ? "אין מימון נוסף" :  "");
+            columns.Add(model => model.HasFunding).Titled("מימון").RenderedAs(model => model.HasFunding == false ? "אין מימון נוסף" :  "<a href='#' data-html='true' data-toggle='popover' data-placement='left' title='גוף מממן - גובה מימון' data-content='<ul>" + model.fundingList +"</ul>'"+ ">" +  "קיים מימון נוסף" + "</a>").Encoded(false).Filterable(true).Sortable(true).UsingFilterOptions(new[]
+        {
+            new SelectListItem { Value = "false", Text = "אין מימון נוסף" },
+            new SelectListItem { Value = "true", Text = "קיים מימון נוסף" }
+        });
             columns.Add(model => model.DisabilityType).Titled("סוג נכות");
             columns.Add(model => model.Statuss).Titled(Html.DisplayNameFor(s => s.Statuss)).Filterable(true).UsingFilterOptions(new[]
         {
