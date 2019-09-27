@@ -55,6 +55,9 @@ div.chose-file {
   max-width: 200px;
   font-size: 17px; }
 
+.chosen-100 .chosen-container {
+  max-width: 100%; }
+
 div#reqStatuses > div:nth-child(odd) {
   background-color: #ddd; }
 

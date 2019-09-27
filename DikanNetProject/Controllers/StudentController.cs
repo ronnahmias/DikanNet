@@ -382,6 +382,9 @@ namespace DikanNetProject.Controllers
 
         #region SocioEconomic Scholarship
 
+
+        #region SocioEconomic GET
+
         [HttpGet]
         [Authorize(Roles = "Student")]
         public ActionResult Socio(int scholarshipid, bool open = false)
@@ -519,6 +522,9 @@ namespace DikanNetProject.Controllers
             }
             return View(socio);
         }
+        #endregion
+
+        #region SocioEconomic POST
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -1159,7 +1165,7 @@ namespace DikanNetProject.Controllers
                 {
                     if (finDb.FinNo < 0 || finDb.FinNo > 2) continue;
                     PathFinance[0, finDb.FinNo] = finDb.PathExpense;
-                    PathFinance[0, finDb.FinNo] = finDb.PathSalary;
+                    PathFinance[1, finDb.FinNo] = finDb.PathSalary;
                     ctx.StudentFinances.Remove(finDb);
                 }
                 ctx.SaveChanges();
@@ -1176,7 +1182,7 @@ namespace DikanNetProject.Controllers
                     if (fin.FinNo >= 0 && fin.FinNo <= 2)
                     {
                         fin.PathExpense = PathFinance[0, fin.FinNo];
-                        fin.PathSalary = PathFinance[0, fin.FinNo];
+                        fin.PathSalary = PathFinance[1, fin.FinNo];
                     }
 
                     // if there is a expense file upload and update the file path
@@ -1218,7 +1224,7 @@ namespace DikanNetProject.Controllers
                     {
                         if (finDb.FinNo < 0 || finDb.FinNo > 2) continue;
                         PathFinance[0, finDb.FinNo] = finDb.PathExpense;
-                        PathFinance[0, finDb.FinNo] = finDb.PathSalary;
+                        PathFinance[1, finDb.FinNo] = finDb.PathSalary;
                         ctx.FamilyStudentFinances.Remove(finDb);
                     }
                     ctx.SaveChanges();
@@ -1239,7 +1245,7 @@ namespace DikanNetProject.Controllers
                         if (fin.FinNo >= 0 && fin.FinNo <= 2)
                         {
                             fin.PathExpense = PathFinance[0, fin.FinNo];
-                            fin.PathSalary = PathFinance[0, fin.FinNo];
+                            fin.PathSalary = PathFinance[1, fin.FinNo];
                         }
 
                         // if there is a expense file upload and update the file path
@@ -1357,6 +1363,8 @@ namespace DikanNetProject.Controllers
             }
             return socio;
         }
+        #endregion
+
         #endregion
 
         #endregion
