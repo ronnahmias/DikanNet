@@ -11,73 +11,95 @@
     <div class="fammember">
         @using (Html.BeginCollectionItem("ListFamMemFin", ""))
         {
-        <div class="form-group row text-center">
-            <!--labels for table of family member-->
-            @Html.LabelFor(model => model.FamilyMemberId, htmlAttributes: new { @class = "control-label col-md-2" })
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            @Html.LabelFor(model => model.BirthDay, htmlAttributes: new { @class = "control-label col-md-2" })
-            @Html.LabelFor(model => model.Realationship, htmlAttributes: new { @class = "control-label col-md-2" })
-            @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-1" })
-            @Html.LabelFor(model => model.FileFamId, htmlAttributes: new { @class = "control-label col-md-2" })
-            @Html.LabelFor(model => model.PathFmId, htmlAttributes: new { @class = "control-label col-md-1" })
-        </div>
-        <div class="form-group row text-center">
-            @Html.EditorFor(model => model.FamilyMemberId, new { htmlAttributes = new { @class = "control-label id must col-md-2" } })
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "control-label must col-md-2" } })
 
-            @Html.EditorFor(model => model.BirthDay, new { htmlAttributes = new { @class = "control-label must col-md-2 datepicker only-numbers", @data_toggle = "datepicker" } })
-            @Html.DropDownListFor(model => model.Realationship, new SelectList(Enum.GetValues(typeof(Enums.Realationship)), null, new List<Enums.Realationship> { Enums.Realationship.אח, Enums.Realationship.אחות, Enums.Realationship.בן, Enums.Realationship.בת }), "", new { @class = "control-label must chosen col-md-2", @data_placeholder = "סוג קרבה" })
-            @Html.DropDownListFor(model => model.Gender, new SelectList(Enum.GetValues(typeof(Enums.Genders))), "", new { @class = "control-label must chosen col-md-1", @data_placeholder = "מגדר" })
-            @Html.TextBoxFor(model => model.FileFamId, new { @class = "control-label col-md-2", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
-            @Html.DisplayFor(model => model.PathFmId, new { @class = "control-label col-md-1" })
-        </div>
-        <div class="form-group row text-danger">
-            @Html.ValidationMessageFor(model => model.FamilyMemberId, "", new { @class = "control-label col-md-2" })
-            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "control-label col-md-2" })
-            @Html.ValidationMessageFor(model => model.BirthDay, "", new { @class = "control-label col-md-2" })
-            @Html.ValidationMessageFor(model => model.Realationship, "", new { @class = "control-label col-md-2" })
-            @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "control-label col-md-2" })
-            @Html.ValidationMessageFor(model => model.FileFamId, "", new { @class = "control-label col-md-2" })
-        </div>
-        <div class="col-md-10">
-            @Html.LabelFor(model => model.WorkSt, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="form-group row text-center">
+                @Html.LabelFor(model => model.FamilyMemberId, htmlAttributes: new { @class = "control-label col-md-4 col-12" })
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-4 col-12" })
+                @Html.LabelFor(model => model.BirthDay, htmlAttributes: new { @class = "control-label col-md-4 col-12" })
+            </div>
+            <div class="form-group row text-center">
+                @Html.EditorFor(model => model.FamilyMemberId, new { htmlAttributes = new { @class = "control-label id must col-md-4 col-12" } })
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "control-label must col-md-4 col-12" } })
+                @Html.EditorFor(model => model.BirthDay, new { htmlAttributes = new { @class = "control-label must col-md-4 col-12 datepicker only-numbers", @data_toggle = "datepicker" } })
+            </div>
 
-            @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.שכיר, htmlAttributes: new {@data_toggle=dataToggle ,@data_target=dataTarget,@class="workset"})
-            <span>@Common.Enums.WorkingStatus.שכיר</span>
 
-            @Html.RadioButtonFor(model => model.WorkSt, Common.Enums.WorkingStatus.עצמאי, htmlAttributes: new { @data_toggle=dataToggle ,@data_target=dataTarget,@class="workset" })
-            <span>@Common.Enums.WorkingStatus.עצמאי</span>
+            <div class="form-group row text-center">
+                @Html.LabelFor(model => model.Realationship, htmlAttributes: new { @class = "control-label col-md-3 col-12" })
+                @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-3 col-12" })
+                @Html.LabelFor(model => model.FileFamId, htmlAttributes: new { @class = "control-label col-md-3 col-12", @for = "" })
+            </div>
+            <div class="form-group row text-center">
+                <div class=" col-md-3 col-12">
+                    @Html.DropDownListFor(model => model.Realationship, new SelectList(Enum.GetValues(typeof(Enums.Realationship)), null, new List<Enums.Realationship> { Enums.Realationship.אח, Enums.Realationship.אחות, Enums.Realationship.בן, Enums.Realationship.בת }), "", new { @class = "control-label must chosen", @data_placeholder = "סוג קרבה" })
+                </div>
+                <div class=" col-md-3 col-12">
+                    @Html.DropDownListFor(model => model.Gender, new SelectList(Enum.GetValues(typeof(Enums.Genders))), "", new { @class = "control-label must chosen chosen-100 col-md-3 col-12", @data_placeholder = "מגדר" })
+                </div>
+                <div class="row">
+                    <div class="chose-file m-3 mt-0">
+                        @Html.TextBoxFor(model => model.FileFamId, new { @class = "must form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;", @path = @Model.PathFmId })
+                        <label for="@Html.IdFor(m => m.FileFamId)">
+                            <i class="ml-1 material-icons">add_photo_alternate</i>
+                            בחר קובץ
+                        </label>
+                    </div>
+                    <a name="@Model.PathFmId" style="display:@(Model.PathFmId != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
+                </div>
+                @*
+                @Html.TextBoxFor(model => model.FileFamId, new { @class = "control-label col-md-3 col-12", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf" })
+                @Html.DisplayFor(model => model.PathFmId, new { @class = "control-label col-md-3 col-12" })*@
+            </div>
+            <div class="form-group row text-danger">
+                @Html.ValidationMessageFor(model => model.FamilyMemberId, "", new { @class = "control-label col-md-4 col-12" })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "control-label col-md-4 col-12" })
+                @Html.ValidationMessageFor(model => model.BirthDay, "", new { @class = "control-label col-md-4 col-12" })
+                @Html.ValidationMessageFor(model => model.Realationship, "", new { @class = "control-label col-md-4 col-12" })
+                @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "control-label col-md-4 col-12" })
+                @Html.ValidationMessageFor(model => model.FileFamId, "", new { @class = "control-label col-md-4 col-12" })
+            </div>
+            @Html.HiddenFor(model => model.WorkSt, new { htmlAttributes = new { @class = "control-label must col-12 " } })
 
-            @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.חבר_קיבוץ, htmlAttributes: new { @data_toggle=dataToggle ,@data_target=dataTarget,@class="workset" })
-            <span>@Common.Enums.WorkingStatus.חבר_קיבוץ</span>
+            <div class="col-md-10">
+                @Html.LabelFor(model => model.WorkSt, htmlAttributes: new { @class = "control-label col-md-2" })
 
-            @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.לא_עובד, htmlAttributes: new { @data_toggle=dataToggle ,@data_target=dataTarget,@class="workset" })
-            <span>@Common.Enums.WorkingStatus.לא_עובד</span>
+                @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.שכיר, htmlAttributes: new { @data_toggle = dataToggle, @data_target = dataTarget, @class = "workset" })
+                <span>@Common.Enums.WorkingStatus.שכיר</span>
 
-            @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.פנסיונר, htmlAttributes: new { @data_toggle=dataToggle ,@data_target=dataTarget,@class="workset" })
-            <span>@Common.Enums.WorkingStatus.פנסיונר</span>
+                @Html.RadioButtonFor(model => model.WorkSt, Common.Enums.WorkingStatus.עצמאי, htmlAttributes: new { @data_toggle = dataToggle, @data_target = dataTarget, @class = "workset" })
+                <span>@Common.Enums.WorkingStatus.עצמאי</span>
 
-            @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.נכה, htmlAttributes: new { @data_toggle=dataToggle ,@data_target=dataTarget,@class="workset" })
-            <span>@Common.Enums.WorkingStatus.נכה</span>
+                @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.חבר_קיבוץ, htmlAttributes: new { @data_toggle = dataToggle, @data_target = dataTarget, @class = "workset" })
+                <span>@Common.Enums.WorkingStatus.חבר_קיבוץ</span>
 
-            @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.נפטר, htmlAttributes: new { @data_toggle=dataToggle ,@data_target=dataTarget,@class="workset" })
-            <span>@Common.Enums.WorkingStatus.נפטר</span>
+                @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.לא_עובד, htmlAttributes: new { @data_toggle = dataToggle, @data_target = dataTarget, @class = "workset" })
+                <span>@Common.Enums.WorkingStatus.לא_עובד</span>
 
-            @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.אחר, htmlAttributes: new { @data_toggle=dataToggle ,@data_target=dataTarget ,@class="workset"})
-            <span>@Common.Enums.WorkingStatus.אחר</span>
+                @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.פנסיונר, htmlAttributes: new { @data_toggle = dataToggle, @data_target = dataTarget, @class = "workset" })
+                <span>@Common.Enums.WorkingStatus.פנסיונר</span>
 
-            @Html.ValidationMessageFor(model => model.WorkSt, "", new { @class = "text-danger" })
-        </div>
-        <div id=@string.Format("FamFinDet{0}", @StaticVar.Idd) class="FamFinDet">
-            @{ if (Model.FamilyStudentFinances != null)
-                {
-                    foreach (var FamFinn in Model.FamilyStudentFinances.ToList())
+                @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.נכה, htmlAttributes: new { @data_toggle = dataToggle, @data_target = dataTarget, @class = "workset" })
+                <span>@Common.Enums.WorkingStatus.נכה</span>
+
+                @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.נפטר, htmlAttributes: new { @data_toggle = dataToggle, @data_target = dataTarget, @class = "workset" })
+                <span>@Common.Enums.WorkingStatus.נפטר</span>
+
+                @Html.RadioButtonFor(model => model.WorkSt, Enums.WorkingStatus.אחר, htmlAttributes: new { @data_toggle = dataToggle, @data_target = dataTarget, @class = "workset" })
+                <span>@Common.Enums.WorkingStatus.אחר</span>
+
+                @Html.ValidationMessageFor(model => model.WorkSt, "", new { @class = "text-danger" })
+            </div>
+            <div id=@string.Format("FamFinDet{0}", @StaticVar.Idd) class="FamFinDet">
+                @{ if (Model.FamilyStudentFinances != null)
                     {
-                        @Html.Partial("FamilyFinView", FamFinn)
+                        foreach (var FamFinn in Model.FamilyStudentFinances.ToList())
+                        {
+                            @Html.Partial("FamilyFinView", FamFinn)
+                        }
                     }
                 }
-             }
+
+            </div>
             <span style="display:none;">@StaticVar.getIdd</span>
-        </div>
-                }
+        }
     </div>
