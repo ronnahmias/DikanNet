@@ -1,0 +1,40 @@
+﻿@model DikanNetProject.Models.UserLogin
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="google-site-verification" content="1c3ShL4Ty1mpEu-yehORhQNbIzY2g-KWY4bbPg2q73Y" />
+        <title>@ViewBag.Title</title>
+        <link rel="icon" href="~/Content/construction/logoconst.png" type="image/x-icon" />
+        <link href="https://fonts.googleapis.com/css?family=Heebo&display=swap" rel="stylesheet" type="text/css">
+        @Styles.Render("~/Content/Css")
+    </head>
+    <body style="background-image:url(../../Content/construction/bgconstruction.jpg); background-attachment: fixed;
+            background-position: center; background-size: cover; background-repeat:no-repeat;">
+        <a href="@Url.Action("Construction", "Login")">
+            <img src="~/Content/construction/logoconst.png" alt="דיקאנט לוגו" class="logo img-fluid d-block mx-auto" style="width:30%" />
+        </a>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="row col-12 form-group justify-content-center text-right ">
+                <div class="input-group col-md-8 col-lg-6 col-xl-5">
+                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", id = @Html.NameFor(m => m.Password), type = "password", name = @Html.NameFor(m => m.Password) } })
+                </div>
+            </div>
+
+            <div class="row"></div>
+
+            <div class="col-sm-12 col-md-11 col-lg-10 col-xl-9 text-center mb-2 mx-auto">
+                <button type="submit" class="btn btn-warning">✔</button>
+            </div>
+        }
+    </body>
+</html>

@@ -72,12 +72,38 @@ namespace DikanNetProject.Controllers
         }
         #endregion
 
+        #region Construction
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult Construction()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult Construction(UserLogin login)
+        {
+            if (login.Password == "252525")
+            {
+                Session.Add("Const", "underconstruction");
+                return RedirectToAction("Login");
+            }
+            return View(login);
+        }
+
+
+        #endregion
+
         #region Login
 
         [HttpGet]
         [AllowAnonymous]
         public ActionResult Login(string returnUrl, string response = "")
         {
+            if(Session["Const"] == null)
+                return RedirectToAction("Construction");
             ViewBag.ReturnUrl = returnUrl;
             ViewBag.Status = response; // if cames from role redirect method with error
             if (User.Identity.IsAuthenticated)
@@ -338,6 +364,7 @@ namespace DikanNetProject.Controllers
         public ActionResult Disconnect() // disconnect from user
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            Session.RemoveAll();
             return RedirectToAction("Login", "Login", null);
         }
         #endregion

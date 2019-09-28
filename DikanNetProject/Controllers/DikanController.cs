@@ -23,6 +23,15 @@ namespace DikanNetProject.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            base.OnActionExecuting(filterContext);
+            if (Session["Const"] == null)
+            {
+                filterContext.Result = new RedirectResult("/Login/Construction");
+            }
+        }
+
         public DikanController()
         {
         }

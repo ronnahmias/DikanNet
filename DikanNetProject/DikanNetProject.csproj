@@ -333,6 +333,8 @@
     <Compile Include="Models\StaticVar.cs" />
     <Compile Include="Models\ViewDikanModels.cs" />
     <Compile Include="Startup.cs" />
+    <Content Include="Content\construction\bgconstruction.jpg" />
+    <Content Include="Content\construction\logoconst.png" />
     <Content Include="Content\Css\BaseCSS.css" />
     <Content Include="Content\Css\Chosen\chosen.min.css" />
     <Content Include="Content\Css\datepicker.css" />
@@ -503,6 +505,7 @@
     <Content Include="Views\Dikan\View.cshtml" />
     <Content Include="Views\Dikan\StudentDetails.cshtml" />
     <Content Include="Views\Dikan\StudSocio.cshtml" />
+    <Content Include="Views\Login\Construction.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
