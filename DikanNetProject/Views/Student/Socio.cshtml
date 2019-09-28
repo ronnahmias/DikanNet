@@ -6,6 +6,12 @@
     Layout = "~/Views/Student/_Sp_Layout.cshtml";
 }
 <h2>סוציואקונומי</h2>
+<style>
+    .bg-color {
+        background-color: #2D357D;
+        color: white;
+    }
+</style>
 
 @using (Html.BeginForm("Socio", "Student", FormMethod.Post, new { enctype = "multipart/form-data" ,@class= "SpForm" }))
 {
@@ -19,7 +25,7 @@
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
     <!-- #region Socio Model -->
-    <button type="button" class="btn btn-primary col-12 my-2" data-toggle="collapse" data-target="#Basic">פרטים בסיסיים</button>
+    <button type="button" class="btn bg-color col-12 my-2" data-toggle="collapse" data-target="#Basic">פרטים בסיסיים</button>
 
     <div id="Basic" class="collapse p-3">
         <div class="row col-12">
@@ -266,7 +272,7 @@
     </div>
     <!-- #endregion -->
     <!-- #region Funding -->
-    <button type="button" class="btn btn-primary col-12 my-2" data-toggle="collapse" data-target="#FundingWarpper">מימון נוסף</button>
+    <button type="button" class="btn bg-color col-12 my-2" data-toggle="collapse" data-target="#FundingWarpper">מימון נוסף</button>
 
     <div id="FundingWarpper" class="collapse p-3">
         <div class="row form-group">
@@ -289,7 +295,7 @@
 
     <!-- #endregion -->
     <!-- #region Car Student -->
-    <button type="button" class="btn btn-primary col-12 my-2" data-toggle="collapse" data-target="#CarWarpper">רכבים</button>
+    <button type="button" class="btn bg-color col-12 my-2" data-toggle="collapse" data-target="#CarWarpper">רכבים</button>
 
     <div id="CarWarpper" class="collapse p-3">
         <div class="form-group row">
@@ -313,7 +319,7 @@
     </div>
     <!-- #endregion -->
     <!-- #region Student Finance -->
-    <button type="button" class="btn btn-primary col-12 my-2" data-toggle="collapse" data-target="#StudentFinanceWarpper">הכנסות סטודנט</button>
+    <button type="button" class="btn bg-color col-12 my-2" data-toggle="collapse" data-target="#StudentFinanceWarpper">הכנסות סטודנט</button>
 
     <div id="StudentFinanceWarpper" class="collapse p-3">
         <h4>הכנסות</h4>
@@ -356,7 +362,7 @@
     <!-- #endregion -->
     <!-- #region Family Member Finance -->
 
-    <button type="button" class="btn btn-primary col-12 my-2" data-toggle="collapse" data-target="#FamilyFinanceWarpper">הכנסות בן-בת זוג / הורים</button>
+    <button type="button" class="btn bg-color col-12 my-2" data-toggle="collapse" data-target="#FamilyFinanceWarpper">הכנסות בן-בת זוג / הורים</button>
 
     <div id="FamilyFinanceWarpper" class="collapse p-3">
         <h4>הכנסות בן-בת זוג / הורים</h4>
@@ -370,7 +376,7 @@
     <!-- #endregion -->
     <!-- #region Family Member -->
 
-    <button type="button" class="btn btn-primary col-12 my-2" data-toggle="collapse" data-target="#FamMemWarpper">בני משפחה</button>
+    <button type="button" class="btn bg-color col-12 my-2" data-toggle="collapse" data-target="#FamMemWarpper">בני משפחה</button>
 
     <div id="FamMemWarpper" class="collapse p-3">
         <h4>בני משפחה</h4>
@@ -384,7 +390,7 @@
         </div>
     </div>
     <!-- #endregion -->
-    <button type="button" class="btn btn-primary col-12 my-2" data-toggle="collapse" data-target="#comments">הערות נוספות</button>
+    <button type="button" class="btn bg-color col-12 my-2" data-toggle="collapse" data-target="#comments">הערות נוספות</button>
     <div id="comments" class="collapse p-3">
         @Html.LabelFor(model => model.SocioMod.Comments, htmlAttributes: new { @class = "control-label col-12" })
 

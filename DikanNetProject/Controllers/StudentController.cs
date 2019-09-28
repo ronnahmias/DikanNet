@@ -409,7 +409,7 @@ namespace DikanNetProject.Controllers
                 #region Socio Model
                 // socio model get
                 socio.SocioMod = ctx.Socio.Where(s => s.StudentId == sStudentId && s.ScholarshipId == scholarshipid).SingleOrDefault(); // get socio model of student from db
-                if (socio.SocioMod == null) socio.SocioMod = new SpSocio (); // init workst radio button
+                if (socio.SocioMod == null) socio.SocioMod = new SpSocio { WorkSt = Enums.WorkingStatus.שכיר.ToString() }; // init workst radio button
                 socio.SocioMod.ScholarshipId = scholarshipid; // insert scholarship id in socio model
                 if(socio.SocioMod.DateSubmitScholarship != null && !open) // if already has entered this milga and not exception open
                     return RedirectToAction("Index");
@@ -488,7 +488,7 @@ namespace DikanNetProject.Controllers
                         do
                         {
                             IList<FamilyStudentFinance> familyStudentFinances = new List<FamilyStudentFinance>(); // init new list of finance to each family member
-                            socio.ListFamMemFin.Add(new FamilyMember { FamilyStudentFinances = familyStudentFinances }); // add family member row to list and init finance and work st
+                            socio.ListFamMemFin.Add(new FamilyMember { FamilyStudentFinances = familyStudentFinances, WorkSt = Enums.WorkingStatus.שכיר.ToString() }); // add family member row to list and init finance and work st
                         } while (socio.ListFamMemFin.Count < numofFamMem);
                     }
 
