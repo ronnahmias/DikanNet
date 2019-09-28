@@ -101,7 +101,8 @@ namespace DikanNetProject.Controllers
                     return RedirectToAction("Index", new { response = StringError });
 
                 // get the name of scholarship to view bag
-                ViewBag.SpTitle = ctx.SpDef.Where(s => s.ScholarshipID == spId).FirstOrDefault().ScholarshipName;
+                SpDefinition tempdefinition = ctx.SpDef.Where(s => s.ScholarshipID == spId).FirstOrDefault();
+                ViewBag.SpTitle = tempdefinition.ScholarshipName;
 
                 switch (EspType)
                 {
@@ -169,10 +170,10 @@ namespace DikanNetProject.Controllers
                 socio.AvgExpense = sumexpense / persons; // insert average expense
                 socio.NumOfPersons = persons; // insert persons
 
-                foreach(var fund in socio.Student.Fundings.ToList()) // make list of fundings into field on spsocio
+                foreach(var fund in socio.Student.Fundings.Where(i=>i.YearFinancing == socio.ScholarshipDefinition.DateDeadLine.Year || i.YearFinancing == socio.ScholarshipDefinition.DateDeadLine.Year-1).ToList()) // make list of fundings into field on spsocio
                 {
                     socio.fundingList += "<li>" + fund.FinancingInstitution + " - " + fund.FinancingHeight + " ש\"ח" + "</li>";
-                    //socio.fundingList += "</br>";
+                    
                 }
             }
             return sociolist;
@@ -195,10 +196,12 @@ namespace DikanNetProject.Controllers
                 {
                     case Enums.SpType.סוציואקונומית:
                          SpSocio Studsocio = ctx.Socio
-                                                    .Include(i=>i.Student)
+                                                    .Include(i => i.Student)
+                                                    .Include(i => i.ScholarshipDefinition)
                                                     .Include(i => i.Student.Major)
                                                     .Include(i => i.Student.Country)
-                                                    .Include(i=>i.ScholarshipDefinition)
+                                                    .Include(i => i.Student.Cities)
+                                                    .Include(i => i.Student.Fundings)
                                                     .Where(s => s.ScholarshipId == spId && s.StudentId == StudId)
                                                     .FirstOrDefault();
                         return View("StudSocio", Studsocio); // return view with the object
@@ -220,6 +223,9 @@ namespace DikanNetProject.Controllers
                          SpExcellence Studexcellent = ctx.Excellence
                                                     .Include(i => i.Student)
                                                     .Include(i => i.ScholarshipDefinition)
+                                                    .Include(i => i.Student.Major)
+                                                    .Include(i => i.Student.Country)
+                                                    .Include(i => i.Student.Cities)
                                                     .Where(s => s.ScholarshipId == spId && s.StudentId == StudId)
                                                     .FirstOrDefault();
                         return View("StudExcellence", Studexcellent); // return view with the object
@@ -245,19 +251,28 @@ namespace DikanNetProject.Controllers
                     case Enums.SpType.סוציואקונומית:
                         var studsocio = ctx.Socio.Where(s => s.ScholarshipId == ScholarId && s.StudentId == StudId).FirstOrDefault();
                         if (studsocio != null) // if found update status
+                        {
                             studsocio.Statuss = status;
+                            studsocio.StatusUpdateDate = DateTime.Now;
+                        }
                         break;
 
                     case Enums.SpType.הלכה:
                         var studhalacha = ctx.Halacha.Where(s => s.ScholarshipId == ScholarId && s.StudentId == StudId).FirstOrDefault();
                         if (studhalacha != null) // if found update status
+                        {
                             studhalacha.Statuss = status;
+                            studhalacha.StatusUpdateDate = DateTime.Now;
+                        }
                         break;
 
                     case Enums.SpType.מצוינות:
                         var studEx = ctx.Halacha.Where(s => s.ScholarshipId == ScholarId && s.StudentId == StudId).FirstOrDefault();
                         if (studEx != null) // if found update status
+                        {
                             studEx.Statuss = status;
+                            studEx.StatusUpdateDate = DateTime.Now;
+                        }
                         break;
 
                     default: return new HttpStatusCodeResult(HttpStatusCode.NotFound);
