@@ -133,8 +133,9 @@
 
     @foreach (var fund in Model.Student.Fundings)
     {
-        @Html.DisplayNameFor(model=>model.Student.Fundings)
-        @fund.FinancingInstitution @fund.FinancingHeight @fund.YearFinancing
+       <dt> @Html.DisplayNameFor(Model=>fund.FinancingInstitution) - @Html.DisplayNameFor(Model=>fund.FinancingHeight) - @Html.DisplayNameFor(Model=>fund.YearFinancing) </dt>
+        
+       <dd>@fund.FinancingInstitution - @fund.FinancingHeight - @fund.YearFinancing @fund.PathFunding כפתור קובץ</dd>
     }
 
     <dt>
