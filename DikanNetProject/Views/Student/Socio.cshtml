@@ -172,17 +172,18 @@
         </div>
         <div class="row">
             <div class="form-group">
+                @{var miltaryServ = @Model.SocioMod.MilitaryService;  }
                 @Html.LabelFor(model => model.SocioMod.MilitaryService, htmlAttributes: new { @class = "control-label" })
                 <div class="">
+                    @Html.RadioButtonFor(model => model.SocioMod.MilitaryService, Common.Enums.MilitaryTypes.אחר, new { Checked = (miltaryServ != null && miltaryServ.Contains("אחר")) ? "checked" : "" })
+                    <input type="text" value='@((miltaryServ != null && miltaryServ.Contains("אחר")) ? @Model.SocioMod.MilitaryService : "אחר - " )' id="otherMili" placeholder="אחר - ">
+
                     @Html.RadioButtonFor(model => model.SocioMod.MilitaryService, Common.Enums.MilitaryTypes.צבאי)
                     <span>@Common.Enums.MilitaryTypes.צבאי</span>
 
                     @Html.RadioButtonFor(model => model.SocioMod.MilitaryService, Common.Enums.MilitaryTypes.לאומי)
                     <span>@Common.Enums.MilitaryTypes.לאומי</span>
 
-                    @* @Html.RadioButtonFor(model => model.SocioMod.MilitaryService, Common.Enums.MilitaryTypes.אחר , new {Checked = (@Model.SocioMod.MilitaryService.Contains("אחר")) ? "checked" : "" })
-        <input type="text" value='@((@Model.SocioMod.MilitaryService.Contains("אחר")) ? @Model.SocioMod.MilitaryService : "אחר - " )' id="otherMili" placeholder="אחר - ">
-                    *@
                     @Html.ValidationMessageFor(model => model.SocioMod.MilitaryService, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -496,7 +497,7 @@
          * אני בודק שהמילה 'אחר' נמצאת אם לא אני אוסיף אותה
          */
         var e = $(this);
-        var $input = $('input[name="SocioMod.MilitaryService"]').last();
+        var $input = $('input[name="SocioMod.MilitaryService"]').first();
         $input.prop('checked', true);
         if(!e.val().includes('אחר '))
             e.val('אחר - ' + e.val());
