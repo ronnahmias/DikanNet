@@ -44,5 +44,7 @@ namespace DataEntities
         public virtual ICollection<SpExcellence> ExcellenceStudents { get; set; }
         public virtual ICollection<StudentFinance> StudentFinances { get; set; }
         public virtual ICollection<FamilyStudentFinance> FamilyStudentFinances { get; set; }
+        public virtual ICollection<Funding> Fundings { get; set; }
+        public virtual ICollection<CarStudent> CarStudents { get; set; }
     }
 }

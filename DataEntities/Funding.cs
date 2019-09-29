@@ -31,6 +31,9 @@ namespace DataEntities
         [NotMapped, Display(Name = "קובץ מימון")]
         public HttpPostedFileBase FileFunding { get; set; }
 
+        public int SpId { get; set; }
+
         public virtual Student Student { get; set; }
+        public virtual SpDefinition SpDefinition { get; set; }
     }
 }

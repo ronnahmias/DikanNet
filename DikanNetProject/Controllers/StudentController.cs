@@ -416,9 +416,9 @@ namespace DikanNetProject.Controllers
                 #endregion
 
                 #region Car Student + Fundings
-                foreach (var car in ctx.CarStudents.Where(s => s.StudentId == sStudentId).ToList()) // get all cars of student from db to list
+                foreach (var car in ctx.CarStudents.Where(s => s.StudentId == sStudentId && s.SpId == scholarshipid).ToList()) // get all cars of student from db to list
                     socio.ListCarStudent.Add(car);
-                foreach (var fund in ctx.Fundings.Where(s => s.StudentId == sStudentId).ToList()) // get all fundings of student from db to list
+                foreach (var fund in ctx.Fundings.Where(s => s.StudentId == sStudentId && s.SpId == scholarshipid).ToList()) // get all fundings of student from db to list
                     socio.ListFundings.Add(fund);
                 #endregion
 
@@ -553,10 +553,10 @@ namespace DikanNetProject.Controllers
                 socio = SocioDraftValid(socio); // checks errors to save draft
             
             if (socio.SocioMod.CarOwner && socio.ListCarStudent != null)
-                SaveSocioCars(socio.ListCarStudent); // if there is cars -> Save Cars Detailes
+                SaveSocioCars(socio.ListCarStudent, socio.SocioMod.ScholarshipId); // if there is cars -> Save Cars Detailes
 
             if (socio.ListFundings != null)
-                SaveFundings(socio.ListFundings);  //  if there is fundings -> Save Funding
+                SaveFundings(socio.ListFundings, socio.SocioMod.ScholarshipId);  //  if there is fundings -> Save Funding
 
             SaveStudentFinance(socio.ListStudentFinances, socio.SocioMod.ScholarshipId); // Save Student Finance
 
@@ -1066,18 +1066,19 @@ namespace DikanNetProject.Controllers
 
         #region Save socio models
         [NonAction]
-        public void SaveSocioCars(List<CarStudent> ClientList)
+        public void SaveSocioCars(List<CarStudent> ClientList , int SpId)
         {
             List<CarStudent> DbList;
             CarStudent TempDbCar;
             using (DikanDbContext ctx = new DikanDbContext())
             {
                 // list of cars by database
-                DbList = ctx.CarStudents.Where(s => s.StudentId == sStudentId).ToList();
+                DbList = ctx.CarStudents.Where(s => s.StudentId == sStudentId && s.SpId == SpId).ToList();
                 // update each car that posted from client
                 foreach (var car in ClientList)
                 {
                     car.StudentId = sStudentId;// insert ths id of student to every car
+                    car.SpId = SpId;           // insert spid to every car     
                                                //find the car in the list by carNumber
                     TempDbCar = DbList.Where(s => s.CarNumber == car.CarNumber).FirstOrDefault();
                     //if it was change at carNumber reset the file path
@@ -1107,19 +1108,20 @@ namespace DikanNetProject.Controllers
         }
 
         [NonAction]
-        public void SaveFundings(List<Funding> ClientList)
+        public void SaveFundings(List<Funding> ClientList, int SpId)
         {
             List<Funding> DbList;
             Funding TempDbFund;
             using (DikanDbContext ctx = new DikanDbContext())
             {
                 // list of funding by database
-                DbList = ctx.Fundings.Where(s => s.StudentId == sStudentId).ToList();
+                DbList = ctx.Fundings.Where(s => s.StudentId == sStudentId && s.SpId == SpId).ToList();
                 // update each fund that posted from client
                 foreach (var fund in ClientList)
                 {
                     fund.StudentId = sStudentId;// insert ths id of student to every fund
-                                                //find the fund in the list by funding id and the student id
+                    fund.SpId = SpId; // insert spid to every fund
+                                      //find the fund in the list by funding id and the student id
                     TempDbFund = DbList.Where(s => s.FundingId == fund.FundingId && s.StudentId == sStudentId).FirstOrDefault();
 
                     if (TempDbFund != null)

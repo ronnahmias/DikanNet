@@ -32,10 +32,15 @@ namespace DataEntities
         [Display(Name = "שנת ייצור"), Required(ErrorMessage = "חובה להזין שנת ייצור")]
         public int CarYear { get; set; }
 
+        public int SpId { get; set; }
+
         [Display(Name = "הערות")]
         public string CarComment { get; set; }
 
-        [NotMapped]
+
+        // forgein key
         public virtual Student Student { get; set; }
+
+        public virtual SpDefinition SpDefinition { get; set; }
     }
 }

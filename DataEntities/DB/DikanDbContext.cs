@@ -66,6 +66,16 @@ namespace DataEntities.DB
               .WithRequired(s => s.SpDefinition)
               .HasForeignKey(s => s.SpId);
 
+            modelBuilder.Entity<SpDefinition>()
+              .HasMany(f => f.Fundings)
+              .WithRequired(s => s.SpDefinition)
+              .HasForeignKey(s => s.SpId);
+
+            modelBuilder.Entity<SpDefinition>()
+              .HasMany(f => f.CarStudents)
+              .WithRequired(s => s.SpDefinition)
+              .HasForeignKey(s => s.SpId);
+
             modelBuilder.Entity<FamilyMember>()
               .HasMany(f => f.FamilyStudentFinances)
               .WithRequired(s => s.FamilyMember)
