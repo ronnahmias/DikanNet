@@ -861,7 +861,7 @@ namespace DikanNetProject.Controllers
                     case Enums.WorkingStatus.נכה:
                     case Enums.WorkingStatus.אחר:
                         socio.ListStudentFinances.RemoveAt(1);
-                        socio.ListStudentFinances.RemoveAt(2);
+                        socio.ListStudentFinances.RemoveAt(1);
                         break;
                     case Enums.WorkingStatus.פנסיונר:
                         socio.ListStudentFinances.RemoveAt(2);
@@ -931,16 +931,16 @@ namespace DikanNetProject.Controllers
                     case Enums.WorkingStatus.לא_עובד:
                     case Enums.WorkingStatus.נכה:
                     case Enums.WorkingStatus.אחר:
-                        socio.ListStudentFinances.RemoveAt(1);
-                        socio.ListStudentFinances.RemoveAt(2);
+                        family.FamilyStudentFinances.RemoveAt(1);
+                        family.FamilyStudentFinances.RemoveAt(1);
                         break;
                     case Enums.WorkingStatus.נפטר:
-                        socio.ListStudentFinances.RemoveAt(1);
-                        socio.ListStudentFinances.RemoveAt(2);
+                        family.FamilyStudentFinances.RemoveAt(1);
+                        family.FamilyStudentFinances.RemoveAt(1);
                         needExpenseFile = false;
                         break;
                     case Enums.WorkingStatus.פנסיונר:
-                        socio.ListStudentFinances.RemoveAt(2);
+                        family.FamilyStudentFinances.RemoveAt(2);
                         break;
                     default:
                         break;

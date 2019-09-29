@@ -211,16 +211,24 @@ function checkMust() {
         $singleChosen.removeClass('border-danger');
         var txt = $this.val();
 
+        console.log("This: " + type);
+        console.log("Text: " + txt);
+        console.log("OK: " + ok);
+
         if (type == "file") {
+            console.log("File");
             if (!checkMustFile($this))
                 ok = false;
         }
-        else
+        else {
+            console.log("Else");
             if (txt.length == 0 || txt == null) {
                 ok = false;
                 $this.addClass('border-danger');
                 $singleChosen.addClass('border-danger');
             }
+        }
+            
     });
     return ok;
 }
