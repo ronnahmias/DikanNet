@@ -14,6 +14,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System.Data.Entity;
+using Z.EntityFramework.Plus;
 
 namespace DikanNetProject.Controllers
 {
@@ -23,14 +24,14 @@ namespace DikanNetProject.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        /*protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
             if (Session["Const"] == null)
             {
                 filterContext.Result = new RedirectResult("/Login/Construction");
             }
-        }
+        }*/
 
         public DikanController()
         {
@@ -179,7 +180,7 @@ namespace DikanNetProject.Controllers
                 socio.AvgExpense = sumexpense / persons; // insert average expense
                 socio.NumOfPersons = persons; // insert persons
 
-                foreach(var fund in socio.Student.Fundings.Where(i=>i.YearFinancing == socio.ScholarshipDefinition.DateDeadLine.Year || i.YearFinancing == socio.ScholarshipDefinition.DateDeadLine.Year-1).ToList()) // make list of fundings into field on spsocio
+                foreach(var fund in socio.Student.Fundings.Where(i=>i.SpId == socio.ScholarshipId).ToList()) // make list of fundings into field on spsocio
                 {
                     socio.fundingList += "<li>" + fund.FinancingInstitution + " - " + fund.FinancingHeight + " ש\"ח" + "</li>";
                     
@@ -204,13 +205,14 @@ namespace DikanNetProject.Controllers
                 switch (EspType)
                 {
                     case Enums.SpType.סוציואקונומית:
-                         SpSocio Studsocio = ctx.Socio
-                                                    .Include(i => i.Student)
-                                                    .Include(i => i.ScholarshipDefinition)
-                                                    .Include(i => i.Student.Major)
-                                                    .Include(i => i.Student.Country)
-                                                    .Include(i => i.Student.Cities)
-                                                    .Include(i => i.Student.Fundings)
+                        SpSocio Studsocio = ctx.Socio
+                                                   .IncludeOptimized(i => i.Student)
+                                                   .IncludeOptimized(i => i.ScholarshipDefinition)
+                                                   .IncludeOptimized(i => i.Student.Major)
+                                                   .IncludeOptimized(i => i.Student.Country)
+                                                   .IncludeOptimized(i => i.Student.Cities)
+                                                   .IncludeOptimized(i => i.Student.Fundings.Where(s => s.SpId == spId).ToList())
+                                                   .IncludeOptimized(i => i.Student.CarStudents.Where(s => s.SpId == spId).ToList())
                                                     .Where(s => s.ScholarshipId == spId && s.StudentId == StudId)
                                                     .FirstOrDefault();
                         return View("StudSocio", Studsocio); // return view with the object

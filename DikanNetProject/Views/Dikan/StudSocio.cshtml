@@ -131,11 +131,11 @@
     </dd>
 
 
-    @foreach (var fund in Model.Student.Fundings)
+    @foreach (var fund in Model.Student.Fundings.ToList())
     {
-       <dt> @Html.DisplayNameFor(Model=>fund.FinancingInstitution) - @Html.DisplayNameFor(Model=>fund.FinancingHeight) - @Html.DisplayNameFor(Model=>fund.YearFinancing) </dt>
-        
-       <dd>@fund.FinancingInstitution - @fund.FinancingHeight - @fund.YearFinancing @fund.PathFunding כפתור קובץ</dd>
+        <dt> @Html.DisplayNameFor(Model => fund.FinancingInstitution) - @Html.DisplayNameFor(Model => fund.FinancingHeight) - @Html.DisplayNameFor(Model => fund.YearFinancing) </dt>
+
+        <dd>@fund.FinancingInstitution - @fund.FinancingHeight - @fund.YearFinancing @fund.PathFunding כפתור קובץ</dd>
     }
 
     <dt>
@@ -145,6 +145,13 @@
     <dd>
         @Html.DisplayFor(model => model.CarOwner)
     </dd>
+
+    @foreach (var car in Model.Student.CarStudents.ToList())
+    {
+        <dt> @Html.DisplayNameFor(Model => car.CarNumber) - @Html.DisplayNameFor(Model => car.CarCompany) - @Html.DisplayNameFor(Model => car.CarModel) </dt>
+
+        <dd>@car.CarNumber - @car.CarCompany - @car.CarModel @car.PathCarLicense כפתור קובץ</dd>
+    }
 
     <dt>
         @Html.DisplayNameFor(model => model.DisabilityType)
