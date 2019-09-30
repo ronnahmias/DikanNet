@@ -177,6 +177,15 @@
         @Html.DisplayFor(model => model.WorkSt)
     </dd>
 
+    <dt>הכנסות סטודנט</dt>
+
+    @foreach (var fin in Model.Student.StudentFinances.ToList())
+    {
+        <dt> @Html.DisplayNameFor(Model => fin.Month) - @Html.DisplayNameFor(Model => fin.Year) - @Html.DisplayNameFor(Model => fin.Salary)- @Html.DisplayNameFor(Model => fin.Expense) </dt>
+
+        <dd>@fin.Month - @fin.Year - @fin.Salary @fin.Expense @fin.PathSalary @fin.PathExpense כפתור קובץ</dd>
+    }
+
     <dt>
         @Html.DisplayNameFor(model => model.Comments)
     </dt>
@@ -184,6 +193,34 @@
     <dd>
         @Html.DisplayFor(model => model.Comments)
     </dd>
+
+    <dt>בני משפחה עם הכנסות</dt>
+
+    @foreach (var fam in Model.Student.FamilyMembers.Where(s => s.WorkSt != null).ToList())
+    {
+        <dt> @Html.DisplayNameFor(Model => fam.FamilyMemberId) - @Html.DisplayNameFor(Model => fam.Name) - @Html.DisplayNameFor(Model => fam.Realationship)- @Html.DisplayNameFor(Model => fam.WorkSt) </dt>
+
+        <dd>@fam.FamilyMemberId - @fam.Name - @fam.Realationship @fam.WorkSt @fam.PathFmId כפתור קובץ</dd>
+        if (fam.FamilyStudentFinances != null)
+        {
+            foreach (var fin in fam.FamilyStudentFinances.Where(s=>s.SpId == Model.ScholarshipId).ToList())
+            {
+            <dt> @Html.DisplayNameFor(Model => fin.Month) - @Html.DisplayNameFor(Model => fin.Year) - @Html.DisplayNameFor(Model => fin.Salary)- @Html.DisplayNameFor(Model => fin.Expense) </dt>
+
+            <dd>@fin.Month - @fin.Year - @fin.Salary @fin.Expense @fin.PathSalary @fin.PathExpense כפתור קובץ</dd>
+            }
+        }
+    }
+
+    <dt>בני משפחה</dt>
+
+    @foreach (var fam in Model.Student.FamilyMembers.Where(s => s.WorkSt == null).ToList())
+    {
+        <dt> @Html.DisplayNameFor(Model => fam.FamilyMemberId) - @Html.DisplayNameFor(Model => fam.Name) - @Html.DisplayNameFor(Model => fam.Realationship)- @Html.DisplayNameFor(Model => fam.Gender) </dt>
+
+        <dd>@fam.FamilyMemberId - @fam.Name - @fam.Realationship @fam.Gender @fam.PathFmId כפתור קובץ</dd>
+    }
+
 </dl>
     <div>
         @Html.DropDownListFor(model => model.Statuss,

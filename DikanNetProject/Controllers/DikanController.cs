@@ -213,8 +213,11 @@ namespace DikanNetProject.Controllers
                                                    .IncludeOptimized(i => i.Student.Cities)
                                                    .IncludeOptimized(i => i.Student.Fundings.Where(s => s.SpId == spId).ToList())
                                                    .IncludeOptimized(i => i.Student.CarStudents.Where(s => s.SpId == spId).ToList())
-                                                    .Where(s => s.ScholarshipId == spId && s.StudentId == StudId)
-                                                    .FirstOrDefault();
+                                                   .IncludeOptimized(i=>i.Student.StudentFinances.Where(s => s.SpId == spId).ToList())
+                                                   .IncludeOptimized(i=>i.Student.FamilyMembers)
+                                                   .IncludeOptimizedByPath("Student.FamilyMembers.FamilyStudentFinances") // include finance
+                                                   .Where(s => s.ScholarshipId == spId && s.StudentId == StudId)
+                                                   .FirstOrDefault();
                         return View("StudSocio", Studsocio); // return view with the object
 
                     case Enums.SpType.הלכה:
