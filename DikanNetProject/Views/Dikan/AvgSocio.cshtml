@@ -1,0 +1,13 @@
+﻿@using DataEntities;
+@model IGrid<SpSocio>
+
+@if (Model.Rows.Any())
+{
+    <tr class="bg-light">
+        <td colspan="2"><b>ממוצע כללי</b></td>
+        <td><b>@(Model.Rows.Average(row => row.Model.AvgIncome))</b></td>
+        <td><b>@(Model.Rows.Average(row => row.Model.AvgExpense))</b></td>
+        <td><b>@(Model.Rows.Average(row => row.Model.NumOfPersons))</b></td>
+        <td colspan="4"><b>ממוצע כללי</b></td>
+    </tr>
+}
