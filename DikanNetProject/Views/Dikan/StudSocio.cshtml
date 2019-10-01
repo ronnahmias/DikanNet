@@ -186,14 +186,6 @@
         <dd>@fin.Month - @fin.Year - @fin.Salary @fin.Expense @fin.PathSalary @fin.PathExpense כפתור קובץ</dd>
     }
 
-    <dt>
-        @Html.DisplayNameFor(model => model.Comments)
-    </dt>
-
-    <dd>
-        @Html.DisplayFor(model => model.Comments)
-    </dd>
-
     <dt>בני משפחה עם הכנסות</dt>
 
     @foreach (var fam in Model.Student.FamilyMembers.Where(s => s.WorkSt != null).ToList())
@@ -203,11 +195,11 @@
         <dd>@fam.FamilyMemberId - @fam.Name - @fam.Realationship @fam.WorkSt @fam.PathFmId כפתור קובץ</dd>
         if (fam.FamilyStudentFinances != null)
         {
-            foreach (var fin in fam.FamilyStudentFinances.Where(s=>s.SpId == Model.ScholarshipId).ToList())
+            foreach (var fin in fam.FamilyStudentFinances.Where(s => s.SpId == Model.ScholarshipId).ToList())
             {
-            <dt> @Html.DisplayNameFor(Model => fin.Month) - @Html.DisplayNameFor(Model => fin.Year) - @Html.DisplayNameFor(Model => fin.Salary)- @Html.DisplayNameFor(Model => fin.Expense) </dt>
+                <dt> @Html.DisplayNameFor(Model => fin.Month) - @Html.DisplayNameFor(Model => fin.Year) - @Html.DisplayNameFor(Model => fin.Salary)- @Html.DisplayNameFor(Model => fin.Expense) </dt>
 
-            <dd>@fin.Month - @fin.Year - @fin.Salary @fin.Expense @fin.PathSalary @fin.PathExpense כפתור קובץ</dd>
+                <dd>@fin.Month - @fin.Year - @fin.Salary @fin.Expense @fin.PathSalary @fin.PathExpense כפתור קובץ</dd>
             }
         }
     }
@@ -220,6 +212,14 @@
 
         <dd>@fam.FamilyMemberId - @fam.Name - @fam.Realationship @fam.Gender @fam.PathFmId כפתור קובץ</dd>
     }
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Comments)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Comments)
+    </dd>
 
 </dl>
     <div>
