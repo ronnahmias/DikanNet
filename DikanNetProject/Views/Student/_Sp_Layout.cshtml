@@ -24,6 +24,15 @@
         @RenderBody()
     </div>
 
+    <div class="container-fluid text-center mt-4">
+        @Html.ActionLink("חזרה","Index", "Student", null, new { @class = "btn btn-warning" }) 
+        @Html.ActionLink("התנתק","Disconnect", "Login", null, new { @class = "btn btn-danger" })
+    </div>
+   
+
+
+
+
     <!-- errorModal -->
     <div class="modal fade" id="errorModal">
         <div class="modal-dialog">
@@ -141,7 +150,7 @@
     @Scripts.Render("~/bundles/signature_pad")
     @Scripts.Render("~/bundles/datepicker")
     @RenderSection("scripts", required: false)
-        <script>
+    <script>
         $(document).ready(function () {
             $('#successModal').css('display', 'none');
             if ('@ViewBag.ResOk' == 'True') $('#responseModal').modal('show');
@@ -177,7 +186,7 @@
 
         });
 
-        </script>
+    </script>
 
 </body>
 </html>
