@@ -124,18 +124,10 @@ div#reqStatuses > div:nth-child(odd)
 {
     content: "תמצית: ";
 }
-#reqScholarship div.tab-content p:nth-child(3):before
-{
-    content: "תנאים: ";
-}
-#reqScholarship div.tab-content p:nth-child(4):before
-{
-    content: "דרישות: ";
-}
-#reqScholarship div.tab-content p:nth-child(5):before
-{
+#reqScholarship div.tab-content p:nth-child(3):before {
     content: "גובה מלגה: ";
 }
+
 
 /*Halaca form*/
 #halaca-container {

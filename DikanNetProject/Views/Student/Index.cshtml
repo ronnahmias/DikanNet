@@ -126,8 +126,6 @@
                         <div class="tab-pane container @(spList.First() == sp ? "active" : "")" id=@idd>
                             <h3>@sp.ScholarshipName</h3>
                             <p>@sp.ScholarshipDetails</p>
-                            <p>המלגה מיועדת לסטודנטים מיעוטי יכולת בהתאם לדרישות מטה</p>
-                            <p>ללא מקורות מימון נוספים</p>
                             <p>@sp.ScholarshipAmount ש"ח</p>
 
                             @Html.ActionLink("להגשת בקשת מלגה", "RedirectToScholarship", new { scholarshipid = sp.ScholarshipID }, new { @class = "btn btn-primary" })
