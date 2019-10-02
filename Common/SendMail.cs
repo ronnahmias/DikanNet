@@ -18,7 +18,7 @@ namespace Common
 {
     public static class SendMail
     {
-        public static void SendEmailLink(IdentityMessage message) // send activation code
+        public static async Task SendEmailLink(IdentityMessage message) // send activation code
         {
             var fromEmail = new MailAddress("System.no-replay@dekan.co.il", "דיקאנט");
             var toEmail = new MailAddress(message.Destination);
@@ -26,12 +26,12 @@ namespace Common
            
             var smtp = new SmtpClient
             {
-                Host = "smtp.gmail.com",
-                Port = 587,
-                EnableSsl = true,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
+                Host = "dekan.co.il",
+                Port = 25,
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(fromEmail.Address, fromEmailPassword,"mail.dekan.co.il")
+                EnableSsl = false,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                Credentials = new NetworkCredential(fromEmail.Address, fromEmailPassword,"dekan.co.il")
             };
            
             using (var message1 = new MailMessage(fromEmail, toEmail)

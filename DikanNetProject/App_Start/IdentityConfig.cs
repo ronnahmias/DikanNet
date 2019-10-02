@@ -21,8 +21,8 @@ namespace DikanNetProject
     {
         public Task SendAsync(IdentityMessage message)
         {
-            return Common.SendMail.configSendGridasync(message);
-             //configSendGridasync(message);
+            return Common.SendMail.configSendGridasync(message); // send grid email
+            //return Common.SendMail.SendEmailLink(message); // stmp email send
         }
 
         public async Task configSendGridasync(IdentityMessage message)
