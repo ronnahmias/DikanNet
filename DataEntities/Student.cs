@@ -50,7 +50,7 @@ namespace DataEntities
         [Required(ErrorMessage = "חובה להזין תאריך לידה")]
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true,ConvertEmptyStringToNull =true)]
-        public DateTime BirthDay { get; set; }
+        public string BirthDay { get; set; }
 
         [Display(Name = "מגדר"), Required(ErrorMessage = "חובה לבחור מגדר")]
         public string Gender { get; set; }

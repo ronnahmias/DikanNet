@@ -163,6 +163,8 @@ namespace DikanNetProject.Controllers
             if (tempuser == null)
                 return View(UpdateStudent);
             UpdateStudent.Uniquee = tempuser.Id; // update unique id to student table
+            if(!DateTime.TryParse(UpdateStudent.BirthDay, out DateTime tempdate)) // check the datetime if correct
+                ModelState.AddModelError("BirthDay", "תאריך לידה אינו בפורמט נכון");
             if (UpdateStudent.PathId == null && UpdateStudent.FileId == null) // there is no file saved and no upload so add error
                 ModelState.AddModelError("FileId", "חובה לצרף קובץ תעודת זהות");
             if (ModelState.IsValid)
