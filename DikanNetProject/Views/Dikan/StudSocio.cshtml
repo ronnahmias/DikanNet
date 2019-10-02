@@ -9,118 +9,63 @@
     <h4>מלגת @Html.DisplayFor(model => model.ScholarshipDefinition.ScholarshipName)</h4>
     <hr />
     @Html.Partial("StudentDetails", Model.Student)
-<dl class="dl-horizontal">
-    <dt>
-        @Html.DisplayNameFor(model => model.Apartment)
-    </dt>
+<div class="row">
+    <div class="col-md-4 col-sm-6 col-12 mt-2">
+        <p class="font-weight-bold m-0">
+            @Html.DisplayNameFor(model => model.Apartment)
+        </p>
+        <a name="@Model.PathApartmentLease" style="display:@(Model.PathApartmentLease != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
+    </div>
 
-    <dd>
-        @Html.DisplayFor(model => model.Apartment)
-    </dd>
+    <div class="col-md-4 col-sm-6 col-12 mt-2">
+        <p class="font-weight-bold m-0">
+            @Html.DisplayNameFor(model => model.Newcomer)
+            @Html.DisplayNameFor(model => model.DateImmigration)
+            <span>@Html.DisplayFor(model => model.DateImmigration)</span>
+        </p>
+        <a name="@Model.PathNewcomer" style="display:@(Model.PathNewcomer != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
+    </div>
 
-    <dt>
-        @Html.DisplayNameFor(model => model.PathApartmentLease)
-    </dt>
+    <div class="col-md-4 col-sm-6 col-12 mt-2">
+        <p class="font-weight-bold m-0">
+            @Html.DisplayNameFor(model => model.SingleParent)
+        </p>
+        <a name="@Model.PathSingleParent" style="display:@(Model.PathSingleParent != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
+    </div>
 
-    <dd>
-        @Html.DisplayFor(model => model.PathApartmentLease)
-    </dd>
+    <div class="col-md-4 col-sm-6 col-12 mt-2">
+        <p class="font-weight-bold m-0">
+            @Html.DisplayNameFor(model => model.BereavedFam)
+        </p>
+        <a name="@Model.PathBereavedFam" style="display:@(Model.PathBereavedFam != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
+    </div>
 
-    <dt>
-        @Html.DisplayNameFor(model => model.Newcomer)
-    </dt>
-
-    <dd>
-        @Html.DisplayFor(model => model.Newcomer)
-    </dd>
-
-    <dt>
-        @Html.DisplayNameFor(model => model.DateImmigration)
-    </dt>
-
-    <dd>
-        @Html.DisplayFor(model => model.DateImmigration)
-    </dd>
-
-    <dt>
-        @Html.DisplayNameFor(model => model.PathNewcomer)
-    </dt>
-
-    <dd>
-        @Html.DisplayFor(model => model.PathNewcomer)
-    </dd>
-
-    <dt>
-        @Html.DisplayNameFor(model => model.SingleParent)
-    </dt>
-
-    <dd>
-        @Html.DisplayFor(model => model.SingleParent)
-    </dd>
-
-    <dt>
-        @Html.DisplayNameFor(model => model.PathSingleParent)
-    </dt>
-
-    <dd>
-        @Html.DisplayFor(model => model.PathSingleParent)
-    </dd>
-
-    <dt>
-        @Html.DisplayNameFor(model => model.BereavedFam)
-    </dt>
-
-    <dd>
-        @Html.DisplayFor(model => model.BereavedFam)
-    </dd>
-
-    <dt>
-        @Html.DisplayNameFor(model => model.PathBereavedFam)
-    </dt>
-
-    <dd>
-        @Html.DisplayFor(model => model.PathBereavedFam)
-    </dd>
-
-    <dt>
-        @Html.DisplayNameFor(model => model.ReceiveScholarship)
-    </dt>
-
-    <dd>
+    <div class="col-md-4 col-sm-6 col-12 mt-2">
+        <p class="font-weight-bold m-0">
+            @Html.DisplayNameFor(model => model.ReceiveScholarship)
+        </p>
         @Html.DisplayFor(model => model.ReceiveScholarship)
-    </dd>
+    </div>
 
-    <dt>
-        @Html.DisplayNameFor(model => model.MilitaryService)
-    </dt>
+    <div class="col-md-4 col-sm-6 col-12 mt-2">
+        <p class="font-weight-bold m-0">
+            @Html.DisplayNameFor(model => model.MilitaryService)
+            <span> @Html.DisplayFor(model => model.MilitaryService) </span>
+        </p>
+        <a name="@Model.PathMilitaryService" style="display:@(Model.PathMilitaryService != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
+    </div>
 
-    <dd>
-        @Html.DisplayFor(model => model.MilitaryService)
-    </dd>
+    <div class="col-md-4 col-sm-6 col-12 mt-2">
+        <p class="font-weight-bold m-0">
+            @Html.DisplayNameFor(model => model.ReserveMilitaryService)
+            <span> @Html.DisplayFor(model => model.ReserveMilitaryService) </span>
+        </p>
+        <a name="@Model.PathReserveMilitaryService" style="display:@(Model.PathReserveMilitaryService != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
+    </div>
 
-    <dt>
-        @Html.DisplayNameFor(model => model.PathMilitaryService)
-    </dt>
-
-    <dd>
-        @Html.DisplayFor(model => model.PathMilitaryService)
-    </dd>
-
-    <dt>
-        @Html.DisplayNameFor(model => model.ReserveMilitaryService)
-    </dt>
-
-    <dd>
-        @Html.DisplayFor(model => model.ReserveMilitaryService)
-    </dd>
-
-    <dt>
-        @Html.DisplayNameFor(model => model.PathReserveMilitaryService)
-    </dt>
-
-    <dd>
-        @Html.DisplayFor(model => model.PathReserveMilitaryService)
-    </dd>
+</div>
+        
+<dl class="dl-horizontal">
 
     <dt>
         @Html.DisplayNameFor(model => model.HasFunding)
@@ -249,6 +194,21 @@
                     console.log(thrownError);
                 }
             });
+        });
+
+        $('.btn-file').click(function () {
+            $('#fileModal').modal('show');
+            var pathfile = $(this).attr('name');
+            var url = '@Url.Action("GetFile","File")' + '?pFilePath=' + pathfile;
+            var type = pathfile.split('.').pop();
+            //console.log(type);
+            if (type == "pdf")
+                type = "application/pdf";
+            else
+                type = "image/" + type;
+            $('.embed-file').attr('type', type);
+            $('.embed-file').attr('src', url);
+
         });
     </script>
 }

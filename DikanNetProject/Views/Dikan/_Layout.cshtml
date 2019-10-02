@@ -87,6 +87,31 @@
         @RenderBody()
     </div>
 
+    <!-- File Modal -->
+    <div class="modal fade" id="fileModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header text-success">
+                    <h4 class="modal-title">קובץ שמור</h4>
+                    <button type="button" class="close ml-0" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body text-success text-center">
+                    <embed src="" class="embed-file" type="image/jpeg" />
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">סגירה</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     @Scripts.Render("~/bundles/jquery")
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     @Scripts.Render("~/bundles/bootstrap")
@@ -148,7 +173,7 @@
         });
     </script>
 
-    
+
 </body>
 </html>
 
