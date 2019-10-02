@@ -47,12 +47,12 @@ namespace DataEntities.DB
            .HasForeignKey(s => s.ScholarshipId);
 
             modelBuilder.Entity<SpHalacha>()
-                .HasRequired(s => s.VolunteerPlaces1)
+                .HasOptional(s => s.VolunteerPlaces1)
                 .WithMany(s => s.Halacha)
                 .HasForeignKey(s => s.Volunteer1Id);
 
             modelBuilder.Entity<SpHalacha>()
-                .HasRequired(s => s.VolunteerPlaces2)
+                .HasOptional(s => s.VolunteerPlaces2)
                 .WithMany()
                 .HasForeignKey(s => s.Volunteer2Id);
 

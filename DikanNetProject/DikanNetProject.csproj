@@ -510,6 +510,7 @@
     <Content Include="Views\Dikan\StudSocio.cshtml" />
     <Content Include="Views\Login\Construction.cshtml" />
     <Content Include="Views\Dikan\AvgSocio.cshtml" />
+    <Content Include="Views\Student\ChangePass.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

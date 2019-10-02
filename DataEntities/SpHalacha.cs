@@ -32,11 +32,11 @@ namespace DataEntities
         [Display(Name = "זמינות להתנדבות"), DataType(DataType.MultilineText), Required(ErrorMessage = "חובה למלא זמינות להתנדבות")]
         public string VoluntaryAvailability { get; set; }
 
-        [Display(Name = "מקום התנדבות ראשון"), Required(ErrorMessage = "חובה למלא אופציות התנדבות")]
-        public int Volunteer1Id { get; set; }
+        [Display(Name = "מקום התנדבות ראשון")]
+        public int? Volunteer1Id { get; set; }
 
-        [Display(Name = "מקום התנדבות שני"), Required(ErrorMessage = "חובה למלא אופציה נוספת")]
-        public int Volunteer2Id { get; set; }
+        [Display(Name = "מקום התנדבות שני")]
+        public int? Volunteer2Id { get; set; }
 
         [Display(Name = "ספר קצת על עצמך"),DataType(DataType.MultilineText), Required(ErrorMessage = "יש לרשום קצת על עצמך")]
         public string AboutMe { get; set; }

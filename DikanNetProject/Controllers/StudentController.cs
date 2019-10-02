@@ -81,8 +81,9 @@ namespace DikanNetProject.Controllers
         #region Index
         [HttpGet]
         [Authorize(Roles = "Student")]
-        public ActionResult Index()
+        public ActionResult Index(string response = "")
         {
+            ViewBag.res = response;
             StudentMain studentMain = new StudentMain();
             using (DikanDbContext ctx = new DikanDbContext())
             {
@@ -119,9 +120,42 @@ namespace DikanNetProject.Controllers
                 var user = UserManager.FindByName(sStudentId);
                 ViewBag.StudentName = user.FirstName + " " + user.LastName;
             }
-
             return View(studentMain);
         }
+        #endregion
+
+        #region Update Password
+
+        [HttpGet]
+        [Authorize(Roles = "Student")]
+        public ActionResult ChangePass()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Student")]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangePass(ChangePassword changePassword)
+        {
+            if(ModelState.IsValid) // check valid inputs
+            {
+                var user = UserManager.FindByName(User.Identity.Name); // find user by id number
+                if (user == null)
+                    return RedirectToAction("Index", new { response = "אירעה שגיאה במהלך החלפת הסיסמא נסה שנית מאוחר יותר" }); // error user not found
+                if (!UserManager.CheckPassword(user, changePassword.OldPassword)) // compare to old password match
+                {
+                    ModelState.AddModelError(string.Empty, "שגיאה אחד מהשדות או יותר אינם נכונים");
+                    return View(changePassword); // error return to view
+                }
+                var result = UserManager.ChangePassword(user.Id, changePassword.OldPassword, changePassword.Password);
+                if (result.Succeeded)
+                    return RedirectToAction("Index", new { response = "סיסמא עודכנה בהצלחה!" });
+            }
+            return View(changePassword);
+        }
+
+
         #endregion
 
         #region Update Info Student
@@ -202,7 +236,7 @@ namespace DikanNetProject.Controllers
                     if (tempuser != null && tempuser.EmailConfirmed == false) // if the student change the email disconnect from system
                         return RedirectToAction("Disconnect", "Login");
 
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", new { response = "המשתמש עודכן בהצלחה" });
                 }
             }
             using (DikanDbContext ctx = new DikanDbContext())
@@ -286,6 +320,8 @@ namespace DikanNetProject.Controllers
                 Studentinpractice = ctx.Halacha.Where(s => s.StudentId == temphalacha.StudentId && s.ScholarshipId == temphalacha.ScholarshipId).SingleOrDefault(); // find if he insert already draft     
                 if (uploadmethod.Equals("submit"))
                 {// submit scholarship
+                    if (temphalacha.Volunteer1Id == null) // checks that volunteer place must select
+                        ModelState.AddModelError("Volunteer1Id", "חובה למלא לפחות העדפת מקום התנדבות אחת");
                     if (ModelState.IsValid)
                     {
                         temphalacha.Statuss = Enums.Status.בטיפול.ToString(); // insert status betipul

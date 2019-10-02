@@ -91,4 +91,26 @@ namespace DikanNetProject.Models
 
         public string Code { get; set; }
     }
+
+    public class ChangePassword
+    {
+        [Display(Name = "סיסמא נוכחית")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "סיסמא לא תקינה")]
+        [DataType(DataType.Password)]
+        [MinLength(8, ErrorMessage = "יש להזין לפחות 8 תווים")]
+        public string OldPassword { get; set; }
+
+        [Display(Name = "סיסמא חדשה")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "סיסמא לא תקינה")]
+        [DataType(DataType.Password)]
+        [MinLength(8, ErrorMessage = "יש להזין לפחות 8 תווים")]
+        public string Password { get; set; }
+
+        [Display(Name = "אימות סיסמא חדשה")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "אימות סיסמא לא תקין")]
+        [DataType(DataType.Password)]
+        [MinLength(8, ErrorMessage = "יש להזין לפחות 8 תווים")]
+        [Compare("Password", ErrorMessage = "יש להזין סיסמא תואמת באימות סיסמא")]
+        public string ConfirmPassword { get; set; }
+    }
 }

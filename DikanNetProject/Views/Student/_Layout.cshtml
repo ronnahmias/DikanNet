@@ -20,7 +20,9 @@
             <div class="row ">
                 <div class="col-12 pb-3">
                     <h1 class="text-center stu-name">שלום @ViewBag.StudentName </h1>
+                    <h5 class="text-center">@ViewBag.res</h5>
                 </div>
+                
                 <div class="col-12">
                     <!-- Nav pills -->
                     <ul class="nav nav-pills nav-justified flex-column p-0">
@@ -35,6 +37,9 @@
                         </li>
                         <li class="nav-item">
                             @Html.ActionLink("עדכון פרטים", "UpdateStudent", "Student", null, new { @class = "nav-link btn-warning" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("החלפת סיסמא", "ChangePass", "Student", null, new { @class = "nav-link btn-warning" })
                         </li>
                         <li class="nav-item">
                             @Html.ActionLink("התנתק", "Disconnect", "Login", null, new { @class = "nav-link btn-danger" })
