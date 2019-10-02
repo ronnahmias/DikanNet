@@ -134,9 +134,9 @@ namespace DikanNetProject.Controllers
             Users user;
             using (DikanDbContext ctx = new DikanDbContext())
             {
-                ViewBag.MajorsList = new SelectList(ctx.Majors.ToList(), "MajorId", "MajorName"); // to show majors list in drop down
-                ViewBag.CountriesList = new SelectList(ctx.Countries.ToList(), "CountryId", "CountryName"); // to show countries list in drop down
-                ViewBag.CitiesList = new SelectList(ctx.Cities.ToList(), "Id", "Name"); // to show cities list in drop down
+                ViewBag.MajorsList = new SelectList(ctx.Majors.OrderBy(s=>s.MajorName).ToList(), "MajorId", "MajorName"); // to show majors list in drop down
+                ViewBag.CountriesList = new SelectList(ctx.Countries.OrderBy(s=>s.CountryName).ToList(), "CountryId", "CountryName"); // to show countries list in drop down
+                ViewBag.CitiesList = new SelectList(ctx.Cities.OrderBy(s=>s.Name).ToList(), "Id", "Name"); // to show cities list in drop down
 
                 student = ctx.Students.Where(z => z.StudentId == sStudentId).FirstOrDefault();
                 user = UserManager.FindByName(User.Identity.Name);
@@ -207,9 +207,9 @@ namespace DikanNetProject.Controllers
             }
             using (DikanDbContext ctx = new DikanDbContext())
             {
-                ViewBag.MajorsList = new SelectList(ctx.Majors.ToList(), "MajorId", "MajorName"); // to show majors list in drop down
-                ViewBag.CountriesList = new SelectList(ctx.Countries.ToList(), "CountryId", "CountryName"); // to show countries list in drop down
-                ViewBag.CitiesList = new SelectList(ctx.Cities.ToList(), "Id", "Name"); // to show cities list in drop down
+                ViewBag.MajorsList = new SelectList(ctx.Majors.OrderBy(s => s.MajorName).ToList(), "MajorId", "MajorName"); // to show majors list in drop down
+                ViewBag.CountriesList = new SelectList(ctx.Countries.OrderBy(s => s.CountryName).ToList(), "CountryId", "CountryName"); // to show countries list in drop down
+                ViewBag.CitiesList = new SelectList(ctx.Cities.OrderBy(s => s.Name).ToList(), "Id", "Name"); // to show cities list in drop down
             }
             return View(UpdateStudent);
         }
