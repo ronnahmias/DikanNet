@@ -5,22 +5,14 @@ Version: 2.1;
 
 $(document).ready(function () {
 
+    var $passInput;
     //review password function on hover
     $('.review-password').hover(function () {
-        $('input#Password').attr('type', 'text');
-    },
-        function () {
-            $('input#Password').attr('type', 'password');
-        });
-
-    //review password function on hover
-    $('.review-confirm-password').hover(function () {
-        $('input#ConfirmPassword').attr('type', 'text');
-    },
-        function () {
-            $('input#ConfirmPassword').attr('type', 'password');
-        });
-
+        $passInput = $(this).parent().find('input[type="password"]');
+        $passInput.attr('type', 'text');
+    },function () {
+        $passInput.attr('type', 'password');
+    });
 
     var carcount = $("#carstdcount").val();
 
@@ -35,6 +27,10 @@ $(document).ready(function () {
 // Function after ajax calls
 $(document).ajaxComplete(function () {
     docReadyAndAjax();
+    //clear-date;
+    $('.clear-date').click(function () {
+        $(this).parent().find('input[data-toggle="datepicker"]').val('');
+    });
 });
 
 
@@ -95,9 +91,16 @@ function watchSaveFile() {
 function datepicker() {
     $('[data-toggle="datepicker"]').attr('readonly', true);
     $('[data-toggle="datepicker"]').datepicker({
-        language: 'he-HE'
+        language: 'he-HE',
+        //startDate: '01/01/1920',
+        setStartDate: '01/01/1920',
     });
+    //$('[data-toggle="datepicker"]').datepicker('setStartDate', '02/14/2014');
 }
+
+$('.clear-date').click(function () {
+   $(this).parent().find('input[data-toggle="datepicker"]').val('');
+});
 
 // Function for dropdown lists to chose
 function chosen() {
@@ -289,4 +292,20 @@ function dateIsValid(pDate, pMinYear) {
 function validPasswordsAndEmail() {
     var email = $('#Email').val();
     return checkPasswordsValid() && validEmail(email);
+}
+
+function checkPasswordsValid() // check that password and confirm pass is match in register and resetpass views
+{
+    $('#ValidMessagePassword').text = "";
+    $('input[type=password]').removeClass("border border-danger");
+
+    var pass1 = $('#Password').val();
+    var pass2 = $('#ConfirmPassword').val();
+    if (pass1 != pass2 || !validPassword(pass1)) {
+        $('#ValidMessagePassword').text = "שגיאה, הסיסמא לא תקנית";
+        $('input[type=password]').addClass("border border-danger");
+        $('#OldPassword').removeClass("border border-danger");
+        return false;
+    }
+    return true;
 }

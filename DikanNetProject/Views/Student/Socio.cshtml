@@ -81,9 +81,12 @@
             <div id="NewComer" style="display:@(Model.SocioMod.Newcomer ? "" : "none")" class="row mx-5 box-open">
                 <div class="form-group mx-5">
                     @Html.LabelFor(model => model.SocioMod.DateImmigration, htmlAttributes: new { @class = "control-label " })
-                    <div class="">
-                        @Html.EditorFor(model => model.SocioMod.DateImmigration, new { htmlAttributes = new { @class = "form-control datepicker only-numbers", @data_toggle = "datepicker" } })
+                    <div class="input-group">
+                        @Html.EditorFor(model => model.SocioMod.DateImmigration, new { htmlAttributes = new { @class = "form-control datepicker only-numbers right-border-radius", @data_toggle = "datepicker" } })
                         @Html.ValidationMessageFor(model => model.SocioMod.DateImmigration, "", new { @class = "text-danger" })
+                        <div class="input-group-append clear-date">
+                            <span class="input-group-text left-border-radius pointer">נקה</span>
+                        </div>
                     </div>
                 </div>
 

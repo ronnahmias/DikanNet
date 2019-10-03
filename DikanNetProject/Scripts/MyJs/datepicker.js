@@ -459,7 +459,7 @@
      *
      * @param {Date|string|null} date
      */
-    setStartDate: function setStartDate(date) {
+      setStartDate: function setStartDate(date) {
       if (isDate(date) || isString(date)) {
         this.startDate = this.parseDate(date);
       } else {

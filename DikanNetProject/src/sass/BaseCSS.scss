@@ -14,9 +14,23 @@
     cursor: default;
 }
 
-textarea,input{
-    border-radius:10px !important;
+textarea, input {
+    border-radius: 10px !important;
     outline: none;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.right-border-radius {
+    border-radius: 0px 10px 10px 00px !important;
+}
+.left-border-radius {
+    border-radius: 10px 0px 0px 10px !important;
+}
+.pointer{
+    cursor:pointer;
 }
 
 .bg-red{
@@ -122,12 +136,18 @@ div#reqStatuses > div:nth-child(odd)
 
 #reqScholarship div.tab-content p:nth-child(2):before
 {
-    content: "תמצית: ";
+    content: "פרטי מלגה: ";
 }
 #reqScholarship div.tab-content p:nth-child(3):before {
-    content: "גובה מלגה: ";
+    content: "סכום מלגה: ";
+}
+#reqScholarship div.tab-content p:nth-child(4):before {
+    content: "תאריך אחרון להגשה: ";
 }
 
+.money:after {
+    content: " ₪ ";
+}
 
 /*Halaca form*/
 #halaca-container {

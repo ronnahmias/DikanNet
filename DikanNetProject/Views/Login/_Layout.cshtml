@@ -58,21 +58,7 @@
 
         });
 
-        function checkPasswordsValid() // check that password and confirm pass is match in register and resetpass views
-        {
-         $('#ValidMessagePassword').text = "";
-        $('input[type=password]').removeClass("border border-danger");
-
-        var pass1 =$('#Password').val();
-        var pass2 =$('#ConfirmPassword').val();
-        if(pass1 != pass2 || !validPassword(pass1))
-        {
-            $('#ValidMessagePassword').text = "שגיאה, הסיסמא לא תקנית";
-            $('input[type=password]').addClass("border border-danger");
-            return false;
-        }
-    return true;
-    }
+        
     </script>
 </body>
 </html>
