@@ -9,6 +9,11 @@
     width:160px;
 }
 
+.must-sign::after {
+    content: ' * ';
+    color: red;
+    font-size: 16px;
+}
 
 .review-password, .review-confirm-password {
     cursor: default;

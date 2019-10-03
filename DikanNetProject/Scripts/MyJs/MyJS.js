@@ -42,6 +42,7 @@ function docReadyAndAjax(){
     choseFile();
     onChangeIdValid();
     onChangeEmailValid();
+    mustAddSign();
     //watchSaveFile();
 }
 
@@ -193,6 +194,7 @@ function showHidenPortion(checked, idElement) {
         $('#' + idElement).fadeIn();
         $('#' + idElement + ' :input').each(function () {
             $(this).addClass('must');
+            //specficMustSigh($(this));
         });
     }
     else {
@@ -214,25 +216,26 @@ function checkMust() {
         $singleChosen.removeClass('border-danger');
         var txt = $this.val();
 
-        console.log("This: " + type);
-        console.log("Text: " + txt);
-        console.log("OK: " + ok);
+        //console.log("This: " + type);
+        //console.log("Text: " + txt);
+        //console.log("OK: " + ok);
 
         if (type == "file") {
-            console.log("File");
+            //console.log("File");
             if (!checkMustFile($this))
                 ok = false;
         }
         else {
-            console.log("Else");
+            //console.log("Else");
             if (txt.length == 0 || txt == null) {
                 ok = false;
                 $this.addClass('border-danger');
                 $singleChosen.addClass('border-danger');
             }
         }
-            
+
     });
+
     return ok;
 }
 
@@ -264,6 +267,9 @@ function validUpdateStu() {
     }
     else {
         $btDay.removeClass('border-danger');
+    }
+    if (ok == false) {
+        $('#errorModal').modal('show');
     }
     return ok;
 }
@@ -309,3 +315,20 @@ function checkPasswordsValid() // check that password and confirm pass is match 
     }
     return true;
 }
+
+// add sign to must labels
+function mustAddSign() {
+    $('.must').each(function () {
+
+        if ($(this).attr('path') == null)
+            $(this).parent().parent().find('label').addClass('must-sign');
+    });
+}
+/*
+// add sign to must labels
+function specficMustSigh(e) {
+    console.log(e.attr('path'));
+    console.log(e.attr('path') == null || e.attr('path') == 'undefined');
+    if (e.attr('path') == null || e.attr('path') == 'undefined')
+        e.parent().parent().find('label').addClass('must-sign');
+}*/

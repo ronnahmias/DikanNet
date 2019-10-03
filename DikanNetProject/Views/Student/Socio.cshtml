@@ -433,67 +433,12 @@
                 });
             }
         });
-
+        
         $('input.workset').each(function () {
             if ($(this).is(':checked')) {
-                //console.log("this" + $(this) + " Target: " + $(this).attr('data-target'));
                 workSet($(this));
             }
-            
-            /*
-            var $container = $($(this).attr('data-target'));
-            var $children = $container.children();
-            var value = $(this).val();
-
-            switch (value) {
-                //three box
-                case 'שכיר':
-                    $children.each(function () {
-                        $(this).css("display", "block");
-                        $(this).find(':input').each(function () {
-                            $(this).addClass('must');
-                        });
-                    });
-                    $container.css("grid-template-columns", "repeat(3,1fr)");
-                    break;
-                //one box
-                case 'עצמאי':
-                case 'חבר_קיבוץ':
-                case 'לא_עובד':
-                case 'נכה':
-                case 'נפטר':
-                case 'אחר':
-                    $children.each(function () {
-                        $(this).css("display", "none");
-                        $(this).find(':input').each(function () {
-                            $(this).removeClass('must');
-                        });
-                    });
-                    $children.first().css("display", "block");
-                    $children.first().find(':input').each(function () {
-                            $(this).addClass('must');
-                        });
-                    $container.css("grid-template-columns", "700px");
-                break;
-                //tow box
-                case 'פנסיונר':
-                    $children.each(function () {
-                        $(this).css("display", "block");
-                        $(this).find(':input').each(function () {
-                            $(this).addClass('must');
-                        });
-                    });
-                    $children.last().css("display", "none");
-                    $children.last().find(':input').each(function () {
-                            $(this).removeClass('must');
-                        });
-                    $container.css("grid-template-columns", "repeat(2,1fr)");
-                break;
-                default:console.log("ברירת מחדל");
-        }
-            */
         });
-
     });
 
     $('#otherMili').on('change', function () {
@@ -690,6 +635,7 @@
             break;
             default:console.log("ברירת מחדל");
         }
+        mustAddSign();
     }
     </script>
 }
