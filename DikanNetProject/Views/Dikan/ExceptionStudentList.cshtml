@@ -6,23 +6,18 @@
 }
 
 <h2>@ViewBag.Title</h2>
-@ViewBag.Res
-<p>
-    @Html.ActionLink("פתיחת בקשה חריגה נוספת", "CreateEditExStudent", null, new { @class = "btn btn-success" })
-</p>
-<div class="row bg-dark text-white py-3 d-none d-md-flex">
+<h4>@ViewBag.res</h4>
+<hr />
+@Html.ActionLink("פתיחת בקשה חריגה נוספת", "CreateEditExStudent", null, new { @class = "btn btn-outline-primary" })
+<div class="row bg-dark text-white py-3 mt-4 d-md-flex">
     <!--Exceptions-->
-    <!--No-->
-    <div class="col-lg-1 col-xl-1">
-        #
-    </div>
     <!--name-->
     <div class="col-lg-2 col-xl-2">
         שם מלא
     </div>
     <!--id-->
     <div class="col-lg-2 col-xl-2">
-        תז סטודנט
+        מספר תעודת זהות סטודנט
     </div>
     <!--SpId-->
     <div class="col-lg-2 col-xl-2">
@@ -37,19 +32,15 @@
         תאריך נעילה
     </div>
     <!--options-->
-    <div class="col-lg-3 col-xl-3">
+    <div class="col-lg-2 col-xl-2">
         פעולות נוספות
     </div>
 </div>
 
-@{ var counterUpdates = 1;
+@{
     foreach (var user in Model)
     {
     <div class="row py-3 border border-secondary">
-        <!--No-->
-        <div class="col-lg-1 col-xl-1">
-            @counterUpdates
-        </div>
         <!--name-->
         <div class="col-lg-2 col-xl-2">
             @user.Name
@@ -71,11 +62,10 @@
             @DateTime.Parse(user.LockDate.ToString()).ToString("dd/MM/yyyy")
         </div>
         <!--options-->
-        <div class="col-lg-3 col-xl-3">
-            @Html.ActionLink("עריכה", "CreateEditExStudent", new { userid = user.UserId , spid = user.SpId}, new { @class = "btn btn-dark" })
-            @Html.ActionLink("מחיקה", "DeleteExStudent", new { userid = user.UserId , spid = user.SpId}, new { @class = "btn btn-danger" })
+        <div class="col-lg-2 col-xl-2">
+            @Html.ActionLink("עריכה", "CreateEditExStudent", new { userid = user.UserId , spid = user.SpId}, new { @class = "btn btn-outline-primary" })
+            @Html.ActionLink("מחיקה", "DeleteExStudent", new { userid = user.UserId , spid = user.SpId}, new { @class = "btn btn-outline-danger" })
         </div>
     </div>
-        counterUpdates = counterUpdates + 1;
     }
 }

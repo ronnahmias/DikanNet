@@ -48,8 +48,7 @@
             <p class="font-weight-bold m-0">
                 @Html.DisplayNameFor(model => model.BirthDay)
             </p>
-            @{ var birthday = @DateTime.Parse(Model.BirthDay.ToString()).ToString("dd/MM/yyyy");}
-            @Html.DisplayFor(model => birthday)
+            @Html.DisplayFor(model => model.BirthDay)
         </div>
 
         <div class="col-md-4 col-sm-6 col-12 mt-2">

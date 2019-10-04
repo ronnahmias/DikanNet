@@ -5,12 +5,14 @@
     Layout = "~/Views/Dikan/_Layout.cshtml";
 }
 
-<h2>רשימת מלגות במערכת</h2>
-@Html.ActionLink("הוספת מלגה חדשה", "CreateEditSp", null, new { @class = "btn btn-success" })
-@Html.ActionLink("רשימת מקומות התנדבות", "VolunteerList", null, new { @class = "btn btn-warning" })
-<h4>מלגות פעילות</h4>
+<h2>@ViewBag.Title</h2>
+@Html.ActionLink("הוספת מלגה חדשה", "CreateEditSp", null, new { @class = "btn btn-outline-primary" })
+@Html.ActionLink("רשימת מקומות התנדבות", "VolunteerList", null, new { @class = "btn btn-outline-primary" })
+<h4 class="mt-3">מלגות פעילות</h4>
 <h5>@ViewBag.response</h5>
-<table class="table">
+<hr />
+
+<table class="table mt-4">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.ScholarshipName)
@@ -55,8 +57,8 @@
                 @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.DateDeadLine))
             </td>
             <td>
-                @Html.ActionLink("ערוך מלגה", "CreateEditSp", new { id = item.ScholarshipID }, new { @class = "btn btn-dark" })
-                @Html.ActionLink("צפייה בהגשות מלגה", "SubmitedSp", new { spId = item.ScholarshipID, spType = item.Type }, new { @class = "btn btn-dark" })
+                @Html.ActionLink("ערוך מלגה", "CreateEditSp", new { id = item.ScholarshipID }, new { @class = "btn btn-outline-primary" })
+                @Html.ActionLink("צפייה בהגשות מלגה", "SubmitedSp", new { spId = item.ScholarshipID, spType = item.Type }, new { @class = "btn btn-outline-primary" })
             </td>
         </tr>
     }
@@ -107,10 +109,9 @@
                 @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.DateDeadLine))
             </td>
             <td>
-                @Html.ActionLink("ערוך מלגה", "CreateEditSp", new { id = item.ScholarshipID },new { @class="btn btn-dark" }) 
-                @Html.ActionLink("צפייה בהגשות מלגה", "SubmitedSp", new { spId = item.ScholarshipID , spType = item.Type },new { @class="btn btn-dark" }) 
+                @Html.ActionLink("ערוך מלגה", "CreateEditSp", new { id = item.ScholarshipID },new { @class="btn btn-outline-primary" }) 
+                @Html.ActionLink("צפייה בהגשות מלגה", "SubmitedSp", new { spId = item.ScholarshipID , spType = item.Type },new { @class="btn btn-outline-primary" }) 
             </td>
         </tr>
     }
-
 </table>

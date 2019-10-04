@@ -25,7 +25,7 @@
             new SelectListItem { Value = "מאושר", Text = "מאושר" },
             new SelectListItem { Value = "נדחה", Text = "נדחה" }
         });
-            columns.Add(model => @Html.ActionLink("פרטים ופעולות", "StudentSp", new { spId = model.ScholarshipId, spType = model.ScholarshipDefinition.Type, StudId = model.StudentId }, new { @class = "btn btn-dark" })).Titled("פעולות");
+            columns.Add(model => @Html.ActionLink("פרטים ופעולות", "StudentSp", new { spId = model.ScholarshipId, spType = model.ScholarshipDefinition.Type, StudId = model.StudentId }, new { @class = "btn btn-outline-primary" })).Titled("פעולות");
 
         })
         .Empty("אין נתונים")

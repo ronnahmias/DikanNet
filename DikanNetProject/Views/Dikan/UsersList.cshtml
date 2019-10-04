@@ -9,22 +9,23 @@
             max-width: 100%;
         }
     </style>
-<h4 class="text-success">@ViewBag.response</h4>
-<h2>חיפוש סטודנט במערכת</h2>
-<p>יש לחפש לפי תעודת זהות או שם מלא</p>
 
+<h2>עדכון מייל סטודנט במערכת</h2>
+<p>יש לחפש לפי תעודת זהות או שם מלא</p>
 <div class="form-group col-md-6 col-sm-6 col-12">
         @Html.DropDownList("סטודנטים במערכת", ViewBag.StudentsList as SelectList, "", htmlAttributes: new { @class = "form-control chosen must", @data_placeholder = "בחר סטודנט", @id = "StudentDropDown" })
 </div>
 
 <div>
     <input type="email" id="user-mail" class="w-75 px-3 py-1">
-    <button id="save-mail" type="button" class="btn btn-success">עדכן</button>
+    <button id="save-mail" type="button" class="btn btn-outline-primary">עדכן</button>
 </div>
-
+<br /><br />
 <h2>רשימת משתמשים נוספים במערכת</h2>
-@Html.ActionLink("הוספת משתמשים", "CreateUser",null, new { @class = "btn btn-success" })
-<div class="row bg-dark text-white py-3 d-none d-md-flex">
+<h4>@ViewBag.response</h4>
+<hr />
+@Html.ActionLink("הוספת משתמשים", "CreateUser",null, new { @class = "btn btn-outline-primary" })
+<div class="row bg-dark text-white py-3 d-none d-md-flex mt-4">
     <!--users-->
     <div class="col-lg-1 col-xl-1">
         #
@@ -35,7 +36,7 @@
     </div>
     <!--student id-->
     <div class="col-lg-2 col-xl-2">
-        תז
+        מספר תעודת זהות
     </div>
     <!--student mail-->
     <div class="col-lg-2 col-xl-2">
@@ -76,8 +77,8 @@
             </div>
             <!--options-->
             <div class="col-lg-3 col-xl-3">
-                @Html.ActionLink("עריכה", "EditUser", new { Id = user.Id }, new { @class = "btn btn-dark" })
-                @Html.ActionLink("מחיקה", "DeleteUser", new { Id = user.Id }, new { @class = "btn btn-danger" })
+                @Html.ActionLink("עריכה", "EditUser", new { Id = user.Id }, new { @class = "btn btn-outline-primary" })
+                @Html.ActionLink("מחיקה", "DeleteUser", new { Id = user.Id }, new { @class = "btn btn-outline-danger" })
             </div>
         </div>
         counterUpdates = counterUpdates + 1;
