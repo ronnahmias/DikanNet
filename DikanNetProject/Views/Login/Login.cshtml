@@ -45,10 +45,12 @@
         <div class="row mb-2">
             <div class="col-lg-3 col-xl-4"></div>
             <div class="col-sm-12 col-md-12 col-lg-3 col-xl-2">
-                <span>לא מצליחים להתחבר?</span>
+                <span>*פעם ראשונה?</span>
             </div>
             <div class="col-sm-12 col-md-12 col-lg-3 col-xl-3">
-                @Html.ActionLink("שכחתי סיסמא", "ForgotPass", null, new { @class="btn btn-warning", type="button", id="forgotPass"})
+                @Html.ActionLink("להרשמה", "Registration", null, new { @class = "btn btn-primary", type = "button", id = "Registration" })
+                <br />
+                <span class="text-danger" style="font-size:15px;" hidden>*ההרשמה למערכת הינה לסטודנטים מן המניין</span>
             </div>
             <div class="col-lg-3 col-xl-3"></div>
         </div>
@@ -56,12 +58,10 @@
         <div class="row ">
             <div class="col-lg-3 col-xl-4"></div>
             <div class="col-sm-12 col-md-12 col-lg-3 col-xl-2">
-                <span>*פעם ראשונה?</span>
+                <span>לא מצליחים להתחבר?</span>
             </div>
             <div class="col-sm-12 col-md-12 col-lg-3 col-xl-3">
-                @Html.ActionLink("להרשמה", "Registration", null, new { @class = "btn btn-primary", type = "button", id = "Registration" })
-                <br />
-                <span class="text-danger" style="font-size:12px;">*ההרשמה למערכת הינה לסטודנטים מן המניין</span>
+                @Html.ActionLink("שכחתי סיסמא", "ForgotPass", null, new { @class = "btn btn-primary", type = "button", id = "forgotPass" })
             </div>
             <div class="col-lg-3 col-xl-3">
             </div>

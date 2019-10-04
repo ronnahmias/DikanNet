@@ -13,7 +13,7 @@ namespace DataEntities
     [Table("Student")]
     public class Student
     {
-        [Key, Display(Name ="תעודת זהות")]
+        [Key, Display(Name ="מספר תעודת זהות")]
         public string StudentId { get; set; }
 
         [Display(Name = "שם פרטי"),Required(ErrorMessage ="חובה להזין שם פרטי")]
