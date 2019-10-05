@@ -354,6 +354,10 @@
     <Content Include="Content\Css\Chosen\chosen-sprite%402x.png" />
     <Content Include="Content\Css\Chosen\chosen-sprite.png" />
     <Content Include="Content\MvcGrid\mvc-grid.css" />
+    <Content Include="Content\Pic\bg1.jpg" />
+    <Content Include="Content\Pic\bg2.jpg" />
+    <Content Include="Content\Pic\bg3.png" />
+    <Content Include="Content\Pic\bg4.jpg" />
     <Content Include="Content\Pic\Logo.png" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\ui-bootstrap-csp.css" />
