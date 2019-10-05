@@ -14,8 +14,8 @@ namespace DikanNetProject.Models
         [Display(Name = "שם משפחה"),Required(AllowEmptyStrings = false, ErrorMessage = "אנא הזן שם משפחה")]
         public string LastName { get; set; }
 
-        [Display(Name = "תעודת זהות")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "אנא הזן תעודת זהות")]
+        [Display(Name = "מספר תעודת זהות")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "אנא הזן מספר תעודת זהות")]
         [MinLength(9)]
         [MaxLength(9)]
         public string UserName { get; set; }
@@ -42,8 +42,8 @@ namespace DikanNetProject.Models
     }
     public class UserLogin
     {
-        [Display(Name ="תעודת זהות")]
-        [Required(AllowEmptyStrings =false, ErrorMessage ="אנא הזן תעודת זהות")]
+        [Display(Name ="מספר תעודת זהות")]
+        [Required(AllowEmptyStrings =false, ErrorMessage ="אנא הזן מספר תעודת זהות")]
         [MinLength(9)]
         [MaxLength(9)]
         public string UserName { get; set; }
@@ -59,8 +59,8 @@ namespace DikanNetProject.Models
 
     public class ForgotPasswordViewModel
     {
-        [Display(Name = "תעודת זהות")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "אנא הזן תעודת זהות")]
+        [Display(Name = "מספר תעודת זהות")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "אנא הזן מספר תעודת זהות")]
         [MinLength(9)]
         [MaxLength(9)]
         public string UserName { get; set; }
