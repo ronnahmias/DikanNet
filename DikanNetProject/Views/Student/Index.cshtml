@@ -9,15 +9,15 @@
 <!-- Tab panes -->
     <div class="tab-content container-fluid text-center">
         <!--#region Status Sp-->
-        @{ if (!Model.InPracticeList.Where(s => s.DateSubmitScholarship != null).Any() &&
-                 !Model.ExcelList.Where(s => s.DateSubmitScholarship != null).Any() &&
-                 !Model.SocioList.Where(s => s.DateSubmitScholarship != null).Any())
-            {
-                <img src="~/Content/Pic/nocontent.png" class="img-fluid" />
-            }
-            else
-            {
-                <div class="tab-pane active " id="reqStatuses">
+        <div class="tab-pane active " id="reqStatuses">
+            @{ if (!Model.InPracticeList.Where(s => s.DateSubmitScholarship != null).Any() &&
+                  !Model.ExcelList.Where(s => s.DateSubmitScholarship != null).Any() &&
+                  !Model.SocioList.Where(s => s.DateSubmitScholarship != null).Any())
+                {
+                    <img src="~/Content/Pic/nocontent.png" class="img-fluid" />
+                }
+                else
+                {
                     <div class="row text-white py-3 d-flex bg-primary">
                         <!--Scholarship No-->
                         <div class="col-lg-3 col-xl-3">
@@ -36,86 +36,85 @@
                             סטטוס
                         </div>
                     </div>
-                </div>
+                }
             }
-        }
 
 
-        @{ var counterUpdates = 1;
-            foreach (var sp in Model.InPracticeList.Where(s => s.DateSubmitScholarship != null).ToList())
-            {
-                <div class="row py-3 border border-secondary">
-                    <!--Scholarship No-->
-                    <div class="col-lg-3 col-xl-3">
-                        @counterUpdates
+            @{ var counterUpdates = 1;
+                foreach (var sp in Model.InPracticeList.Where(s => s.DateSubmitScholarship != null).ToList())
+                {
+                    <div class="row py-3 border border-secondary">
+                        <!--Scholarship No-->
+                        <div class="col-lg-3 col-xl-3">
+                            @counterUpdates
+                        </div>
+                        <!--Scholarship Name-->
+                        <div class="col-lg-3 col-xl-3">
+                            @sp.ScholarshipDefinition.ScholarshipName
+                        </div>
+                        <!--Scholarship Last Date Update-->
+                        <div class="col-lg-3 col-xl-3">
+                            @DateTime.Parse(@sp.StatusUpdateDate.ToString()).ToString("dd/MM/yyyy")
+                        </div>
+                        <!--Scholarship Status-->
+                        <div class="col-lg-3 col-xl-3">
+                            @sp.Statuss
+                        </div>
                     </div>
-                    <!--Scholarship Name-->
-                    <div class="col-lg-3 col-xl-3">
-                        @sp.ScholarshipDefinition.ScholarshipName
-                    </div>
-                    <!--Scholarship Last Date Update-->
-                    <div class="col-lg-3 col-xl-3">
-                        @DateTime.Parse(@sp.StatusUpdateDate.ToString()).ToString("dd/MM/yyyy")
-                    </div>
-                    <!--Scholarship Status-->
-                    <div class="col-lg-3 col-xl-3">
-                        @sp.Statuss
-                    </div>
-                </div>
-                counterUpdates = counterUpdates + 1;
+                    counterUpdates = counterUpdates + 1;
+                }
             }
-        }
 
-        @{
-            foreach (var sp in Model.ExcelList.Where(s => s.DateSubmitScholarship != null).ToList())
-            {
-                <div class="row py-3 border border-secondary">
-                    <!--Scholarship No-->
-                    <div class="col-lg-3 col-xl-3">
-                        @counterUpdates
+            @{
+                foreach (var sp in Model.ExcelList.Where(s => s.DateSubmitScholarship != null).ToList())
+                {
+                    <div class="row py-3 border border-secondary">
+                        <!--Scholarship No-->
+                        <div class="col-lg-3 col-xl-3">
+                            @counterUpdates
+                        </div>
+                        <!--Scholarship Name-->
+                        <div class="col-lg-3 col-xl-3">
+                            @sp.ScholarshipDefinition.ScholarshipName
+                        </div>
+                        <!--Scholarship Last Date Update-->
+                        <div class="col-lg-3 col-xl-3">
+                            @DateTime.Parse(@sp.StatusUpdateDate.ToString()).ToString("dd/MM/yyyy")
+                        </div>
+                        <!--Scholarship Status-->
+                        <div class="col-lg-3 col-xl-3">
+                            @sp.Statuss
+                        </div>
                     </div>
-                    <!--Scholarship Name-->
-                    <div class="col-lg-3 col-xl-3">
-                        @sp.ScholarshipDefinition.ScholarshipName
-                    </div>
-                    <!--Scholarship Last Date Update-->
-                    <div class="col-lg-3 col-xl-3">
-                        @DateTime.Parse(@sp.StatusUpdateDate.ToString()).ToString("dd/MM/yyyy")
-                    </div>
-                    <!--Scholarship Status-->
-                    <div class="col-lg-3 col-xl-3">
-                        @sp.Statuss
-                    </div>
-                </div>
-                counterUpdates = counterUpdates + 1;
+                    counterUpdates = counterUpdates + 1;
+                }
             }
-        }
 
-        @{
-            foreach (var sp in Model.SocioList.Where(s => s.DateSubmitScholarship != null).ToList())
-            {
-                <div class="row py-3 border border-secondary">
-                    <!--Scholarship No-->
-                    <div class="col-lg-3 col-xl-3">
-                        @counterUpdates
+            @{
+                foreach (var sp in Model.SocioList.Where(s => s.DateSubmitScholarship != null).ToList())
+                {
+                    <div class="row py-3 border border-secondary">
+                        <!--Scholarship No-->
+                        <div class="col-lg-3 col-xl-3">
+                            @counterUpdates
+                        </div>
+                        <!--Scholarship Name-->
+                        <div class="col-lg-3 col-xl-3">
+                            @sp.ScholarshipDefinition.ScholarshipName
+                        </div>
+                        <!--Scholarship Last Date Update-->
+                        <div class="col-lg-3 col-xl-3">
+                            @DateTime.Parse(@sp.StatusUpdateDate.ToString()).ToString("dd/MM/yyyy")
+                        </div>
+                        <!--Scholarship Status-->
+                        <div class="col-lg-3 col-xl-3">
+                            @sp.Statuss
+                        </div>
                     </div>
-                    <!--Scholarship Name-->
-                    <div class="col-lg-3 col-xl-3">
-                        @sp.ScholarshipDefinition.ScholarshipName
-                    </div>
-                    <!--Scholarship Last Date Update-->
-                    <div class="col-lg-3 col-xl-3">
-                        @DateTime.Parse(@sp.StatusUpdateDate.ToString()).ToString("dd/MM/yyyy")
-                    </div>
-                    <!--Scholarship Status-->
-                    <div class="col-lg-3 col-xl-3">
-                        @sp.Statuss
-                    </div>
-                </div>
-                counterUpdates = counterUpdates + 1;
+                    counterUpdates = counterUpdates + 1;
+                }
             }
-        }
-    </div>
+        </div>
         <!--#endregion Status Sp-->
 
         <!-- #region Request Sp-->
