@@ -199,7 +199,7 @@
         $('.btn-file').click(function () {
             $('#fileModal').modal('show');
             var pathfile = $(this).attr('name');
-            var url = '@Url.Action("GetFile","File")' + '?pFilePath=' + pathfile;
+            var url = '@Url.Action("GetFileDikan","File")' + '?pStudentId=' + @Model.StudentId + '&pFilePath=' + pathfile;
             var type = pathfile.split('.').pop();
             //console.log(type);
             if (type == "pdf")

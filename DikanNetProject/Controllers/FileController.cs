@@ -8,6 +8,7 @@ using System.Web.Mvc;
 namespace DikanNetProject.Controllers
 {
     [RequireHttps]
+    [Authorize]
     public class FileController : Controller
     {
         [HttpGet]
@@ -18,6 +19,19 @@ namespace DikanNetProject.Controllers
             string path = Path.Combine(Server.MapPath("~/App_Data/UsersFiles/"), User.Identity.Name, pFilePath); // path of the file
             string contentType = MimeMapping.GetMimeMapping(path); // type of file
             //FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+            byte[] filedata = System.IO.File.ReadAllBytes(path);
+            if (filedata == null)
+                return null;
+            return File(filedata, contentType); // return the file
+        }
+
+        [HttpGet]
+        [Authorize]
+        public FileResult GetFileDikan(string pStudentId,string pFilePath) // return file acording to file path and student id
+        {
+            if (string.IsNullOrEmpty(pFilePath)|| string.IsNullOrEmpty(pStudentId)) return null;
+            string path = Path.Combine(Server.MapPath("~/App_Data/UsersFiles/"), pStudentId, pFilePath); // path of the file
+            string contentType = MimeMapping.GetMimeMapping(path); // type of file
             byte[] filedata = System.IO.File.ReadAllBytes(path);
             if (filedata == null)
                 return null;
