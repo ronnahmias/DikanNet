@@ -93,10 +93,9 @@ function datepicker() {
     $('[data-toggle="datepicker"]').attr('readonly', true);
     $('[data-toggle="datepicker"]').datepicker({
         language: 'he-HE',
-        //startDate: '01/01/1920',
-        setStartDate: '01/01/1980',
+        format: 'dd/mm/yyyy',
     });
-    //$('[data-toggle="datepicker"]').datepicker('setStartDate', '02/14/2014');
+    $('[data-toggle="datepicker"]').datepicker('setStartDate', '01/01/1980');
 }
 
 $('.clear-date').click(function () {
@@ -261,7 +260,7 @@ function validUpdateStu() {
     var ok = checkMust();
     var $btDay = $('#BirthDay');
     //valid date
-    if (!dateIsValid($btDay.val(), 1920)) {
+    if (!dateIsValid($btDay.val(), 1930)) {
         $btDay.addClass('border-danger');
         ok = false;
     }
@@ -277,21 +276,19 @@ function validUpdateStu() {
 /* The function check that date is valid */
 function dateIsValid(pDate, pMinYear) {
     console.log('checkDate');
+    console.log('Date: ' + pDate);
     var ok = true;
-    var c = pDate.split('-');
+    var c = pDate.split('/');
+    console.log('C: ' + c[2]);
     // check year valid
     if (c[2] < pMinYear) {
         ok = false;
     }
-    // replace year and mount
-    var temp = c[0];
-    c[0] = c[1];
-    c[1] = temp;
-    // combain the array to date format
-    c = c.join('/');
-    date = new Date(c);
-    if (date.toString() == "Invalid Date")
+    date = new Date(c[2],c[1],c[0]); //new Date(yyyy, mm, dd);
+    if (date.toString() == "Invalid Date") {
         ok = false;
+    }
+
     return ok;
 }
 
