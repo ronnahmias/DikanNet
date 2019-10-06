@@ -383,6 +383,7 @@
     <Content Include="Scripts\jquery.form.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\MvcGrid\mvc-grid.js" />
+    <Content Include="Scripts\MyJs\chosen.js" />
     <Content Include="Scripts\MyJs\chosen.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
@@ -422,6 +423,7 @@
     <Content Include="Scripts\umd\popper.min.js" />
     <Content Include="Scripts\MyJs\UploadFileJS.js" />
     <Content Include="Scripts\MyJs\UploadFileJS.min.js" />
+    <Content Include="src\js\chosen.js" />
     <Content Include="src\js\datepicker.he-HE.js" />
     <Content Include="src\js\datepicker.js" />
     <Content Include="src\js\MyJS.js" />
