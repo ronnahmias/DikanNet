@@ -11,6 +11,9 @@ body {
   color: red;
   font-size: 16px; }
 
+.mobileShow {
+  display: none; }
+
 .review-password, .review-confirm-password {
   cursor: default; }
 
@@ -244,7 +247,17 @@ section#volunteer ul {
   #reqScholarship .nav {
     display: block; } }
 
+@media (max-width: 990px) {
+  #reqStatuses span.mobileShow, #reqUpdate span.mobileShow {
+    display: inline-block; }
+  #reqStatuses p.mobileShow, #reqUpdate p.mobileShow {
+    display: block; } }
+
 @media (max-width: 480px) {
+  span.mobileShow {
+    display: inline-block; }
+  p.mobileShow {
+    display: block; }
   h1.stu-name {
     font-size: 2.0rem; }
   #reqScholarship div.tab-pane {

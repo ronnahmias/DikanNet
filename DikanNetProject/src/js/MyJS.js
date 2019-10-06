@@ -94,7 +94,7 @@ function datepicker() {
     $('[data-toggle="datepicker"]').datepicker({
         language: 'he-HE',
         //startDate: '01/01/1920',
-        setStartDate: '01/01/1920',
+        setStartDate: '01/01/1980',
     });
     //$('[data-toggle="datepicker"]').datepicker('setStartDate', '02/14/2014');
 }
