@@ -25,8 +25,8 @@
     </div>
 
     <div class="container-fluid text-center mt-4 mb-5">
-        @Html.ActionLink("חזרה", "Index", "Student", null, new { @class = "btn btn-primary" })
-        @Html.ActionLink("התנתק", "Disconnect", "Login", null, new { @class = "btn btn-danger" })
+        @Html.ActionLink("חזרה", "Index", "Student", null, new { @class = "btn btn-outline-primary" })
+        @Html.ActionLink("התנתק", "Disconnect", "Login", null, new { @class = "btn btn-outline-danger" })
     </div>
 
 
@@ -39,7 +39,7 @@
             <div class="modal-content">
 
                 <!-- Modal Header -->
-                <div class="modal-header text-danger">
+                <div class="modal-header">
                     <h4 class="modal-title">שגיאה</h4>
                     <button type="button" class="close ml-0" data-dismiss="modal">&times;</button>
                 </div>
@@ -64,7 +64,7 @@
             <div class="modal-content">
 
                 <!-- Modal Header -->
-                <div class="modal-header text-success">
+                <div class="modal-header">
                     <h4 class="modal-title">@ViewBag.Response</h4>
                 </div>
 
@@ -90,8 +90,8 @@
             <div class="modal-content">
 
                 <!-- Modal Header -->
-                <div class="modal-header text-danger">
-                    <h4 class="modal-title"></h4>
+                <div class="modal-header">
+                    <h4 class="modal-title">אני מאשר שכלל הפרטים  שהזנתי נכונים</h4>
                     <button type="button" class="close ml-0" data-dismiss="modal">&times;</button>
                 </div>
 
@@ -110,9 +110,9 @@
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-primary mx-2" data-action="clear" onclick="clearSignature()">נקה</button>
-                    <button type="button" class="btn btn-outline-primary mx-2" data-dismiss="modal">סגירה</button>
-                    <button id="submitSp" type="submit" class="btn btn-outline-primary" name="uploadmethod">הגש מלגה</button>
+                    <button type="button" class="btn btn-primary mx-2" data-action="clear" onclick="clearSignature()">נקה</button>
+                    <button type="button" class="btn btn-primary mx-2" data-dismiss="modal">סגירה</button>
+                    <button id="submitSp" type="submit" class="btn btn-primary" name="uploadmethod">הגש מלגה</button>
                 </div>
 
             </div>

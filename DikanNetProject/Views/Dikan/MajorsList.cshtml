@@ -4,61 +4,56 @@
     ViewBag.Title = "רשימת מגמות";
     Layout = "~/Views/Dikan/_Layout.cshtml";
 }
-<h2>@ViewBag.Title</h2>
+<h2 class="text-center text-md-right">@ViewBag.Title</h2>
 
-<h4>@ViewBag.response</h4>
+<h4 class="text-center text-md-right">@ViewBag.response</h4>
 <hr />
-@Html.ActionLink("הוספת מגמה חדשה", "CreateMajor", null, new { @class = "btn btn-outline-primary" })
-
-<div class="row bg-dark text-white py-3 d-none d-md-flex mt-4">
+<div class="text-center text-md-right">
+    @Html.ActionLink("הוספת מגמה חדשה", "CreateMajor", null, new { @class = "btn btn-outline-primary mb-4 mb-md-0" })
+</div>
+<div class="row bg-primary text-center text-white py-3 d-none d-md-flex mt-4">
     <!--majors-->
-    <!--No-->
-    <div class="col-lg-2 col-xl-2">
-        #
-    </div>
     <!--name-->
-    <div class="col-lg-2 col-xl-2">
+    <div class="col-md-3">
         שם מגמה
     </div>
     <!--id-->
-    <div class="col-lg-2 col-xl-2">
+    <div class="col-md-3">
        שם ראש מגמה
     </div>
     <!--mail-->
-    <div class="col-lg-3 col-xl-3">
+    <div class="col-md-3">
         מייל ראש מגמה
     </div>
     <!--options-->
-    <div class="col-lg-3 col-xl-3">
+    <div class="col-md-3">
         פעולות
     </div>
 </div>
 
-@{ var counterUpdates = 1;
+@{
     foreach (var major in Model)
     {
-        <div class="row py-3 border border-dark">
-            <!--No-->
-            <div class="col-lg-2 col-xl-2">
-                @counterUpdates
-            </div>
+        <div class="row py-3 border border-dark text-center">
             <!--name-->
-            <div class="col-lg-2 col-xl-2">
+            <div class="col-md-3">
+                <span class="font-weight-bold d-inline-flex d-md-none">שם מגמה:</span>
                 @major.MajorName
             </div>
             <!--id-->
-            <div class="col-lg-2 col-xl-2">
+            <div class="col-md-3">
+                <span class="font-weight-bold d-inline-flex d-md-none">שם ראש המגמה: </span>
                 @major.HeadMajor.HeadMajorName
             </div>
             <!--mail-->
-            <div class="col-lg-3 col-xl-3">
+            <div class="col-md-3">
+                <span class="font-weight-bold d-inline-flex d-md-none">אימייל: </span>
                 @major.HeadMajor.HeadMajorEmail
             </div>
             <!--options-->
-            <div class="col-lg-3 col-xl-3">
+            <div class="col-md-3">
                 @Html.ActionLink("עריכה", "CreateMajor", new { Id = major.MajorId }, new { @class = "btn btn-outline-primary" })
             </div>
         </div>
-        counterUpdates = counterUpdates + 1;
     }
 }

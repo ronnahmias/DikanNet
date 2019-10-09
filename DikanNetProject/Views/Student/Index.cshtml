@@ -169,7 +169,7 @@
         <!-- #endregion Request Sp-->
 
         <!--#region update Sp-->
-        <div class="tab-pane container fade" id="reqUpdate">
+        <div class="tab-pane fade" id="reqUpdate">
             @{ if (!Model.InPracticeList.Where(s => s.DateSubmitScholarship == null && (s.ScholarshipDefinition.DateDeadLine > DateTime.Now) && (s.ScholarshipDefinition.DateOpenScholarship < DateTime.Now)).Any() &&
                      !Model.SocioList.Where(s => s.DateSubmitScholarship == null && (s.ScholarshipDefinition.DateDeadLine > DateTime.Now) && (s.ScholarshipDefinition.DateOpenScholarship < DateTime.Now)).Any() &&
                      !Model.ExcelList.Where(s => s.DateSubmitScholarship == null && (s.ScholarshipDefinition.DateDeadLine > DateTime.Now) && (s.ScholarshipDefinition.DateOpenScholarship < DateTime.Now)).Any())
@@ -178,7 +178,7 @@
                 }
                 else
                 {
-                    <div class="row bg-dark text-white py-3 d-none d-xl-flex d-lg-flex">
+                    <div class="row bg-primary text-white py-3 d-none d-xl-flex d-lg-flex">
                         <!--Scholarship No-->
                         <div class="col-lg-3 col-xl-3">
                             #

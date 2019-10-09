@@ -4,68 +4,65 @@
     ViewBag.Title = "רשימת ועדות משמעת";
     Layout = "~/Views/Dikan/_Layout.cshtml";
 }
-<h2>@ViewBag.Title</h2>
-<h4>@ViewBag.response</h4>
+<h2 class="text-center text-md-right">@ViewBag.Title</h2>
+<h4 class="text-center text-md-right">@ViewBag.response</h4>
 <hr/>
-@Html.ActionLink("הוספת ועדה חדשה", "CreateEditDiscipline",null, new { @class = "btn btn-outline-primary" })
-<div class="row bg-dark text-white py-3 d-none d-md-flex mt-4">
-    <!--No-->
-    <div class="col-lg-1 col-xl-1">
-        #
-    </div>
+<div class="text-center text-md-right">
+    @Html.ActionLink("הוספת ועדה חדשה", "CreateEditDiscipline",null, new { @class = "btn btn-outline-primary mb-4 mb-md-0" })
+</div>
+<div class="row bg-primary text-center text-white py-3 d-none d-md-flex mt-4">
     <!--committee type-->
-    <div class="col-lg-2 col-xl-2">
+    <div class="col-md-3 col-lg-2">
         סוג ועדה
     </div>
     <!-- committee date and time-->
-    <div class="col-lg-2 col-xl-2">
+    <div class="col-md-3 col-lg-3">
         תאריך ועדה
     </div>
     <!--name-->
-    <div class="col-lg-2 col-xl-2">
+    <div class="col-md-3 col-lg-2">
         שם סטודנט
     </div>
     <!--student mail-->
-    <div class="col-lg-2 col-xl-2">
+    <div class="d-md-none d-lg-flex col-lg-2">
         מייל סטודנט
     </div>
     <!--options-->
-    <div class="col-lg-3 col-xl-3">
+    <div class="col-md-3 col-lg-3">
         פעולות
     </div>
 </div>
 
-@{ var counterUpdates = 1;
+@{
     foreach (var dis in Model.OrderByDescending(s=>s.CommitteeDate).OrderByDescending(x=>x.CommitteeTime))
     {
-    <div class="row py-3 border border-secondary">
-        <!--No-->
-        <div class="col-lg-1 col-xl-1">
-            @counterUpdates
-        </div>
+    <div class="row py-3 border border-secondary text-center">
         <!--committee type-->
-        <div class="col-lg-2 col-xl-2">
+        <div class="col-md-3 col-lg-2">
+            <span class="font-weight-bold d-inline-flex d-md-none">סוג ועדה: </span>
             @dis.CommitteeType
         </div>
         <!-- committee date and time-->
-        <div class="col-lg-2 col-xl-2">
+        <div class="col-md-3 col-lg-3">
+            <span class="font-weight-bold d-inline-flex d-md-none">תאריך ועדה: </span>
             @dis.CommitteeDate.ToString("dd/MM/yyyy") בשעה: @dis.CommitteeTime.ToString("hh\\:mm")
         </div>
         <!--name-->
-        <div class="col-lg-2 col-xl-2">
+        <div class="col-md-3 col-lg-2">
+            <span class="font-weight-bold d-inline-flex d-md-none">שם סטודנט:</span>
             @dis.StudentFirstName  @dis.StudentLastName
         </div>
         <!--student mail-->
-        <div class="col-lg-2 col-xl-2">
+        <div class="d-md-none d-lg-flex col-lg-2">
+            <span class="font-weight-bold d-inline-flex d-md-none">מייל סטודנט:</span>
             @dis.StudentMail
         </div>
         <!--options-->
-        <div class="col-lg-3 col-xl-3">
+        <div class="col-md-3 col-lg-3">
             @Html.ActionLink("עריכה", "CreateEditDiscipline", new { Id = dis.CommitteeId }, new { @class = "btn btn-outline-primary" })
             @Html.ActionLink("מחיקה", "DeleteDiscipline", new { Id = dis.CommitteeId }, new { @class = "btn btn-outline-danger" })
         </div>
     </div>
-        counterUpdates = counterUpdates + 1;
     }
 }
 

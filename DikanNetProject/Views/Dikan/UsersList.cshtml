@@ -25,11 +25,7 @@
 <h4>@ViewBag.response</h4>
 <hr />
 @Html.ActionLink("הוספת משתמשים", "CreateUser",null, new { @class = "btn btn-outline-primary" })
-<div class="row bg-dark text-white py-3 d-none d-md-flex mt-4">
-    <!--users-->
-    <div class="col-lg-1 col-xl-1">
-        #
-    </div>
+<div class="row bg-primary text-white text-center py-3 d-none d-md-flex mt-4">
     <!--name-->
     <div class="col-lg-2 col-xl-2">
         שם מלא
@@ -39,7 +35,7 @@
         מספר תעודת זהות
     </div>
     <!--student mail-->
-    <div class="col-lg-2 col-xl-2">
+    <div class="col-lg-3 col-xl-3">
         מייל
     </div>
     <!--student mail-->
@@ -52,14 +48,10 @@
     </div>
 </div>
 
-@{ var counterUpdates = 1;
+@{
     foreach (var user in Model)
     {
-        <div class="row py-3 border border-secondary">
-            <!--No-->
-            <div class="col-lg-1 col-xl-1">
-                @counterUpdates
-            </div>
+        <div class="row py-3 border border-secondary text-center">
             <!--name-->
             <div class="col-lg-2 col-xl-2">
                 @user.FirstName  @user.LastName
@@ -69,7 +61,7 @@
                 @user.UserName
             </div>
             <!--mail-->
-            <div class="col-lg-2 col-xl-2">
+            <div class="col-lg-3 col-xl-3">
                 @user.Email
             </div>
             <div class="col-lg-2 col-xl-2">
@@ -81,7 +73,6 @@
                 @Html.ActionLink("מחיקה", "DeleteUser", new { Id = user.Id }, new { @class = "btn btn-outline-danger" })
             </div>
         </div>
-        counterUpdates = counterUpdates + 1;
     }
 }
 

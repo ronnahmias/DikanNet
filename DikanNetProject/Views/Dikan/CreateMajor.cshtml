@@ -4,7 +4,7 @@
     Layout = "~/Views/Dikan/_Layout.cshtml";
 }
 
-<h2>@ViewBag.Title</h2>
+<h2 class="text-center text-md-right">@ViewBag.Title</h2>
 
 @using (Html.BeginForm())
 {
@@ -57,7 +57,7 @@
     </div>
 
     <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
+        <div class="col-md-offset-2 col-md-10 text-center text-md-right">
             <input type="submit" value="שמור" class="btn btn-outline-primary" />
             @Html.ActionLink("ביטול", "MajorsList", null, new { @class = "btn btn-outline-primary" })
         </div>
