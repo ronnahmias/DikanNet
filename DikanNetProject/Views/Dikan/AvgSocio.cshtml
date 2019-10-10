@@ -3,7 +3,7 @@
 
 @if (Model.Rows.Any())
 {
-    <tr class="bg-light">
+    <tr class="bg-primary text-white">
         <td colspan="2"><b>ממוצע כללי</b></td>
         <td><b>@(Model.Rows.Average(row => row.Model.AvgIncome))</b></td>
         <td><b>@(Model.Rows.Average(row => row.Model.AvgExpense))</b></td>

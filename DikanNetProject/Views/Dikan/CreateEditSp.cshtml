@@ -9,7 +9,7 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal px-3 py-3">
-        <h2 class="text-center">@ViewBag.Title</h2>
+        <h2 class="text-center text-md-right">@ViewBag.Title</h2>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="row ">
@@ -38,10 +38,10 @@
             </div>
         </div>
         
-        <div class="form-group mx-2 col-12">
+        <div class="form-group mx-2 col-12 col-md-10 col-lg-8">
             @Html.LabelFor(model => model.ScholarshipDetails, htmlAttributes: new { @class = "control-label" })
             <div class="">
-                @Html.TextAreaFor(model => model.ScholarshipDetails,6,100, new { @class = "p-2"} )
+                @Html.TextAreaFor(model => model.ScholarshipDetails,6,0, new { @class = "p-2 form-control"} )
                 @Html.ValidationMessageFor(model => model.ScholarshipDetails, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -64,11 +64,9 @@
         </div>
         <div class="row">
             @Html.HiddenFor(model => model.ScholarshipID)
-            <div class="form-group">
-                <div class="col-md-12">
-                    <input type="submit" value="הכנס" class="btn btn-outline-primary" />
-                    @Html.ActionLink("ביטול", "SpList", null, new { @class = "btn btn-outline-primary" })
-                </div>
+            <div class="col-md-12 text-center text-md-right">
+                <input type="submit" value="הכנס" class="btn btn-outline-primary" />
+                @Html.ActionLink("ביטול", "SpList", null, new { @class = "btn btn-outline-primary" })
             </div>
         </div>
         

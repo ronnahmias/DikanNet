@@ -10,8 +10,8 @@
         }
     </style>
 
-<h2>עדכון מייל סטודנט במערכת</h2>
-<p>יש לחפש לפי תעודת זהות או שם מלא</p>
+<h2 class="text-center text-md-right">עדכון מייל סטודנט במערכת</h2>
+<p class="text-center text-md-right">יש לחפש לפי תעודת זהות או שם מלא</p>
 <div class="form-group col-md-6 col-sm-6 col-12">
         @Html.DropDownList("סטודנטים במערכת", ViewBag.StudentsList as SelectList, "", htmlAttributes: new { @class = "form-control chosen must", @data_placeholder = "בחר סטודנט", @id = "StudentDropDown" })
 </div>
@@ -21,29 +21,31 @@
     <button id="save-mail" type="button" class="btn btn-outline-primary">עדכן</button>
 </div>
 <br /><br />
-<h2>רשימת משתמשים נוספים במערכת</h2>
-<h4>@ViewBag.response</h4>
+<h2 class="text-center text-md-right">רשימת משתמשים נוספים במערכת</h2>
+<h4 class="text-center text-md-right">@ViewBag.response</h4>
 <hr />
-@Html.ActionLink("הוספת משתמשים", "CreateUser",null, new { @class = "btn btn-outline-primary" })
+<div class="text-center text-md-right">
+    @Html.ActionLink("הוספת משתמשים", "CreateUser", null, new { @class = "btn btn-outline-primary mb-4 mb-md-0" })
+</div>
 <div class="row bg-primary text-white text-center py-3 d-none d-md-flex mt-4">
     <!--name-->
-    <div class="col-lg-2 col-xl-2">
+    <div class="col-md-2">
         שם מלא
     </div>
     <!--student id-->
-    <div class="col-lg-2 col-xl-2">
+    <div class="col-md-2">
         מספר תעודת זהות
     </div>
     <!--student mail-->
-    <div class="col-lg-3 col-xl-3">
+    <div class="col-md-3">
         מייל
     </div>
     <!--student mail-->
-    <div class="col-lg-2 col-xl-2">
+    <div class="col-md-2">
         תפקיד
     </div>
     <!--options-->
-    <div class="col-lg-3 col-xl-3">
+    <div class="col-md-3">
         פעולות
     </div>
 </div>
@@ -53,22 +55,29 @@
     {
         <div class="row py-3 border border-secondary text-center">
             <!--name-->
-            <div class="col-lg-2 col-xl-2">
+            <div class="col-md-2">
+                <span class="font-weight-bold d-inline-flex d-md-none">שם מלא:</span>
                 @user.FirstName  @user.LastName
             </div>
             <!--id-->
-            <div class="col-lg-2 col-xl-2">
+            <div class="col-md-2">
+                <span class="font-weight-bold d-inline-flex d-md-none">מספר תעודת זהות:</span>
                 @user.UserName
             </div>
             <!--mail-->
-            <div class="col-lg-3 col-xl-3">
+            <div class="col-md-3">
+                <span class="font-weight-bold d-inline-flex d-md-none">אימייל:</span>
                 @user.Email
             </div>
-            <div class="col-lg-2 col-xl-2">
-                @if (user.Role == "Dikan"){<span>דיקאן</span>} else {<span>מזכירה</span> }
+            <div class="col-md-2">
+                <span class="font-weight-bold d-inline-flex d-md-none">תפקיד:</span>
+                @if (user.Role == "Dikan")
+                {<span>דיקאן</span>}
+                else
+                {<span>מזכירה</span>}
             </div>
             <!--options-->
-            <div class="col-lg-3 col-xl-3">
+            <div class="col-md-3">
                 @Html.ActionLink("עריכה", "EditUser", new { Id = user.Id }, new { @class = "btn btn-outline-primary" })
                 @Html.ActionLink("מחיקה", "DeleteUser", new { Id = user.Id }, new { @class = "btn btn-outline-danger" })
             </div>
