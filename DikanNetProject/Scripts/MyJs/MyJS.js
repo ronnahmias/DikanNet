@@ -280,6 +280,10 @@ function dateIsValid(pDate, pMinYear) {
     var ok = true;
     var c = pDate.split('/');
     console.log('C: ' + c[2]);
+    var datet = new Date(pDate);
+    console.log('he: '+ datet.toLocaleDateString("he-IL").split(',')[0]);
+    console.log('us: '+ datet.toLocaleDateString("en-US").split(',')[0]);
+    //return false;
     // check year valid
     if (c[2] < pMinYear) {
         ok = false;

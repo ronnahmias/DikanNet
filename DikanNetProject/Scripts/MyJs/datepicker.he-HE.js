@@ -6,7 +6,7 @@
     'use strict';
 
     $.fn.datepicker.languages['he-HE'] = {
-        format: 'dd-MM-yyyy',
+        format: 'dd/MM/yyyy',
         //format: 'yyyy/MM/dd',
         days: ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שיש', 'שבת'],
         daysShort: ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שיש', 'שבת'],
