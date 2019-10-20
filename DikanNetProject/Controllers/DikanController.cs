@@ -81,8 +81,13 @@ namespace DikanNetProject.Controllers
         [HttpGet]
         public ActionResult Index(string response = "")
         {
+            List<DisciplineCommittee> disList = new List<DisciplineCommittee>();
+            using (DikanDbContext ctx = new DikanDbContext())
+            {
+                disList = ctx.DisCommite.ToList();
+            }
             ViewBag.res = response;
-            return View();
+            return View(disList);
         }
 
         #endregion
