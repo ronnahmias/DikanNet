@@ -5,177 +5,380 @@
     Layout = "~/Views/Dikan/_Layout.cshtml";
 }
 
-<div class="w-75 mx-auto">
-    <h4>מלגת @Html.DisplayFor(model => model.ScholarshipDefinition.ScholarshipName)</h4>
-    <hr />
-    @Html.Partial("StudentDetails", Model.Student)
-<div class="row">
-    <div class="col-md-4 col-sm-6 col-12 mt-2">
-        <p class="font-weight-bold m-0">
-            @Html.DisplayNameFor(model => model.Apartment)
-        </p>
-        <a name="@Model.PathApartmentLease" style="display:@(Model.PathApartmentLease != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
-    </div>
+    <div class="w-75 mx-auto">
+        <h4>מלגת @Html.DisplayFor(model => model.ScholarshipDefinition.ScholarshipName)</h4>
+        <hr />
+        @Html.Partial("StudentDetails", Model.Student)
 
-    <div class="col-md-4 col-sm-6 col-12 mt-2">
-        <p class="font-weight-bold m-0">
-            @Html.DisplayNameFor(model => model.Newcomer)
-            @Html.DisplayNameFor(model => model.DateImmigration)
-            <span>@Html.DisplayFor(model => model.DateImmigration)</span>
-        </p>
-        <a name="@Model.PathNewcomer" style="display:@(Model.PathNewcomer != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
-    </div>
+        <div class="row mt-5">
+            <div class="col-md-4 col-sm-6 col-12 mt-2" style="display:@(Model.PathApartmentLease != null ? "" : "none")">
+                <p class="font-weight-bold m-0">
+                    @Html.DisplayNameFor(model => model.Apartment)
+                </p>
+                <a name="@Model.PathApartmentLease" style="display:@(Model.PathApartmentLease != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
+            </div>
 
-    <div class="col-md-4 col-sm-6 col-12 mt-2">
-        <p class="font-weight-bold m-0">
-            @Html.DisplayNameFor(model => model.SingleParent)
-        </p>
-        <a name="@Model.PathSingleParent" style="display:@(Model.PathSingleParent != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
-    </div>
+            <div class="col-md-4 col-sm-6 col-12 mt-2" style="display:@(Model.PathNewcomer != null ? "" : "none")">
+                <p class="font-weight-bold m-0">
+                    @Html.DisplayNameFor(model => model.Newcomer)
+                    @Html.DisplayNameFor(model => model.DateImmigration)
+                    <span>@Html.DisplayFor(model => model.DateImmigration)</span>
+                </p>
+                <a name="@Model.PathNewcomer" style="display:@(Model.PathNewcomer != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
+            </div>
 
-    <div class="col-md-4 col-sm-6 col-12 mt-2">
-        <p class="font-weight-bold m-0">
-            @Html.DisplayNameFor(model => model.BereavedFam)
-        </p>
-        <a name="@Model.PathBereavedFam" style="display:@(Model.PathBereavedFam != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
-    </div>
+            <div class="col-md-4 col-sm-6 col-12 mt-2" style="display:@(Model.PathSingleParent != null ? "" : "none")">
+                <p class="font-weight-bold m-0">
+                    @Html.DisplayNameFor(model => model.SingleParent)
+                </p>
+                <a name="@Model.PathSingleParent" style="display:@(Model.PathSingleParent != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
+            </div>
 
-    <div class="col-md-4 col-sm-6 col-12 mt-2">
-        <p class="font-weight-bold m-0">
-            @Html.DisplayNameFor(model => model.ReceiveScholarship)
-        </p>
-        @Html.DisplayFor(model => model.ReceiveScholarship)
-    </div>
+            <div class="col-md-4 col-sm-6 col-12 mt-2" style="display:@(Model.PathBereavedFam != null ? "" : "none")">
+                <p class="font-weight-bold m-0">
+                    @Html.DisplayNameFor(model => model.BereavedFam)
+                </p>
+                <a name="@Model.PathBereavedFam" style="display:@(Model.PathBereavedFam != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
+            </div>
 
-    <div class="col-md-4 col-sm-6 col-12 mt-2">
-        <p class="font-weight-bold m-0">
-            @Html.DisplayNameFor(model => model.MilitaryService)
-            <span> @Html.DisplayFor(model => model.MilitaryService) </span>
-        </p>
-        <a name="@Model.PathMilitaryService" style="display:@(Model.PathMilitaryService != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
-    </div>
+            <div class="col-md-4 col-sm-6 col-12 mt-2" style="display:@(Model.ReceiveScholarship == true ? "" : "none")">
+                <p class="font-weight-bold m-0">
+                    @Html.DisplayNameFor(model => model.ReceiveScholarship)
+                </p>
+                @Html.DisplayFor(model => model.ReceiveScholarship)
+            </div>
 
-    <div class="col-md-4 col-sm-6 col-12 mt-2">
-        <p class="font-weight-bold m-0">
-            @Html.DisplayNameFor(model => model.ReserveMilitaryService)
-            <span> @Html.DisplayFor(model => model.ReserveMilitaryService) </span>
-        </p>
-        <a name="@Model.PathReserveMilitaryService" style="display:@(Model.PathReserveMilitaryService != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
-    </div>
+            <div class="col-md-4 col-sm-6 col-12 mt-2" style="display:@(Model.PathMilitaryService != null ? "" : "none")">
+                <p class="font-weight-bold m-0">
+                    @Html.DisplayNameFor(model => model.MilitaryService)
+                    <span> - @Html.DisplayFor(model => model.MilitaryService) </span>
+                </p>
+                <a name="@Model.PathMilitaryService" style="display:@(Model.PathMilitaryService != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
+            </div>
 
-</div>
-        
-<dl class="dl-horizontal">
+            <div class="col-md-4 col-sm-6 col-12 mt-2" style="display:@(Model.PathReserveMilitaryService != null ? "" : "none")">
+                <p class="font-weight-bold m-0">
+                    @Html.DisplayNameFor(model => model.ReserveMilitaryService)
+                    <span> @Html.DisplayFor(model => model.ReserveMilitaryService) </span>
+                </p>
+                <a name="@Model.PathReserveMilitaryService" style="display:@(Model.PathReserveMilitaryService != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
+            </div>
 
-    <dt>
-        @Html.DisplayNameFor(model => model.HasFunding)
-    </dt>
+            <div class="col-md-4 col-sm-6 col-12 mt-2" style="display:@(Model.PathDisabilityType != null ? "" : "none")">
+                <p class="font-weight-bold m-0">
+                    @Html.DisplayNameFor(model => model.DisabilityType)
+                    <span> @Html.DisplayFor(model => model.DisabilityType) </span>
+                </p>
+                <a name="@Model.PathDisabilityType" style="display:@(Model.PathDisabilityType != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
+            </div>
 
-    <dd>
-        @Html.DisplayFor(model => model.HasFunding)
-    </dd>
+        </div>
+        <!--Funding-->
+        <div class="row mt-5" style="display:@(Model.HasFunding == true ? "" : "none")">
+            <h4 class="col-12">
+                מימון נוסף
+            </h4>
+            @foreach (var fund in Model.Student.Fundings.ToList())
+            {
+                <div class="col-12 row">
+                    <div class="col-md-3 col-sm-6 col-12 mt-2">
+                        <p class="font-weight-bold m-0">
+                            @Html.DisplayNameFor(Model => fund.FinancingInstitution)
+                        </p>
+                        @Html.DisplayFor(Model => fund.FinancingInstitution)
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-12 mt-2">
+                        <p class="font-weight-bold m-0">
+                            @Html.DisplayNameFor(Model => fund.FinancingHeight)
+                        </p>
+                        @Html.DisplayFor(Model => fund.FinancingHeight)
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-12 mt-2">
+                        <p class="font-weight-bold m-0">
+                            @Html.DisplayNameFor(Model => fund.YearFinancing)
+                        </p>
+                        @Html.DisplayFor(Model => fund.YearFinancing)
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-12 mt-2">
+                        <p class="font-weight-bold m-0">
+                            קובץ מימון
+                        </p>
+                        <a name="@fund.PathFunding" class="btn btn-light btn-file">צפייה בקובץ מימון</a>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!--Cars-->
+        <div class="row mt-5" style="display:@(Model.CarOwner == true ? "" : "none")">
+            <h4 class="col-12">
+                רכבים בבעלות
+            </h4>
+            @foreach (var car in Model.Student.CarStudents.ToList())
+            {
+                <div class="col-12 row">
+                    <div class="col-md-3 col-sm-6 col-12 mt-2">
+                        <p class="font-weight-bold m-0">
+                            @Html.DisplayNameFor(Model => car.CarNumber)
+                        </p>
+                        @Html.DisplayFor(Model => car.CarNumber)
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-12 mt-2">
+                        <p class="font-weight-bold m-0">
+                            @Html.DisplayNameFor(Model => car.CarCompany)
+                        </p>
+                        @Html.DisplayFor(Model => car.CarCompany)
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-12 mt-2">
+                        <p class="font-weight-bold m-0">
+                            @Html.DisplayNameFor(Model => car.CarModel)
+                        </p>
+                        @Html.DisplayFor(Model => car.CarModel)
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-12 mt-2">
+                        <p class="font-weight-bold m-0">
+                            קובץ מימון
+                        </p>
+                        <a name="@car.PathCarLicense" class="btn btn-light btn-file">צפייה בקובץ מימון</a>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!--Studnet Finance-->
+        <div class="row mt-5">
+            <h4 class="col-12">
+                הכנסות סטודנט - @Html.DisplayFor(model => model.WorkSt)
+            </h4>
+            @foreach (var fin in Model.Student.StudentFinances.ToList())
+            {
+                <div class="col-12 row">
+                    <div class="col-md-3 col-sm-6 col-12 mt-2">
+                        <p class="font-weight-bold m-0">
+                            לתאריך
+                        </p>
+                        @Html.DisplayFor(Model => fin.Year)
+                        .
+                        @Html.DisplayFor(Model => fin.Month)
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-12 mt-2">
+                        <p class="font-weight-bold m-0">
+                            @Html.DisplayNameFor(Model => fin.Salary)
+                        </p>
+                        @Html.DisplayFor(Model => fin.Salary)
+                        <a name="@fin.PathSalary" class="btn btn-light btn-file">צפייה בקובץ הכנסה</a>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-12 mt-2">
+                        <p class="font-weight-bold m-0">
+                            @Html.DisplayNameFor(Model => fin.Expense)
+                        </p>
+                        @Html.DisplayFor(Model => fin.Expense)
+                        <a name="@fin.PathExpense" class="btn btn-light btn-file">צפייה בקובץ הוצאה</a>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-12 mt-2">
+                        <p class="font-weight-bold m-0">
+                            מאזן הכנסות
+                        </p>
+                        @{
+                            var sum = fin.Salary - fin.Expense;
+                        }
+                        @sum
+                    </div>
+                </div>
+                            }
+        </div>
+
+        <!--Studnet Finance-->
+        <div class="row mt-5">
+            <h4 class="col-12">
+                בני משפחה עם הכנסות
+            </h4>
+
+            @foreach (var fam in Model.Student.FamilyMembers.Where(s => s.WorkSt != null).ToList())
+            {
+                <div class="col-12 row">
+                    <div class="col-md-3 col-sm-6 col-12 mt-2">
+                        <p class="font-weight-bold m-0">
+                            @Html.DisplayNameFor(Model => fam.FamilyMemberId)
+                        </p>
+                        @fam.FamilyMemberId
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-12 mt-2">
+                        <p class="font-weight-bold m-0">
+                            @Html.DisplayNameFor(Model => fam.Name)
+                        </p>
+                        @Html.DisplayFor(Model => fam.Name)
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-12 mt-2">
+                        <p class="font-weight-bold m-0">
+                            @Html.DisplayNameFor(Model => fam.Realationship)
+                        </p>
+                        @Html.DisplayFor(Model => fam.Realationship)
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-12 mt-2">
+                        <p class="font-weight-bold m-0">
+                            @Html.DisplayNameFor(Model => fam.WorkSt)
+                        </p>
+                        @Html.DisplayFor(Model => fam.WorkSt)
+                    </div>
+
+                    @if (fam.FamilyStudentFinances != null)
+                    {
+                        foreach (var fin in fam.FamilyStudentFinances.Where(s => s.SpId == Model.ScholarshipId).ToList())
+                        {
+                            <div class="col-11 row mr-auto">
+                                <div class="col-md-3 col-sm-6 col-12 mt-2">
+                                    <p class="font-weight-bold m-0">
+                                        לתאריך
+                                    </p>
+                                    @Html.DisplayFor(Model => fin.Year)
+                                    .
+                                    @Html.DisplayFor(Model => fin.Month)
+                                </div>
+                                <div class="col-md-3 col-sm-6 col-12 mt-2">
+                                    <p class="font-weight-bold m-0">
+                                        @Html.DisplayNameFor(Model => fin.Salary)
+                                    </p>
+                                    @Html.DisplayFor(Model => fin.Salary)
+                                    <a name="@fin.PathSalary" class="btn btn-light btn-file">צפייה בקובץ הכנסה</a>
+                                </div>
+                                <div class="col-md-3 col-sm-6 col-12 mt-2">
+                                    <p class="font-weight-bold m-0">
+                                        @Html.DisplayNameFor(Model => fin.Expense)
+                                    </p>
+                                    @Html.DisplayFor(Model => fin.Expense)
+                                    <a name="@fin.PathExpense" class="btn btn-light btn-file">צפייה בקובץ הוצאה</a>
+                                </div>
+                                <div class="col-md-3 col-sm-6 col-12 mt-2">
+                                    <p class="font-weight-bold m-0">
+                                        מאזן הכנסות
+                                    </p>
+                                    @{
+                                        var sum = fin.Salary - fin.Expense;
+                                    }
+                                    @sum
+                                </div>
+                            </div>
+                                            }
+                                        }
+                </div>
+                                        }
+        </div>
+
+        <!--Studnet Finance-->
+        @{ var famMem = Model.Student.FamilyMembers.Where(s => s.WorkSt == null).ToList(); }
+        <div class="row mt-5" style="display:@(famMem.Count > 0 ? "" : "none")">
+            <h4 class="col-12">
+                בני משפחה
+            </h4>
+            @foreach (var fam in famMem)
+            {
+                <div class="col-12 row">
+                    <div class="col-md-3 col-sm-6 col-12 mt-2">
+                        <p class="font-weight-bold m-0">
+                            @Html.DisplayNameFor(Model => fam.FamilyMemberId)
+                        </p>
+                        @fam.FamilyMemberId
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-12 mt-2">
+                        <p class="font-weight-bold m-0">
+                            @Html.DisplayNameFor(Model => fam.Name)
+                        </p>
+                        @Html.DisplayFor(Model => fam.Name)
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-12 mt-2">
+                        <p class="font-weight-bold m-0">
+                            @Html.DisplayNameFor(Model => fam.Realationship)
+                        </p>
+                        @Html.DisplayFor(Model => fam.Realationship)
+                    </div>
+
+                </div>
+            }
+        </div>
+
+        <div class="row mt-5" style="display:@(famMem.Count <= 0 ? "" : "none")">
+            <h4 class="col-12">
+                אין בני משפחה
+            </h4>
+        </div>
+        <dl class="dl-horizontal">
+            @*
+            <dt> @Html.DisplayNameFor(Model => fund.FinancingInstitution) - @Html.DisplayNameFor(Model => fund.FinancingHeight) - @Html.DisplayNameFor(Model => fund.YearFinancing) </dt>
+
+            <dd>@fund.FinancingInstitution - @fund.FinancingHeight - @fund.YearFinancing @fund.PathFunding כפתור קובץ</dd>
 
 
-    @foreach (var fund in Model.Student.Fundings.ToList())
-    {
-        <dt> @Html.DisplayNameFor(Model => fund.FinancingInstitution) - @Html.DisplayNameFor(Model => fund.FinancingHeight) - @Html.DisplayNameFor(Model => fund.YearFinancing) </dt>
+            @foreach (var car in Model.Student.CarStudents.ToList())
+            {
+                <dt> @Html.DisplayNameFor(Model => car.CarNumber) - @Html.DisplayNameFor(Model => car.CarCompany) - @Html.DisplayNameFor(Model => car.CarModel) </dt>
 
-        <dd>@fund.FinancingInstitution - @fund.FinancingHeight - @fund.YearFinancing @fund.PathFunding כפתור קובץ</dd>
-    }
+                <dd>@car.CarNumber - @car.CarCompany - @car.CarModel @car.PathCarLicense כפתור קובץ</dd>
+            }
 
-    <dt>
-        @Html.DisplayNameFor(model => model.CarOwner)
-    </dt>
 
-    <dd>
-        @Html.DisplayFor(model => model.CarOwner)
-    </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.WorkSt)
+            </dt>
 
-    @foreach (var car in Model.Student.CarStudents.ToList())
-    {
-        <dt> @Html.DisplayNameFor(Model => car.CarNumber) - @Html.DisplayNameFor(Model => car.CarCompany) - @Html.DisplayNameFor(Model => car.CarModel) </dt>
+            <dd>
+                @Html.DisplayFor(model => model.WorkSt)
+            </dd>
 
-        <dd>@car.CarNumber - @car.CarCompany - @car.CarModel @car.PathCarLicense כפתור קובץ</dd>
-    }
+            <dt>הכנסות סטודנט</dt>
 
-    <dt>
-        @Html.DisplayNameFor(model => model.DisabilityType)
-    </dt>
-
-    <dd>
-        @Html.DisplayFor(model => model.DisabilityType)
-    </dd>
-
-    <dt>
-        @Html.DisplayNameFor(model => model.PathDisabilityType)
-    </dt>
-
-    <dd>
-        @Html.DisplayFor(model => model.PathDisabilityType)
-    </dd>
-
-    <dt>
-        @Html.DisplayNameFor(model => model.WorkSt)
-    </dt>
-
-    <dd>
-        @Html.DisplayFor(model => model.WorkSt)
-    </dd>
-
-    <dt>הכנסות סטודנט</dt>
-
-    @foreach (var fin in Model.Student.StudentFinances.ToList())
-    {
-        <dt> @Html.DisplayNameFor(Model => fin.Month) - @Html.DisplayNameFor(Model => fin.Year) - @Html.DisplayNameFor(Model => fin.Salary)- @Html.DisplayNameFor(Model => fin.Expense) </dt>
-
-        <dd>@fin.Month - @fin.Year - @fin.Salary @fin.Expense @fin.PathSalary @fin.PathExpense כפתור קובץ</dd>
-    }
-
-    <dt>בני משפחה עם הכנסות</dt>
-
-    @foreach (var fam in Model.Student.FamilyMembers.Where(s => s.WorkSt != null).ToList())
-    {
-        <dt> @Html.DisplayNameFor(Model => fam.FamilyMemberId) - @Html.DisplayNameFor(Model => fam.Name) - @Html.DisplayNameFor(Model => fam.Realationship)- @Html.DisplayNameFor(Model => fam.WorkSt) </dt>
-
-        <dd>@fam.FamilyMemberId - @fam.Name - @fam.Realationship @fam.WorkSt @fam.PathFmId כפתור קובץ</dd>
-        if (fam.FamilyStudentFinances != null)
-        {
-            foreach (var fin in fam.FamilyStudentFinances.Where(s => s.SpId == Model.ScholarshipId).ToList())
+            @foreach (var fin in Model.Student.StudentFinances.ToList())
             {
                 <dt> @Html.DisplayNameFor(Model => fin.Month) - @Html.DisplayNameFor(Model => fin.Year) - @Html.DisplayNameFor(Model => fin.Salary)- @Html.DisplayNameFor(Model => fin.Expense) </dt>
 
                 <dd>@fin.Month - @fin.Year - @fin.Salary @fin.Expense @fin.PathSalary @fin.PathExpense כפתור קובץ</dd>
             }
-        }
-    }
 
-    <dt>בני משפחה</dt>
+            <dt>בני משפחה עם הכנסות</dt>
 
-    @foreach (var fam in Model.Student.FamilyMembers.Where(s => s.WorkSt == null).ToList())
-    {
-        <dt> @Html.DisplayNameFor(Model => fam.FamilyMemberId) - @Html.DisplayNameFor(Model => fam.Name) - @Html.DisplayNameFor(Model => fam.Realationship)- @Html.DisplayNameFor(Model => fam.Gender) </dt>
+            @foreach (var fam in Model.Student.FamilyMembers.Where(s => s.WorkSt != null).ToList())
+            {
+                <dt> @Html.DisplayNameFor(Model => fam.FamilyMemberId) - @Html.DisplayNameFor(Model => fam.Name) - @Html.DisplayNameFor(Model => fam.Realationship)- @Html.DisplayNameFor(Model => fam.WorkSt) </dt>
 
-        <dd>@fam.FamilyMemberId - @fam.Name - @fam.Realationship @fam.Gender @fam.PathFmId כפתור קובץ</dd>
-    }
+                <dd>@fam.FamilyMemberId - @fam.Name - @fam.Realationship @fam.WorkSt @fam.PathFmId כפתור קובץ</dd>
+                if (fam.FamilyStudentFinances != null)
+                {
+                    foreach (var fin in fam.FamilyStudentFinances.Where(s => s.SpId == Model.ScholarshipId).ToList())
+                    {
+                        <dt> @Html.DisplayNameFor(Model => fin.Month) - @Html.DisplayNameFor(Model => fin.Year) - @Html.DisplayNameFor(Model => fin.Salary)- @Html.DisplayNameFor(Model => fin.Expense) </dt>
 
-    <dt>
-        @Html.DisplayNameFor(model => model.Comments)
-    </dt>
+                        <dd>@fin.Month - @fin.Year - @fin.Salary @fin.Expense @fin.PathSalary @fin.PathExpense כפתור קובץ</dd>
+                    }
+                }
+            }
 
-    <dd>
-        @Html.DisplayFor(model => model.Comments)
-    </dd>
+            <dt>בני משפחה</dt>
 
-</dl>
-    <div>
-        @Html.DropDownListFor(model => model.Statuss,
-            new SelectList(Enum.GetValues(typeof(Common.Enums.Status))), "", new
-            { @class = "form-control chosen", @data_placeholder = "בחר סטטוס", @id = "new-status" })
-        <br /><br />
-        <button class="btn btn-success" id="update-status">עדכן סטטוס</button>
-        @Html.ActionLink("חזרה לטבלה", "SubmitedSp", new { spId = Model.ScholarshipId, spType = Model.ScholarshipDefinition.Type }, new { @class = "btn btn-danger" })
+            @foreach (var fam in Model.Student.FamilyMembers.Where(s => s.WorkSt == null).ToList())
+            {
+                <dt> @Html.DisplayNameFor(Model => fam.FamilyMemberId) - @Html.DisplayNameFor(Model => fam.Name) - @Html.DisplayNameFor(Model => fam.Realationship)- @Html.DisplayNameFor(Model => fam.Gender) </dt>
+
+                <dd>@fam.FamilyMemberId - @fam.Name - @fam.Realationship @fam.Gender @fam.PathFmId כפתור קובץ</dd>
+            }
+            *@
+            <dt>
+                @Html.DisplayNameFor(model => model.Comments)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Comments)
+            </dd>
+
+        </dl>
+        <div>
+            @Html.DropDownListFor(model => model.Statuss,
+                new SelectList(Enum.GetValues(typeof(Common.Enums.Status))), "", new
+                { @class = "form-control chosen", @data_placeholder = "בחר סטטוס", @id = "new-status" })
+            <br /><br />
+            <button class="btn btn-success" id="update-status">עדכן סטטוס</button>
+            @Html.ActionLink("חזרה לטבלה", "SubmitedSp", new { spId = Model.ScholarshipId, spType = Model.ScholarshipDefinition.Type }, new { @class = "btn btn-danger" })
+        </div>
     </div>
-</div>
 
 @section scripts{
     <script>
