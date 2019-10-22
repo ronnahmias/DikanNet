@@ -18,7 +18,8 @@
         <div class="form-group col-md-4 col-sm-4 col-12">
             @Html.LabelFor(model => model.CommitteeDate, htmlAttributes: new { @class = "control-label" })
             <div class="">
-                @Html.EditorFor(model => model.CommitteeDate, new { htmlAttributes = new { @class = "form-control datepicker only-numbers must", @data_toggle = "datepicker" } })
+                @*@Html.EditorFor(model => model.CommitteeDate, new { htmlAttributes = new { @class = "form-control datepicker only-numbers must", @data_toggle = "datepicke111r",@type ="date" } })*@
+                @Html.EditorFor(model => model.CommitteeDate, new { htmlAttributes = new { @class = "form-control must"  } })
                 @Html.ValidationMessageFor(model => model.CommitteeDate, "", new { @class = "text-danger" })
             </div>
         </div>
