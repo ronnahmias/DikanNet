@@ -48,9 +48,10 @@ namespace DataEntities
 
         [Display(Name = "תאריך לידה")]
         [Required(ErrorMessage = "חובה להזין תאריך לידה")]
-        [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true,ConvertEmptyStringToNull =true)]
-        public string BirthDay { get; set; }
+        [DataType(DataType.Date)]
+        //[Range(typeof(DateTime), "1/2/2019", "3/12/2019", ErrorMessage = "{0} חייב להיות בין התאריכים {1} - {2}")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true, ConvertEmptyStringToNull = true)]
+        public DateTime? BirthDay { get; set; }
 
         [Display(Name = "מגדר"), Required(ErrorMessage = "חובה לבחור מגדר")]
         public string Gender { get; set; }

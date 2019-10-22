@@ -93,7 +93,7 @@ function datepicker() {
     $('[data-toggle="datepicker"]').attr('readonly', true);
     $('[data-toggle="datepicker"]').datepicker({
         language: 'he-HE',
-        format: 'dd/mm/yyyy',
+        format: 'yyyy-MM-dd',
     });
     $('[data-toggle="datepicker"]').datepicker('setStartDate', '01/01/1980');
 }

@@ -740,7 +740,7 @@ namespace DikanNetProject.Controllers
         [HttpGet]
         public ActionResult CreateEditExStudent(string userid = "", int spid = -1) // create or edit ex
         {
-            SpException tempEx = new SpException();
+            SpException tempEx = null;
             if(userid != "" && spid !=-1) // is edit ex
             {
                 using(DikanDbContext ctx = new DikanDbContext())
@@ -750,7 +750,10 @@ namespace DikanNetProject.Controllers
             }
             ViewBag.StudentsList = new SelectList(GetStudentList(), "Uniquee", "StudentRow"); // to show students list in drop down
             ViewBag.SpList = new SelectList(GetSpList(), "ScholarshipID", "SpRow"); // to show sp list in drop down
-            return View(tempEx);
+            if(tempEx == null)
+                return View();
+            else
+                return View(tempEx);
         }
 
         [HttpPost]

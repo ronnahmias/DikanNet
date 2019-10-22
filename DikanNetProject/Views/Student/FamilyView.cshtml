@@ -18,7 +18,7 @@
 
             </div>
             <div class="form-row">
-                @Html.EditorFor(model => model.BirthDay, new { htmlAttributes = new { @class = "control-label datepicker only-numbers must", @data_toggle = "datepicker" } })
+                @Html.EditorFor(model => model.BirthDay, new { htmlAttributes = new { @class = "control-label only-numbers must"} })
                 @Html.LabelFor(model => model.BirthDay, htmlAttributes: new { @class = "title" })
                 @Html.ValidationMessageFor(model => model.BirthDay, "", new { @class = "control-label" })
 

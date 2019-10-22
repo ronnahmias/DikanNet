@@ -37,8 +37,9 @@ namespace DataEntities
         [Display(Name = "עולה חדש?")]
         public bool Newcomer { get; set; }
 
-        [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true, ConvertEmptyStringToNull = true)]
+        [DataType(DataType.Date)]
+        //[Range(typeof(DateTime), "1/2/2019", "3/12/2019", ErrorMessage = "{0} חייב להיות בין התאריכים {1} - {2}")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true, ConvertEmptyStringToNull = true)]
         [Display(Name = "תאריך עלייה"), RequiredIf("Newcomer", true, ErrorMessage = "חובה להזין תאריך עלייה")]
         public DateTime? DateImmigration { get; set; }
 

@@ -27,13 +27,15 @@ namespace DataEntities
         public string Type { get; set; }
 
         [Display(Name = "תאריך תחילת הגשה")]
-        [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true, ConvertEmptyStringToNull = true)]
+        [DataType(DataType.Date)]
+        //[Range(typeof(DateTime), "1/2/2019", "3/12/2019", ErrorMessage = "{0} חייב להיות בין התאריכים {1} - {2}")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true, ConvertEmptyStringToNull = true)]
         public DateTime DateOpenScholarship { get; set; }
 
         [Display(Name = "תאריך אחרון להגשה")]
-        [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true, ConvertEmptyStringToNull = true)]
+        [DataType(DataType.Date)]
+        //[Range(typeof(DateTime), "1/2/2019", "3/12/2019", ErrorMessage = "{0} חייב להיות בין התאריכים {1} - {2}")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true, ConvertEmptyStringToNull = true)]
         public DateTime DateDeadLine { get; set; }
 
         [NotMapped]

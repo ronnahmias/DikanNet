@@ -49,7 +49,7 @@
             <div class="form-group col-md-5 col-sm-5 col-12 mx-1">
                 @Html.LabelFor(model => model.DateOpenScholarship, htmlAttributes: new { @class = "control-label" })
                 <div class="">
-                    @Html.EditorFor(model => model.DateOpenScholarship, new { htmlAttributes = new { @class = "form-control datepicker only-numbers", @data_toggle = "datepicker" } })
+                    @Html.EditorFor(model => model.DateOpenScholarship, new { htmlAttributes = new { @class = "form-control only-numbers"} })
                     @Html.ValidationMessageFor(model => model.DateOpenScholarship, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -57,7 +57,7 @@
             <div class="form-group col-md-5 col-sm-5 col-12 mx-1">
                 @Html.LabelFor(model => model.DateDeadLine, htmlAttributes: new { @class = "control-label" })
                 <div class="">
-                    @Html.EditorFor(model => model.DateDeadLine, new { htmlAttributes = new { @class = "form-control datepicker only-numbers", @data_toggle = "datepicker" } })
+                    @Html.EditorFor(model => model.DateDeadLine, new { htmlAttributes = new { @class = "form-control only-numbers" } })
                     @Html.ValidationMessageFor(model => model.DateDeadLine, "", new { @class = "text-danger" })
                 </div>
             </div>
