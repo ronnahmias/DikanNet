@@ -19,7 +19,7 @@
 
 
 @section scripts{
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var calendarEl = document.getElementById('calendar');
@@ -27,23 +27,30 @@
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 plugins: ['dayGrid'],
                 header: {
-                    left: 'today',
-
+                left: 'today',
                 center: 'title',
-                right: 'prev,next'
+                right: 'next,prev'
                 },
                 buttonText: {
                     today: 'היום'
                 },
                 height: "auto",
-
+                locale: 'he',
+                dir: 'rtl',
                 events: [
                      @{ DisciplineCommittee lastItem = Model.Last(); }
                     @foreach (var item in Model) {
+                        {
+                            string datee = string.Empty;
+                            string date = item.CommitteeDate.ToString("yyyy-MM-dd");
+                            string time = item.CommitteeTime.ToString("hh\\:mm");
+                            datee = date + "T" + time; }
                     @:{
                             @: title: ('@item.CommitteeType - @item.StudentFirstName @item.StudentLastName'),
-                            @: start: ('@item.CommitteeDate.ToString("yyyy-MM-dd")'),
-                            @: description: '@item.StudentMail'
+                            @: start: ('@string.Concat(item.CommitteeDate.ToString("yyyy-MM-dd"),"T",item.CommitteeTime.ToString("hh\\:mm"))'),
+                            @: end: ('@string.Concat(item.CommitteeDate.ToString("yyyy-MM-dd"),"T",item.CommitteeTime += TimeSpan.FromHours(1))'),
+                            @: description: '@item.StudentMail',
+                            @: allDay: false
                     @:}
 
                     if (item != lastItem) {
@@ -55,11 +62,23 @@
                     }
                 }
                 ],
+                eventRender: function(event, element) {
+                    $(element).popover({
+                        title: function () {
+                            return "<B>" + event.title + "</B>";
+                        },
+                        placement:'auto',
+                        html:true,
+                        trigger : 'click',
+                        animation : 'false',
+                        content: function () {
+                            return "<h1> hello </h1>"
+                        },
+                        container:'body'
+                    }).popover('show');
+                },
                 eventColor: '#2D357D',
                 eventTextColor: 'white',
-               eventRender: function (info) {
-                  $(info.el).tooltip({ 'title': info.event.title });     
-                }
             });
             calendar.setOption('locale', 'he');
             calendar.updateSize();
