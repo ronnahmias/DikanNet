@@ -21,6 +21,13 @@
     cursor: default;
 }
 
+.btn-outline-primary {
+    outline: none;
+    &:focus {
+        outline: none;
+    }
+}
+
 textarea, input {
     border-radius: 10px !important;
     outline: none;
@@ -132,7 +139,7 @@ div#reqStatuses > div:nth-child(odd) {
 
             &:hover {
                 font-size: 1.9rem;
-                background-color: #fff;
+                background-color: transparent;
                 color: var(--primary);
                 border: 1px solid var(--primary);
             }

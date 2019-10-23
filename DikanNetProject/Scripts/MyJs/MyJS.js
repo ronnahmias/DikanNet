@@ -8,8 +8,10 @@ $(document).ready(function () {
     var $passInput;
     //review password function on hover
     $('.review-password').hover(function () {
+        //console.log('hover in');
         $passInput = $(this).parent().find('input[type="password"]');
         $passInput.attr('type', 'text');
+        console.log($passInput);
     },function () {
         $passInput.attr('type', 'password');
     });
@@ -38,7 +40,7 @@ function docReadyAndAjax(){
     pophover();
     onlyNumbers();
     chosen();
-    datepicker();
+    //datepicker();
     choseFile();
     onChangeIdValid();
     onChangeEmailValid();
@@ -93,7 +95,7 @@ function datepicker() {
     $('[data-toggle="datepicker"]').attr('readonly', true);
     $('[data-toggle="datepicker"]').datepicker({
         language: 'he-HE',
-        format: 'yyyy-MM-dd',
+        format: 'dd/mm/yyyy',
     });
     $('[data-toggle="datepicker"]').datepicker('setStartDate', '01/01/1980');
 }
@@ -258,6 +260,7 @@ function checkMustFile($file) {
 function validUpdateStu() {
     //valid all inputs
     var ok = checkMust();
+    console.log('must: ' + ok);
     var $btDay = $('#BirthDay');
     //valid date
     if (!dateIsValid($btDay.val(), 1930)) {
@@ -267,6 +270,7 @@ function validUpdateStu() {
     else {
         $btDay.removeClass('border-danger');
     }
+    console.log('vtd: ' + ok);
     if (ok == false) {
         $('#errorModal').modal('show');
     }
@@ -281,15 +285,15 @@ function dateIsValid(pDate, pMinYear) {
     var c = pDate.split('/');
     console.log('C: ' + c[2]);
     var datet = new Date(pDate);
-    console.log('he: '+ datet.toLocaleDateString("he-IL").split(',')[0]);
-    console.log('us: '+ datet.toLocaleDateString("en-US").split(',')[0]);
+    //console.log('he: '+ datet.toLocaleDateString("he-IL").split(',')[0]);
+    //console.log('us: '+ datet.toLocaleDateString("en-US").split(',')[0]);
     //return false;
     // check year valid
     if (c[2] < pMinYear) {
         ok = false;
     }
-    date = new Date(c[2],c[1],c[0]); //new Date(yyyy, mm, dd);
-    if (date.toString() == "Invalid Date") {
+    //date = new Date(c[2],c[1],c[0]); //new Date(yyyy, mm, dd);
+    if (datet.toString() == "Invalid Date") {
         ok = false;
     }
 

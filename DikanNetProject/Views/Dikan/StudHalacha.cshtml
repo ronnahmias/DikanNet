@@ -63,25 +63,24 @@
 
             </dl>
         </div>
-        <div>
-
+        <div class="mb-5">
             @Html.DropDownListFor(model => model.Statuss,
                 new SelectList(Enum.GetValues(typeof(Common.Enums.Status))), "", new
                 { @class = "form-control chosen", @data_placeholder = "בחר סטטוס", @id = "new-status" })
             <br /><br />
-            <button class="btn btn-success" id="update-status">עדכן סטטוס</button>
+            <button class="btn btn-success" id="update-status" sp="@Model.ScholarshipId" st="@Model.StudentId">עדכן סטטוס</button>
             @Html.ActionLink("חזרה לטבלה", "SubmitedSp", new { spId = Model.ScholarshipId, spType = Model.ScholarshipDefinition.Type }, new { @class = "btn btn-danger" })
         </div>
     </div>
 
 
 @section scripts{
-    <script>
+    <script>/*
         $('#update-status').click(function () {
             $.ajax({
                 url: "/Dikan/UpdateSpStatus",
                 dataType: 'text',
-                data: {ScholarId: @Model.ScholarshipId, StudId: @Model.StudentId, status: $('#new-status').val() },
+                data: {ScholarId: $(this).attr('sp'), StudId: $(this).attr('st'), status: $('#new-status').val() },
 	            method: "POST",
                 success: function () {
                     // show success message
@@ -92,7 +91,7 @@
                     console.log(thrownError);
                 }
             });
-        });
+        });*/
     </script>
 }
 

@@ -17,6 +17,11 @@ body {
 .review-password, .review-confirm-password {
   cursor: default; }
 
+.btn-outline-primary {
+  outline: none; }
+  .btn-outline-primary:focus {
+    outline: none; }
+
 textarea, input {
   border-radius: 10px !important;
   outline: none; }
@@ -100,7 +105,7 @@ div#reqStatuses > div:nth-child(odd) {
   transition: 0.5s; }
   #reqScholarship div.tab-content a.btn:hover {
     font-size: 1.9rem;
-    background-color: #fff;
+    background-color: transparent;
     color: var(--primary);
     border: 1px solid var(--primary); }
 

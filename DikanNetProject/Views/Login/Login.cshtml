@@ -25,8 +25,8 @@
             @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "col-sm-12 col-md-3 col-lg-2 col-xl-2" })
             <div class="input-group col-md-8 col-lg-6 col-xl-4">
                 @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", placeholder = Html.DisplayNameFor(s => s.Password), id = @Html.NameFor(m => m.Password), type = "password", name = @Html.NameFor(m => m.Password) } })
-                <div class="input-group-append">
-                    <span class="input-group-text review-password">&#x1F441;</span>
+                <div class="input-group-append review-password">
+                    <span class="input-group-text">&#x1F441;</span>
                 </div>
             </div>
         </div>

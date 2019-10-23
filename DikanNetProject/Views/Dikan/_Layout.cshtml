@@ -178,6 +178,23 @@
         [].forEach.call(document.getElementsByClassName('mvc-grid'), function (element) {
             new MvcGrid(element);
         });
+        
+        $('#update-status').click(function () {
+            $.ajax({
+                url: "/Dikan/UpdateSpStatus",
+                dataType: 'text',
+                data: {ScholarId: $(this).attr('sp'), StudId: $(this).attr('st'), status: $('#new-status').val() },
+	            method: "POST",
+                success: function () {
+                    // show success message
+                    alert('סטטוס עודכן בהצלחה');
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.status);
+                    console.log(thrownError);
+                }
+            });
+        });
     </script>
 
 
