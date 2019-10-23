@@ -24,7 +24,7 @@ namespace DataEntities
         [Display(Name = "דגם רכב"), Required(ErrorMessage = "חובה להזין דגם רכב")]
         public string CarModel { get; set; }
 
-        [NotMapped,Display(Name ="קובץ - רישיון/ אחזקת רכב")]
+        [NotMapped,Display(Name ="צירוף קובץ רישיון רכב")]
         public HttpPostedFileBase FileCarLicense { get; set; }
 
         public string PathCarLicense { get; set; }

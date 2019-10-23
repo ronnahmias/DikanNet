@@ -45,7 +45,7 @@
             </div>
 
             <div id="ApartmentFile" style="display:@(Model.SocioMod.Apartment ? "" : "none")" class="form-group mx-5 box-open">
-                @Html.LabelFor(model => model.SocioMod.FileApartmentLease, "קובץ - דירה", htmlAttributes: new { @class = "control-label", @for = "" })
+                @Html.LabelFor(model => model.SocioMod.FileApartmentLease, htmlAttributes: new { @class = "control-label", @for = "" })
                 <div class="row">
                     <div class="chose-file m-3 mt-0">
                         @Html.TextBoxFor(model => model.SocioMod.FileApartmentLease, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;", @path = Model.SocioMod.PathApartmentLease })
@@ -270,55 +270,6 @@
     </div>
     <!-- #endregion -->
 
-    <!-- #region Funding -->
-    <button type="button" class="btn btn-primary col-12 my-2" data-toggle="collapse" data-target="#FundingWarpper">מימון נוסף</button>
-
-    <div id="FundingWarpper" class="collapse p-3">
-        <div class="row form-group">
-            @Html.LabelFor(model => model.SocioMod.HasFunding, htmlAttributes: new { @class = "control-label" })
-            <div class="">
-                <div class="checkbox mx-3">
-                    @Html.EditorFor(model => model.SocioMod.HasFunding, new { htmlAttributes = new { onchange = "showHidenPortion(this.checked,'Funding')" } })
-                    @Html.ValidationMessageFor(model => model.SocioMod.HasFunding, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-        <div id="Funding" style="display:@(Model.SocioMod.HasFunding ? "" : "none")">
-            @foreach (var fund in Model.ListFundings)
-            {
-                @Html.Partial("FundView", fund)
-            }
-            <button class="funds btn btn-outline-primary" id="addFund" type="button" style="font-size:50px;">+</button>
-        </div>
-    </div>
-
-    <!-- #endregion -->
-
-    <!-- #region Car Student -->
-    <button type="button" class="btn btn-primary col-12 my-2" data-toggle="collapse" data-target="#CarWarpper">רכבים</button>
-
-    <div id="CarWarpper" class="collapse p-3">
-        <div class="form-group row">
-            @Html.LabelFor(model => model.SocioMod.CarOwner, htmlAttributes: new { @class = "control-label" })
-            <div class="">
-                <div class="checkbox mx-3">
-                    @Html.EditorFor(model => model.SocioMod.CarOwner, new { htmlAttributes = new { onchange = "showHidenPortion(this.checked,'cardiv')" } })
-                    @Html.ValidationMessageFor(model => model.SocioMod.CarOwner, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div id="cardiv" style="display:@(Model.SocioMod.CarOwner ? "" : "none")">
-            @foreach (var car in Model.ListCarStudent)
-            {
-                @Html.Partial("CarsView", car)
-            }
-            <button class="cars btn btn-outline-primary" id="addCar" type="button" style="font-size:50px;">+</button>
-
-        </div>
-    </div>
-    <!-- #endregion -->
-
     <!-- #region Student Finance -->
     <button type="button" class="btn btn-primary col-12 my-2" data-toggle="collapse" data-target="#StudentFinanceWarpper">הכנסות סטודנט</button>
 
@@ -392,6 +343,55 @@
             <button class="btn btn-outline-primary fam" id="addFamMem" type="button" style="font-size:50px;">+</button>
         </div>
     </div>
+    <!-- #endregion -->
+
+    <!-- #region Car Student -->
+    <button type="button" class="btn btn-primary col-12 my-2" data-toggle="collapse" data-target="#CarWarpper">רכבים</button>
+
+    <div id="CarWarpper" class="collapse p-3">
+        <div class="form-group row">
+            @Html.LabelFor(model => model.SocioMod.CarOwner, htmlAttributes: new { @class = "control-label" })
+            <div class="">
+                <div class="checkbox mx-3">
+                    @Html.EditorFor(model => model.SocioMod.CarOwner, new { htmlAttributes = new { onchange = "showHidenPortion(this.checked,'cardiv')" } })
+                    @Html.ValidationMessageFor(model => model.SocioMod.CarOwner, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div id="cardiv" style="display:@(Model.SocioMod.CarOwner ? "" : "none")">
+            @foreach (var car in Model.ListCarStudent)
+            {
+                @Html.Partial("CarsView", car)
+            }
+            <button class="cars btn btn-outline-primary" id="addCar" type="button" style="font-size:50px;">+</button>
+
+        </div>
+    </div>
+    <!-- #endregion -->
+
+    <!-- #region Funding -->
+    <button type="button" class="btn btn-primary col-12 my-2" data-toggle="collapse" data-target="#FundingWarpper">מימון נוסף</button>
+
+    <div id="FundingWarpper" class="collapse p-3">
+        <div class="row form-group">
+            @Html.LabelFor(model => model.SocioMod.HasFunding, htmlAttributes: new { @class = "control-label" })
+            <div class="">
+                <div class="checkbox mx-3">
+                    @Html.EditorFor(model => model.SocioMod.HasFunding, new { htmlAttributes = new { onchange = "showHidenPortion(this.checked,'Funding')" } })
+                    @Html.ValidationMessageFor(model => model.SocioMod.HasFunding, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div id="Funding" style="display:@(Model.SocioMod.HasFunding ? "" : "none")">
+            @foreach (var fund in Model.ListFundings)
+            {
+                @Html.Partial("FundView", fund)
+            }
+            <button class="funds btn btn-outline-primary" id="addFund" type="button" style="font-size:50px;">+</button>
+        </div>
+    </div>
+
     <!-- #endregion -->
 
     <!-- #region Comments -->

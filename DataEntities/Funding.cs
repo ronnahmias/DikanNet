@@ -28,7 +28,7 @@ namespace DataEntities
         [Display(Name = "קובץ שמור")]
         public string PathFunding { get; set; }
 
-        [NotMapped, Display(Name = "קובץ מימון")]
+        [NotMapped, Display(Name = "צירוף קובץ מקור מימון")]
         public HttpPostedFileBase FileFunding { get; set; }
 
         public int SpId { get; set; }

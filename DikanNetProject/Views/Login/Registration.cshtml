@@ -132,8 +132,8 @@
     function checkValid() {
         var id = $('#UserName').val();
         var email = $('#Email').val();
-        var recaptcha = $("#g-recaptcha-response").val();
-        if (!(validId(id) && validEmail(email)) || recaptcha === "") {
+        //var recaptcha = $("#g-recaptcha-response").val();
+        if (!(validId(id) && validEmail(email))) {
             $('#responseModal').modal('show');
             return false;
         }

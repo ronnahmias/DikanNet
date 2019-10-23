@@ -37,7 +37,7 @@ namespace DataEntities
      
         public string PathId { get; set; }
 
-        [Display(Name = "קובץ תעודת זהות"),NotMapped]
+        [Display(Name = "קובץ צילום תעודת זהות כולל ספח"),NotMapped]
         public HttpPostedFileBase FileId { get; set; }
 
         [Display(Name = "מגמה"),Required(ErrorMessage = "חובה לבחור מגמה")]
