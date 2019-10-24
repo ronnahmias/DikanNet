@@ -39,6 +39,7 @@ $(document).ajaxComplete(function () {
 function docReadyAndAjax(){
     pophover();
     onlyNumbers();
+    onlyHeb();
     chosen();
     //datepicker();
     choseFile();
@@ -115,12 +116,16 @@ function chosen() {
         });
 }
 
-//add attrbute onkeypress inly numbers allow
+//add attribute onkeypress inly numbers allow
 function onlyNumbers(){
     $('.only-numbers').attr('onkeypress', 'return event.charCode >= 48 && event.charCode <=57');
     $('input.id').attr('onkeypress', 'return event.charCode >= 48 && event.charCode <=57');
 }
 
+//add attribute onkeypress inly numbers allow
+function onlyHeb() {
+    $('.only-heb').attr('onkeypress', 'return (event.charCode >= 0x590 && event.charCode <=0x5FF) || event.charCode == 32');
+}
 // chose file change the style of button
 function choseFile() {
     $('input[type="file"]').change(function () {
@@ -209,6 +214,7 @@ function showHidenPortion(checked, idElement) {
 /* The function check that all the must filed are filed */
 function checkMust() {
     var ok = true;
+    var HebrewChars = new RegExp("^[\u0590-\u05FF ]*$");
     $('.must').each(function () {
         var $this = $(this);
         var type = $this.attr('type');
@@ -220,11 +226,26 @@ function checkMust() {
         //console.log("This: " + type);
         //console.log("Text: " + txt);
         //console.log("OK: " + ok);
-
-        if (type == "file") {
+        // if its only letters on hebrew
+        if ($this.hasClass('only-heb')) {
+            //console.log("only hebrew");
+            if (!HebrewChars.test(txt) || txt == null || txt.length == 0) {
+                ok = false;
+                $this.addClass('border-danger');
+            }
+        }
+        else if (type == "file") {
             //console.log("File");
             if (!checkMustFile($this))
                 ok = false;
+        }
+        else if (type == "email")
+        {
+            //console.log("check email");
+            if (!(validEmail(txt))){
+                ok = false;
+                $this.addClass('border-danger');
+            }
         }
         else {
             //console.log("Else");
