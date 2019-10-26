@@ -9,15 +9,15 @@
             <h2 class="text-center text-md-right">מקומות התנדבות</h2>
             <h5 class="text-center text-md-right">@ViewBag.response</h5>
             <div class="mrow">
-                <span class="">שם מקום ההתנדבות</span>
-                <span class="">תיאור מקום התנדבות</span>
+                <span class="must-sign">שם מקום ההתנדבות</span>
+                <span class="must-sign">תיאור מקום התנדבות</span>
             </div>
             <div class="mrow">
-                <input type="text" id="input-name" placeholder="שם מקום התנדבות" class="" />
-                <textarea type="text" id="input-desc" placeholder="תיאור מקום התנדבות" class=""></textarea>
+                <input type="text" id="input-name" placeholder="שם מקום התנדבות" class="must" />
+                <textarea type="text" id="input-desc" placeholder="תיאור מקום התנדבות" class="must"></textarea>
             </div>
             <div class="my-3 text-center">
-                <button class="btn btn-outline-primary" id="add-vol">הוספת מקום התנדבות</button>
+                <button class="btn btn-outline-primary" id="add-vol" onclick="return checkMust()">הוספת מקום התנדבות</button>
             </div>
             <br />
             <div>
