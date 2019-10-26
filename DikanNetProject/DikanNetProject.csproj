@@ -635,7 +635,6 @@
     <Content Include="Views\Dikan\CreateEditSp.cshtml" />
     <Content Include="Views\Dikan\SpList.cshtml" />
     <Content Include="Views\Dikan\VolunteerList.cshtml" />
-    <Content Include="Views\Dikan\CreateEditVol.cshtml" />
     <Content Include="Views\Student\FamilyFinView.cshtml" />
     <Content Include="Views\Dikan\UsersList.cshtml" />
     <Content Include="Views\Dikan\CreateUser.cshtml" />

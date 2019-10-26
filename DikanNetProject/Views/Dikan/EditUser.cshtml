@@ -19,7 +19,7 @@
         <div class="form-group col-md-6 col-sm-6 col-12">
             @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label " })
             <div class="">
-                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control must only-heb" } })
                 @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -27,7 +27,7 @@
         <div class="form-group col-md-6 col-sm-6 col-12">
             @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label " })
             <div class="">
-                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control must only-heb" } })
                 @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -39,7 +39,7 @@
         <div class="form-group col-md-6 col-sm-6 col-12">
             @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
             <div class="">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control must only-heb" ,type = "email"} })
                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -47,7 +47,7 @@
         <div class="form-group col-md-6 col-sm-6 col-12">
             @Html.LabelFor(model => model.ConfirmEmail, htmlAttributes: new { @class = "control-label" })
             <div class="">
-                @Html.EditorFor(model => model.ConfirmEmail, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.ConfirmEmail, new { htmlAttributes = new { @class = "form-control must only-heb" ,type = "email" } })
                 @Html.ValidationMessageFor(model => model.ConfirmEmail, "", new { @class = "text-danger" })
             </div>
         </div>
