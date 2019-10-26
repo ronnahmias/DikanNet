@@ -69,7 +69,7 @@
         <div class="form-group col-md-3 col-sm-6 col-12">
             @Html.LabelFor(model => model.StudentMail, htmlAttributes: new { @class = "control-label" })
             <div class="">
-                @Html.EditorFor(model => model.StudentMail, new { htmlAttributes = new { @class = "form-control email must" }, @type="email" })
+                @Html.EditorFor(model => model.StudentMail, new { htmlAttributes = new { @class = "form-control must",type = "email"}})
                 @Html.ValidationMessageFor(model => model.StudentMail, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -78,7 +78,7 @@
         <div class="form-group col-12">
             @Html.LabelFor(model => model.CommitteeType, htmlAttributes: new { @class = "control-label " })
             <div class="col-12">
-                @Html.EditorFor(model => model.CommitteeType, new { htmlAttributes = new { @class = "form-control must only-heb" } })
+                @Html.EditorFor(model => model.CommitteeType, new { htmlAttributes = new { @class = "form-control must" } })
                 @Html.ValidationMessageFor(model => model.CommitteeType, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -86,7 +86,7 @@
         <div class="form-group col-12">
             @Html.LabelFor(model => model.CommitteeSummary, htmlAttributes: new { @class = "control-label" })
             <div class="col-12">
-                @Html.TextAreaFor(model => model.CommitteeSummary,10,0, new { @class = "form-control w-100 must only-heb" } )
+                @Html.TextAreaFor(model => model.CommitteeSummary,10,0, new { @class = "form-control w-100 must" } )
                 @Html.ValidationMessageFor(model => model.CommitteeSummary, "", new { @class = "text-danger" })
             </div>
         </div>

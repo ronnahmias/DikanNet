@@ -29,7 +29,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.HeadMajor.HeadMajorId, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.HeadMajor.HeadMajorId, new { htmlAttributes = new { @class = "form-control must only-heb" } })
+                    @Html.EditorFor(model => model.HeadMajor.HeadMajorId, new { htmlAttributes = new { @class = "form-control must only-numbers id" } })
                     @Html.ValidationMessageFor(model => model.HeadMajor.HeadMajorId, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -51,7 +51,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.HeadMajor.HeadMajorEmail, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.HeadMajor.HeadMajorEmail, new { htmlAttributes = new { @class = "form-control only-heb must" } })
+            @Html.EditorFor(model => model.HeadMajor.HeadMajorEmail, new { htmlAttributes = new { @class = "form-control must", type="email" } })
             @Html.ValidationMessageFor(model => model.HeadMajor.HeadMajorEmail, "", new { @class = "text-danger" })
         </div>
     </div>
