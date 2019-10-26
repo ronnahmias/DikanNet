@@ -39,6 +39,7 @@ $(document).ajaxComplete(function () {
 function docReadyAndAjax(){
     pophover();
     onlyNumbers();
+    posNumbers();
     onlyHeb();
     chosen();
     //datepicker();
@@ -116,13 +117,18 @@ function chosen() {
         });
 }
 
-//add attribute onkeypress inly numbers allow
+//add attribute onkeypress only numbers allow
 function onlyNumbers(){
     $('.only-numbers').attr('onkeypress', 'return event.charCode >= 48 && event.charCode <=57');
     $('input.id').attr('onkeypress', 'return event.charCode >= 48 && event.charCode <=57');
 }
 
-//add attribute onkeypress inly numbers allow
+//add attribute onkeypress only postive numbers allow
+function posNumbers() {
+    $('.pos-num').attr('min', '0');
+}
+
+//add attribute onkeypress only hebrew allow
 function onlyHeb() {
     $('.only-heb').attr('onkeypress', 'return (event.charCode >= 0x590 && event.charCode <=0x5FF) || event.charCode == 32');
 }
@@ -234,6 +240,19 @@ function checkMust() {
                 $this.addClass('border-danger');
             }
         }
+        else if ($this.hasClass('pos-num')) {
+            var num = parseFloat(txt);
+            if (!$.isNumeric(num) || num < 0) {
+                ok = false;
+                $this.addClass('border-danger');
+            }
+        }
+        else if ($this.hasClass('id')) {
+            if (!validId(txt)) {
+                ok = false;
+                $this.addClass('border-danger');
+            }
+        }
         else if (type == "file") {
             //console.log("File");
             if (!checkMustFile($this))
@@ -281,7 +300,7 @@ function checkMustFile($file) {
 function validUpdateStu() {
     //valid all inputs
     var ok = checkMust();
-    console.log('must: ' + ok);
+    //console.log('must: ' + ok);
     var $btDay = $('#BirthDay');
     //valid date
     if (!dateIsValid($btDay.val(), 1930)) {
@@ -291,7 +310,7 @@ function validUpdateStu() {
     else {
         $btDay.removeClass('border-danger');
     }
-    console.log('vtd: ' + ok);
+    //console.log('vtd: ' + ok);
     if (ok == false) {
         $('#errorModal').modal('show');
     }
@@ -345,16 +364,7 @@ function checkPasswordsValid() // check that password and confirm pass is match 
 // add sign to must labels
 function mustAddSign() {
     $('.must').each(function () {
-
         if ($(this).attr('path') == null)
             $(this).parent().parent().find('label').addClass('must-sign');
     });
 }
-/*
-// add sign to must labels
-function specficMustSigh(e) {
-    console.log(e.attr('path'));
-    console.log(e.attr('path') == null || e.attr('path') == 'undefined');
-    if (e.attr('path') == null || e.attr('path') == 'undefined')
-        e.parent().parent().find('label').addClass('must-sign');
-}*/
