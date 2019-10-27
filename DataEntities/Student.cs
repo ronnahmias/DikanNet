@@ -49,7 +49,7 @@ namespace DataEntities
         [Display(Name = "תאריך לידה")]
         [Required(ErrorMessage = "חובה להזין תאריך לידה")]
         [DataType(DataType.Date)]
-        //[Range(typeof(DateTime), "1/2/2019", "3/12/2019", ErrorMessage = "{0} חייב להיות בין התאריכים {1} - {2}")]
+        [Range(typeof(DateTime), "01/01/1930", "01/01/2019", ErrorMessage = "{0} חייב להיות בין התאריכים {1} - {2}")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true, ConvertEmptyStringToNull = true)]
         public DateTime? BirthDay { get; set; }
 
