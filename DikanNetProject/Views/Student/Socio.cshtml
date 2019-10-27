@@ -599,7 +599,8 @@
                     $(this).find(':input').each(function () {
                         if (!($(this).hasClass("chosen-search-input")))    
                             $(this).addClass('must');
-                    });
+                    });             
+                    $(this).find('span.box-title').html('תלוש שכר -');
                 });
                 $container.css("grid-template-columns", "repeat(3,1fr)");
                 break;
@@ -622,6 +623,26 @@
                             $(this).addClass('must');
                     });
                 $container.css("grid-template-columns", "700px");
+                switch (value) {
+                    case 'עצמאי':
+                        $children.first().find('span.box-title').html('אישור שומת מס הכנסה לשנה קודמת - ');
+                        break;
+                    case 'חבר_קיבוץ':
+                        $children.first().find('span.box-title').html('אישור עדכני על ההכנסה לנפש בקיבוץ - ');
+                        break;
+                    case 'לא_עובד':
+                        $children.first().find('span.box-title').html('אישור עדכני מביטוח לאומי על גובה האבטלה - ');
+                        break;
+                    case 'נכה':
+                        $children.first().find('span.box-title').html('לצרף אישור מביטוח לאומי על נכות וגובה הקצבה - ');
+                        break;
+                    case 'נפטר':
+                        $children.first().find('span.box-title').html('תעודת פטירה - ');
+                        break;
+                    case 'אחר':
+                        $children.first().find('span.box-title').html('אחר - ');
+                        break;
+                }
             break;
             /*tow box*/
             case 'פנסיונר':
@@ -631,12 +652,13 @@
                         if (!($(this).hasClass("chosen-search-input")))    
                             $(this).addClass('must');
                     });
+                    $(this).find('span.box-title').html('תלוש שכר - ');
                 });
                 $children.last().css("display", "none");
                 $children.last().find(':input').each(function () {
                         $(this).removeClass('must');
                     });
-                $container.css("grid-template-columns", "repeat(2,1fr)");
+                $container.css("grid-template-columns", "repeat(2,1fr)");         
             break;
             default:console.log("ברירת מחדל");
         }

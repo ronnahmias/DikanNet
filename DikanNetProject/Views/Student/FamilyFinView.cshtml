@@ -4,9 +4,10 @@
     <div class="fammfin">
         @using (Html.BeginCollectionItem("FamilyStudentFinances",""))
         {
-            <div class="text-center">
-                <h3>הכנסה הוצאה מס' @(Model.FinNo + 1)</h3>
-            </div>
+        <div class="text-center">
+            @* <h3>הכנסה הוצאה מס' @(Model.FinNo + 1)</h3>*@
+            <h3><span class="box-title"></span> מס' @(Model.FinNo + 1)</h3>
+        </div>
 
             <div class="text-center">
                 @Html.DropDownListFor(model => model.Year, ViewBag.YearsList as SelectList, "", htmlAttributes: new { @class = "control-label chosen must", @data_placeholder = "שנה" })
@@ -18,19 +19,20 @@
             </div>
             <div class="half-row mb-5">
                 <div class="form-row">
-                    @Html.EditorFor(model => model.Salary, new { htmlAttributes = new { @class = "must control-label" } })
+                    @Html.EditorFor(model => model.Salary, new { htmlAttributes = new { @class = "must control-label pos-num" } })
                     @Html.LabelFor(model => model.Salary, htmlAttributes: new { @class = "title" })
 
                 </div>
                 <div class="form-row">
-                    @Html.EditorFor(model => model.Expense, new { htmlAttributes = new { @class = "must control-label " } })
+                    @Html.EditorFor(model => model.Expense, new { htmlAttributes = new { @class = "must control-label pos-num" } })
                     @Html.LabelFor(model => model.Expense, htmlAttributes: new { @class = "title" })
 
                 </div>
             </div>
             <div class="half-row">
                 <div class="form-row chose-file-warp">
-                    @Html.LabelFor(model => model.FileSalary, htmlAttributes: new { @class = "", @for = "" })
+                    <p>קובץ <span class="box-title"></span></p>
+                    @* @Html.LabelFor(model => model.FileSalary, htmlAttributes: new { @class = "", @for = "" }) *@
                     <div class="chose-file text-center">
                         @Html.TextBoxFor(model => model.FileSalary, new { @class = "must control-label", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;",@path=Model.PathSalary })
                         <label for="@Html.IdFor(m => m.FileSalary)">

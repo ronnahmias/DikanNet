@@ -92,6 +92,8 @@ function watchSaveFile() {
     });
 }
 */
+
+/*
 // Function for date picker
 function datepicker() {
     $('[data-toggle="datepicker"]').attr('readonly', true);
@@ -105,7 +107,7 @@ function datepicker() {
 $('.clear-date').click(function () {
    $(this).parent().find('input[data-toggle="datepicker"]').val('');
 });
-
+*/
 // Function for dropdown lists to chose
 function chosen() {
     $(".chosen").chosen(
@@ -204,6 +206,7 @@ function showHidenPortion(checked, idElement) {
 */
     if (checked == true) {
         $('#' + idElement).fadeIn();
+        if (idElement == 'Funding') return;
         $('#' + idElement + ' :input').each(function () {
             $(this).addClass('must');
             //specficMustSigh($(this));

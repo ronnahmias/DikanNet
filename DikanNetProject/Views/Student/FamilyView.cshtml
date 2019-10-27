@@ -12,7 +12,7 @@
 
         </div>
             <div class="form-row">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "control-label must", @placeholder = "."} })
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "control-label must only-heb", @placeholder = "."} })
                 @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "title" })
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "control-label" })
 
