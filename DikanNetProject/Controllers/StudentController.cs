@@ -1050,11 +1050,11 @@ namespace DikanNetProject.Controllers
                     ModelState.AddModelError("BirthDay", "חובה להזין תאריך לידה");
                     return false;
                 }
-                if (family.FileFamId == null && family.PathFmId == null)
+                /*if (family.FileFamId == null && family.PathFmId == null)
                 {
                     ModelState.AddModelError("FileFamId", "חובה לצרף קובץ");
                     return false;
-                }
+                }*/
             }
 
             #endregion
