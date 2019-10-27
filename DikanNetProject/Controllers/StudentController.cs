@@ -808,6 +808,12 @@ namespace DikanNetProject.Controllers
                     return false;
                 }
             }
+
+            if (socio.SocioMod.FileBankAccount == null && socio.SocioMod.PathBankAccount == null)
+            {
+                ModelState.AddModelError("FileBankAccount", "חובה לצרף קובץ");
+                return false;
+            }
             #endregion
 
             #region Check Funding Valid
@@ -924,19 +930,9 @@ namespace DikanNetProject.Controllers
                         ModelState.AddModelError("Salary", "הכנסה לא תקינה");
                         return false;
                     }
-                    if(fin.Expense < 0)
-                    {
-                        ModelState.AddModelError("Expense", "הוצאה לא תקינה");
-                        return false;
-                    }
                     if(fin.FileSalary == null && fin.PathSalary == null)
                     {
                         ModelState.AddModelError("FileSalary", "חובה לצרף קובץ");
-                        return false;
-                    }
-                    if (fin.FileExpense == null && fin.PathExpense == null)
-                    {
-                        ModelState.AddModelError("FileExpense", "חובה לצרף קובץ");
                         return false;
                     }
                 }
@@ -1016,20 +1012,9 @@ namespace DikanNetProject.Controllers
                         ModelState.AddModelError("Salary", "הכנסה לא תקינה");
                         return false;
                     }
-                    if (fin.Expense < 0)
-                    {
-                        ModelState.AddModelError("Expense", "הוצאה לא תקינה");
-                        return false;
-                    }
                     if (fin.FileSalary == null && fin.PathSalary == null)
                     {
                         ModelState.AddModelError("FileSalary", "חובה לצרף קובץ");
-                        return false;
-                    }
-
-                    if (needExpenseFile && fin.FileExpense == null && fin.PathExpense == null)
-                    {
-                        ModelState.AddModelError("FileExpense", "חובה לצרף קובץ");
                         return false;
                     }
                 }
@@ -1193,7 +1178,7 @@ namespace DikanNetProject.Controllers
                      */
             List<StudentFinance> DbList;
             StudentFinance TempDb;
-            string[,] PathFinance = new string[3, 3]; // holding path expense and salary;
+            string[] PathFinance = new string[3]; // holding path salary;
             using (DikanDbContext ctx = new DikanDbContext())
             {
                 // list of student finance by database
@@ -1202,8 +1187,7 @@ namespace DikanNetProject.Controllers
                 foreach (var finDb in DbList)
                 {
                     if (finDb.FinNo < 0 || finDb.FinNo > 2) continue;
-                    PathFinance[0, finDb.FinNo] = finDb.PathExpense;
-                    PathFinance[1, finDb.FinNo] = finDb.PathSalary;
+                    PathFinance[finDb.FinNo] = finDb.PathSalary;
                     ctx.StudentFinances.Remove(finDb);
                 }
                 ctx.SaveChanges();
@@ -1218,14 +1202,7 @@ namespace DikanNetProject.Controllers
                     if (TempDb != null) continue;
 
                     if (fin.FinNo >= 0 && fin.FinNo <= 2)
-                    {
-                        fin.PathExpense = PathFinance[0, fin.FinNo];
-                        fin.PathSalary = PathFinance[1, fin.FinNo];
-                    }
-
-                    // if there is a expense file upload and update the file path
-                    if (fin.FileExpense != null)
-                        fin.PathExpense = Files.SaveFileInServer(fin.FileExpense, "Expense" + fin.FinNo, sStudentId, fin.PathExpense);
+                        fin.PathSalary = PathFinance[fin.FinNo];
 
                     // if there is a salary file upload and update the file path
                     if (fin.FileSalary != null)
@@ -1244,7 +1221,7 @@ namespace DikanNetProject.Controllers
             FamilyStudentFinance tempDbFamFin;
             List<FamilyMember> dbFamMem; // hold db family member only with finance
             FamilyMember tempDbFamMem;
-            string[,] PathFinance = new string[3, 3]; // holding path expense and salary;
+            string[] PathFinance = new string[3]; // holding path salary;
             using (DikanDbContext ctx = new DikanDbContext())
             {
                 dbFamMem = ctx.FamilyMembers.Where(s => s.StudentId == sStudentId).Where(s => s.Realationship == Enums.Realationship.אב.ToString() ||
@@ -1261,8 +1238,7 @@ namespace DikanNetProject.Controllers
                     foreach (var finDb in dbFamFinance)
                     {
                         if (finDb.FinNo < 0 || finDb.FinNo > 2) continue;
-                        PathFinance[0, finDb.FinNo] = finDb.PathExpense;
-                        PathFinance[1, finDb.FinNo] = finDb.PathSalary;
+                        PathFinance[finDb.FinNo] = finDb.PathSalary;
                         ctx.FamilyStudentFinances.Remove(finDb);
                     }
                     ctx.SaveChanges();
@@ -1282,13 +1258,8 @@ namespace DikanNetProject.Controllers
 
                         if (fin.FinNo >= 0 && fin.FinNo <= 2)
                         {
-                            fin.PathExpense = PathFinance[0, fin.FinNo];
-                            fin.PathSalary = PathFinance[1, fin.FinNo];
+                            fin.PathSalary = PathFinance[fin.FinNo];
                         }
-
-                        // if there is a expense file upload and update the file path
-                        if (fin.FileExpense != null)
-                            fin.PathExpense = Files.SaveFileInServer(fin.FileExpense, "Expense-" + mem.FamilyMemberId + "-" + fin.FinNo, sStudentId, fin.PathExpense);
 
                         // if there is a salary file upload and update the file path
                         if (fin.FileSalary != null)
@@ -1387,6 +1358,9 @@ namespace DikanNetProject.Controllers
 
             if (socio.FileSingleParent != null) // save file if not null
                 socio.PathSingleParent = Files.SaveFileInServer(socio.FileSingleParent, "SingleParent", sStudentId, socio.PathSingleParent);
+
+            if (socio.FileBankAccount != null) // save file if not null
+                socio.PathBankAccount = Files.SaveFileInServer(socio.FileBankAccount, "BankAccount", sStudentId, socio.PathBankAccount);
 
 
             using (DikanDbContext ctx = new DikanDbContext())

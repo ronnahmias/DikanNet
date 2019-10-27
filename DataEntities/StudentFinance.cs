@@ -27,17 +27,8 @@ namespace DataEntities
         [Display(Name = "קובץ משכורת שמור")]
         public string PathSalary { get; set; }
 
-        [Display(Name = "סכום הוצאה חודשית")]
-        public int Expense { get; set; }
-
-        [Display(Name = "קובץ הוצאה שמור")]
-        public string PathExpense { get; set; }
-
         [NotMapped, Display(Name = "קובץ הכנסה חודשי")]
         public HttpPostedFileBase FileSalary { get; set; }
-
-        [NotMapped, Display(Name = "קובץ הוצאה חודשי")]
-        public HttpPostedFileBase FileExpense { get; set; }
 
         public int SpId { get; set; }
 

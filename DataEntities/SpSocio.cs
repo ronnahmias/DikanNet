@@ -98,6 +98,13 @@ namespace DataEntities
         public HttpPostedFileBase FileDisabilityType { get; set; }
         public string PathDisabilityType { get; set; }
 
+        [Display(Name = "צירוף קובץ חשבון בנק 3 חודשים"), NotMapped]
+        public HttpPostedFileBase FileBankAccount { get; set; }
+        public string PathBankAccount { get; set; }
+
+        [Display(Name = "מצב חשבון בנק")]
+        public int? BankStatus { get; set; }
+
         [Display(Name ="סטטוס עבודה")]
         public string WorkSt { get; set; }
 
@@ -109,9 +116,6 @@ namespace DataEntities
         // avg of sp for list
         [NotMapped]
         public int AvgIncome { get; set; }
-
-        [NotMapped]
-        public int AvgExpense { get; set; }
 
         [NotMapped]
         public int NumOfPersons { get; set; }

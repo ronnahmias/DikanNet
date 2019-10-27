@@ -16,7 +16,7 @@
             columns.Add(model => "<a href='#' data-html='true' data-toggle='popover' data-placement='left' title='תעודת זהות' data-content=" + model.StudentId + ">" + model.Student.FirstName + " " + model.Student.LastName + "</a>").Titled(Html.DisplayNameFor(s => s.Student.StudentRow)).Encoded(false).Filterable(true).Sortable(true);
             columns.Add(model => "<a href='#' data-html='true' data-toggle='popover' data-placement='left' title='שנת לימוד' data-content=" + model.SchoolYear + ">" + model.Student.Major.MajorName + " - " + model.Student.LearnPath + "</a>").Titled("מגמה").Encoded(false).Filterable(true).Sortable(true);
             columns.Add(model => model.AvgIncome).Titled("הכנסה ממוצעת לנפש");
-            columns.Add(model => model.AvgExpense).Titled("הוצאה ממוצעת לנפש");
+            columns.Add(model => model.BankStatus).Titled("מצב חשבון בנק");
             columns.Add(model => model.NumOfPersons).Titled("מספר נפשות");
             columns.Add(model => model.HasFunding).Titled("מימון").RenderedAs(model => model.HasFunding == false ? "אין מימון נוסף" :  "<a href='#' data-html='true' data-toggle='popover' data-placement='left' title='גוף מממן - גובה מימון' data-content='<ul>" + model.fundingList +"</ul>'"+ ">" +  "קיים מימון נוסף" + "</a>").Encoded(false).Filterable(true).Sortable(true).UsingFilterOptions(new[]
         {
