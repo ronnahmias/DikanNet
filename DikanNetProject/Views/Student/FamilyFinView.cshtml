@@ -2,34 +2,28 @@
 @model DataEntities.FamilyStudentFinance
 
     <div class="fammfin">
-        @using (Html.BeginCollectionItem("FamilyStudentFinances",""))
+        @using (Html.BeginCollectionItem("FamilyStudentFinances", ""))
         {
-        <div class="text-center">
-            @* <h3>הכנסה הוצאה מס' @(Model.FinNo + 1)</h3>*@
-            <h3><span class="box-title"></span> מס' @(Model.FinNo + 1)</h3>
-        </div>
+            <div class="text-center">
+                @* <h3>הכנסה הוצאה מס' @(Model.FinNo + 1)</h3>*@
+                <h3><span class="box-title"></span> מס' @(Model.FinNo + 1)</h3>
+            </div>
 
             <div class="text-center">
                 @Html.DropDownListFor(model => model.Year, ViewBag.YearsList as SelectList, "", htmlAttributes: new { @class = "control-label chosen must", @data_placeholder = "שנה" })
+            </div>
+            <div class="text-center my-2">
                 @Html.DropDownListFor(model => model.Month, ViewBag.MonthsList as SelectList, "", htmlAttributes: new { @class = "control-label chosen must", @data_placeholder = "חודש" })
-
             </div>
-            <div class="text-center">
-
+            <div class="form-row text-center w-75 mx-auto salary-entery">
+                @Html.EditorFor(model => model.Salary, new { htmlAttributes = new { @class = "must control-label pos-num" } })
+                @Html.LabelFor(model => model.Salary, htmlAttributes: new { @class = "title" })
             </div>
-            <div class="half-row mb-5">
-                <div class="form-row">
-                    @Html.EditorFor(model => model.Salary, new { htmlAttributes = new { @class = "must control-label pos-num" } })
-                    @Html.LabelFor(model => model.Salary, htmlAttributes: new { @class = "title" })
-
-                </div>
-            </div>
+            <p>קובץ <span class="box-title"></span></p>
             <div class="half-row">
                 <div class="form-row chose-file-warp">
-                    <p>קובץ <span class="box-title"></span></p>
-                    @* @Html.LabelFor(model => model.FileSalary, htmlAttributes: new { @class = "", @for = "" }) *@
                     <div class="chose-file text-center">
-                        @Html.TextBoxFor(model => model.FileSalary, new { @class = "must control-label", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;",@path=Model.PathSalary })
+                        @Html.TextBoxFor(model => model.FileSalary, new { @class = "must control-label", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;", @path = Model.PathSalary })
                         <label for="@Html.IdFor(m => m.FileSalary)">
                             <i class="ml-1 material-icons">add_photo_alternate</i>
                             בחר קובץ
@@ -37,7 +31,7 @@
                         @Html.HiddenFor(model => model.PathSalary)
                     </div>
                 </div>
-                <div class="text-center">
+                <div class="text-center form-row">
                     @*<embed src='/UsersFiles/@Model.FamilyMemberId/@Model.PathSalary' class=" @(@Model.PathSalary == null ? "d-none" : " ") embed-file" style="" />*@
                     <a name="@Model.PathSalary" style="display:@(Model.PathSalary != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
 

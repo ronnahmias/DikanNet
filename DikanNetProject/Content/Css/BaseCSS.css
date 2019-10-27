@@ -128,7 +128,8 @@ div#reqStatuses > div:nth-child(odd) {
 /*Socio*/
 #otherMili {
   background-color: transparent;
-  border: none; }
+  border: 1px solid;
+  padding: 0px 5px; }
 
 div#FamFinDet {
   margin-bottom: 50px; }
@@ -183,7 +184,7 @@ div#FamFinDet {
         top: -10px; }
     #Funding div.funds .del-fund, #Funding div.funds .del-car, #Funding div.funds .del-fammem, #Funding div.cars .del-fund, #Funding div.cars .del-car, #Funding div.cars .del-fammem, #Funding div.studfin .del-fund, #Funding div.studfin .del-car, #Funding div.studfin .del-fammem, #Funding div.fammfin .del-fund, #Funding div.fammfin .del-car, #Funding div.fammfin .del-fammem, #Funding div.fam .del-fund, #Funding div.fam .del-car, #Funding div.fam .del-fammem, #cardiv div.funds .del-fund, #cardiv div.funds .del-car, #cardiv div.funds .del-fammem, #cardiv div.cars .del-fund, #cardiv div.cars .del-car, #cardiv div.cars .del-fammem, #cardiv div.studfin .del-fund, #cardiv div.studfin .del-car, #cardiv div.studfin .del-fammem, #cardiv div.fammfin .del-fund, #cardiv div.fammfin .del-car, #cardiv div.fammfin .del-fammem, #cardiv div.fam .del-fund, #cardiv div.fam .del-car, #cardiv div.fam .del-fammem, #Studfindiv div.funds .del-fund, #Studfindiv div.funds .del-car, #Studfindiv div.funds .del-fammem, #Studfindiv div.cars .del-fund, #Studfindiv div.cars .del-car, #Studfindiv div.cars .del-fammem, #Studfindiv div.studfin .del-fund, #Studfindiv div.studfin .del-car, #Studfindiv div.studfin .del-fammem, #Studfindiv div.fammfin .del-fund, #Studfindiv div.fammfin .del-car, #Studfindiv div.fammfin .del-fammem, #Studfindiv div.fam .del-fund, #Studfindiv div.fam .del-car, #Studfindiv div.fam .del-fammem, .FamFinDet div.funds .del-fund, .FamFinDet div.funds .del-car, .FamFinDet div.funds .del-fammem, .FamFinDet div.cars .del-fund, .FamFinDet div.cars .del-car, .FamFinDet div.cars .del-fammem, .FamFinDet div.studfin .del-fund, .FamFinDet div.studfin .del-car, .FamFinDet div.studfin .del-fammem, .FamFinDet div.fammfin .del-fund, .FamFinDet div.fammfin .del-car, .FamFinDet div.fammfin .del-fammem, .FamFinDet div.fam .del-fund, .FamFinDet div.fam .del-car, .FamFinDet div.fam .del-fammem, #FamMemdiv div.funds .del-fund, #FamMemdiv div.funds .del-car, #FamMemdiv div.funds .del-fammem, #FamMemdiv div.cars .del-fund, #FamMemdiv div.cars .del-car, #FamMemdiv div.cars .del-fammem, #FamMemdiv div.studfin .del-fund, #FamMemdiv div.studfin .del-car, #FamMemdiv div.studfin .del-fammem, #FamMemdiv div.fammfin .del-fund, #FamMemdiv div.fammfin .del-car, #FamMemdiv div.fammfin .del-fammem, #FamMemdiv div.fam .del-fund, #FamMemdiv div.fam .del-car, #FamMemdiv div.fam .del-fammem {
       position: absolute;
-      top: 90%;
+      bottom: 10px;
       width: 90%;
       right: 5%; }
     #Funding div.funds .chose-file, #Funding div.cars .chose-file, #Funding div.studfin .chose-file, #Funding div.fammfin .chose-file, #Funding div.fam .chose-file, #cardiv div.funds .chose-file, #cardiv div.cars .chose-file, #cardiv div.studfin .chose-file, #cardiv div.fammfin .chose-file, #cardiv div.fam .chose-file, #Studfindiv div.funds .chose-file, #Studfindiv div.cars .chose-file, #Studfindiv div.studfin .chose-file, #Studfindiv div.fammfin .chose-file, #Studfindiv div.fam .chose-file, .FamFinDet div.funds .chose-file, .FamFinDet div.cars .chose-file, .FamFinDet div.studfin .chose-file, .FamFinDet div.fammfin .chose-file, .FamFinDet div.fam .chose-file, #FamMemdiv div.funds .chose-file, #FamMemdiv div.cars .chose-file, #FamMemdiv div.studfin .chose-file, #FamMemdiv div.fammfin .chose-file, #FamMemdiv div.fam .chose-file {
@@ -191,10 +192,15 @@ div#FamFinDet {
       margin: 10px auto; }
 
 #cardiv div.cars, #cardiv div.fam, #FamMemdiv div.cars, #FamMemdiv div.fam {
+  height: 375px !important; }
+
+#cardiv div.cars {
   height: 745px !important; }
 
 #Studfindiv, .FamFinDet {
   grid-template-columns: repeat(3, 1fr); }
+  #Studfindiv div.studfin, #Studfindiv div.fammfin, .FamFinDet div.studfin, .FamFinDet div.fammfin {
+    height: auto; }
 
 /****Dikan******/
 section#volunteer .mrow {

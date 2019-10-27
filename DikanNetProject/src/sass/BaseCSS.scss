@@ -173,7 +173,8 @@ div#reqStatuses > div:nth-child(odd) {
 
 #otherMili {
     background-color: transparent;
-    border: none;
+    border: 1px solid;
+    padding: 0px 5px;
 }
 
 div#FamFinDet {
@@ -256,7 +257,7 @@ div#FamFinDet {
 
         .del-fund, .del-car, .del-fammem {
             position: absolute;
-            top: 90%;
+            bottom: 10px;
             width: 90%;
             right: 5%;
         }
@@ -269,12 +270,20 @@ div#FamFinDet {
 }
 #cardiv, #FamMemdiv {
     div.cars, div.fam {
-        height: 745px !important;
+        height: 375px !important;
     }
 }
 
+#cardiv {
+    div.cars{
+        height: 745px !important;
+    }
+}
 #Studfindiv, .FamFinDet {
     grid-template-columns: repeat(3,1fr);
+    div.studfin, div.fammfin{
+        height: auto;
+    }
 }
 
 /****Dikan******/

@@ -173,7 +173,7 @@
                 @Html.LabelFor(model => model.SocioMod.MilitaryService, htmlAttributes: new { @class = "control-label" })
                 <div class="">
                     @Html.RadioButtonFor(model => model.SocioMod.MilitaryService, Common.Enums.MilitaryTypes.אחר, new { Checked = (miltaryServ != null && miltaryServ.Contains("אחר")) ? "checked" : "" })
-                    <input type="text" value='@((miltaryServ != null && miltaryServ.Contains("אחר")) ? @Model.SocioMod.MilitaryService : "אחר - " )' id="otherMili" placeholder="אחר - ">
+                    <input type="text" class="only-heb" value='@((miltaryServ != null && miltaryServ.Contains("אחר")) ? @Model.SocioMod.MilitaryService : "אחר - " )' id="otherMili" placeholder="אחר - ">
 
                     @Html.RadioButtonFor(model => model.SocioMod.MilitaryService, Common.Enums.MilitaryTypes.צבאי)
                     <span>@Common.Enums.MilitaryTypes.צבאי</span>
@@ -604,7 +604,7 @@
         var $children = $container.children();
         var value = $this.val();
         //console.log("This: " + $this + "Value : " + value);
-
+        $children.first().find('.salary-entery').css('display', 'block');
         switch (value) {
             /*three box*/
             case 'שכיר':
@@ -617,6 +617,7 @@
                     $(this).find('span.box-title').html('תלוש שכר -');
                 });
                 $container.css("grid-template-columns", "repeat(3,1fr)");
+
                 break;
             /*one box*/
             case 'עצמאי':
@@ -636,7 +637,7 @@
                         if (!($(this).hasClass("chosen-search-input")))    
                             $(this).addClass('must');
                     });
-                $container.css("grid-template-columns", "700px");
+                $container.css("grid-template-columns", "700px");    
                 switch (value) {
                     case 'עצמאי':
                         $children.first().find('span.box-title').html('אישור שומת מס הכנסה לשנה קודמת - ');
@@ -648,10 +649,11 @@
                         $children.first().find('span.box-title').html('אישור עדכני מביטוח לאומי על גובה האבטלה - ');
                         break;
                     case 'נכה':
-                        $children.first().find('span.box-title').html('לצרף אישור מביטוח לאומי על נכות וגובה הקצבה - ');
+                        $children.first().find('span.box-title').html('אישור מביטוח לאומי על נכות וגובה הקצבה - ');
                         break;
                     case 'נפטר':
                         $children.first().find('span.box-title').html('תעודת פטירה - ');
+                        $children.first().find('.salary-entery').css('display', 'none');
                         break;
                     case 'אחר':
                         $children.first().find('span.box-title').html('אחר - ');
