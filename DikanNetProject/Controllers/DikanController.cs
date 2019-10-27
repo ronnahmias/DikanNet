@@ -403,6 +403,11 @@ namespace DikanNetProject.Controllers
             ModelState.Remove("ScholarshipID"); // if the scholarship is 0
             if(ModelState.IsValid)
             {
+                if(ClientSp.DateDeadLine > ClientSp.DateOpenScholarship) // check date are correct
+                {
+                    ModelState.AddModelError("DateDeadLine", "תאריך סיום הגשה חייב להיות גדול מתאריך תחילת הגשה");
+                    return View(ClientSp);
+                }
                 using(DikanDbContext ctx = new DikanDbContext())
                 {
                     SpDefinition Temp = ctx.SpDef.Where(s => s.ScholarshipID == ClientSp.ScholarshipID).FirstOrDefault(); // try to find sp by id

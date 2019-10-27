@@ -24,7 +24,7 @@ namespace DataEntities
         [Display(Name = "בחר תאריך נעילה")]
         [Required(ErrorMessage = "חובה לבחור מלגה")]
         [DataType(DataType.Date)]
-        //[Range(typeof(DateTime), "1/2/2019", "3/12/2019", ErrorMessage = "{0} חייב להיות בין התאריכים {1} - {2}")]
+        [DateMinNow(ErrorMessage = "{0} חייב להיות בין התאריכים {1} - {2}")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true, ConvertEmptyStringToNull = true)]
         public DateTime LockDate { get; set; }
     }

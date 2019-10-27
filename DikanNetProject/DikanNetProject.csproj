@@ -652,7 +652,6 @@
     <Content Include="Views\Dikan\ListSocio.cshtml" />
     <Content Include="Views\Dikan\ListExcellence.cshtml" />
     <Content Include="Views\Dikan\StudExcellence.cshtml" />
-    <Content Include="Views\Dikan\View.cshtml" />
     <Content Include="Views\Dikan\StudentDetails.cshtml" />
     <Content Include="Views\Dikan\StudSocio.cshtml" />
     <Content Include="Views\Login\Construction.cshtml" />

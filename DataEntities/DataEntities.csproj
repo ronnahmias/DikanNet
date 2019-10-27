@@ -111,6 +111,7 @@
     <Compile Include="CarStudent.cs" />
     <Compile Include="Cities.cs" />
     <Compile Include="Countries.cs" />
+    <Compile Include="DatesCheck.cs" />
     <Compile Include="DB\DikanDbContext.cs" />
     <Compile Include="DisciplineCommittee.cs" />
     <Compile Include="SpExcellence.cs" />

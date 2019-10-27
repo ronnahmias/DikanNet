@@ -36,7 +36,7 @@
                 <div class="form-group col-md-4 col-sm-5 col-12">
                     @Html.LabelFor(model => model.BirthDay, htmlAttributes: new { @class = "control-label" })
                     <div class="input-group">
-                        @Html.EditorFor(model => model.BirthDay, new { htmlAttributes = new { @class = "form-control must", @max = DateTime.Now.AddYears(-15).ToString("yyyy-MM-dd"), @min="1930-01-01" } })
+                        @Html.EditorFor(model => model.BirthDay, new { htmlAttributes = new { @class = "form-control must" ,@max = DateTime.Now.AddYears(-15).ToString("yyyy-MM-dd"), @min="1930-01-01" } })
                         @Html.ValidationMessageFor(model => model.BirthDay, "", new { @class = "text-danger" })
                         <div class="input-group-append clear-date d-none">
                             <span class="input-group-text left-border-radius pointer">נקה</span>
