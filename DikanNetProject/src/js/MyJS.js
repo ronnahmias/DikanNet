@@ -256,6 +256,12 @@ function checkMust() {
                 $this.addClass('border-danger');
             }
         }
+        else if (type == "date") {
+            if (!dateIsValidd($this)) {
+                $this.addClass('border-danger');
+                ok = false;
+            }         
+        }
         else if (type == "file") {
             //console.log("File");
             if (!checkMustFile($this))
@@ -304,16 +310,6 @@ function validUpdateStu() {
     //valid all inputs
     var ok = checkMust();
     //console.log('must: ' + ok);
-    var $btDay = $('#BirthDay');
-    //valid date
-    if (!dateIsValid($btDay.val(), 1930)) {
-        $btDay.addClass('border-danger');
-        ok = false;
-    }
-    else {
-        $btDay.removeClass('border-danger');
-    }
-    //console.log('vtd: ' + ok);
     if (ok == false) {
         $('#errorModal').modal('show');
     }
@@ -321,25 +317,21 @@ function validUpdateStu() {
 }
 
 /* The function check that date is valid */
-function dateIsValid(pDate, pMinYear) {
-    console.log('checkDate');
-    console.log('Date: ' + pDate);
+function dateIsValidd($date) {
+    console.log('checkDatee');
     var ok = true;
-    var c = pDate.split('/');
-    console.log('C: ' + c[2]);
-    var datet = new Date(pDate);
-    //console.log('he: '+ datet.toLocaleDateString("he-IL").split(',')[0]);
-    //console.log('us: '+ datet.toLocaleDateString("en-US").split(',')[0]);
-    //return false;
-    // check year valid
-    if (c[2] < pMinYear) {
-        ok = false;
-    }
-    //date = new Date(c[2],c[1],c[0]); //new Date(yyyy, mm, dd);
+    var datet = new Date($date.val());
+    console.log('Date: ' + datet);
+    console.log('Min: ' + $date.attr('min'));
+    console.log('Max: ' + $date.attr('max'));
+
     if (datet.toString() == "Invalid Date") {
         ok = false;
     }
-
+    var today = datet.getTime();
+    var from = new Date($date.attr('min')).getTime();
+    var to = new Date($date.attr('max')).getTime();
+    if (!(today >= from && today <= to)) ok = false;
     return ok;
 }
 
