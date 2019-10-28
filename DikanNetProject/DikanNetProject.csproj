@@ -336,6 +336,7 @@
     <Compile Include="Models\StaticVar.cs" />
     <Compile Include="Models\ViewDikanModels.cs" />
     <Compile Include="Startup.cs" />
+    <Content Include="Content\Pic\bg.jpg" />
     <Content Include="Content\Pic\Logoclean.png" />
     <Content Include="fullcalendar\bootstrap\LICENSE.txt" />
     <Content Include="fullcalendar\bootstrap\main.css" />

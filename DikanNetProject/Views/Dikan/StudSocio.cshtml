@@ -170,17 +170,10 @@
                     </div>
                     <div class="col-md-3 col-sm-6 col-12 mt-2">
                         <p class="font-weight-bold m-0">
-                            @Html.DisplayNameFor(Model => fin.Expense)
-                        </p>
-                        @Html.DisplayFor(Model => fin.Expense)
-                        <a name="@fin.PathExpense" class="btn btn-light btn-file">צפייה בקובץ הוצאה</a>
-                    </div>
-                    <div class="col-md-3 col-sm-6 col-12 mt-2">
-                        <p class="font-weight-bold m-0">
                             מאזן הכנסות
                         </p>
                         @{
-                            var sum = fin.Salary - fin.Expense;
+                            var sum = fin.Salary;
                         }
                         @sum
                     </div>
@@ -244,17 +237,10 @@
                                 </div>
                                 <div class="col-md-3 col-sm-6 col-12 mt-2">
                                     <p class="font-weight-bold m-0">
-                                        @Html.DisplayNameFor(Model => fin.Expense)
-                                    </p>
-                                    @Html.DisplayFor(Model => fin.Expense)
-                                    <a name="@fin.PathExpense" class="btn btn-light btn-file">צפייה בקובץ הוצאה</a>
-                                </div>
-                                <div class="col-md-3 col-sm-6 col-12 mt-2">
-                                    <p class="font-weight-bold m-0">
                                         מאזן הכנסות
                                     </p>
                                     @{
-                                        var sum = fin.Salary - fin.Expense;
+                                        var sum = fin.Salary;
                                     }
                                     @sum
                                 </div>
