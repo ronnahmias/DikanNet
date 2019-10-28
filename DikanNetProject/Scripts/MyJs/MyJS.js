@@ -204,7 +204,8 @@ function showHidenPortion(checked, idElement) {
 * and the elemnt that need to be show
 * if checked true it will fade in else it will fade out
 */
-    if (checked == true) {
+    console.log('checked: ' +  checked);
+    if (checked === true || checked === "true") {
         $('#' + idElement).fadeIn();
         if (idElement == 'Funding') return;
         $('#' + idElement + ' :input').each(function () {

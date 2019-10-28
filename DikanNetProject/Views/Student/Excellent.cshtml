@@ -27,16 +27,18 @@
             </div>
 
             <div class="row col-12">
-                <div class="form-group col-md-2 col-sm-4 col-12">
+                <div class="form-group col-md-3 col-sm-4 col-12">
                     @Html.LabelFor(model => model.Iswork, htmlAttributes: new { @class = "control-label" })
+                    @Html.RadioButtonFor(model => model.Iswork, true, new { mode = "true", @onclick = "showHidenPortion(this.getAttribute('mode'),'workExcellent')" })  כן
+                    @Html.RadioButtonFor(model => model.Iswork, false, new { @mode = "false", @onclick = "showHidenPortion(this.getAttribute('mode'),'workExcellent')" })  לא
                     <div class="">
                         <div class="checkbox">
-                            @Html.EditorFor(model => model.Iswork, new { htmlAttributes = new { onchange = "showHidenPortion(this.checked,'workExcellent')" } })
+                           @* @Html.EditorFor(model => model.Iswork, new { htmlAttributes = new { onchange = "showHidenPortion(this.checked,'workExcellent')" } })*@
                             @Html.ValidationMessageFor(model => model.Iswork, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
-                <div id="workExcellent" style="display:@(@Model.Iswork ? "" : "none")" class="row col-md-10 col-sm-8 col-12">
+                <div id="workExcellent" style="display:@(@Model.Iswork ? "" : "none")" class="row col-md-9 col-sm-8 col-12">
                     <div class="form-group col-md-6 col-sm-6 col-12">
                         @Html.LabelFor(model => model.WorkJob, htmlAttributes: new { @class = "control-label " })
                         <div class="">
@@ -56,16 +58,18 @@
             </div>
 
             <div class="row col-12">
-                <div class="form-group col-md-2 col-sm-4 col-12">
+                <div class="form-group col-md-3 col-sm-4 col-12">
                     @Html.LabelFor(model => model.WantSp, htmlAttributes: new { @class = "control-label " })
+                    @Html.RadioButtonFor(model => model.WantSp, true, new { mode = "true", @onclick = "showHidenPortion(this.getAttribute('mode'),'MentorSub')" })  כן
+                    @Html.RadioButtonFor(model => model.WantSp, false, new { @mode = "false", @onclick = "showHidenPortion(this.getAttribute('mode'),'MentorSub')" })  לא
                     <div class="">
                         <div class="checkbox">
-                            @Html.EditorFor(model => model.WantSp, new { htmlAttributes = new { onchange = "showHidenPortion(this.checked,'MentorSub')" } })
+                           @* @Html.EditorFor(model => model.WantSp, new { htmlAttributes = new { onchange = "showHidenPortion(this.checked,'MentorSub')" } })*@
                             @Html.ValidationMessageFor(model => model.WantSp, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
-                <div id="MentorSub" style="display:@(@Model.WantSp ? "" : "none")" class="row col-md-10 col-sm-8 col-12">
+                <div id="MentorSub" style="display:@(@Model.WantSp ? "" : "none")" class="row col-md-9 col-sm-8 col-12">
                     <div class="form-group col-12">
                         @Html.LabelFor(model => model.MentorSub, htmlAttributes: new { @class = "control-label " })
                         <div class="">

@@ -42,14 +42,14 @@ textarea, input {
 
 div.chose-file, a.btn-file {
   cursor: pointer;
-  height: 60px;
+  height: 50px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   padding: 5px 10px;
   border-radius: 10px;
-  margin: 1rem !important;
+  margin: 0.3rem !important;
   font-size: 20px; }
 
 div.chose-file {
@@ -139,7 +139,9 @@ div#FamFinDet {
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 5px; }
   #Funding div.funds, #Funding div.cars, #Funding div.studfin, #Funding div.fammfin, #Funding div.fam, #cardiv div.funds, #cardiv div.cars, #cardiv div.studfin, #cardiv div.fammfin, #cardiv div.fam, #Studfindiv div.funds, #Studfindiv div.cars, #Studfindiv div.studfin, #Studfindiv div.fammfin, #Studfindiv div.fam, .FamFinDet div.funds, .FamFinDet div.cars, .FamFinDet div.studfin, .FamFinDet div.fammfin, .FamFinDet div.fam, #FamMemdiv div.funds, #FamMemdiv div.cars, #FamMemdiv div.studfin, #FamMemdiv div.fammfin, #FamMemdiv div.fam {
-    background-color: #f5f5ba;
+    background-color: #fff;
+    border: 1px solid #2a37ad;
+    border-radius: 30px;
     position: relative;
     height: 550px;
     padding: 20px 10px; }
