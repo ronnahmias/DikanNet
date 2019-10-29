@@ -16,6 +16,7 @@ using Microsoft.Owin.Security;
 using Microsoft.AspNet.Identity.Owin;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
+using Z.EntityFramework.Plus;
 
 namespace DikanNetProject.Controllers
 {
@@ -1090,12 +1091,12 @@ namespace DikanNetProject.Controllers
             CarStudent TempDbCar;
             using (DikanDbContext ctx = new DikanDbContext())
             {
-                // list of cars by database
+                // list of cars from database
                 DbList = ctx.CarStudents.Where(s => s.StudentId == sStudentId && s.SpId == SpId).ToList();
                 // update each car that posted from client
                 foreach (var car in ClientList)
                 {
-                    car.StudentId = sStudentId;// insert ths id of student to every car
+                    car.StudentId = sStudentId;// insert the id of student to every car
                     car.SpId = SpId;           // insert spid to every car     
                                                //find the car in the list by carNumber
                     TempDbCar = DbList.Where(s => s.CarNumber == car.CarNumber).FirstOrDefault();
