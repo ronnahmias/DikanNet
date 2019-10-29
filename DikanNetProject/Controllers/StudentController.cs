@@ -837,11 +837,6 @@ namespace DikanNetProject.Controllers
                         ModelState.AddModelError("YearFinancing", "חובה לציין שנת מימון");
                         return false;
                     }
-                    if (fund.FileFunding == null && fund.PathFunding == null)
-                    {
-                        ModelState.AddModelError("FileFunding", "חובה לצרף קובץ");
-                        return false;
-                    }
                 }
             }
             #endregion
@@ -948,7 +943,7 @@ namespace DikanNetProject.Controllers
             foreach (var family in socio.ListFamMemFin)
             {
 
-                bool needExpenseFile = true;
+                bool die = false;
 
                 if (string.IsNullOrEmpty(family.WorkSt))
                 {
@@ -956,7 +951,7 @@ namespace DikanNetProject.Controllers
                     //return false;
                 }
                 
-                switch (Enum.Parse(typeof(Enums.WorkingStatus), socio.SocioMod.WorkSt))
+                switch (Enum.Parse(typeof(Enums.WorkingStatus), family.WorkSt))
                 {
                     case Enums.WorkingStatus.עצמאי:
                     case Enums.WorkingStatus.חבר_קיבוץ:
@@ -969,7 +964,7 @@ namespace DikanNetProject.Controllers
                     case Enums.WorkingStatus.נפטר:
                         family.FamilyStudentFinances.RemoveAt(1);
                         family.FamilyStudentFinances.RemoveAt(1);
-                        needExpenseFile = false;
+                        die = true;
                         break;
                     case Enums.WorkingStatus.פנסיונר:
                         family.FamilyStudentFinances.RemoveAt(2);
@@ -977,27 +972,29 @@ namespace DikanNetProject.Controllers
                     default:
                         break;
                 }
-                
+
                 /* כעת אני לוקח את השנים והחודשים שם אותם במערך דו ממדי
                  * ובודק אם הם כפולים גם השנה וגם החודש אם כן זאת שגיאה ולכן חוזר
                  */
+                 /*
                 int[,] matYM = new int[2,3];
                 for (int i = 0; i < family.FamilyStudentFinances.Count; i++)
                 {
                     matYM[0, i] = family.FamilyStudentFinances[i].Year;
                     matYM[1, i] = family.FamilyStudentFinances[i].Month;
                 }
+                
                 for (int i = 0; i < family.FamilyStudentFinances.Count - 1; i++)
                 {
                     if (matYM[0, i] == matYM[0, i + 1] && matYM[1, i] == matYM[1, i + 1])
                         return false;
                 }
-
+                */
 
                 foreach (var fin in family.FamilyStudentFinances)
                 {
                     //until last year
-                    if (fin.Year < DateTime.Now.Year - 1 || fin.Year == 0)
+                    if ( (fin.Year < DateTime.Now.Year - 1 || fin.Year == 0) && !die)
                     {
                         ModelState.AddModelError("Year", "שנה לא תקינה");
                         return false;

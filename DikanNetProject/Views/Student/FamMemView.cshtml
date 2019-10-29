@@ -20,7 +20,7 @@
             <div class="form-group row text-center">
                 @Html.EditorFor(model => model.FamilyMemberId, new { htmlAttributes = new { @class = "control-label id must col-md-4 col-12" } })
                 @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "control-label must col-md-4 col-12" } })
-                @Html.EditorFor(model => model.BirthDay, new { htmlAttributes = new { @class = "control-label must col-md-4 col-12  only-numbers" } })
+                @Html.EditorFor(model => model.BirthDay, new { htmlAttributes = new { @class = "control-label must col-md-4 col-12  only-numbers", @max = DateTime.Now.ToString("yyyy-MM-dd"), @min="1930-01-01" } })
             </div>
 
 
