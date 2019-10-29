@@ -30,6 +30,7 @@ namespace DataEntities
         [NotMapped, Display(Name = "קובץ הכנסה חודשי")]
         public HttpPostedFileBase FileSalary { get; set; }
 
+        [Key, Column("SpId", Order = 3)]
         public int SpId { get; set; }
 
         public int FinNo { get; set; }
