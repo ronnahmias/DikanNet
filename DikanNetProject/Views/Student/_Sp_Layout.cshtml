@@ -157,8 +157,12 @@
              if('@ViewBag.ResOk' == 'Error') $('#errorModal').modal('show');
         });
 
-        function beforeSumbit(spName) {
-            var ok = checkMust();
+    function beforeSumbit(spName) {
+            var ok = false;
+            if (spName != 'socio')
+                ok = checkMust();
+            else
+                ok = true;
             if (ok) // true - all filed are filed
             {
                 $('#successModal').modal('show');

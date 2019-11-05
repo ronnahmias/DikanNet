@@ -19,7 +19,7 @@ namespace DataEntities
         [Key, Column(Order = 1)]
         public string StudentId { get; set; }
 
-        [Display(Name = "שנת לימוד")]
+        [Display(Name = "שנת לימוד"),Required(ErrorMessage ="חובה להזין שנת לימוד")]
         public string SchoolYear { get; set; }
 
         [Display(Name = "סטטוס")]
@@ -69,7 +69,7 @@ namespace DataEntities
         [Display(Name = "האם קיבלת מלגה בעבר?")]
         public bool ReceiveScholarship { get; set; }
 
-        [Display(Name = "שירות צבאי")]
+        [Display(Name = "שירות צבאי"),Required(ErrorMessage ="חובה להזין סוג שירות צבאי")]
         public string MilitaryService { get; set; }
 
         [Display(Name = "צירוף קובץ תעודת שחרור"), NotMapped]
@@ -102,7 +102,7 @@ namespace DataEntities
         public HttpPostedFileBase FileBankAccount { get; set; }
         public string PathBankAccount { get; set; }
 
-        [Display(Name = "מצב חשבון בנק")]
+        [Display(Name = "מצב חשבון בנק"),Required(ErrorMessage ="חובה להזין מצב חשבון בנק")]
         public int? BankStatus { get; set; }
 
         [Display(Name ="סטטוס עבודה")]
