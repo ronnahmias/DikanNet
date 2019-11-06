@@ -233,7 +233,7 @@ paket-files/
 .fake/
 
 #Ignore folder UsersFiles
-UsersFiles/
+DikanNetProject\App_Data\UsersFiles
 
 # JetBrains Rider
 .idea/
