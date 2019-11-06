@@ -92,7 +92,7 @@ namespace DikanNetProject.Controllers
                 if(student == null) // if there is no student record return to update student page to fill details
                     return RedirectToAction("UpdateStudent", "Student");
 
-                studentMain.ScholarshipDefinitions = ctx.SpDef.Where(x => DbFunctions.TruncateTime(x.DateDeadLine) > DbFunctions.TruncateTime(DateTime.Now) && DbFunctions.TruncateTime(x.DateOpenScholarship) < DbFunctions.TruncateTime(DateTime.Now)).ToList();
+                studentMain.ScholarshipDefinitions = ctx.SpDef.Where(x => DbFunctions.TruncateTime(x.DateDeadLine) >= DbFunctions.TruncateTime(DateTime.Now) && DbFunctions.TruncateTime(x.DateOpenScholarship) <= DbFunctions.TruncateTime(DateTime.Now)).ToList();
                 foreach (var scholarship in studentMain.ScholarshipDefinitions.ToList()) // dont show scholarship that already is submited
                 {
                     switch (Enum.Parse(typeof(Enums.SpType),scholarship.Type))

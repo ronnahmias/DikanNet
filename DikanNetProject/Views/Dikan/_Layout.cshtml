@@ -120,8 +120,8 @@
     </div>
 
     @Scripts.Render("~/bundles/jquery")
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.0.4/popper.js"></script>
     @Scripts.Render("~/bundles/bootstrap")
-    <script src="~/Scripts/umd/popper.js"></script>
     @Scripts.Render("~/bundles/datepicker")
     @Scripts.Render("~/bundles/javascript")
     <script src="~/Scripts/MvcGrid/mvc-grid.js"></script>
@@ -178,13 +178,13 @@
         [].forEach.call(document.getElementsByClassName('mvc-grid'), function (element) {
             new MvcGrid(element);
         });
-        
+
         $('#update-status').click(function () {
             $.ajax({
                 url: "/Dikan/UpdateSpStatus",
                 dataType: 'text',
-                data: {ScholarId: $(this).attr('sp'), StudId: $(this).attr('st'), status: $('#new-status').val() },
-	            method: "POST",
+                data: { ScholarId: $(this).attr('sp'), StudId: $(this).attr('st'), status: $('#new-status').val() },
+                method: "POST",
                 success: function () {
                     // show success message
                     alert('סטטוס עודכן בהצלחה');

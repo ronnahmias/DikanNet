@@ -403,7 +403,7 @@ namespace DikanNetProject.Controllers
             ModelState.Remove("ScholarshipID"); // if the scholarship is 0
             if(ModelState.IsValid)
             {
-                if(ClientSp.DateDeadLine > ClientSp.DateOpenScholarship) // check date are correct
+                if(ClientSp.DateDeadLine < ClientSp.DateOpenScholarship) // check date are correct
                 {
                     ModelState.AddModelError("DateDeadLine", "תאריך סיום הגשה חייב להיות גדול מתאריך תחילת הגשה");
                     return View(ClientSp);
