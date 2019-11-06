@@ -709,6 +709,12 @@
             break;
             default:console.log("ברירת מחדל");
         }
+        /*remove must*/
+         $children.each(function () {
+            $(this).find(':input').each(function () {
+                $(this).removeClass('must');
+            });
+        });
         mustAddSign();
     }
     </script>
