@@ -209,7 +209,8 @@ function showHidenPortion(checked, idElement) {
         $('#' + idElement).fadeIn();
         if (idElement == 'Funding') return;
         $('#' + idElement + ' :input').each(function () {
-            $(this).addClass('must');
+            if ($(this).attr('type') != 'hidden')
+                $(this).addClass('must');
             //specficMustSigh($(this));
         });
     }

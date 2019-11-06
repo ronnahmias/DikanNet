@@ -479,7 +479,7 @@
             //console.log($this);
             if ($this.css('display') != 'none') {
                 $this.find(':input').each(function () {
-                    if (!($(this).hasClass("chosen-search-input")))    
+                    if (!($(this).hasClass("chosen-search-input")) && $(this).attr('type') != 'hidden')    
                         $(this).addClass('must');
                 });
             }
