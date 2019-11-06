@@ -232,6 +232,9 @@ paket-files/
 # FAKE - F# Make
 .fake/
 
+#Ignore folder UsersFiles
+UsersFiles/
+
 # JetBrains Rider
 .idea/
 *.sln.iml
