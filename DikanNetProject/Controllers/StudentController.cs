@@ -873,86 +873,26 @@ namespace DikanNetProject.Controllers
                     //until last year
                     if (fin.Year < DateTime.Now.Year - 1 || fin.Year == 0)
                     {
-                        ModelState.AddModelError("Year1", "שנה לא תקינה");
+                        ModelState.AddModelError("Year", "שנה לא תקינה");
                         ok = false;
                     }
                     if (fin.Month > 12 && fin.Month < 1)
                     {
-                        ModelState.AddModelError("Month1", "חודש לא תקין");
+                        ModelState.AddModelError("Month", "חודש לא תקין");
                         ok = false;
                     }
                     if (fin.Salary < 0)
                     {
-                        ModelState.AddModelError("Salary1", "הכנסה לא תקינה");
+                        ModelState.AddModelError("Salary", "הכנסה לא תקינה");
                         ok = false; 
                     }
                     if (fin.FileSalary == null && fin.PathSalary == null)
                     {
-                        ModelState.AddModelError("FileSalary1", "חובה לצרף קובץ");
+                        ModelState.AddModelError("FileSalary", "חובה לצרף קובץ");
                         ok = false;
                     }
                 }
             }
-            #endregion
-
-            #region Check Funding Valid
-            // check funding valid
-            if (socio.SocioMod.HasFunding)
-            {
-                foreach(var fund in socio.ListFundings)
-                {
-                    if(string.IsNullOrEmpty(fund.FinancingInstitution))
-                    {
-                        ModelState.AddModelError("FinancingInstitution", "חובה לציין גוף ממן");
-                        return false;
-                    }
-                    if (fund.FinancingHeight <= 0)
-                    {
-                        ModelState.AddModelError("FinancingHeight", "חובה לציין גובה מימון");
-                        return false;
-                    }
-                    if (fund.YearFinancing == null)
-                    {
-                        ModelState.AddModelError("YearFinancing", "חובה לציין שנת מימון");
-                        return false;
-                    }
-                }
-            }
-            #endregion
-
-            #region CarStudentValid
-            if (socio.SocioMod.CarOwner)
-            {
-                foreach (var car in socio.ListCarStudent)
-                {
-                    if(car.CarNumber.Length < 6 && car.CarNumber.Length > 8)
-                    {
-                        ModelState.AddModelError("CarNumber", "מספר רכב לא תקין");
-                        return false;
-                    }
-                    if(string.IsNullOrEmpty(car.CarCompany))
-                    {
-                        ModelState.AddModelError("CarCompany", "חובה לציין יצרן רכב");
-                        return false;
-                    }
-                    if (string.IsNullOrEmpty(car.CarModel))
-                    {
-                        ModelState.AddModelError("CarModel", "חובה לציין מודל רכב");
-                        return false;
-                    }
-                    if (car.CarYear < 0 || car.CarYear == 0)
-                    {
-                        ModelState.AddModelError("CarYear", "חובה לציין שנת רכב");
-                        return false;
-                    }
-                    if(car.FileCarLicense == null && car.PathCarLicense == null)
-                    {
-                        ModelState.AddModelError("FileCarLicense", "חובה לצרף קובץ");
-                        return false;
-                    }
-                }
-            }
-
             #endregion
 
             #region FamilyFinanceValid
@@ -968,9 +908,9 @@ namespace DikanNetProject.Controllers
                 if (string.IsNullOrEmpty(family.WorkSt))
                 {
                     ModelState.AddModelError("WorkSt", "חובה לציין מצב עבודה");
-                    //return false;
+                    ok = false;
                 }
-                
+
                 switch (Enum.Parse(typeof(Enums.WorkingStatus), family.WorkSt))
                 {
                     case Enums.WorkingStatus.עצמאי:
@@ -1012,7 +952,7 @@ namespace DikanNetProject.Controllers
                 if (family.FileFamId == null && family.PathFmId == null)
                 {
                     ModelState.AddModelError("FileFamId", "חובה לצרף קובץ");
-                    return false;
+                    ok = false;
                 }
 
                 /* כעת אני לוקח את השנים והחודשים שם אותם במערך דו ממדי
@@ -1036,28 +976,88 @@ namespace DikanNetProject.Controllers
                 foreach (var fin in family.FamilyStudentFinances)
                 {
                     //until last year
-                    if ( (fin.Year < DateTime.Now.Year - 1 || fin.Year == 0) && !die)
+                    if ((fin.Year < DateTime.Now.Year - 1 || fin.Year == 0) && !die)
                     {
                         ModelState.AddModelError("Year", "שנה לא תקינה");
-                        return false;
+                        ok = false;
                     }
                     if (fin.Month > 12 && fin.Month < 1)
                     {
                         ModelState.AddModelError("Month", "חודש לא תקין");
-                        return false;
+                        ok = false;
                     }
                     if (fin.Salary < 0)
                     {
                         ModelState.AddModelError("Salary", "הכנסה לא תקינה");
-                        return false;
+                        ok = false; 
                     }
                     if (fin.FileSalary == null && fin.PathSalary == null)
                     {
                         ModelState.AddModelError("FileSalary", "חובה לצרף קובץ");
-                        return false;
+                        ok = false;
                     }
                 }
             }
+            #endregion
+
+            #region Check Funding Valid
+            // check funding valid
+            if (socio.SocioMod.HasFunding)
+            {
+                foreach(var fund in socio.ListFundings)
+                {
+                    if(string.IsNullOrEmpty(fund.FinancingInstitution))
+                    {
+                        ModelState.AddModelError("FinancingInstitution", "חובה לציין גוף ממן");
+                        ok = false;
+                    }
+                    if (fund.FinancingHeight <= 0)
+                    {
+                        ModelState.AddModelError("FinancingHeight", "חובה לציין גובה מימון");
+                        ok = false;
+                    }
+                    if (fund.YearFinancing == null)
+                    {
+                        ModelState.AddModelError("YearFinancing", "חובה לציין שנת מימון");
+                        ok = false;
+                    }
+                }
+            }
+            #endregion
+
+            #region CarStudentValid
+            if (socio.SocioMod.CarOwner)
+            {
+                foreach (var car in socio.ListCarStudent)
+                {
+                    if(car.CarNumber.Length < 6 && car.CarNumber.Length > 8)
+                    {
+                        ModelState.AddModelError("CarNumber", "מספר רכב לא תקין");
+                        ok = false;
+                    }
+                    if(string.IsNullOrEmpty(car.CarCompany))
+                    {
+                        ModelState.AddModelError("CarCompany", "חובה לציין יצרן רכב");
+                        ok = false;
+                    }
+                    if (string.IsNullOrEmpty(car.CarModel))
+                    {
+                        ModelState.AddModelError("CarModel", "חובה לציין מודל רכב");
+                        ok = false;
+                    }
+                    if (car.CarYear < 0 || car.CarYear == 0)
+                    {
+                        ModelState.AddModelError("CarYear", "חובה לציין שנת רכב");
+                        ok = false;
+                    }
+                    if(car.FileCarLicense == null && car.PathCarLicense == null)
+                    {
+                        ModelState.AddModelError("FileCarLicense", "חובה לצרף קובץ");
+                        ok = false;
+                    }
+                }
+            }
+
             #endregion
 
             #region FamilyMemeberValid
@@ -1066,34 +1066,34 @@ namespace DikanNetProject.Controllers
                 if(!IdValidtion(family.FamilyMemberId))
                 {
                     ModelState.AddModelError("FamilyMemberId", "תז לא תקין");
-                    return false;
+                    ok = false;
                 }
 
                 if(string.IsNullOrEmpty(family.Name))
                 {
                     ModelState.AddModelError("Name", "חובה לציין שם");
-                    return false;
+                    ok = false;
                 }
                 if (string.IsNullOrEmpty(family.Realationship))
                 {
                     ModelState.AddModelError("Realationship", "חובה לציין קשר משפחתי");
-                    return false;
+                    ok = false;
                 }
                 if (string.IsNullOrEmpty(family.Gender))
                 {
                     ModelState.AddModelError("Gender", "חובה לציין מגדר");
-                    return false;
+                    ok = false;
                 }
                 if(family.BirthDay == null)
                 {
                     ModelState.AddModelError("BirthDay", "חובה להזין תאריך לידה");
-                    return false;
+                    ok = false;
                 }
-                /*if (family.FileFamId == null && family.PathFmId == null)
+                if (family.FileFamId == null && family.PathFmId == null)
                 {
                     ModelState.AddModelError("FileFamId", "חובה לצרף קובץ");
-                    return false;
-                }*/
+                    ok = false;
+                }
             }
 
             #endregion

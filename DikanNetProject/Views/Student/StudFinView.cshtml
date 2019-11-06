@@ -11,17 +11,15 @@
             <div class="text-center my-2">
                 @Html.DropDownListFor(model => model.Year, ViewBag.YearsList as SelectList, "", htmlAttributes: new { @class = "must control-label chosen", @data_placeholder = "שנה" })
                 @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
-                @Html.ValidationMessage("Year1", "", new { @class = "text-danger" })
             </div>
             <div class="text-center my-2">
                 @Html.DropDownListFor(model => model.Month, ViewBag.MonthsList as SelectList, "", htmlAttributes: new { @class = "must control-label chosen", @data_placeholder = "חודש" })
                 @Html.ValidationMessageFor(model => model.Month, "", new { @class = "text-danger" })
-                @Html.ValidationMessage("Month1", "", new { @class = "text-danger" })
             </div>
             <div class="form-row text-center w-75 mx-auto">
                 @Html.EditorFor(model => model.Salary, new { htmlAttributes = new { @class = "must control-label pos-num" } })
                 @Html.LabelFor(model => model.Salary, htmlAttributes: new { @class = "title" })
-                @Html.ValidationMessage("Salary1", "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.Salary, "", new { @class = "text-danger" })
             </div>
             <p>קובץ <span class="box-title"></span></p>
             <div class="half-row">
@@ -35,7 +33,6 @@
                         @Html.ValidationMessage("Salary1", "", new { @class = "text-danger" })
                     </div>
                 </div>
-                @Html.ValidationMessage("FileSalary1")
                 <div class="text-center form-row ">
                     <a name="@Model.PathSalary" style="display:@(Model.PathSalary != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
                 </div>
