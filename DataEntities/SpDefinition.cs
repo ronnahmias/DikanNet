@@ -34,13 +34,13 @@ namespace DataEntities
 
         [Display(Name = "תאריך אחרון להגשה")]
         [DataType(DataType.Date)]
-        //[Range(typeof(DateTime), "1/2/2019", "3/12/2019", ErrorMessage = "{0} חייב להיות בין התאריכים {1} - {2}")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true, ConvertEmptyStringToNull = true)]
         public DateTime DateDeadLine { get; set; }
 
         [NotMapped]
-        public string SpRow { get; set; } // show the sp parameters in one row for drop down
+        public string SpRow { get; set; } // show the sp parameters in one row for drop down list
 
+        // forgein keys and collections of connected entities
         public virtual ICollection<SpSocio> Socioeconomicc { get; set; }
         public virtual ICollection<SpHalacha> InPractices { get; set; }
         public virtual ICollection<SpExcellence> ExcellenceStudents { get; set; }

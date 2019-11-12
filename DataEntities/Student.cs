@@ -75,10 +75,12 @@ namespace DataEntities
         [Display(Name ="שם מלא")]
         public string StudentRow { get; set; } // shows the student id + full name together
 
+        //forgein keys
         public virtual Cities Cities { get; set; }
         public virtual Countries Country { get; set; }
         public virtual Major Major { get; set; }
 
+        //collections of connected entities
         public virtual ICollection<SpSocio> Socioeconomics { get; set; }
         public virtual ICollection<SpHalacha> Halacha { get; set; }
         public virtual ICollection<SpExcellence> ExcellenceStudents { get; set; }

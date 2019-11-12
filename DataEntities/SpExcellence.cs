@@ -51,7 +51,7 @@ namespace DataEntities
         [Display(Name = "סיכום ראיון")]
         public string InterviewSummary { get; set; }
 
-
+        // forgein keys
         public virtual SpDefinition ScholarshipDefinition { get; set; }
         public virtual Student Student { get; set; }
     }
