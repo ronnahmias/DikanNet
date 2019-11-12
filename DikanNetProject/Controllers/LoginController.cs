@@ -22,10 +22,11 @@ using Microsoft.AspNet.Identity.EntityFramework;
 namespace DikanNetProject.Controllers
 {
     [RequireHttps] // only https requests
-    [AllowAnonymous]
+    [AllowAnonymous] // anyone can direct to this controller
     public class LoginController : Controller
     {
-        #region Variables
+        #region Variables 
+        // variable for user Authentication
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -73,7 +74,7 @@ namespace DikanNetProject.Controllers
         #endregion
 
         #region Construction
-
+        // Construction Page
         [HttpGet]
         [AllowAnonymous]
         public ActionResult Construction()
@@ -104,9 +105,9 @@ namespace DikanNetProject.Controllers
         {
             //if(Session["Const"] == null)
                // return RedirectToAction("Construction");
-            ViewBag.ReturnUrl = returnUrl;
-            ViewBag.Status = response; // if cames from role redirect method with error
-            if (User.Identity.IsAuthenticated)
+            ViewBag.ReturnUrl = returnUrl; // return url after login
+            ViewBag.Status = response; // response message
+            if (User.Identity.IsAuthenticated) // if the user has logged in already redirect according role
             {
                 var user = UserManager.FindByName(User.Identity.Name);
                 var role = UserManager.GetRoles(user.Id)[0]; // get role[0] of the user
@@ -127,7 +128,7 @@ namespace DikanNetProject.Controllers
             var result = await SignInManager.PasswordSignInAsync(loginuser.UserName, loginuser.Password, loginuser.RememberMe, shouldLockout: false); // sign in
             switch (result)
             {
-                case SignInStatus.Success:
+                case SignInStatus.Success: // if the sign in success
                     if (Url.IsLocalUrl(ReturnUrl))
                         return Redirect(ReturnUrl);
                     ViewBag.Status = true;
@@ -159,23 +160,7 @@ namespace DikanNetProject.Controllers
                         return RedirectToAction("UpdateStudent", "Student"); // complete register of student
 
                 case "Dikan":
-                    //var dikan = ctx.dikan.where(s => s.dikanid == account.userid).firstordefault();
-                    //if (dikan != null)
-                    //{
-                    //    httpcontext.session.add("dikan", account);
-                    //    session.timeout = timeout;
-                    //    return redirecttoaction("index", "dikan");
-                    //}
-                    //else
-                    //{
-                    //    return redirecttoaction("completeregisterdikan"); // complete register of dikan
-                    //}
-                    break;
-
-                case "Admin":
-                    return RedirectToAction("Index", "Admin");
-
-                // in future add to mazkira case
+                    return RedirectToAction("Index", "Dikan"); // go to dikan index page
 
                 default: break;
             }
@@ -262,7 +247,6 @@ namespace DikanNetProject.Controllers
                 if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
-                    // add error message
                     return View(model);
                 }
 
@@ -272,7 +256,6 @@ namespace DikanNetProject.Controllers
                 var callbackUrl = Url.Action("ResetPassword", "Login", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                 body = SendMail.CreateBodyEmail(user.FirstName + " " + user.LastName, callbackUrl, body);
                 await UserManager.SendEmailAsync(user.Id, "איפוס סיסמא - דיקאנט", body);
-                // add message that the email has been send
                 ViewBag.ModelTitle = "שחזור סיסמא";
                 ViewBag.ModelMessageBody = "פרטיך נקלטו<br />במידה הפרטים נכונים נשלח אלייך מייל ובו פרטי שחזור סיסמא.";
                 ViewBag.ChangeColor = true;
@@ -306,14 +289,12 @@ namespace DikanNetProject.Controllers
             ViewBag.ModelMessageBody = "אחד או יותר מהשדות אינם תקינים";
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByEmailAsync(model.Email);
+                var user = await UserManager.FindByEmailAsync(model.Email); // find user by email
                 if (user == null)
                 {
-                    // Don't reveal that the user does not exist
-                    // add error
                     return View();
                 }
-                var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
+                var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password); // reset pass
                 if (result.Succeeded)
                 {
                     ViewBag.Status = false;
@@ -330,7 +311,7 @@ namespace DikanNetProject.Controllers
 
         #region Check If User Exist
         [HttpPost]
-        public ActionResult CheckIfUserExist(string UserId, string Email) // ajax call
+        public ActionResult CheckIfUserExist(string UserId, string Email) // ajax call - checks if user exist in system
         {
                 //email exist
                 if (IsEmailExist(Email) || IsIdExist(UserId))
@@ -346,7 +327,7 @@ namespace DikanNetProject.Controllers
         #region Verify Account
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult VerifyAccount(string userId, string code)
+        public ActionResult VerifyAccount(string userId, string code) // verify account by email link
         {
             ViewBag.Statuss = false;
             if (userId == null || code == null)
@@ -371,7 +352,7 @@ namespace DikanNetProject.Controllers
         
         #region Non Action
         [NonAction]
-        public static bool IsIdExist(string userId)
+        public static bool IsIdExist(string userId) // checks if user exist by id
         {
             using (DikanDbContext ctx = new DikanDbContext())
             {

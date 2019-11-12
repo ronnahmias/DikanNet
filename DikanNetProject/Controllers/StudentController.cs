@@ -27,6 +27,7 @@ namespace DikanNetProject.Controllers
         string sStudentId;
 
         #region Constructor and more
+        //for user athentication
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
@@ -88,13 +89,13 @@ namespace DikanNetProject.Controllers
             StudentMain studentMain = new StudentMain();
             using (DikanDbContext ctx = new DikanDbContext())
             {
-                var student = ctx.Students.Where(s => s.StudentId == User.Identity.Name).FirstOrDefault();
+                var student = ctx.Students.Where(s => s.StudentId == User.Identity.Name).FirstOrDefault(); // find student in db
                 if(student == null) // if there is no student record return to update student page to fill details
                     return RedirectToAction("UpdateStudent", "Student");
 
-                studentMain.ScholarshipDefinitions = ctx.SpDef.Where(x => DbFunctions.TruncateTime(x.DateDeadLine) >= DbFunctions.TruncateTime(DateTime.Now) && DbFunctions.TruncateTime(x.DateOpenScholarship) <= DbFunctions.TruncateTime(DateTime.Now)).ToList();
+                studentMain.ScholarshipDefinitions = ctx.SpDef.Where(x => DbFunctions.TruncateTime(x.DateDeadLine) >= DbFunctions.TruncateTime(DateTime.Now) && DbFunctions.TruncateTime(x.DateOpenScholarship) <= DbFunctions.TruncateTime(DateTime.Now)).ToList(); // add all spdefinition that open to fill
                 foreach (var scholarship in studentMain.ScholarshipDefinitions.ToList()) // dont show scholarship that already is submited
-                {
+                { // on each sp that open to fill checks if the user already fill this sp and remove it
                     switch (Enum.Parse(typeof(Enums.SpType),scholarship.Type))
                     {
                         case Enums.SpType.סוציואקונומית:
@@ -119,7 +120,7 @@ namespace DikanNetProject.Controllers
                 studentMain.ExcelList = ctx.Excellence.Include(s => s.ScholarshipDefinition).Where(s => s.StudentId == sStudentId).ToList(); // send to view excellence list of student
                 studentMain.SocioList = ctx.Socio.Include(s => s.ScholarshipDefinition).Where(s => s.StudentId == sStudentId).ToList(); // send to view socio list of student
                 var user = UserManager.FindByName(sStudentId);
-                ViewBag.StudentName = user.FirstName + " " + user.LastName;
+                ViewBag.StudentName = user.FirstName + " " + user.LastName; // shows the name of student
             }
             return View(studentMain);
         }
@@ -149,8 +150,8 @@ namespace DikanNetProject.Controllers
                     ModelState.AddModelError(string.Empty, "שגיאה אחד מהשדות או יותר אינם נכונים");
                     return View(changePassword); // error return to view
                 }
-                var result = UserManager.ChangePassword(user.Id, changePassword.OldPassword, changePassword.Password);
-                if (result.Succeeded)
+                var result = UserManager.ChangePassword(user.Id, changePassword.OldPassword, changePassword.Password); // change password
+                if (result.Succeeded) // if succeed return to index
                     return RedirectToAction("Index", new { response = "סיסמא עודכנה בהצלחה!" });
             }
             return View(changePassword);
@@ -224,7 +225,7 @@ namespace DikanNetProject.Controllers
                     var result = await UserManager.UpdateAsync(tempuser); // update the detail in users table
 
                     if (UpdateStudent.FileId != null)
-                       UpdateStudent.PathId = Files.SaveFileInServer(UpdateStudent.FileId, "Id", UpdateStudent.StudentId, (dbStudent == null) ? null : dbStudent.PathId);
+                       UpdateStudent.PathId = Files.SaveFileInServer(UpdateStudent.FileId, "Id", UpdateStudent.StudentId, (dbStudent == null) ? null : dbStudent.PathId); // save id file on server
 
                     if (dbStudent == null) // after first login fill more info
                         ctx.Students.Add(UpdateStudent); // add student to data base
@@ -235,7 +236,7 @@ namespace DikanNetProject.Controllers
                     if (tempuser != null && tempuser.EmailConfirmed == false) // if the student change the email disconnect from system
                         return RedirectToAction("Disconnect", "Login");
 
-                    return RedirectToAction("Index", new { response = "המשתמש עודכן בהצלחה" });
+                    return RedirectToAction("Index", new { response = "המשתמש עודכן בהצלחה" }); // return to index if the user updated
                 }
             }
             using (DikanDbContext ctx = new DikanDbContext())
@@ -265,7 +266,7 @@ namespace DikanNetProject.Controllers
                     return RedirectToAction("Socio", new { scholarshipid }); // type 1 is socio scholarship
 
                 case Enums.SpType.מצוינות:
-                    return RedirectToAction("Excellent", new { scholarshipid }); // type 2 is metuyanut scholarship
+                    return RedirectToAction("Excellent", new { scholarshipid }); // type 2 is excellent scholarship
 
                 case Enums.SpType.הלכה:
                     return RedirectToAction("Halacha", new { scholarshipid }); // type 3 is halacha scholarship
@@ -627,10 +628,10 @@ namespace DikanNetProject.Controllers
 
         #region Post Socio Methods
 
-        private SocioAdd SocioDraftValid(SocioAdd socio)
+        private SocioAdd SocioDraftValid(SocioAdd socio) // if the student press on sve draft check that the inputs valid before save
         {
             #region socio model
-            if (socio.SocioMod.Newcomer && socio.SocioMod.DateImmigration == null)
+            if (socio.SocioMod.Newcomer && socio.SocioMod.DateImmigration == null)// if he didnt fill all parametrs cancel new comer
             {
                 socio.SocioMod.Newcomer = false;
                 ModelState.Remove("SocioMod.Newcomer");
@@ -742,10 +743,11 @@ namespace DikanNetProject.Controllers
             return socio;
         } // check all socio to save draft
 
-        private bool socioIsValid(SocioAdd socio)
+        private bool socioIsValid(SocioAdd socio) // checks all field before save aand submit form of spsocio
         {
             var ok = true;
             #region BasicValidtion
+            //checks on socio model validation
             if (string.IsNullOrEmpty(socio.SocioMod.SchoolYear))
             {
                 ModelState.AddModelError("SchoolYear", "חובה לציין שנת לימוד");
@@ -827,10 +829,10 @@ namespace DikanNetProject.Controllers
             #endregion
 
             #region StudentFinanceValid
-            /* בתחילה אני בודק שמצב העבודה הוא לא ריק אם ריק יש לחזור ולתקן
-             * לאחר מכן אני בודק את מצב העבודה ועל פי זה מוחק שורות לא רלוונטיות
-             * לדוגמא אם הוא עצמאי הוא צריך להגיש טופס אחד ולכן נמחק את 2 השורות האחרונות
-             * לאחר מכן נעשת בדיקה על כל שדה ושדה לראות שהשדות תקינות
+            /*first checks if the workst not null- if null return to fix
+             * after i check the workst and according to this i am remove rows that don't relevant
+             * each work status has minimum of rown that he need to fill
+             * after that I check every field and valid it
              */
 
             if (string.IsNullOrEmpty(socio.SocioMod.WorkSt))
@@ -896,10 +898,10 @@ namespace DikanNetProject.Controllers
             #endregion
 
             #region FamilyFinanceValid
-            /* בתחילה אני בודק שמצב העבודה הוא לא ריק אם ריק יש לחזור ולתקן
-             * לאחר מכן אני בודק את מצב העבודה ועל פי זה מוחק שורות לא רלוונטיות
-             * לדוגמא אם הוא עצמאי הוא צריך להגיש טופס אחד ולכן נמחק את 2 השורות האחרונות
-             * לאחר מכן נעשת בדיקה על כל שדה ושדה לראות שהשדות תקינות
+            /*first checks if the workst not null- if null return to fix
+             * after i check the workst and according to this i am remove rows that don't relevant
+             * each work status has minimum of rown that he need to fill
+             * after that I check every field and valid it
              */
             foreach (var family in socio.ListFamMemFin)
             {
@@ -954,24 +956,6 @@ namespace DikanNetProject.Controllers
                     ModelState.AddModelError("FileFamId", "חובה לצרף קובץ");
                     ok = false;
                 }
-
-                /* כעת אני לוקח את השנים והחודשים שם אותם במערך דו ממדי
-                 * ובודק אם הם כפולים גם השנה וגם החודש אם כן זאת שגיאה ולכן חוזר
-                 */
-                /*
-               int[,] matYM = new int[2,3];
-               for (int i = 0; i < family.FamilyStudentFinances.Count; i++)
-               {
-                   matYM[0, i] = family.FamilyStudentFinances[i].Year;
-                   matYM[1, i] = family.FamilyStudentFinances[i].Month;
-               }
-
-               for (int i = 0; i < family.FamilyStudentFinances.Count - 1; i++)
-               {
-                   if (matYM[0, i] == matYM[0, i + 1] && matYM[1, i] == matYM[1, i + 1])
-                       return false;
-               }
-               */
 
                 foreach (var fin in family.FamilyStudentFinances)
                 {
@@ -1103,7 +1087,7 @@ namespace DikanNetProject.Controllers
 
         private bool IdValidtion(string strID)
         {
-            /* עדיין לא נבדק*/
+            /* id number validation */
             int[] id_12_digits = { 1, 2, 1, 2, 1, 2, 1, 2, 1 };
             int count = 0;
 
@@ -1206,15 +1190,13 @@ namespace DikanNetProject.Controllers
         [NonAction]
         public void SaveStudentFinance(List<StudentFinance> ClientList, int SpId)
         {
-            /* בתחילה אני מסיר את כל הנתונים מהשרת תוך כדי שמירה על קבצים
-                     * לאחר מכן רץ על הרשימה שהתקבלה מהלקוח
-                     * משתיל את פרטי הסטודנט וקוד מלגה
-                     * סוחב את הנתונים מהשרת לתוך רשימה חדשה
-                     * ושולף את השורה שבה השנה והוחודש שווים לאלמנט שנמצא עכשיו
-                     * אם קיים יש כפל ולכן אי אפשר לשמור את המידע הזה ומדלגים עליו
-                     * הבעיה שנוצרה היא הקובץ קיים בשרת ולא נמחק אך מאבדים את מיקומו
-                     * פתרון אפשרי: בעת המציאה למחוק אותו באמצעות פונקציה קיימת
-                     */
+            /* first i remove all the rows from server and save the files path
+             * after i have do foreach on the list the came from client
+             * add the student id and sp id
+             * and get the rows from server to another list
+             * and get the row that match year and month that came from client
+             * if its duplicate we skip and dont save another row like this
+            */
             List<StudentFinance> DbList;
             StudentFinance TempDb;
             string[] PathFinance = new string[3]; // holding path salary;
@@ -1422,14 +1404,14 @@ namespace DikanNetProject.Controllers
 
         #region Partial Views
         [Authorize(Roles ="Student")]
-        public PartialViewResult CarsView()
+        public PartialViewResult CarsView() // partial view of car
         {
             ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
             return PartialView("CarsView", new CarStudent());
         }
 
         [Authorize(Roles = "Student")]
-        public PartialViewResult FundView()
+        public PartialViewResult FundView() // partial view of fund
         {
             ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
             return PartialView("FundView", new Funding());
@@ -1437,7 +1419,7 @@ namespace DikanNetProject.Controllers
 
         [Authorize(Roles = "Student")]
         [ChildActionOnly]
-        public PartialViewResult StudFinView()
+        public PartialViewResult StudFinView() // partial view of student finance
         {
             ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
             return PartialView("StudFinView", new StudentFinance());
@@ -1470,7 +1452,7 @@ namespace DikanNetProject.Controllers
         #region Delete Rows Functions
 
         [Authorize(Roles = "Student")]
-        public ActionResult DeleteCar(string CarNum)
+        public ActionResult DeleteCar(string CarNum) // delete row of car
         {
             CarStudent tempcar;
             using (DikanDbContext ctx = new DikanDbContext())
@@ -1488,7 +1470,7 @@ namespace DikanNetProject.Controllers
         }
 
         [Authorize(Roles = "Student")]
-        public ActionResult DeleteFund(string FundId)
+        public ActionResult DeleteFund(string FundId) // delete row of fund
         {
             Funding tempfund;
             int pFundId = int.Parse(FundId);
@@ -1576,7 +1558,7 @@ namespace DikanNetProject.Controllers
         #region Save Signature
         [HttpPost]
         [Authorize(Roles = "Student")]
-        public ActionResult SaveSignature(string pDataUri, string pName)
+        public ActionResult SaveSignature(string pDataUri, string pName) // save singature in file
         {
             var ok = Files.signatureSave(pDataUri, pName, sStudentId);
             return new HttpStatusCodeResult(ok ? HttpStatusCode.OK : HttpStatusCode.BadRequest);
@@ -1603,7 +1585,7 @@ namespace DikanNetProject.Controllers
 
         [NonAction]
         [Authorize(Roles = "Student")]
-        public List<SelectListItem> YearsSelectList()
+        public List<SelectListItem> YearsSelectList() // year list
         {
             List<SelectListItem> years = new List<SelectListItem>();
             for (int year = DateTime.Now.Year; year >= 1980; year--)
@@ -1615,7 +1597,7 @@ namespace DikanNetProject.Controllers
 
         [NonAction]
         [Authorize(Roles = "Student")]
-        public List<SelectListItem> MonthsSelectList()
+        public List<SelectListItem> MonthsSelectList() // month list
         {
             List<SelectListItem> months = new List<SelectListItem>();
             for (int month = 1; month <= 12; month++)
@@ -1623,26 +1605,6 @@ namespace DikanNetProject.Controllers
                 months.Add(new SelectListItem { Text = month.ToString(), Value = month.ToString() });
             }
             return months;
-        }
-
-        #endregion
-
-        #region Upload File Ajax
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult UploadFile(HttpPostedFileBase filee, string fileName, string oldFile)
-        {
-            if (filee == null || string.IsNullOrEmpty(fileName))
-            {
-                Response.StatusCode = 400;
-                return Content("Not send file or name", "text/plain");
-            }
-            var file = Request.Files[0];
-            string path;
-            path = Files.SaveFileInServer(filee, fileName, sStudentId, oldFile);
-            Response.StatusCode = 200;
-            return Content(path, "text/plain");
         }
 
         #endregion
