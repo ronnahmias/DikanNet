@@ -79,6 +79,7 @@ namespace DikanNetProject.Controllers
         #region Index
 
         [HttpGet]
+        [Authorize(Roles = "Dikan")]
         public ActionResult Index(string response = "")
         {
             List<DisciplineCommittee> disList = new List<DisciplineCommittee>();
@@ -95,6 +96,7 @@ namespace DikanNetProject.Controllers
         #region Manage Sp Lists + Student details + update sp status
 
         [HttpGet]
+        [Authorize(Roles = "Dikan")]
         public ActionResult SubmitedSp(string response = "", int spId = -1, string spType = "") // redirect sp list of submited sp
         {
             string StringError = "שגיאה";
@@ -191,6 +193,7 @@ namespace DikanNetProject.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Dikan")]
         public ActionResult StudentSp(int spId = -1, string spType = "", string StudId = "") // redirect student details about sp against type of sp
         {
             string StringError = "שגיאה במעבר לסטודנט, נסה שנית או מאוחר יותר";
@@ -251,6 +254,7 @@ namespace DikanNetProject.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Dikan")]
         public ActionResult UpdateSpStatus(int ScholarId = -1, string StudId = "", string status = "") // update sp status of student
         {
             if (ScholarId == -1 || StudId == "" || status == "") // not have parameters 
@@ -305,6 +309,7 @@ namespace DikanNetProject.Controllers
         #region Manage Head Major + Majors
 
         [HttpGet]
+        [Authorize(Roles = "Dikan")]
         public ActionResult MajorsList(string response = "")
         {
             ViewBag.response = response; // add response message if needed
@@ -317,6 +322,7 @@ namespace DikanNetProject.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Dikan")]
         public ActionResult CreateMajor(int? id)
         {
             // get major
@@ -339,6 +345,7 @@ namespace DikanNetProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Dikan")]
         public ActionResult CreateMajor(Major ClientMj)
         {
             string res = string.Empty; // send response message to majorlist 
@@ -376,6 +383,7 @@ namespace DikanNetProject.Controllers
         #region ScholarShip Section
 
         [HttpGet]
+        [Authorize(Roles = "Dikan")]
         public ActionResult CreateEditSp(int? id)
         {
             // get scholarship 
@@ -397,6 +405,7 @@ namespace DikanNetProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Dikan")]
         public ActionResult CreateEditSp(SpDefinition ClientSp)
         {
             string res = string.Empty; // send response message to spllist 
@@ -429,6 +438,7 @@ namespace DikanNetProject.Controllers
 
         
         [HttpGet]
+        [Authorize(Roles = "Dikan")]
         public ActionResult SpList(string response = "")
         {
             ViewBag.response = response; // add response message if needed
@@ -443,6 +453,7 @@ namespace DikanNetProject.Controllers
 
         #region Volunter Places Section
         [HttpGet]
+        [Authorize(Roles = "Dikan")]
         public ActionResult VolunteerList(string response = "")
         {
             ViewBag.response = response;
@@ -450,12 +461,14 @@ namespace DikanNetProject.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Dikan")]
         public JsonResult GetVolList() // get list to client of volunteer list in ajax
         {
             return Json(GetActiveVolList(), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
+        [Authorize(Roles = "Dikan")]
         public ActionResult CreateEditVol(string Id, string Name, string Desc)
         {
             VolunteerPlaces tempdb = null;
@@ -482,6 +495,7 @@ namespace DikanNetProject.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Dikan")]
         public ActionResult DeleteVol(string VolId) // update active to false 
         {
             bool parsevalid = int.TryParse(VolId, out int res);
@@ -516,6 +530,7 @@ namespace DikanNetProject.Controllers
         #region Manage Users Section
 
         [HttpGet]
+        [Authorize(Roles = "Dikan")]
         public ActionResult UsersList(string response = "")// get all users list view
         {
             ViewBag.response = response; // add response message if needed
@@ -550,6 +565,7 @@ namespace DikanNetProject.Controllers
         #region Student Users Manage Section
 
         [HttpGet]
+        [Authorize(Roles = "Dikan")]
         public ActionResult FindStudent(string studentId) // find user student in db - ajax
         {
             Users user = null;
@@ -565,6 +581,7 @@ namespace DikanNetProject.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Dikan")]
         public ActionResult EditEmail(string studentId, string newemail) // edit email of student - ajax
         {
             Student dbstudent,tempstudent;
@@ -603,6 +620,7 @@ namespace DikanNetProject.Controllers
         #region Other Users Manage Section
 
         [HttpGet]
+        [Authorize(Roles = "Dikan")]
         public ActionResult CreateUser() // create other users
         {
             return View();
@@ -610,6 +628,7 @@ namespace DikanNetProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Dikan")]
         public ActionResult CreateUser(CreateUser NewUser) // create other users - post
         {
             Users user;
@@ -645,6 +664,7 @@ namespace DikanNetProject.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Dikan")]
         public ActionResult EditUser(string Id = "") // edit other users
         {
             CreateUser temp = null;
@@ -669,6 +689,7 @@ namespace DikanNetProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Dikan")]
         public ActionResult EditUser(CreateUser NewUser) // edit other users - post
         {
             Users user;
@@ -696,6 +717,7 @@ namespace DikanNetProject.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Dikan")]
         public ActionResult DeleteUser(string Id = "")// delete other users
         {
             var user = UserManager.FindById(Id);
@@ -714,6 +736,7 @@ namespace DikanNetProject.Controllers
         #region Manage Exception Requests
 
         [HttpGet]
+        [Authorize(Roles = "Dikan")]
         public ActionResult ExceptionStudentList(string res = "")// all exceptions list
         {
             ViewBag.Res = res;
@@ -739,6 +762,7 @@ namespace DikanNetProject.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Dikan")]
         public ActionResult CreateEditExStudent(string userid = "", int spid = -1) // create or edit ex
         {
             SpException tempEx = null;
@@ -759,6 +783,7 @@ namespace DikanNetProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Dikan")]
         public ActionResult CreateEditExStudent(SpException ExUser)
         {
             if (ModelState.IsValid)
@@ -790,6 +815,7 @@ namespace DikanNetProject.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Dikan")]
         public ActionResult DeleteExStudent(string userid = "", int spid = -1) // remove ex 
         {
             if (userid != "" && spid != -1)
@@ -813,6 +839,7 @@ namespace DikanNetProject.Controllers
         #region Displine committee
 
         [HttpGet]
+        [Authorize(Roles = "Dikan")]
         public ActionResult DisciplineList(string res = "")// all discipline list
         {
             ViewBag.Res = res;
@@ -850,6 +877,7 @@ namespace DikanNetProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Dikan")]
         public async Task<ActionResult> CreateEditDiscipline(DisciplineCommittee tempDis)
         {
             DisciplineCommittee dbdis;
@@ -882,6 +910,7 @@ namespace DikanNetProject.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Dikan")]
         public ActionResult DeleteDiscipline(int id = -1)// delete discipline
         {
             if(id == -1)
