@@ -103,8 +103,8 @@ namespace DikanNetProject.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl, string response = "")
         {
-            //if(Session["Const"] == null)
-               // return RedirectToAction("Construction");
+            if(Session["Const"] == null)
+                return RedirectToAction("Construction");
             ViewBag.ReturnUrl = returnUrl; // return url after login
             ViewBag.Status = response; // response message
             if (User.Identity.IsAuthenticated) // if the user has logged in already redirect according role
