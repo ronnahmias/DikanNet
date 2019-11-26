@@ -313,8 +313,9 @@ namespace DikanNetProject.Controllers
         [HttpPost]
         public ActionResult CheckIfUserExist(string UserId, string Email) // ajax call - checks if user exist in system
         {
-                //email exist
-                if (IsEmailExist(Email) || IsIdExist(UserId))
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // block registration
+            //email exist
+            if (IsEmailExist(Email) || IsIdExist(UserId))
                 {
                     ViewBag.ModelMessageBody= "מייל או תעודת זהות קיימים במערכת";
                     ViewBag.ModelTitle = "שגיאה";
