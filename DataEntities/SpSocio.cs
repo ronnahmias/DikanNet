@@ -19,7 +19,7 @@ namespace DataEntities
         [Key, Column(Order = 1)]
         public string StudentId { get; set; }
 
-        [Display(Name = "שנת לימוד"),Required(ErrorMessage ="חובה להזין שנת לימוד")]
+        [Display(Name = "שנת לימוד")]
         public string SchoolYear { get; set; }
 
         [Display(Name = "סטטוס")]
@@ -102,7 +102,7 @@ namespace DataEntities
         public HttpPostedFileBase FileBankAccount { get; set; }
         public string PathBankAccount { get; set; }
 
-        [Display(Name = "מצב חשבון בנק"),Required(ErrorMessage ="חובה להזין מצב חשבון בנק")]
+        [Display(Name = "מצב חשבון בנק")]
         public int? BankStatus { get; set; }
 
         [Display(Name ="סטטוס עבודה")]

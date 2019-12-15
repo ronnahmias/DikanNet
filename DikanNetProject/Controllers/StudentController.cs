@@ -636,6 +636,16 @@ namespace DikanNetProject.Controllers
                 socio.SocioMod.Newcomer = false;
                 ModelState.Remove("SocioMod.Newcomer");
             }
+
+            if (socio.SocioMod.BankStatus == null)// if he didnt fill all parametrs cancel alert req
+            {
+                ModelState.Remove("SocioMod.BankStatus");
+            }
+
+            if (socio.SocioMod.SchoolYear == null)// if he didnt fill all parametrs cancel alert req
+            {
+                ModelState.Remove("SocioMod.SchoolYear");
+            }
             #endregion
 
             #region Fundings
@@ -1391,7 +1401,7 @@ namespace DikanNetProject.Controllers
                     ctx.Socio.Remove(Dbsocio); // remove previous socio
                 ctx.SaveChanges();
                 ctx.Socio.Add(socio); // add new sp socio
-
+          
                 ctx.SaveChanges();
             }
             return socio;
