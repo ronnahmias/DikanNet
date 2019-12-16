@@ -583,11 +583,8 @@ namespace DikanNetProject.Controllers
             {
                 if (!socioIsValid(socio)) // validation to all socio model
                 {
-                    if (!ModelState.IsValid)
-                    {
                         ViewBag.ResOk = "Error";
                         return View(socio);
-                    }
                 }
             }
             else
