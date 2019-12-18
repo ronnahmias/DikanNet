@@ -5,9 +5,9 @@
 {
     <tr class="bg-primary text-white">
         <td colspan="2"><b>ממוצע כללי</b></td>
-        <td><b>@(Model.Rows.Average(row => row.Model.AvgIncome))</b></td>
+        <td><b>@(Model.Rows.Average(row => row.Model.AvgIncome).ToString("F"))</b></td>
         <td><b>@(Model.Rows.Average(row => row.Model.BankStatus))</b></td>
-        <td><b>@(Model.Rows.Average(row => row.Model.NumOfPersons))</b></td>
+        <td><b>@(Model.Rows.Average(row => row.Model.NumOfPersons).ToString("F"))</b></td>
         <td colspan="4"><b>ממוצע כללי</b></td>
     </tr>
 }
