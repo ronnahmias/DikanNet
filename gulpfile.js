@@ -4,6 +4,7 @@ const uglify = require('gulp-uglify'); // npm install --save-dev gulp-uglify
 const sass = require('gulp-sass'); // npm install --save-dev gulp-sass
 const concat = require('gulp-concat') // npm install --save-dev gulp-concat
 const rename = require('gulp-rename') // npm install --save-dev gulp-rename
+const babel = require('gulp-babel');
 /*
   -- TOP LEVEL FUNCTION --
   gulp.task - Define tasks
@@ -25,6 +26,7 @@ function message(done){
 function errorLog(error){
   console.log(error.toString());
   this.emit('end');
+  done();
 }
 
 // Copy All HTML files
@@ -73,6 +75,14 @@ function combainJs(done)
   done();
 }
 
+//From ES6 to regular js
+function convertES6(done) {
+  gulp.src('DikanNetProject/src/js/ES6/*.js')
+      .pipe(babel())
+      .pipe(gulp.dest('DikanNetProject/src/js/'));
+  done();
+}
+
 
 // Compile sass
 function sassToCss(done){
@@ -85,6 +95,7 @@ function sassToCss(done){
 // Watch files
 function watch_files() {
   gulp.watch('DikanNetProject/src/sass/*.scss',sassToCss );
+  // gulp.watch('DikanNetProject/src/js/ES6/*.js' ,convertES6 );
   gulp.watch('DikanNetProject/src/js/*.js' ,minifyJs );
   gulp.watch('DikanNetProject/src/js/*.js' ,copyJs );
   gulp.watch('DikanNetProject/src/pic/*' ,imageMin );
@@ -97,6 +108,7 @@ gulp.task('minifyJs',minifyJs);
 gulp.task('copyJs',copyJs);
 gulp.task('sassToCss',sassToCss);
 gulp.task('combainJs',combainJs);
+gulp.task('convertES6',convertES6);
 
 gulp.task('default', gulp.parallel(message,imageMin,copyJs,minifyJs,sassToCss) );
 gulp.task('watch',gulp.series(watch_files));

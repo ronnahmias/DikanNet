@@ -557,6 +557,8 @@
     <Content Include="Scripts\MyJs\signature_app.min.js" />
     <Content Include="Scripts\MyJs\signature_pad.umd.js" />
     <Content Include="Scripts\MyJs\signature_pad.umd.min.js" />
+    <Content Include="Scripts\MyJs\socio_script.js" />
+    <Content Include="Scripts\MyJs\socio_script.min.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
@@ -574,6 +576,7 @@
     <Content Include="src\js\Files.js" />
     <Content Include="src\js\signature_app.js" />
     <Content Include="src\js\signature_pad.umd.js" />
+    <Content Include="src\js\socio_script.js" />
     <Content Include="src\pic\Logo.png" />
     <Content Include="Web.config" />
     <Content Include="Scripts\umd\popper.min.js.map" />
