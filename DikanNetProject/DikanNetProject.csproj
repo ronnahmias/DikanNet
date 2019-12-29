@@ -336,6 +336,7 @@
     <Compile Include="Models\StaticVar.cs" />
     <Compile Include="Models\ViewDikanModels.cs" />
     <Compile Include="Startup.cs" />
+    <Content Include="Content\Css\formSlider.css" />
     <Content Include="Content\Pic\bg.jpg" />
     <Content Include="Content\Pic\Logoclean.png" />
     <Content Include="fullcalendar\bootstrap\LICENSE.txt" />
@@ -553,6 +554,9 @@
     <Content Include="Scripts\MyJs\datepicker.min.js" />
     <Content Include="Scripts\MyJs\Files.js" />
     <Content Include="Scripts\MyJs\Files.min.js" />
+    <Content Include="Scripts\MyJs\formSlider.js" />
+    <Content Include="Scripts\MyJs\formSlider.min.js" />
+    <Content Include="Scripts\MyJs\jquery-ui.min.js" />
     <Content Include="Scripts\MyJs\MyJS.js" />
     <Content Include="Scripts\MyJs\MyJS.min.js" />
     <Content Include="Scripts\MyJs\signature_app.js" />
@@ -574,6 +578,7 @@
     <Content Include="src\js\chosen.js" />
     <Content Include="src\js\datepicker.he-HE.js" />
     <Content Include="src\js\datepicker.js" />
+    <Content Include="src\js\formSlider.js" />
     <Content Include="src\js\MyJS.js" />
     <Content Include="src\js\Files.js" />
     <Content Include="src\js\signature_app.js" />
@@ -664,6 +669,7 @@
     <Content Include="Views\Dikan\AvgSocio.cshtml" />
     <Content Include="Views\Student\ChangePass.cshtml" />
     <Content Include="Views\Student\NewSocio.cshtml" />
+    <Content Include="src\sass\formSlider.scss" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
