@@ -263,7 +263,7 @@ namespace DikanNetProject.Controllers
             switch (Enum.Parse(typeof(Enums.SpType), temp.Type))
             {
                 case Enums.SpType.סוציואקונומית:
-                    return RedirectToAction("Socio", new { scholarshipid }); // type 1 is socio scholarship
+                    return RedirectToAction("NewSocio", new { scholarshipid }); // type 1 is socio scholarship
 
                 case Enums.SpType.מצוינות:
                     return RedirectToAction("Excellent", new { scholarshipid }); // type 2 is excellent scholarship
@@ -416,6 +416,39 @@ namespace DikanNetProject.Controllers
             ViewBag.ResOk = true;
             return View(tempmetmesuyanut);
         }
+        #endregion
+
+        #region New SocioEconomic Scholarship
+
+        [HttpGet]
+        public ActionResult NewSocio(int scholarshipid, bool open = false)
+        {
+            SocioAdd sociomodel = new SocioAdd();
+            using (DikanDbContext ctx = new DikanDbContext())
+            {
+                sociomodel = new SocioAdd() // new socio add model get the matrial status in construstor
+                {
+                    SocioMod = new SpSocio(),
+                    ListCarStudent = new List<CarStudent>(),
+                    ListFundings = new List<Funding>(),
+                    ListStudentFinances = new List<StudentFinance>(),
+                    ListFamMemFin = new List<FamilyMember>(), // family with finance
+                    ListFamMem = new List<FamilyMember>(),
+                    MatrialStatus = ctx.Students.Where(s => s.StudentId == sStudentId).FirstOrDefault().MaritalStatus
+                };
+            }
+                return View(sociomodel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SocioDetails([Bind(Include = "SocioMod,MatrialStatus")]SocioAdd socio)
+        {
+            if (ModelState.IsValid) { }
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
+
         #endregion
 
         #region SocioEconomic Scholarship

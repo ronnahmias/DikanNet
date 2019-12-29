@@ -503,6 +503,8 @@
     <Content Include="Content\Css\bootstrap-grid.css.map" />
     <Content Include="Scripts\jquery.form.js" />
     <Content Include="Scripts\jquery.form.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\MvcGrid\mvc-grid.js" />
     <Content Include="Scripts\MyJs\chosen.js" />
@@ -661,6 +663,7 @@
     <Content Include="Views\Login\Construction.cshtml" />
     <Content Include="Views\Dikan\AvgSocio.cshtml" />
     <Content Include="Views\Student\ChangePass.cshtml" />
+    <Content Include="Views\Student\NewSocio.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
