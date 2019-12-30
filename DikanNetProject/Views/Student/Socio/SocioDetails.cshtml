@@ -261,5 +261,56 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-xl-3 col-lg-3 col-md-4 col-12 ">
+                @Html.LabelFor(model => model.BankStatus, htmlAttributes: new { @class = "control-label col-12" })
+                @Html.EditorFor(model => model.BankStatus, new { htmlAttributes = new { @class = "form-control must m-1 mt-0" } })
+                @Html.ValidationMessageFor(model => model.BankStatus, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-4 col-12">
+                @Html.LabelFor(model => model.FileBankAccount, htmlAttributes: new { @class = "control-label col-12 must-sign", @for = "" })
+                <div class="chose-file m-1 mt-0">
+                    @Html.TextBoxFor(model => model.FileBankAccount, new { @class = "form-control must", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;", @path = Model.PathBankAccount })
+                    <label for="SocioMod_FileBankAccount">
+                        <i class="ml-1 material-icons">add_photo_alternate</i>
+                        בחר קובץ
+                    </label>
+                </div>
+                @Html.ValidationMessageFor(model => model.FileBankAccount, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-4 col-12" style="display:@(Model.PathBankAccount != null ? "" : "none")">
+                <label class="control-label col-12" for="">קובץ שמור</label>
+                <a name="@Model.PathBankAccount" class="btn btn-light btn-file m-1 mt-0">צפייה בקובץ שמור</a>
+            </div>
+            @Html.HiddenFor(model => model.PathBankAccount)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.WorkSt, htmlAttributes: new { @class = "control-label col-12" })
+            <div class="col-md-10">
+                @Html.RadioButtonFor(model => model.WorkSt, Common.Enums.WorkingStatus.שכיר, htmlAttributes: new { @data_target = "#Studfindiv", @class = "workset" })
+                <span>@Common.Enums.WorkingStatus.שכיר</span>
+
+                @Html.RadioButtonFor(model => model.WorkSt, Common.Enums.WorkingStatus.עצמאי, htmlAttributes: new { @data_target = "#Studfindiv", @class = "workset" })
+                <span>@Common.Enums.WorkingStatus.עצמאי</span>
+
+                @Html.RadioButtonFor(model => model.WorkSt, Common.Enums.WorkingStatus.חבר_קיבוץ, htmlAttributes: new { @data_target = "#Studfindiv", @class = "workset" })
+                <span>@Common.Enums.WorkingStatus.חבר_קיבוץ</span>
+
+                @Html.RadioButtonFor(model => model.WorkSt, Common.Enums.WorkingStatus.לא_עובד, htmlAttributes: new { @data_target = "#Studfindiv", @class = "workset" })
+                <span>@Common.Enums.WorkingStatus.לא_עובד</span>
+
+                @Html.RadioButtonFor(model => model.WorkSt, Common.Enums.WorkingStatus.פנסיונר, htmlAttributes: new { @data_target = "#Studfindiv", @class = "workset" })
+                <span>@Common.Enums.WorkingStatus.פנסיונר</span>
+
+                @Html.RadioButtonFor(model => model.WorkSt, Common.Enums.WorkingStatus.נכה, htmlAttributes: new { @data_target = "#Studfindiv", @class = "workset" })
+                <span>@Common.Enums.WorkingStatus.נכה</span>
+
+                @Html.RadioButtonFor(model => model.WorkSt, Common.Enums.WorkingStatus.אחר, htmlAttributes: new { @data_target = "#Studfindiv", @class = "workset" })
+                <span>@Common.Enums.WorkingStatus.אחר</span>
+
+                @Html.ValidationMessageFor(model => model.WorkSt, "", new { @class = "text-danger" })
+            </div>
+        </div>
     </div>
     <button class="btn btn-primary" type="submit" value="Submit">שלח</button>

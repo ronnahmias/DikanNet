@@ -437,12 +437,21 @@ namespace DikanNetProject.Controllers
                     MatrialStatus = ctx.Students.Where(s => s.StudentId == sStudentId).FirstOrDefault().MaritalStatus
                 };
             }
+            sociomodel.ListStudentFinances.Add(new DataEntities.StudentFinance { StudentId = "333" });
                 return View("~/Views/Student/Socio/MainSocio.cshtml", sociomodel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SocioDetails(SpSocio socio)
+        public ActionResult SocioDetails(SpSocio socio) // ajax for 1 step in socio
+        {
+            if (ModelState.IsValid) { }
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult StudentFinance1(List<StudentFinance> studentfinance) // ajax for 2 step in socio
         {
             if (ModelState.IsValid) { }
             return new HttpStatusCodeResult(HttpStatusCode.OK);
@@ -1459,10 +1468,10 @@ namespace DikanNetProject.Controllers
 
         [Authorize(Roles = "Student")]
         [ChildActionOnly]
-        public PartialViewResult StudFinView() // partial view of student finance
+        public PartialViewResult StudentFinance() // partial view of student finance
         {
             ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
-            return PartialView("StudFinView", new StudentFinance());
+            return PartialView("~/Views/Student/Socio/StudentFinance.cshtml", new StudentFinance());
         }
 
         [Authorize(Roles = "Student")]

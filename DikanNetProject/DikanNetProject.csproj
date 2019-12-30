@@ -634,7 +634,7 @@
     <Content Include="Views\Shared\EditorTemplates\Collection.cshtml" />
     <Content Include="Views\Student\FundView.cshtml" />
     <Content Include="src\sass\signature-pad.scss" />
-    <Content Include="Views\Student\StudFinView.cshtml" />
+    <Content Include="Views\Student\Socio\StudFinView.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Dikan\Index.cshtml" />
     <Content Include="Views\Dikan\_Layout.cshtml" />
@@ -671,6 +671,7 @@
     <Content Include="Views\Student\Socio\MainSocio.cshtml" />
     <Content Include="src\sass\formSlider.scss" />
     <Content Include="Views\Student\Socio\SocioDetails.cshtml" />
+    <Content Include="Views\Student\Socio\StudentFinance.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

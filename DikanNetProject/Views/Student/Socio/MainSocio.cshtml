@@ -17,10 +17,24 @@
 </div>
 @Html.HiddenFor(model => model.MatrialStatus)
 
-@using (Ajax.BeginForm("SocioDetails", "Student", new AjaxOptions { HttpMethod = "POST", OnSuccess = "firstsuccess();" }))
+@using (Ajax.BeginForm("SocioDetails", "Student", new AjaxOptions { HttpMethod = "POST", OnSuccess = "firstsuccess();", LoadingElementId = "div_loading" }))
 {
     @Html.AntiForgeryToken()
-    Html.RenderPartial("~/Views/Student/Socio/SocioDetails.cshtml", Model.SocioMod);
+    @Html.Partial("~/Views/Student/Socio/SocioDetails.cshtml", Model.SocioMod);
+    <div id="div_loading" style="display:none;">
+        <img src="@Url.Content("~/Content/Pic/Spinner.gif")" alt="" />
+    </div>
+}
+
+@using (Ajax.BeginForm("StudentFinance", "Student", new AjaxOptions { HttpMethod = "POST", OnSuccess = "secondsuccess();" }))
+{
+    @Html.AntiForgeryToken()
+<div id="Studfindiv">
+    @foreach (var StudFin in Model.ListStudentFinances)
+    {
+        { Html.RenderPartial("~/Views/Student/Socio/StudentFinance.cshtml", StudFin); }
+    }
+</div>
 }
 
 
