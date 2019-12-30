@@ -668,8 +668,9 @@
     <Content Include="Views\Login\Construction.cshtml" />
     <Content Include="Views\Dikan\AvgSocio.cshtml" />
     <Content Include="Views\Student\ChangePass.cshtml" />
-    <Content Include="Views\Student\NewSocio.cshtml" />
+    <Content Include="Views\Student\Socio\MainSocio.cshtml" />
     <Content Include="src\sass\formSlider.scss" />
+    <Content Include="Views\Student\Socio\BasicInfoP.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

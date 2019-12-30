@@ -263,7 +263,7 @@ namespace DikanNetProject.Controllers
             switch (Enum.Parse(typeof(Enums.SpType), temp.Type))
             {
                 case Enums.SpType.סוציואקונומית:
-                    return RedirectToAction("NewSocio", new { scholarshipid }); // type 1 is socio scholarship
+                    return RedirectToAction("MainSocio", new { scholarshipid }); // type 1 is socio scholarship
 
                 case Enums.SpType.מצוינות:
                     return RedirectToAction("Excellent", new { scholarshipid }); // type 2 is excellent scholarship
@@ -421,7 +421,7 @@ namespace DikanNetProject.Controllers
         #region New SocioEconomic Scholarship
 
         [HttpGet]
-        public ActionResult NewSocio(int scholarshipid, bool open = false)
+        public ActionResult MainSocio(int scholarshipid, bool open = false)
         {
             SocioAdd sociomodel = new SocioAdd();
             using (DikanDbContext ctx = new DikanDbContext())
@@ -437,7 +437,7 @@ namespace DikanNetProject.Controllers
                     MatrialStatus = ctx.Students.Where(s => s.StudentId == sStudentId).FirstOrDefault().MaritalStatus
                 };
             }
-                return View(sociomodel);
+                return View("~/Views/Student/Socio/NewSocio.cshtml", sociomodel);
         }
 
         [HttpPost]
