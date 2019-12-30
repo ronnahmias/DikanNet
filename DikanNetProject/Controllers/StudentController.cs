@@ -437,12 +437,12 @@ namespace DikanNetProject.Controllers
                     MatrialStatus = ctx.Students.Where(s => s.StudentId == sStudentId).FirstOrDefault().MaritalStatus
                 };
             }
-                return View("~/Views/Student/Socio/NewSocio.cshtml", sociomodel);
+                return View("~/Views/Student/Socio/MainSocio.cshtml", sociomodel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SocioDetails([Bind(Include = "SocioMod,MatrialStatus")]SocioAdd socio)
+        public ActionResult SocioDetails(SpSocio socio)
         {
             if (ModelState.IsValid) { }
             return new HttpStatusCodeResult(HttpStatusCode.OK);

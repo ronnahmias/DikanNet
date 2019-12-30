@@ -1,0 +1,265 @@
+﻿@model DataEntities.SpSocio
+
+
+    <!-- #region Socio Model -->
+    <button type="button" class="btn btn-primary col-12 my-2" data-toggle="collapse" data-target="#Basic">פרטים בסיסיים</button>
+
+    <div id="Basic" class="collapse p-3">
+        <div class="row col-12">
+            <div class="form-group">
+                @Html.LabelFor(model => model.SchoolYear, htmlAttributes: new { @class = "control-label" })
+                <div class="">
+                    @Html.DropDownListFor(model => model.SchoolYear,
+     new SelectList(Enum.GetNames(typeof(Common.Enums.SchoolYear))), "", new { @class = "form-control chosen must", @data_placeholder = "שנת לימוד" })
+                    @Html.ValidationMessageFor(model => model.SchoolYear, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Apartment, htmlAttributes: new { @class = "control-label" })
+                @Html.RadioButtonFor(model => model.Apartment, true, new { mode = "true", @onclick = "showHidenPortion(this.getAttribute('mode'),'ApartmentFile')" })  כן
+                @Html.RadioButtonFor(model => model.Apartment, false, new { @mode = "false", @onclick = "showHidenPortion(this.getAttribute('mode'),'ApartmentFile')" })  לא
+                <div class="">
+                    <div class="checkbox">
+                        @Html.ValidationMessageFor(model => model.Apartment, "", new { @class = "text-danger", })
+                    </div>
+                </div>
+            </div>
+
+            <div id="ApartmentFile" style="display:@(Model.Apartment ? "" : "none")" class="form-group mx-5 box-open">
+                @Html.LabelFor(model => model.FileApartmentLease, htmlAttributes: new { @class = "control-label", @for = "" })
+                <div class="row">
+                    <div class="chose-file m-3 mt-0">
+                        @Html.TextBoxFor(model => model.FileApartmentLease, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;", @path = Model.PathApartmentLease })
+                        <label for="SocioMod_FileApartmentLease" value="@Model.PathApartmentLease">
+                            <i class="ml-1 material-icons">add_photo_alternate</i>
+                            בחר קובץ
+                        </label>
+                    </div>
+                    <a name="@Model.PathApartmentLease" style="display:@(Model.PathApartmentLease != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
+                </div>
+                @Html.ValidationMessageFor(model => model.FileApartmentLease, "", new { @class = "text-danger", })
+            </div>
+
+            @Html.HiddenFor(model => model.PathApartmentLease)
+
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Newcomer, htmlAttributes: new { @class = "control-label" })
+                @Html.RadioButtonFor(model => model.Newcomer, true, new { mode = "true", @onclick = "showHidenPortion(this.getAttribute('mode'),'NewComer')" })  כן
+                @Html.RadioButtonFor(model => model.Newcomer, false, new { @mode = "false", @onclick = "showHidenPortion(this.getAttribute('mode'),'NewComer')" })  לא
+                <div class="">
+                    <div class="checkbox">
+                        @Html.ValidationMessageFor(model => model.Newcomer, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div id="NewComer" style="display:@(Model.Newcomer ? "" : "none")" class="row mx-5 box-open">
+                <div class="form-group mx-5">
+                    @Html.LabelFor(model => model.DateImmigration, htmlAttributes: new { @class = "control-label " })
+                    <div class="input-group">
+                        @Html.EditorFor(model => model.DateImmigration, new { htmlAttributes = new { @class = "form-control only-numbers", @max = DateTime.Now.ToString("yyyy-MM-dd"), @min = "1930-01-01" } })
+                        @Html.ValidationMessageFor(model => model.DateImmigration, "", new { @class = "text-danger" })
+                        <div class="input-group-append clear-date d-none">
+                            <span class="input-group-text left-border-radius pointer">נקה</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FileNewcomer, htmlAttributes: new { @class = "control-label ", @for = "" })
+                    <div class="row">
+                        <div class="chose-file m-3 mt-0">
+                            @Html.TextBoxFor(model => model.FileNewcomer, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;", @path = Model.PathNewcomer })
+                            <label for="SocioMod_FileNewcomer">
+                                <i class="ml-1 material-icons">add_photo_alternate</i>
+                                בחר קובץ
+                            </label>
+                        </div>
+                        <a name="@Model.PathNewcomer" style="display:@(Model.PathNewcomer != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.FileNewcomer, "", new { @class = "text-danger", })
+                    @Html.HiddenFor(model => model.PathNewcomer)
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                @Html.LabelFor(model => model.SingleParent, htmlAttributes: new { @class = "control-label " })
+                @Html.RadioButtonFor(model => model.SingleParent, true, new { mode = "true", @onclick = "showHidenPortion(this.getAttribute('mode'),'SingleParent')" })  כן
+                @Html.RadioButtonFor(model => model.SingleParent, false, new { @mode = "false", @onclick = "showHidenPortion(this.getAttribute('mode'),'SingleParent')" })  לא
+                <div class="">
+                    <div class="checkbox">
+                        @Html.ValidationMessageFor(model => model.SingleParent, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div id="SingleParent" style="display:@(Model.SingleParent ? "" : "none")" class="mx-5 form-group box-open">
+                @Html.LabelFor(model => model.FileSingleParent, htmlAttributes: new { @class = "control-label ", @for = "" })
+
+                <div class="row">
+                    <div class="chose-file m-3 mt-0">
+                        @Html.TextBoxFor(model => model.FileSingleParent, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;", @path = Model.PathSingleParent })
+                        <label for="SocioMod_FileSingleParent">
+                            <i class="ml-1 material-icons">add_photo_alternate</i>
+                            בחר קובץ
+                        </label>
+                    </div>
+                    <a name="@Model.PathSingleParent" style="display:@(Model.PathSingleParent != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
+                </div>
+                @Html.ValidationMessageFor(model => model.FileSingleParent, "", new { @class = "text-danger", })
+                @Html.HiddenFor(model => model.PathSingleParent)
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                @Html.LabelFor(model => model.BereavedFam, htmlAttributes: new { @class = "control-label" })
+                @Html.RadioButtonFor(model => model.BereavedFam, true, new { mode = "true", @onclick = "showHidenPortion(this.getAttribute('mode'),'BereavedFam')" })  כן
+                @Html.RadioButtonFor(model => model.BereavedFam, false, new { @mode = "false", @onclick = "showHidenPortion(this.getAttribute('mode'),'BereavedFam')" })  לא
+                <div class="">
+                    <div class="checkbox">
+                        @Html.ValidationMessageFor(model => model.BereavedFam, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div id="BereavedFam" style="display:@(Model.BereavedFam ? "" : "none")" class="mx-5 form-group box-open">
+                @Html.LabelFor(model => model.FileBereavedFam, htmlAttributes: new { @class = "control-label", @for = "" })
+                <div class="row">
+                    <div class="chose-file m-3 mt-0">
+                        @Html.TextBoxFor(model => model.FileBereavedFam, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;", @path = Model.PathBereavedFam })
+                        <label for="SocioMod_FileBereavedFam">
+                            <i class="ml-1 material-icons">add_photo_alternate</i>
+                            בחר קובץ
+                        </label>
+                    </div>
+                    <a name="@Model.PathBereavedFam" style="display:@(Model.PathBereavedFam != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
+                </div>
+                @Html.ValidationMessageFor(model => model.FileBereavedFam, "", new { @class = "text-danger", })
+                @Html.HiddenFor(model => model.PathBereavedFam)
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                @Html.LabelFor(model => model.ReceiveScholarship, htmlAttributes: new { @class = "control-label" })
+                @Html.RadioButtonFor(model => model.ReceiveScholarship, true)  כן
+                @Html.RadioButtonFor(model => model.ReceiveScholarship, false)  לא
+                <div class="">
+                    <div class="checkbox">
+                        @Html.ValidationMessageFor(model => model.ReceiveScholarship, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                @{var miltaryServ = @Model.MilitaryService; }
+                @Html.LabelFor(model => model.MilitaryService, htmlAttributes: new { @class = "control-label" })
+                <div class="">
+                    @Html.RadioButtonFor(model => model.MilitaryService, Common.Enums.MilitaryTypes.אחר, new { Checked = (miltaryServ != null && miltaryServ.Contains("אחר")) ? "checked" : "" })
+                    <input type="text" class="only-heb" value='@((miltaryServ != null && miltaryServ.Contains("אחר")) ? @Model.MilitaryService : "אחר - " )' id="otherMili" placeholder="אחר - ">
+
+                    @Html.RadioButtonFor(model => model.MilitaryService, Common.Enums.MilitaryTypes.צבאי)
+                    <span>@Common.Enums.MilitaryTypes.צבאי</span>
+
+                    @Html.RadioButtonFor(model => model.MilitaryService, Common.Enums.MilitaryTypes.לאומי)
+                    <span>@Common.Enums.MilitaryTypes.לאומי</span>
+
+                    @Html.ValidationMessageFor(model => model.MilitaryService, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group mx-5">
+                @Html.LabelFor(model => model.FileMilitaryService, htmlAttributes: new { @class = "control-label", @for = "" })
+
+                <div class="row">
+                    <div class="chose-file m-3 mt-0">
+                        @Html.TextBoxFor(model => model.FileMilitaryService, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;", @path = Model.PathMilitaryService })
+                        <label for="SocioMod_FileMilitaryService">
+                            <i class="ml-1 material-icons">add_photo_alternate</i>
+                            בחר קובץ
+                        </label>
+                    </div>
+                    <a name="@Model.PathMilitaryService" style="display:@(Model.PathMilitaryService != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
+                </div>
+                @Html.ValidationMessageFor(model => model.FileMilitaryService, "", new { @class = "text-danger", })
+                @Html.HiddenFor(model => model.PathMilitaryService)
+            </div>
+
+        </div>
+
+        <div class=" row">
+            <div class="form-group">
+                @Html.LabelFor(model => model.ReserveMilitaryService, htmlAttributes: new { @class = "control-label" })
+                @Html.RadioButtonFor(model => model.ReserveMilitaryService, true, new { mode = "true", @onclick = "showHidenPortion(this.getAttribute('mode'),'ReserveMilitary')" })  כן
+                @Html.RadioButtonFor(model => model.ReserveMilitaryService, false, new { @mode = "false", @onclick = "showHidenPortion(this.getAttribute('mode'),'ReserveMilitary')" })  לא
+                <div class="">
+                    <div class="checkbox">
+                        @Html.ValidationMessageFor(model => model.ReserveMilitaryService, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div id="ReserveMilitary" style="display:@(Model.ReserveMilitaryService ? "" : "none")" class="mx-5 form-group box-open">
+                @Html.LabelFor(model => model.FileReserveMilitaryService, htmlAttributes: new { @class = "control-label", @for = "" })
+
+                <div class="row">
+                    <div class="chose-file m-3 mt-0">
+                        @Html.TextBoxFor(model => model.FileReserveMilitaryService, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;", @path = Model.PathReserveMilitaryService })
+                        <label for="SocioMod_FileReserveMilitaryService">
+                            <i class="ml-1 material-icons">add_photo_alternate</i>
+                            בחר קובץ
+                        </label>
+                    </div>
+                    <a name="@Model.PathReserveMilitaryService" style="display:@(Model.PathReserveMilitaryService != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
+                </div>
+                @Html.ValidationMessageFor(model => model.FileReserveMilitaryService, "", new { @class = "text-danger", })
+                @Html.HiddenFor(model => model.PathReserveMilitaryService)
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <span>נכות?</span>
+                <input type="radio" name="DisabilityType" onclick="showHidenPortion('true' ,'DisabilityType')" checked="@(!Model.DisabilityType.IsEmpty())" /> כן
+                <input type="radio" name="DisabilityType" onclick="showHidenPortion('false' ,'DisabilityType')" checked="@(Model.DisabilityType.IsEmpty())" /> לא
+            </div>
+            <div id="DisabilityType" style="display:@(Model.DisabilityType.IsEmpty() ? "none" : "")" class="row mx-5 box-open">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DisabilityType, htmlAttributes: new { @class = "control-label" })
+                    <div class="">
+                        @Html.EditorFor(model => model.DisabilityType, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.DisabilityType, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group mx-5">
+                    @Html.LabelFor(model => model.FileDisabilityType, htmlAttributes: new { @class = "control-label", @for = "" })
+                    <div class="row">
+                        <div class="chose-file m-3 mt-0">
+                            @Html.TextBoxFor(model => model.FileDisabilityType, new { @class = "form-control", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;", @path = Model.PathDisabilityType })
+                            <label for="SocioMod_FileDisabilityType">
+                                <i class="ml-1 material-icons">add_photo_alternate</i>
+                                בחר קובץ
+                            </label>
+                        </div>
+                        <a name="@Model.PathDisabilityType" style="display:@(Model.PathDisabilityType != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.FileDisabilityType, "", new { @class = "text-danger", })
+                    @Html.HiddenFor(model => model.PathDisabilityType)
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-primary" type="submit" value="Submit">שלח</button>

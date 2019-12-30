@@ -670,7 +670,7 @@
     <Content Include="Views\Student\ChangePass.cshtml" />
     <Content Include="Views\Student\Socio\MainSocio.cshtml" />
     <Content Include="src\sass\formSlider.scss" />
-    <Content Include="Views\Student\Socio\BasicInfoP.cshtml" />
+    <Content Include="Views\Student\Socio\SocioDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
