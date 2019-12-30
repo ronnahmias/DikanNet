@@ -108,7 +108,7 @@ gulp.task('minifyJs',minifyJs);
 gulp.task('copyJs',copyJs);
 gulp.task('sassToCss',sassToCss);
 gulp.task('combainJs',combainJs);
-gulp.task('convertES6',convertES6);
+// gulp.task('convertES6',convertES6);
 
 gulp.task('default', gulp.parallel(message,imageMin,copyJs,minifyJs,sassToCss) );
 gulp.task('watch',gulp.series(watch_files));
