@@ -24,16 +24,6 @@ namespace DikanNetProject
             return Common.SendMail.configSendGridasync(message); // send grid email
             //return Common.SendMail.SendEmailLink(message); // stmp email send
         }
-
-        public async Task configSendGridasync(IdentityMessage message)
-        {
-            var apikey = ConfigurationManager.AppSettings["SendGridAPIKey"]; // token of send grid from web.config
-            var client = new SendGridClient(apikey);
-            var from = new EmailAddress("dikannetproject@gmail.com", "דיקאנט");
-            var to = new EmailAddress(message.Destination);
-            var msg = MailHelper.CreateSingleEmail(from, to, message.Subject,null, message.Body);
-            var response = await client.SendEmailAsync(msg);
-        }
     }
 
     
