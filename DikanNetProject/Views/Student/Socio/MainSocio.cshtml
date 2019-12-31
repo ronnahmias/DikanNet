@@ -1,5 +1,5 @@
 ﻿@using DataEntities;
-@model DataEntities.SocioAdd
+@*@model DataEntities.SocioAdd*@
 
 @{
     ViewBag.Title = "סוציואקונומית";
@@ -8,19 +8,41 @@
 <h2>מלגת סוציואקונומית חדשה</h2>
 
 @Html.AntiForgeryToken()
+@*
+    <div class="form-horizontal">
+        <hr />
+        @Html.HiddenFor(model => model.SocioMod.ScholarshipId, new { @class = "control-label col-md-2" })
 
-<div class="form-horizontal">
-    <hr />
-    @Html.HiddenFor(model => model.SocioMod.ScholarshipId, new { @class = "control-label col-md-2" })
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    </div>
+    @Html.HiddenFor(model => model.MatrialStatus)
 
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-</div>
-@Html.HiddenFor(model => model.MatrialStatus)
+    @using (Ajax.BeginForm("SocioDetails", "Student", new AjaxOptions { HttpMethod = "POST", OnSuccess = "firstsuccess();", LoadingElementId = "div_loading" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Partial("~/Views/Student/Socio/SocioDetails.cshtml", Model.SocioMod);
+        <div id="div_loading" style="display:none;">
+            <img src="@Url.Content("~/Content/Pic/Spinner.gif")" alt="" />
+        </div>
+    }
+
+    @using (Ajax.BeginForm("StudentFinance1", "Student", new AjaxOptions { HttpMethod = "POST", OnSuccess = "secondsuccess();" }))
+    {
+        @Html.AntiForgeryToken()
+        <div id="Studfindiv">
+            @foreach (var StudFin in Model.ListStudentFinances)
+            {
+                { Html.RenderPartial("~/Views/Student/Socio/StudentFinance.cshtml", StudFin); }
+                <button class="btn btn-primary" type="submit" value="Submit">שלח</button>
+            }
+        </div>
+    }
+*@
 
 @using (Ajax.BeginForm("SocioDetails", "Student", new AjaxOptions { HttpMethod = "POST", OnSuccess = "firstsuccess();", LoadingElementId = "div_loading" }))
 {
     @Html.AntiForgeryToken()
-    @Html.Partial("~/Views/Student/Socio/SocioDetails.cshtml", Model.SocioMod);
+    @Html.Action("PartialSocioDetails", "Student");
     <div id="div_loading" style="display:none;">
         <img src="@Url.Content("~/Content/Pic/Spinner.gif")" alt="" />
     </div>
@@ -29,14 +51,15 @@
 @using (Ajax.BeginForm("StudentFinance1", "Student", new AjaxOptions { HttpMethod = "POST", OnSuccess = "secondsuccess();" }))
 {
     @Html.AntiForgeryToken()
-<div id="Studfindiv">
-    @foreach (var StudFin in Model.ListStudentFinances)
-    {
-        { Html.RenderPartial("~/Views/Student/Socio/StudentFinance.cshtml", StudFin); }
-        <button class="btn btn-primary" type="submit" value="Submit">שלח</button>
-    }
-</div>
+
+    @Html.Action("PartialStudentFinance", "Student");
+
+    <button class="btn btn-primary" type="submit" value="Submit">שלח</button>
 }
+
+<div id="content">
+
+</div>
 
 
 <form id="msform">
@@ -79,6 +102,16 @@
 
 @section scripts{
     <script>
+       @* $(document).ready(function ()
+        {
+        $.ajax({
+                    url: '@Url.Action("PartialSocioDetails", "Student")',
+                    type: 'GET',
+                    cache: false,
+                }).done(function(result){
+                    $('#content').html(result);
+                });
+        });*@
 
         function firstsuccess() { alert('this is ajaxSuccess'); }
     </script>

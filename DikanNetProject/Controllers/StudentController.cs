@@ -438,7 +438,7 @@ namespace DikanNetProject.Controllers
                 };
             }
             sociomodel.ListStudentFinances.Add(new DataEntities.StudentFinance { StudentId = "333" });
-                return View("~/Views/Student/Socio/MainSocio.cshtml", sociomodel);
+                return View("~/Views/Student/Socio/MainSocio.cshtml");
         }
 
         [HttpPost]
@@ -459,6 +459,25 @@ namespace DikanNetProject.Controllers
 
 
         #endregion
+
+        [Authorize(Roles = "Student")]
+        public PartialViewResult PartialSocioDetails() // partial view 
+        {
+            SpSocio Socio = new SpSocio();
+            return PartialView("~/Views/Student/Socio/SocioDetails.cshtml", Socio);
+        }
+
+        [Authorize(Roles = "Student")]
+        public PartialViewResult PartialStudentFinance() // partial view of student finance
+        {
+            ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
+            ViewBag.MonthList = new SelectList(MonthsSelectList(), null, "Text"); // to show month list in drop down
+            List<StudentFinance> fin = new List<StudentFinance>();
+            fin.Add(new StudentFinance { StudentId = "33" });
+            fin.Add(new StudentFinance { StudentId = "33" });
+            fin.Add(new StudentFinance { StudentId = "33" });
+            return PartialView("~/Views/Student/Socio/StudentFinance.cshtml", fin);
+        }
 
         #region SocioEconomic Scholarship
 
