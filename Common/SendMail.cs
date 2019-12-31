@@ -20,7 +20,7 @@ namespace Common
     {
         public static async Task SendEmailLink(IdentityMessage message) // send activation code
         {
-            var fromEmail = new MailAddress("System.no-replay@dekan.co.il", "דיקאנט");
+            var fromEmail = new MailAddress("System@dekan.co.il", "דיקאנט");
             var toEmail = new MailAddress(message.Destination);
             var fromEmailPassword = "R&r123456789";
            
@@ -28,10 +28,9 @@ namespace Common
             {
                 Host = "dekan.co.il",
                 Port = 25,
-                UseDefaultCredentials = false,
                 EnableSsl = false,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
-                Credentials = new NetworkCredential(fromEmail.Address, fromEmailPassword,"dekan.co.il")
+                Credentials = new NetworkCredential("System@dekan.co.il", fromEmailPassword,"webmail.dekan.co.il")
             };
            
             using (var message1 = new MailMessage(fromEmail, toEmail)
