@@ -39,7 +39,7 @@
     }
 *@
 
-@using (Ajax.BeginForm("SocioDetails", "Student", new AjaxOptions { HttpMethod = "POST", OnSuccess = "firstsuccess();", LoadingElementId = "div_loading" }))
+@using (Ajax.BeginForm("SocioDetails", "Student", new AjaxOptions { HttpMethod = "POST", OnSuccess = "firstsuccess();", LoadingElementId = "div_loading" }, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.Action("PartialSocioDetails", "Student");
