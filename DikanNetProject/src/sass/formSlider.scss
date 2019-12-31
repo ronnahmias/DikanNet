@@ -1,6 +1,6 @@
 ﻿/*form styles*/
 #msform {
-    width: 400px;
+    width: 100%;
     margin: 50px auto;
     text-align: center;
     position: relative;
@@ -12,8 +12,8 @@
         box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
         padding: 20px 30px;
         box-sizing: border-box;
-        width: 80%;
-        margin: 0 10%;
+        width: 90%;
+        margin: 0 auto;
         /*stacking fieldsets above each other*/
         position: relative;
     }
@@ -21,18 +21,7 @@
     fieldset:not(:first-of-type) {
         display: none;
     }
-    /*inputs*/
-    input, textarea {
-        padding: 15px;
-        border: 1px solid #ccc;
-        border-radius: 3px;
-        margin-bottom: 10px;
-        width: 100%;
-        box-sizing: border-box;
-        font-family: montserrat;
-        color: #2C3E50;
-        font-size: 13px;
-    }
+
     /*buttons*/
     .action-button {
         width: 100px;

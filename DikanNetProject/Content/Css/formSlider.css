@@ -1,11 +1,10 @@
 /*form styles*/
 #msform {
-  width: 400px;
+  width: 100%;
   margin: 50px auto;
   text-align: center;
   position: relative;
   /*Hide all except first fieldset*/
-  /*inputs*/
   /*buttons*/
   /*headings*/ }
   #msform fieldset {
@@ -15,22 +14,12 @@
     box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
     padding: 20px 30px;
     box-sizing: border-box;
-    width: 80%;
-    margin: 0 10%;
+    width: 90%;
+    margin: 0 auto;
     /*stacking fieldsets above each other*/
     position: relative; }
   #msform fieldset:not(:first-of-type) {
     display: none; }
-  #msform input, #msform textarea {
-    padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    margin-bottom: 10px;
-    width: 100%;
-    box-sizing: border-box;
-    font-family: montserrat;
-    color: #2C3E50;
-    font-size: 13px; }
   #msform .action-button {
     width: 100px;
     background: #27AE60;
