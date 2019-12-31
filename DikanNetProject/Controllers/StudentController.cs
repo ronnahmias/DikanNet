@@ -1466,12 +1466,12 @@ namespace DikanNetProject.Controllers
             return PartialView("FundView", new Funding());
         }
 
-        [Authorize(Roles = "Student")]
-        [ChildActionOnly]
-        public PartialViewResult StudentFinance() // partial view of student finance
+        //[Authorize(Roles = "Student")]
+        //[ChildActionOnly]
+        public PartialViewResult StudentFinance(StudentFinance s) // partial view of student finance
         {
             ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
-            return PartialView("~/Views/Student/Socio/StudentFinance.cshtml", new StudentFinance());
+            return PartialView("~/Views/Student/Socio/StudentFinance.cshtml", s);
         }
 
         [Authorize(Roles = "Student")]

@@ -26,13 +26,14 @@
     </div>
 }
 
-@using (Ajax.BeginForm("StudentFinance", "Student", new AjaxOptions { HttpMethod = "POST", OnSuccess = "secondsuccess();" }))
+@using (Ajax.BeginForm("StudentFinance1", "Student", new AjaxOptions { HttpMethod = "POST", OnSuccess = "secondsuccess();" }))
 {
     @Html.AntiForgeryToken()
 <div id="Studfindiv">
     @foreach (var StudFin in Model.ListStudentFinances)
     {
         { Html.RenderPartial("~/Views/Student/Socio/StudentFinance.cshtml", StudFin); }
+        <button class="btn btn-primary" type="submit" value="Submit">שלח</button>
     }
 </div>
 }
