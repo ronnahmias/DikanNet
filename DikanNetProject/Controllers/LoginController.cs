@@ -309,11 +309,14 @@ namespace DikanNetProject.Controllers
 
         #endregion
 
+        #region Contact support form
+        #endregion
+
         #region Check If User Exist
         [HttpPost]
         public ActionResult CheckIfUserExist(string UserId, string Email) // ajax call - checks if user exist in system
         {
-            return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // block registration
+            //return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // block registration
             //email exist
             if (IsEmailExist(Email) || IsIdExist(UserId))
                 {
