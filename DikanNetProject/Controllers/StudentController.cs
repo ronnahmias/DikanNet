@@ -437,7 +437,6 @@ namespace DikanNetProject.Controllers
                     MatrialStatus = ctx.Students.Where(s => s.StudentId == sStudentId).FirstOrDefault().MaritalStatus
                 };
             }
-            sociomodel.ListStudentFinances.Add(new DataEntities.StudentFinance { StudentId = "333" });
                 return View("~/Views/Student/Socio/MainSocio.cshtml");
         }
 
@@ -451,15 +450,23 @@ namespace DikanNetProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult StudentFinance1(List<StudentFinance> studentfinance) // ajax for 2 step in socio
+        public ActionResult StudentFinance(List<StudentFinance> studentfinance) // ajax for 2 step in socio
+        {
+            if (ModelState.IsValid) { }
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Fundings(List<Funding> fundings) // save ajax fundings
         {
             if (ModelState.IsValid) { }
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
 
-        #endregion
 
+        #region Partial Views
         [Authorize(Roles = "Student")]
         public PartialViewResult PartialSocioDetails() // partial view 
         {
@@ -478,6 +485,21 @@ namespace DikanNetProject.Controllers
             fin.Add(new StudentFinance { StudentId = "33" });
             return PartialView("~/Views/Student/Socio/StudentFinance.cshtml", fin);
         }
+
+        [Authorize(Roles = "Student")]
+        public PartialViewResult PartialFundings() // partial view of fundings
+        {
+            ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
+            ViewBag.MonthList = new SelectList(MonthsSelectList(), null, "Text"); // to show month list in drop down
+            List<StudentFinance> fin = new List<StudentFinance>();
+            fin.Add(new StudentFinance { StudentId = "33" });
+            fin.Add(new StudentFinance { StudentId = "33" });
+            fin.Add(new StudentFinance { StudentId = "33" });
+            return PartialView("~/Views/Student/Socio/StudentFinance.cshtml", fin);
+        }
+        #endregion
+
+        #endregion
 
         #region SocioEconomic Scholarship
 
