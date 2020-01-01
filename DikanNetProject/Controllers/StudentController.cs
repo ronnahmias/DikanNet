@@ -465,10 +465,9 @@ namespace DikanNetProject.Controllers
         }
 
 
-
         #region Partial Views
         [Authorize(Roles = "Student")]
-        public PartialViewResult PartialSocioDetails() // partial view 
+        public PartialViewResult PartialSocioDetails() // partial view of socio details
         {
             SpSocio Socio = new SpSocio();
             return PartialView("~/Views/Student/Socio/SocioDetails.cshtml", Socio);
@@ -490,12 +489,11 @@ namespace DikanNetProject.Controllers
         public PartialViewResult PartialFundings() // partial view of fundings
         {
             ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
-            ViewBag.MonthList = new SelectList(MonthsSelectList(), null, "Text"); // to show month list in drop down
-            List<StudentFinance> fin = new List<StudentFinance>();
-            fin.Add(new StudentFinance { StudentId = "33" });
-            fin.Add(new StudentFinance { StudentId = "33" });
-            fin.Add(new StudentFinance { StudentId = "33" });
-            return PartialView("~/Views/Student/Socio/StudentFinance.cshtml", fin);
+            List<Funding> fund = new List<Funding>();
+            fund.Add(new Funding { StudentId = "33" });
+            fund.Add(new Funding { StudentId = "33" });
+            fund.Add(new Funding { StudentId = "33" });
+            return PartialView("~/Views/Student/Socio/Fundings.cshtml", fund);
         }
         #endregion
 

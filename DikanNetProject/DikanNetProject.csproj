@@ -631,7 +631,7 @@
     <Content Include="Views\Student\_Sp_Layout.cshtml" />
     <Content Include="Views\Student\CarsView.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Collection.cshtml" />
-    <Content Include="Views\Student\FundView.cshtml" />
+    <Content Include="Views\Student\Socio\Fundings.cshtml" />
     <Content Include="src\sass\signature-pad.scss" />
     <Content Include="Views\Student\StudFinView.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
