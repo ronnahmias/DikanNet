@@ -671,6 +671,8 @@
     <Content Include="src\sass\formSlider.scss" />
     <Content Include="Views\Student\Socio\SocioDetails.cshtml" />
     <Content Include="Views\Student\Socio\StudentFinance.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\footer.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

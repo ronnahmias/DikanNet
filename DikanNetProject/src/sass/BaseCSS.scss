@@ -5,6 +5,19 @@
     font-family: 'Heebo', sans-serif;
 }
 
+footer {
+    text-align: center;
+    position: absolute;
+    //bottom: 0;
+    right: 0;
+    left: 0;
+
+    div {
+        text-align: center;
+        padding: 10px 0;
+    }
+}
+
 .logo{
     width:160px;
 }

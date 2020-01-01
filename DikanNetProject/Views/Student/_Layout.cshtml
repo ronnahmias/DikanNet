@@ -22,7 +22,7 @@
                     <h1 class="text-center stu-name">שלום @ViewBag.StudentName </h1>
                     <h5 class="text-center">@ViewBag.res</h5>
                 </div>
-                
+
                 <div class="col-12">
                     <!-- Nav pills -->
                     <ul class="nav nav-pills nav-justified flex-column p-0">
@@ -48,7 +48,7 @@
                 </div>
             </div>
         </div>
-        
+
 
         <div class="container-fluid body-content my-4 col-xl-9 col-md-8 col-sm-12 col-12">
             <br /><br /><br /><br /><br />
@@ -56,7 +56,11 @@
         </div>
 
     </div>
-   
+
+    <footer>
+        @Html.Partial("footer", "Shared")
+    </footer>
+
 
 
     @Scripts.Render("~/bundles/jquery")
