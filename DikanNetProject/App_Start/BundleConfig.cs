@@ -20,7 +20,8 @@ namespace DikanNetProject
 
             bundles.Add(new ScriptBundle("~/bundles/formSlider").Include(
                   "~/Scripts/MyJs/jquery-ui.min.js",
-                  "~/Scripts/MyJs/formSlider.js"));
+                  "~/Scripts/MyJs/formSlider.js",
+                  "~/Scripts/MyJs/NewSocio.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/signature_pad").Include(
                       "~/Scripts/MyJs/signature_pad.umd.js",

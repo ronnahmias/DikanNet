@@ -502,6 +502,8 @@
     <Content Include="Content\Css\bootstrap-reboot.css.map" />
     <Content Include="Content\Css\bootstrap-grid.min.css.map" />
     <Content Include="Content\Css\bootstrap-grid.css.map" />
+    <Content Include="Scripts\MyJs\NewSocio.js" />
+    <Content Include="Scripts\TestFundings.js" />
     <Content Include="Scripts\jquery.form.js" />
     <Content Include="Scripts\jquery.form.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />

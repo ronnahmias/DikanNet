@@ -43,27 +43,19 @@
         @using (Ajax.BeginForm("StudentFinance", "Student", new AjaxOptions { HttpMethod = "POST", OnSuccess = "secondsuccess();" }))
         {
             @Html.AntiForgeryToken()
-
+       
             @Html.Action("PartialStudentFinance", "Student");
-
             <button class="btn btn-primary" type="submit" value="Submit">שלח</button>
         }
         <input type="button" name="previous" class="previous action-button" value="Previous" />
         <input type="button" name="next" class="next action-button" value="Next" />
     </fieldset>
-    <fieldset>
-        @using (Ajax.BeginForm("Fundings", "Student", new AjaxOptions { HttpMethod = "POST", OnSuccess = "firstsuccess();", LoadingElementId = "div_loading" }, new { @enctype = "multipart/form-data" }))
-        {
+    <fieldset class="active">
             @Html.AntiForgeryToken()
             @Html.Action("PartialFundings", "Student");
-            <button class="btn btn-primary" type="submit" value="Submit">שלח</button>
-            <div id="div_loading" style="display:none;">
-                <img src="@Url.Content("~/Content/Pic/Spinner.gif")" alt="" />
-            </div>
-        }
-        <input type="button" name="previous" class="previous action-button" value="Previous" />
-        <input type="button" name="next" class="next action-button" value="Next" />
-    </fieldset>
+            <input type="button" name="previous" class="previous action-button" value="Previous" />
+            <input type="button" name="next" class="next action-button" value="Next" />
+        </fieldset>
 
 </div>
 

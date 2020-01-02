@@ -485,16 +485,37 @@ namespace DikanNetProject.Controllers
             return PartialView("~/Views/Student/Socio/StudentFinance.cshtml", fin);
         }
 
-        [Authorize(Roles = "Student")]
-        public PartialViewResult PartialFundings() // partial view of fundings
+        [HttpGet]
+        public ActionResult GetFundings() // partial view of fundings
         {
             ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
             List<Funding> fund = new List<Funding>();
             fund.Add(new Funding { StudentId = "33" });
             fund.Add(new Funding { StudentId = "33" });
             fund.Add(new Funding { StudentId = "33" });
-            return PartialView("~/Views/Student/Socio/Fundings.cshtml", fund);
+            return Json(new { fund } , JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public ActionResult PartialFundings() // partial view of fundings
+        {
+
+            return View("~/Views/Student/Socio/Fundings.cshtml");
+        }
+
+        [HttpPost]
+        public ActionResult AddFund(Funding p) // partial view of fundings
+        {
+            p.FundingId = 1111;
+            return Json(new { p }, JsonRequestBehavior.AllowGet);
+        }
+
+
+        #endregion
+
+        #region Fundings Api Socio
+
+
         #endregion
 
         #endregion
