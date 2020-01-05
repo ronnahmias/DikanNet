@@ -38,7 +38,6 @@ namespace DataEntities
         public bool Newcomer { get; set; }
 
         [DataType(DataType.Date)]
-        //[Range(typeof(DateTime), "1/2/2019", "3/12/2019", ErrorMessage = "{0} חייב להיות בין התאריכים {1} - {2}")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true, ConvertEmptyStringToNull = true)]
         [Display(Name = "תאריך עלייה"), RequiredIf("Newcomer", true, ErrorMessage = "חובה להזין תאריך עלייה")]
         public DateTime? DateImmigration { get; set; }
@@ -102,10 +101,10 @@ namespace DataEntities
         public HttpPostedFileBase FileBankAccount { get; set; }
         public string PathBankAccount { get; set; }
 
-        [Display(Name = "מצב חשבון בנק")]
+        [Display(Name = "מצב חשבון בנק"),Required(ErrorMessage ="חובה להזין מצב חשבון בנק")]
         public int? BankStatus { get; set; }
 
-        [Display(Name ="סטטוס עבודה")]
+        [Display(Name ="סטטוס עבודה"), Required(ErrorMessage = "חובה לבחור סטטוס עבודה")]
         public string WorkSt { get; set; }
 
         [Display(Name = "הערות נוספות")]

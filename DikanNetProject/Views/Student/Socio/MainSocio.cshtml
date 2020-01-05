@@ -17,10 +17,10 @@
     </ul>
     <!-- fieldsets -->
     <fieldset>
-        @using (Ajax.BeginForm("SocioDetails", "Student", new AjaxOptions { HttpMethod = "POST", OnSuccess = "firstsuccess();", LoadingElementId = "div_loading" }, new { @enctype = "multipart/form-data" }))
+        @using (Ajax.BeginForm("SaveSocioDetails", "Student", new AjaxOptions { HttpMethod = "POST", OnSuccess = "firstsuccess();", LoadingElementId = "div_loading" }, new { @enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
-            @Html.Action("PartialSocioDetails", "Student")
+            @Html.Action("PartialSocioDetails", "Student", new { SpId = ViewBag.SpId })
             <div id="div_loading" style="display:none;">
                 <img src="@Url.Content("~/Content/Pic/Spinner.gif")" alt="" />
             </div>

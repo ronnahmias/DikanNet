@@ -421,7 +421,7 @@ namespace DikanNetProject.Controllers
         #region New SocioEconomic Scholarship
 
         [HttpGet]
-        public ActionResult MainSocio(int scholarshipid, bool open = false)
+        public ActionResult MainSocio(int scholarshipid, bool open = false) // main view of socio sp
         {
             /*SocioAdd sociomodel = new SocioAdd();
             using (DikanDbContext ctx = new DikanDbContext())
@@ -437,33 +437,83 @@ namespace DikanNetProject.Controllers
                     MatrialStatus = ctx.Students.Where(s => s.StudentId == sStudentId).FirstOrDefault().MaritalStatus
                 };
             }*/
+            SpSocio tempsocio;
+            tempsocio = FindSocioSp(scholarshipid); // search spsocio in db
+            if (tempsocio.DateSubmitScholarship != null && !open) // if already has entered this milga and not exception open
+                return RedirectToAction("Index");
             ViewBag.SpId = scholarshipid; // send to client the SpId
                 return View("~/Views/Student/Socio/MainSocio.cshtml");
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult SocioDetails(SpSocio socio) // ajax for 1 step in socio
-        {
-            if (ModelState.IsValid) { }
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
-        }
+        #region Socio - Socio Details Api
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult StudentFinance(List<StudentFinance> studentfinance) // ajax for 2 step in socio
-        {
-            if (ModelState.IsValid) { }
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
-        }
-
-        #region Partial Views
+        [HttpGet]
         [Authorize(Roles = "Student")]
-        public PartialViewResult PartialSocioDetails() // partial view of socio details
+        public PartialViewResult PartialSocioDetails(int SpId) // get partial view of socio details
         {
-            SpSocio Socio = new SpSocio();
+            SpSocio Socio;
+            Socio = FindSocioSp(SpId); // search object spsocio in db
             return PartialView("~/Views/Student/Socio/SocioDetails.cshtml", Socio);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SaveSocioDetails(SpSocio socio) // ajax for 1 step in socio
+        {
+            socio.StudentId = sStudentId; // bind student id to socio model
+            // add validation
+            if (ModelState.IsValid)
+            {
+                SaveSocioModel(socio);
+            }
+            return PartialView("~/Views/Student/Socio/SocioDetails.cshtml", socio);
+        }
+
+        [NonAction]
+        public SpSocio SaveSocioModel(SpSocio socio) // saves data of socio model
+        {
+            SpSocio Dbsocio;
+
+            if (socio.FileApartmentLease != null) // save file if not null
+                socio.PathApartmentLease = Files.SaveFileInServer(socio.FileApartmentLease, "ApartmentLease", sStudentId, socio.PathApartmentLease);
+
+            if (socio.FileBereavedFam != null) // save file if not null
+                socio.PathBereavedFam = Files.SaveFileInServer(socio.FileBereavedFam, "BereavedFam", sStudentId, socio.PathBereavedFam);
+
+            if (socio.FileDisabilityType != null) // save file if not null
+                socio.PathDisabilityType = Files.SaveFileInServer(socio.FileDisabilityType, "DisabilityType", sStudentId, socio.PathDisabilityType);
+
+            if (socio.FileMilitaryService != null) // save file if not null
+                socio.PathMilitaryService = Files.SaveFileInServer(socio.FileMilitaryService, "MilitaryService", sStudentId, socio.PathMilitaryService);
+
+            if (socio.FileNewcomer != null) // save file if not null
+                socio.PathNewcomer = Files.SaveFileInServer(socio.FileNewcomer, "Newcomer", sStudentId, socio.PathNewcomer);
+
+            if (socio.FileReserveMilitaryService != null) // save file if not null
+                socio.PathReserveMilitaryService = Files.SaveFileInServer(socio.FileReserveMilitaryService, "ReserveMilitaryService", sStudentId, socio.PathReserveMilitaryService);
+
+            if (socio.FileSingleParent != null) // save file if not null
+                socio.PathSingleParent = Files.SaveFileInServer(socio.FileSingleParent, "SingleParent", sStudentId, socio.PathSingleParent);
+
+            if (socio.FileBankAccount != null) // save file if not null
+                socio.PathBankAccount = Files.SaveFileInServer(socio.FileBankAccount, "BankAccount", sStudentId, socio.PathBankAccount);
+
+            using (DikanDbContext ctx = new DikanDbContext())
+            {
+                Dbsocio = ctx.Socio.Where(s => s.StudentId == socio.StudentId && s.ScholarshipId == socio.ScholarshipId).SingleOrDefault(); // find if he insert already spsocio    
+                if (Dbsocio != null)
+                    ctx.Socio.Remove(Dbsocio); // remove previous socio
+                ctx.SaveChanges();
+                ctx.Socio.Add(socio); // add new sp socio
+                ctx.SaveChanges();
+            }
+            return socio;
+        }
+
+        #endregion
+
+        #region Socio - Student Finance api
+
 
         [Authorize(Roles = "Student")]
         public PartialViewResult PartialStudentFinance() // partial view of student finance
@@ -475,6 +525,14 @@ namespace DikanNetProject.Controllers
             fin.Add(new StudentFinance { StudentId = "33" });
             fin.Add(new StudentFinance { StudentId = "33" });
             return PartialView("~/Views/Student/Socio/StudentFinance.cshtml", fin);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult StudentFinance(List<StudentFinance> studentfinance) // ajax for 2 step in socio
+        {
+            if (ModelState.IsValid) { }
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
         #endregion
@@ -737,7 +795,7 @@ namespace DikanNetProject.Controllers
             if (socio.ListFamMem != null)
                 SaveFamilyMember(socio.ListFamMem);// if there is family members -> Save Family Members
 
-            socio.SocioMod = SaveSocioModel(socio.SocioMod); // Save Socio model
+            //socio.SocioMod = SaveSocioModel(socio.SocioMod); // Save Socio model
             ViewBag.ResOk = "True";
             ViewBag.Response = "הטיוטא נשמרה בהצלחה!";
 
@@ -1494,49 +1552,7 @@ namespace DikanNetProject.Controllers
             }
         }
 
-        [NonAction]
-        public SpSocio SaveSocioModel(SpSocio socio)
-        {
-            SpSocio Dbsocio;
-            socio.StudentId = sStudentId; // bind student id to socio model
 
-            if (socio.FileApartmentLease != null) // save file if not null
-                socio.PathApartmentLease = Files.SaveFileInServer(socio.FileApartmentLease, "ApartmentLease", sStudentId, socio.PathApartmentLease);
-
-            if (socio.FileBereavedFam != null) // save file if not null
-                socio.PathBereavedFam = Files.SaveFileInServer(socio.FileBereavedFam, "BereavedFam", sStudentId, socio.PathBereavedFam);
-
-            if (socio.FileDisabilityType != null) // save file if not null
-                socio.PathDisabilityType = Files.SaveFileInServer(socio.FileDisabilityType, "DisabilityType", sStudentId, socio.PathDisabilityType);
-
-            if (socio.FileMilitaryService != null) // save file if not null
-                socio.PathMilitaryService = Files.SaveFileInServer(socio.FileMilitaryService, "MilitaryService", sStudentId, socio.PathMilitaryService);
-
-            if (socio.FileNewcomer != null) // save file if not null
-                socio.PathNewcomer = Files.SaveFileInServer(socio.FileNewcomer, "Newcomer", sStudentId, socio.PathNewcomer);
-
-            if (socio.FileReserveMilitaryService != null) // save file if not null
-                socio.PathReserveMilitaryService = Files.SaveFileInServer(socio.FileReserveMilitaryService, "ReserveMilitaryService", sStudentId, socio.PathReserveMilitaryService);
-
-            if (socio.FileSingleParent != null) // save file if not null
-                socio.PathSingleParent = Files.SaveFileInServer(socio.FileSingleParent, "SingleParent", sStudentId, socio.PathSingleParent);
-
-            if (socio.FileBankAccount != null) // save file if not null
-                socio.PathBankAccount = Files.SaveFileInServer(socio.FileBankAccount, "BankAccount", sStudentId, socio.PathBankAccount);
-
-
-            using (DikanDbContext ctx = new DikanDbContext())
-            {
-                Dbsocio = ctx.Socio.Where(s => s.StudentId == socio.StudentId && s.ScholarshipId == socio.ScholarshipId).SingleOrDefault(); // find if he insert already draft     
-                if (Dbsocio != null)
-                    ctx.Socio.Remove(Dbsocio); // remove previous socio
-                ctx.SaveChanges();
-                ctx.Socio.Add(socio); // add new sp socio
-          
-                ctx.SaveChanges();
-            }
-            return socio;
-        }
         #endregion
 
         #endregion
@@ -1707,6 +1723,20 @@ namespace DikanNetProject.Controllers
         #endregion
 
         #region NonActions
+
+        [NonAction]
+        [Authorize(Roles = "Student")]
+        public SpSocio FindSocioSp(int SpId) // find spsocio in db
+        {
+            SpSocio socio;
+            using(DikanDbContext ctx = new DikanDbContext())
+            {
+                socio = ctx.Socio.Where(s => s.ScholarshipId == SpId && s.StudentId == sStudentId).FirstOrDefault();
+            }
+            if (socio == null)
+                socio = new SpSocio { ScholarshipId = SpId };
+            return socio;
+        }
 
         [NonAction]
         [Authorize(Roles = "Student")]
