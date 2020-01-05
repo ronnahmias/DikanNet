@@ -423,7 +423,7 @@ namespace DikanNetProject.Controllers
         [HttpGet]
         public ActionResult MainSocio(int scholarshipid, bool open = false)
         {
-            SocioAdd sociomodel = new SocioAdd();
+            /*SocioAdd sociomodel = new SocioAdd();
             using (DikanDbContext ctx = new DikanDbContext())
             {
                 sociomodel = new SocioAdd() // new socio add model get the matrial status in construstor
@@ -436,7 +436,8 @@ namespace DikanNetProject.Controllers
                     ListFamMem = new List<FamilyMember>(),
                     MatrialStatus = ctx.Students.Where(s => s.StudentId == sStudentId).FirstOrDefault().MaritalStatus
                 };
-            }
+            }*/
+            ViewBag.SpId = scholarshipid; // send to client the SpId
                 return View("~/Views/Student/Socio/MainSocio.cshtml");
         }
 
@@ -455,15 +456,6 @@ namespace DikanNetProject.Controllers
             if (ModelState.IsValid) { }
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Fundings(List<Funding> fundings) // save ajax fundings
-        {
-            if (ModelState.IsValid) { }
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
-        }
-
 
         #region Partial Views
         [Authorize(Roles = "Student")]
@@ -485,38 +477,78 @@ namespace DikanNetProject.Controllers
             return PartialView("~/Views/Student/Socio/StudentFinance.cshtml", fin);
         }
 
-        [HttpGet]
-        public ActionResult GetFundings() // partial view of fundings
-        {
-            ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
-            List<Funding> data = new List<Funding>();
-            data.Add(new Funding { StudentId = "30" });
-            data.Add(new Funding { StudentId = "32" });
-            data.Add(new Funding { StudentId = "36" });
-            return Json(new { data } , JsonRequestBehavior.AllowGet);
-        }
+        #endregion
+
+        #region Socio - Fundings Api 
 
         [HttpGet]
         public ActionResult PartialFundings() // partial view of fundings
         {
-
             return View("~/Views/Student/Socio/Fundings.cshtml");
         }
 
-        [HttpPost]
-        public ActionResult AddFund(Funding obj) // partial view of fundings
+        [HttpGet]
+        public ActionResult GetFundings(int SpId) // get all stored fundings by spid and student id with ajax
         {
-            obj.FundingId = 1111;
-            return Json(new { obj }, JsonRequestBehavior.AllowGet);
+            List<Funding> data = null;
+            using (DikanDbContext ctx = new DikanDbContext())
+            {
+                data = ctx.Fundings.Where(s => s.StudentId == sStudentId && s.SpId == SpId).ToList(); // find the stored funding objects
+            }
+            return Json(new { data }, JsonRequestBehavior.AllowGet);
         }
 
 
+        [HttpPost]
+        public ActionResult AddEditFund(Funding obj) // get new/edit existing fund object model by ajax call
+        {
+            if(obj == null || obj.SpId == 0) // object null or spid didnt come from client
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            obj.StudentId = sStudentId;
+            if (ModelState.IsValid)
+            {
+                using (DikanDbContext ctx = new DikanDbContext())
+                {
+                    if (obj.FundingId != 0) // update the fund
+                    {
+                        Funding dbfund = ctx.Fundings.Where(s => s.FundingId == obj.FundingId).FirstOrDefault(); // find the fund from db
+                        if(dbfund == null)
+                            return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // error fund not found in db
+
+                        ctx.Entry(dbfund).CurrentValues.SetValues(obj);// update fund exists
+                    }
+                    else // new fund insert
+                        ctx.Fundings.Add(obj);
+                    ctx.SaveChanges(); // save changes
+                }
+                return Json(new { obj }, JsonRequestBehavior.AllowGet); // all have been saved return the object
+            }
+            else
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // error model not valid
+        }
+
+        [HttpPost]
+        public ActionResult DeleteFund(int FundId) // delete fund with fund id
+        {
+            if(FundId == 0)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // no fund id correct
+            using (DikanDbContext ctx = new DikanDbContext())
+            {
+                ctx.Fundings.Remove(new Funding { FundingId = FundId }); // remove fund from db
+                ctx.SaveChanges();
+            }
+            return new HttpStatusCodeResult(HttpStatusCode.OK); // fund deleted return ok
+        }
+
+
+        [HttpPost]
+        public ActionResult AddFund(Funding obj) // old function - delete
+        {
+             obj.FundingId = 1111;
+             return Json(new { obj }, JsonRequestBehavior.AllowGet);
+        }
         #endregion
 
-        #region Fundings Api Socio
-
-
-        #endregion
 
         #endregion
 

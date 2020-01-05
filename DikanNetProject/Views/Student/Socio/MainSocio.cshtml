@@ -1,5 +1,4 @@
 ﻿@using DataEntities;
-@*@model DataEntities.SocioAdd*@
 
 @{
     ViewBag.Title = "סוציואקונומית";
@@ -7,18 +6,8 @@
 }
 <h2>מלגת סוציואקונומית חדשה</h2>
 
-@Html.AntiForgeryToken()
-@*
-    <div class="form-horizontal">
-        <hr />
-        @Html.HiddenFor(model => model.SocioMod.ScholarshipId, new { @class = "control-label col-md-2" })
+<input value="@ViewBag.SpId" />
 
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    </div>
-    @Html.HiddenFor(model => model.MatrialStatus)
-
-
-*@
 <div id="msform">
     <!-- progressbar -->
     <ul id="progressbar">
@@ -31,7 +20,7 @@
         @using (Ajax.BeginForm("SocioDetails", "Student", new AjaxOptions { HttpMethod = "POST", OnSuccess = "firstsuccess();", LoadingElementId = "div_loading" }, new { @enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
-            @Html.Action("PartialSocioDetails", "Student");
+            @Html.Action("PartialSocioDetails", "Student")
             <div id="div_loading" style="display:none;">
                 <img src="@Url.Content("~/Content/Pic/Spinner.gif")" alt="" />
             </div>
@@ -44,7 +33,7 @@
         {
             @Html.AntiForgeryToken()
        
-            @Html.Action("PartialStudentFinance", "Student");
+            @Html.Action("PartialStudentFinance", "Student")
             <button class="btn btn-primary" type="submit" value="Submit">שלח</button>
         }
         <input type="button" name="previous" class="previous action-button" value="Previous" />
@@ -52,11 +41,10 @@
     </fieldset>
     <fieldset class="active">
             @Html.AntiForgeryToken()
-            @Html.Action("PartialFundings", "Student");
+            @Html.Action("PartialFundings", "Student")
             <input type="button" name="previous" class="previous action-button" value="Previous" />
             <input type="button" name="next" class="next action-button" value="Next" />
-        </fieldset>
-
+    </fieldset>
 </div>
 
 @*
@@ -110,19 +98,6 @@
                     $('#content').html(result);
                 });
         });*@
-
-
-        $(document).ready(function ()
-        {
-            $('#newfund').click(function () // add new fund row
-            {
-                var count = $('#funds').children().last().attr('id');
-                count = count.split('-')[1];
-                console.log(count);
-                $("<div id=f-" + count + '>' +
-                    "</div>").appendTo('#funds');
-            });
-        });
 
         function firstsuccess() { console.log('this is ajaxSuccess'); }
     </script>
