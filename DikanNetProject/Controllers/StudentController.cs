@@ -489,11 +489,11 @@ namespace DikanNetProject.Controllers
         public ActionResult GetFundings() // partial view of fundings
         {
             ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
-            List<Funding> fund = new List<Funding>();
-            fund.Add(new Funding { StudentId = "33" });
-            fund.Add(new Funding { StudentId = "33" });
-            fund.Add(new Funding { StudentId = "33" });
-            return Json(new { fund } , JsonRequestBehavior.AllowGet);
+            List<Funding> data = new List<Funding>();
+            data.Add(new Funding { StudentId = "30" });
+            data.Add(new Funding { StudentId = "32" });
+            data.Add(new Funding { StudentId = "36" });
+            return Json(new { data } , JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -504,10 +504,10 @@ namespace DikanNetProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddFund(Funding p) // partial view of fundings
+        public ActionResult AddFund(Funding obj) // partial view of fundings
         {
-            p.FundingId = 1111;
-            return Json(new { p }, JsonRequestBehavior.AllowGet);
+            obj.FundingId = 1111;
+            return Json(new { obj }, JsonRequestBehavior.AllowGet);
         }
 
 
