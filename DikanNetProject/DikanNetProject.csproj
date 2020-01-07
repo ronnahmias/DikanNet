@@ -675,6 +675,7 @@
     <Content Include="Views\Student\Socio\StudentFinance.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\footer.cshtml" />
+    <Content Include="Views\Login\Contact.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

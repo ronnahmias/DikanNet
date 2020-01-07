@@ -113,4 +113,19 @@ namespace DikanNetProject.Models
         [Compare("Password", ErrorMessage = "יש להזין סיסמא תואמת באימות סיסמא")]
         public string ConfirmPassword { get; set; }
     }
+
+    public class ContactModel
+    {
+        [Display(Name = "שם מלא"), Required(AllowEmptyStrings = false, ErrorMessage = "חובה להזין שם מלא")]
+        public string Name { get; set; }
+
+        [Display(Name = "אימייל")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "חובה להזין אימייל")]
+        public string Email { get; set; }
+
+        [Display(Name = "הודעה")]
+        [DataType(DataType.MultilineText)]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "חובה להזין הודעה")]
+        public string Message { get; set; }
+    }
 }

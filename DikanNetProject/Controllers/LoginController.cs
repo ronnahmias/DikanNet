@@ -97,6 +97,39 @@ namespace DikanNetProject.Controllers
 
         #endregion
 
+        #region Contact
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult Contact()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Contact(ContactModel ContactForm) // send contact form to admin
+        {
+            if(ModelState.IsValid)
+            {
+                // Send an email to support
+                var body = "נפתחה בקשת תמיכה חדשה מ- " + ContactForm.Name + "\r\n";
+                body += ContactForm.Message + "\r\n";
+                body += "הקלק על התמונה להשבה במייל";
+                var username = "מנהל";
+                var callbackUrl = "mailto:"+ ContactForm.Email + "?subject = תשובה: דיקנוט - תמיכה";
+                body = SendMail.CreateBodyEmail(username, callbackUrl, body);
+                IdentityMessage message = new IdentityMessage { Body = body, Destination = "ron.nahmias2@gmail.com", Subject = "דיקנוט - תמיכה" };
+                await SendMail.configSendGridasync(message);
+                ViewBag.CompleteMsg = "הטופס נשלח בהצלחה - ניצור איתך קשר בקרוב";
+            }
+            return View(ContactForm);
+        }
+
+
+        #endregion
+
         #region Login
 
         [HttpGet]
