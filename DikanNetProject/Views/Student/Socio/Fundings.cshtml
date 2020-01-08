@@ -8,6 +8,7 @@
             <input type="text" name="name_fund" value="" placeholder="שם גוף ממן" />
             <input type="number" min="0" name="height_fund" value="" placeholder="סכום מימון" />
             <input type="text" name="year_funding" maxlength="4" class="only-numbers" value="" placeholder="שנת מימון" />
+            <input type="hidden" name="funding_id" class="only-numbers" value="0"/>
             <div>
                 <button id="AddFund">+</button>
             </div>
@@ -15,7 +16,20 @@
 
         <div class="__list_warrper">
             <ul id="fund_list">
-                <li>בדיקה</li>
+                <li class="d-flex flex-row mb-3">
+                    <div class="d-flex flex-column ">
+                        <span class="font-weight-bold">גוף ממן</span>
+                        <span class="">בדיקה</span>
+                    </div>
+                    <div class="d-flex flex-column mx-5">
+                        <span class="font-weight-bold">סכום מימון</span>
+                        <span class="">1200</span>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <span class="font-weight-bold">שנה</span>
+                        <span class="">2020</span>
+                    </div>
+                </li>
             </ul>
         </div>
 

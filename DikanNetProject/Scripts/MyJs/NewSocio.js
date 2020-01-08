@@ -1,5 +1,7 @@
 ﻿$(document).ready(function () {
 
+    const SP_ID = $('#spid').val();
+
     console.log("new socio");
     var fund = {
         title: 'funding',
@@ -47,11 +49,18 @@
     
     
     $('#AddFund').click(function () {
-        var name_fund = $('input[name="name_fund"]').val();
-        var height_fund = $('input[name="height_fund"]').val();
-        var year_funding = $('input[name="year_funding"]').val();
-        
+        var name_fund = $('#fund .__add_warpper input[name="name_fund"]').val();
+        var height_fund = $('#fund .__add_warpper input[name="height_fund"]').val();
+        var year_funding = $('#fund .__add_warpper input[name="year_funding"]').val();
+        var funding_id = $('#fund .__add_warpper input[name="funding_id"]').val();
+
+        if (funding_id === undefined || funding_id === null) funding_id = 0;
+
+        if (name_fund == '' || height_fund <= 0 || year_funding < 2010) return;
+
         var data = {
+            SpId: SP_ID,
+            FundingId: funding_id,
             FinancingHeight: height_fund,
             FinancingInstitution: name_fund,
             YearFinancing: year_funding
@@ -60,7 +69,7 @@
         var btn = $(this);
         $.ajax({
             type: "POST",
-            url: '/Student/AddFund',
+            url: '/Student/AddEditFund',
             dataType: "json",
             data: data,
             beforeSend: function () {
@@ -72,6 +81,8 @@
                 console.log("OK");
                 fund.list.push(data.obj);
                 console.log({ fund });
+
+                procces_lists(fund);
             },
             failure: function (errMsg) {
                 alert(errMsg);
@@ -103,8 +114,21 @@
     }
 
     function get_fund_item(item) {
-        let li = `<li>
-                <span>${item.StudentId}</span>
+        let li =
+            `<li class="d-flex flex-row mb-3" >
+                <input type="hidden" name="fund_id" value="${item.FundingId}" />
+                <div class="d-flex flex-column ">
+                    <span class="font-weight-bold">גוף ממן</span>
+                    <span class="">${item.FinancingInstitution}</span>
+                </div>
+                <div class="d-flex flex-column mx-5">
+                    <span class="font-weight-bold">סכום מימון</span>
+                    <span class="">${item.FinancingHeight}</span>
+                </div>
+                <div class="d-flex flex-column">
+                    <span class="font-weight-bold">שנה</span>
+                    <span class="">${item.YearFinancing}</span>
+                </div>
             </li>`;
         return li;
     }

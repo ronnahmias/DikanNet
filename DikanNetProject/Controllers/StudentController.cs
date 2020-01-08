@@ -546,8 +546,9 @@ namespace DikanNetProject.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetFundings(int SpId) // get all stored fundings by spid and student id with ajax
+        public ActionResult GetFundings() // get all stored fundings by spid and student id with ajax
         {
+            int SpId = 20;
             List<Funding> data = null;
             using (DikanDbContext ctx = new DikanDbContext())
             {
@@ -598,13 +599,6 @@ namespace DikanNetProject.Controllers
             return new HttpStatusCodeResult(HttpStatusCode.OK); // fund deleted return ok
         }
 
-
-        [HttpPost]
-        public ActionResult AddFund(Funding obj) // old function - delete
-        {
-             obj.FundingId = 1111;
-             return Json(new { obj }, JsonRequestBehavior.AllowGet);
-        }
         #endregion
 
 
