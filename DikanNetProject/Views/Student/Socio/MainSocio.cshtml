@@ -6,7 +6,7 @@
 }
 <h2>מלגת סוציואקונומית חדשה</h2>
 
-<input value="@ViewBag.SpId" />
+<input id="spid" value="@ViewBag.SpId" />
 
 <div id="msform">
     <!-- progressbar -->
@@ -17,11 +17,13 @@
     </ul>
     <!-- fieldsets -->
     <fieldset>
-        @using (Ajax.BeginForm("SaveSocioDetails", "Student", new AjaxOptions { HttpMethod = "POST", OnSuccess = "firstsuccess();", LoadingElementId = "div_loading" }, new { @enctype = "multipart/form-data" }))
+        @using (Ajax.BeginForm("SaveSocioDetails", "Student", new AjaxOptions { HttpMethod = "POST", OnSuccess = "firstsuccess(data);", LoadingElementId = "div_loading" }, new { @enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
+        <div id="partialsocio">
             @Html.Action("PartialSocioDetails", "Student", new { SpId = ViewBag.SpId })
-            <div id="div_loading" style="display:none;">
+        </div>
+                <div id="div_loading" style="display:none;">
                 <img src="@Url.Content("~/Content/Pic/Spinner.gif")" alt="" />
             </div>
             <button class="btn btn-primary" type="submit" value="Submit">שלח</button>
@@ -88,17 +90,14 @@
 
 @section scripts{
     <script>
-        @* $(document).ready(function ()
+       $(document).ready(function ()
         {
-        $.ajax({
-                    url: '@Url.Action("PartialSocioDetails", "Student")',
-                    type: 'GET',
-                    cache: false,
-                }).done(function(result){
-                    $('#content').html(result);
-                });
-        });*@
+        });
 
-        function firstsuccess() { console.log('this is ajaxSuccess'); }
+        function firstsuccess(data) {
+            console.log(data);
+            $('#partialsocio').html(data);
+            console.log('this is ajaxSuccess');
+        }
     </script>
 }
