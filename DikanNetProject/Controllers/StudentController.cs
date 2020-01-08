@@ -552,6 +552,8 @@ namespace DikanNetProject.Controllers
             List<Funding> data = null;
             using (DikanDbContext ctx = new DikanDbContext())
             {
+                ctx.Configuration.ProxyCreationEnabled = false;
+                ctx.Configuration.LazyLoadingEnabled = false;
                 data = ctx.Fundings.Where(s => s.StudentId == sStudentId && s.SpId == SpId).ToList(); // find the stored funding objects
             }
             return Json(new { data }, JsonRequestBehavior.AllowGet);
