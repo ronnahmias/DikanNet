@@ -10,10 +10,7 @@ var car = {
 };
 
 const removeArrayItem = (arr, itemToRemove, itemToRemoveData) => {
-    console.log({ arr });
-    console.log({ itemToRemove});
-    console.log({ itemToRemoveData });
-    return arr.filter(item => item[itemToRemove] !== itemToRemoveData)
+    return arr.filter(item => item[itemToRemove] !== +itemToRemoveData)
 }
 
 const SP_ID = $('#spid').val();
@@ -96,19 +93,16 @@ $(document).ready(function () {
                 btn.attr('disabled', true); // disabel the button
             },
             success: function (data) {
-                //if (funding_id > 0) {
-                    //fund.list = removeArrayItem(fund.list, 'FundingId', funding_id);
-                    //console.log('fund list after remove');
-                    //console.log(removeArrayItem(fund.list, 'FundingId', funding_id));
-
-                //};
+                if (funding_id > 0) {
+                    fund.list = removeArrayItem(fund.list, 'FundingId', funding_id);
+                };
                 //console.log(data);
                 console.log("OK");
                 fund.list.push(data.obj);
                 console.log({ fund });
 
-                success = true;
                 procces_lists(fund);
+                clear_data(fund);
             },
             failure: function (errMsg) {
                 alert(errMsg);
@@ -117,15 +111,20 @@ $(document).ready(function () {
                 btn.html('הוסף');
                 btn.removeAttr("disabled"); // enable the button
             }         
-        });
-
-        if (success) {
-            $('#fund .__add_warpper input[name="name_fund"]').val('');
-            $('#fund .__add_warpper input[name="height_fund"]').val('');
-            $('#fund .__add_warpper input[name="year_funding"]').val('');
-            $('#fund .__add_warpper input[name="funding_id"]').val('0');
-        }
+        });        
     });
+
+    function clear_data(pEl) {
+        switch (pEl.title) {
+            case 'funding':
+                $('#fund .__add_warpper input[name="name_fund"]').val('');
+                $('#fund .__add_warpper input[name="height_fund"]').val('');
+                $('#fund .__add_warpper input[name="year_funding"]').val('');
+                $('#fund .__add_warpper input[name="funding_id"]').val('0');
+                break;
+            default:
+        }
+    }
 
     function procces_lists(pEl) {
         //console.log('procces_lists');
@@ -213,6 +212,7 @@ $(document).ajaxComplete(function () {
             success: function (data) {
                 console.log(data);
                 console.log("DELETE OK");
+                fund.list = removeArrayItem(fund.list, 'FundingId', data);
                 procces_lists(fund);
             },
             failure: function (errMsg) {
