@@ -589,7 +589,7 @@ namespace DikanNetProject.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // error model not valid
         }
 
-        [HttpPost]
+        [HttpDelete]
         public ActionResult DeleteFund(int FundId) // delete fund with fund id
         {
             if(FundId == 0)
