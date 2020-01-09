@@ -466,6 +466,7 @@ namespace DikanNetProject.Controllers
             {
                 SaveSocioModel(socio);
             }
+            Response.StatusCode = 200;
             return PartialView("~/Views/Student/Socio/SocioDetails.cshtml", socio);
         }
 
