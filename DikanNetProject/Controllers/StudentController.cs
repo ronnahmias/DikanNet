@@ -461,17 +461,101 @@ namespace DikanNetProject.Controllers
         public ActionResult SaveSocioDetails(SpSocio socio) // ajax for 1 step in socio
         {
             socio.StudentId = sStudentId; // bind student id to socio model
+            bool sociook = SocioDetValid(socio);
             // add validation
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && sociook)
             {
                 SaveSocioModel(socio);
+                Response.StatusCode = 200;
             }
-            Response.StatusCode = 200;
-            return PartialView("~/Views/Student/Socio/SocioDetails.cshtml", socio);
+            else
+               Response.StatusCode = 300; // return error to client the model is not valid
+            return PartialView("~/Views/Student/Socio/SocioDetails.cshtml", socio); // return the partial view of the forn with validation messages
         }
 
         [NonAction]
-        public SpSocio SaveSocioModel(SpSocio socio) // saves data of socio model
+        public bool SocioDetValid(SpSocio socio) // add model error in the form of socio details return true if the form is valid
+        {
+            bool ok = true;
+            //checks on socio model validation
+            if (socio.Apartment)
+            {
+                if (socio.FileApartmentLease == null && socio.PathApartmentLease == null)
+                {
+                    ModelState.AddModelError("FileApartmentLease", "חובה לצרף קובץ");
+                    ok = false;
+                }
+            }
+            if (socio.Newcomer)
+            {
+                if (socio.FileNewcomer == null && socio.PathNewcomer == null)
+                {
+                    ModelState.AddModelError("FileNewcomer", "חובה לצרף קובץ");
+                    ok = false;
+                }
+            }
+            if (socio.SingleParent)
+            {
+                if (socio.FileSingleParent == null && socio.PathSingleParent == null)
+                {
+                    ModelState.AddModelError("FileSingleParent", "חובה לצרף קובץ");
+                    ok = false;
+                }
+            }
+            if (socio.BereavedFam)
+            {
+                if (socio.FileBereavedFam == null && socio.PathBereavedFam == null)
+                {
+                    ModelState.AddModelError("FileBereavedFam", "חובה לצרף קובץ");
+                    ok = false;
+                }
+            }
+            if (string.IsNullOrEmpty(socio.MilitaryService))
+            {
+                ModelState.AddModelError("MilitaryService", "חובה לבחור סוג שירות");
+                ok = false;
+            }
+            else // check file of miltary service
+            {
+                if (socio.FileMilitaryService == null && socio.PathMilitaryService == null)
+                {
+                    ModelState.AddModelError("FileMilitaryService", "חובה לצרף קובץ");
+                    ok = false;
+                }
+            }
+            if (socio.ReserveMilitaryService)
+            {
+                if (socio.FileReserveMilitaryService == null && socio.PathReserveMilitaryService == null)
+                {
+                    ModelState.AddModelError("FileReserveMilitaryService", "חובה לצרף קובץ");
+                    ok = false;
+                }
+            }
+            if (!string.IsNullOrEmpty(socio.DisabilityType))
+            {
+                if (socio.FileDisabilityType == null && socio.PathDisabilityType == null)
+                {
+                    ModelState.AddModelError("FileDisabilityType", "חובה לצרף קובץ");
+                    ok = false;
+                }
+            }
+
+            if (socio.BankStatus == null)
+            {
+                ModelState.AddModelError("BankStatus", "חובה להזין מצב חשבון");
+                ok = false;
+            }
+
+            if (socio.FileBankAccount == null && socio.PathBankAccount == null)
+            {
+                ModelState.AddModelError("SocioMod.FileBankAccount", "חובה לצרף קובץ");
+                ok = false;
+            }
+            return ok;
+        }
+
+        [NonAction]
+        public SpSocio SaveSocioModel(SpSocio socio) // saves data of socio model in db
         {
             SpSocio Dbsocio;
 
@@ -547,9 +631,8 @@ namespace DikanNetProject.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetFundings() // get all stored fundings by spid and student id with ajax
+        public ActionResult GetFundings(int SpId) // get all stored fundings by spid and student id with ajax
         {
-            int SpId = 20;
             List<Funding> data = null;
             using (DikanDbContext ctx = new DikanDbContext())
             {

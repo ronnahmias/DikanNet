@@ -17,7 +17,7 @@
     </ul>
     <!-- fieldsets -->
     <fieldset>
-        @using (Ajax.BeginForm("SaveSocioDetails", "Student", new AjaxOptions { HttpMethod = "POST", OnSuccess = "firstsuccess(data);", LoadingElementId = "div_loading" }, new { @enctype = "multipart/form-data" }))
+        @using (Ajax.BeginForm("SaveSocioDetails", "Student", new AjaxOptions { HttpMethod = "POST", OnSuccess = "firstsuccess",OnFailure = "sociodetailsfail", UpdateTargetId="partialsocio" ,LoadingElementId = "div_loading" }, new { @enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
         <div id="partialsocio">
@@ -98,6 +98,12 @@
             console.log(data);
             $('#partialsocio').html(data);
             console.log('this is ajaxSuccess');
+        }
+
+        function sociodetailsfail(bdata) {
+             console.log('this is ajaxfail');
+            console.log(data);
+            $('#partialsocio').html(data);
         }
     </script>
 }

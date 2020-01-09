@@ -19,7 +19,7 @@ namespace DataEntities
         [Key, Column(Order = 1)]
         public string StudentId { get; set; }
 
-        [Display(Name = "שנת לימוד")]
+        [Display(Name = "שנת לימוד"),Required(AllowEmptyStrings = false, ErrorMessage ="חובה להזין שנת לימוד")]
         public string SchoolYear { get; set; }
 
         [Display(Name = "סטטוס")]

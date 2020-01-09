@@ -22,7 +22,7 @@ $(document).ready(function () {
 
     console.log("new socio");
 
-    ajax_get_data('/Student/GetFundings', fund);//get funding data
+    ajax_get_data('/Student/GetFundings?SpId=' + SP_ID, fund);//get funding data
 
     /*$.ajax({
         type: "GET",
