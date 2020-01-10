@@ -68,7 +68,7 @@ namespace DataEntities
         [Display(Name = "האם קיבלת מלגה בעבר?")]
         public bool ReceiveScholarship { get; set; }
 
-        [Display(Name = "שירות צבאי"),Required(ErrorMessage ="חובה להזין סוג שירות צבאי")]
+        [Display(Name = "שירות צבאי"),Required(ErrorMessage ="חובה להזין סוג שירות")]
         public string MilitaryService { get; set; }
 
         [Display(Name = "צירוף קובץ תעודת שחרור"), NotMapped]
@@ -90,10 +90,14 @@ namespace DataEntities
         [Display(Name = "האם הנך בעל רכב?")]
         public bool CarOwner { get; set; }
 
-        [Display(Name = "סוג נכות")]
+        [NotMapped]
+        [Display(Name = "נכות?")]
+        public bool HasDisability { get; set; }
+
+        [Display(Name = "סוג נכות"), RequiredIf("HasDisability", true, ErrorMessage = "חובה להזין סוג נכות")]
         public string DisabilityType { get; set; }
 
-        [Display(Name = "צירוף קובץ אישות נכות"), NotMapped]
+        [Display(Name = "צירוף קובץ אישור נכות"), NotMapped]
         public HttpPostedFileBase FileDisabilityType { get; set; }
         public string PathDisabilityType { get; set; }
 

@@ -6,7 +6,7 @@
 }
 <h2>מלגת סוציואקונומית חדשה</h2>
 
-<input id="spid" value="@ViewBag.SpId" />
+<input id="spid" value="@ViewBag.SpId"  hidden/>
 
 <div id="msform">
     <!-- progressbar -->
@@ -26,9 +26,9 @@
                 <div id="div_loading" style="display:none;">
                 <img src="@Url.Content("~/Content/Pic/Spinner.gif")" alt="" />
             </div>
-            <button class="btn btn-primary" type="submit" value="Submit">שלח</button>
+            <button class="btn btn-primary" type="submit">המשך</button>
         }
-        <input type="button" name="next" class="next action-button" value="Next" />
+        <input type="button" name="next" class="next action-button bg-primary" hidden value="Next" id="sociodetnext" />
     </fieldset>
     <fieldset>
         @using (Ajax.BeginForm("StudentFinance", "Student", new AjaxOptions { HttpMethod = "POST", OnSuccess = "secondsuccess();" }))
@@ -94,16 +94,16 @@
         {
         });
 
-        function firstsuccess(data) {
-            console.log(data);
-            $('#partialsocio').html(data);
+        function firstsuccess() {
             console.log('this is ajaxSuccess');
+            $("#sociodetnext").click();
         }
 
         function sociodetailsfail(bdata) {
-             console.log('this is ajaxfail');
-            console.log(data);
-            $('#partialsocio').html(data);
+            console.log('this is ajaxfail');
+            console.log(bdata.responseText);
+            $('#partialsocio').html(bdata.responseText);
+            console.log($('#path').val());
         }
     </script>
 }

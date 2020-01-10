@@ -460,12 +460,13 @@ namespace DikanNetProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SaveSocioDetails(SpSocio socio) // ajax for 1 step in socio
         {
+            bool sociook = false;
             socio.StudentId = sStudentId; // bind student id to socio model
-            bool sociook = SocioDetValid(socio);
+            socio = SocioDetValid(ref sociook,socio);
             // add validation
             if (ModelState.IsValid && sociook)
             {
-                SaveSocioModel(socio);
+                socio = SaveSocioModel(socio);
                 Response.StatusCode = 200;
             }
             else
@@ -474,114 +475,131 @@ namespace DikanNetProject.Controllers
         }
 
         [NonAction]
-        public bool SocioDetValid(SpSocio socio) // add model error in the form of socio details return true if the form is valid
+        public SpSocio SocioDetValid(ref bool sociook, SpSocio socio) // add model error in the form of socio details return true if the form is valid - and save files
         {
             bool ok = true;
-            //checks on socio model validation
+            //checks on socio model validation and save also the files
+
+            //apartment validation and save
             if (socio.Apartment)
             {
-                if (socio.FileApartmentLease == null && socio.PathApartmentLease == null)
+                if (socio.FileApartmentLease == null) // if there is no file
                 {
-                    ModelState.AddModelError("FileApartmentLease", "חובה לצרף קובץ");
-                    ok = false;
+                    if (socio.PathApartmentLease == null) // check if he upload file already - if not add error message
+                    {
+                        ModelState.AddModelError("FileApartmentLease", "חובה לצרף קובץ");
+                        ok = false;
+                    }
                 }
+                else // upload new the file
+                    socio.PathApartmentLease = Files.SaveFileInServer(socio.FileApartmentLease, "ApartmentLease", sStudentId, socio.PathApartmentLease);
             }
+
+            // new comer validation and save
             if (socio.Newcomer)
             {
-                if (socio.FileNewcomer == null && socio.PathNewcomer == null)
+                if (socio.FileNewcomer == null) // if there is no file
                 {
-                    ModelState.AddModelError("FileNewcomer", "חובה לצרף קובץ");
-                    ok = false;
+                    if (socio.PathNewcomer == null) // check if he upload file already - if not add error message
+                    {
+                        ModelState.AddModelError("FileNewcomer", "חובה לצרף קובץ");
+                        ok = false;
+                    }
                 }
+                else // upload new the file
+                    socio.PathNewcomer = Files.SaveFileInServer(socio.FileNewcomer, "Newcomer", sStudentId, socio.PathNewcomer);
             }
+
+            // single parent validation and save
             if (socio.SingleParent)
             {
-                if (socio.FileSingleParent == null && socio.PathSingleParent == null)
+                if (socio.FileSingleParent == null)// if there is no file
                 {
-                    ModelState.AddModelError("FileSingleParent", "חובה לצרף קובץ");
-                    ok = false;
+                    if (socio.PathSingleParent == null) // check if he upload file already - if not add error message
+                    {
+                        ModelState.AddModelError("FileSingleParent", "חובה לצרף קובץ");
+                        ok = false;
+                    }
                 }
+                else // upload new the file
+                    socio.PathSingleParent = Files.SaveFileInServer(socio.FileSingleParent, "SingleParent", sStudentId, socio.PathSingleParent);
             }
+
+            // bereaved family validation and save
             if (socio.BereavedFam)
             {
-                if (socio.FileBereavedFam == null && socio.PathBereavedFam == null)
+                if (socio.FileBereavedFam == null) // if there is no file
                 {
-                    ModelState.AddModelError("FileBereavedFam", "חובה לצרף קובץ");
+                    if (socio.PathBereavedFam == null) // check if he upload file already - if not add error message
+                    {
+                        ModelState.AddModelError("FileBereavedFam", "חובה לצרף קובץ");
+                        ok = false;
+                    }
+                }
+                else // upload new the file
+                    socio.PathBereavedFam = Files.SaveFileInServer(socio.FileBereavedFam, "BereavedFam", sStudentId, socio.PathBereavedFam);
+            }
+
+            // disability validation and save
+            if (socio.HasDisability)
+            {
+                if (socio.FileDisabilityType == null) // if there is no file
+                {
+                    if (socio.PathDisabilityType == null) // check if he upload file already - if not add error message
+                    {
+                        ModelState.AddModelError("FileDisabilityType", "חובה לצרף קובץ");
+                        ok = false;
+                    }
+                }
+            }
+
+            // ReserveMilitaryService validation and save
+            if (socio.ReserveMilitaryService)
+            {
+                if (socio.FileReserveMilitaryService == null) // if there is no file
+                {
+                    if (socio.PathReserveMilitaryService == null) // check if he upload file already - if not add error message
+                    {
+                        ModelState.AddModelError("FileReserveMilitaryService", "חובה לצרף קובץ");
+                        ok = false;
+                    }
+                }
+                else // upload new the file
+                    socio.PathReserveMilitaryService = Files.SaveFileInServer(socio.FileReserveMilitaryService, "ReserveMilitaryService", sStudentId, socio.PathReserveMilitaryService);
+            }
+
+            // bank account validation and save
+            if (socio.FileBankAccount == null) // if there is no file
+            {
+                if (socio.PathBankAccount == null) // check if he upload file already - if not add error message
+                {
+                    ModelState.AddModelError("FileBankAccount", "חובה לצרף קובץ"); 
                     ok = false;
                 }
             }
-            if (string.IsNullOrEmpty(socio.MilitaryService))
+            else // upload new the file
+                socio.PathBankAccount = Files.SaveFileInServer(socio.FileBankAccount, "BankAccount", sStudentId, socio.PathBankAccount);
+
+            // military service validation and save
+            if (socio.FileMilitaryService == null) // if there is no file
             {
-                ModelState.AddModelError("MilitaryService", "חובה לבחור סוג שירות");
-                ok = false;
-            }
-            else // check file of miltary service
-            {
-                if (socio.FileMilitaryService == null && socio.PathMilitaryService == null)
+                if (socio.PathMilitaryService == null) // check if he upload file already - if not add error message
                 {
                     ModelState.AddModelError("FileMilitaryService", "חובה לצרף קובץ");
                     ok = false;
                 }
             }
-            if (socio.ReserveMilitaryService)
-            {
-                if (socio.FileReserveMilitaryService == null && socio.PathReserveMilitaryService == null)
-                {
-                    ModelState.AddModelError("FileReserveMilitaryService", "חובה לצרף קובץ");
-                    ok = false;
-                }
-            }
-            if (!string.IsNullOrEmpty(socio.DisabilityType))
-            {
-                if (socio.FileDisabilityType == null && socio.PathDisabilityType == null)
-                {
-                    ModelState.AddModelError("FileDisabilityType", "חובה לצרף קובץ");
-                    ok = false;
-                }
-            }
+            else // upload new the file
+                socio.PathMilitaryService = Files.SaveFileInServer(socio.FileMilitaryService, "MilitaryService", sStudentId, socio.PathMilitaryService);
 
-            if (socio.BankStatus == null)
-            {
-                ModelState.AddModelError("BankStatus", "חובה להזין מצב חשבון");
-                ok = false;
-            }
-
-            if (socio.FileBankAccount == null && socio.PathBankAccount == null)
-            {
-                ModelState.AddModelError("SocioMod.FileBankAccount", "חובה לצרף קובץ");
-                ok = false;
-            }
-            return ok;
+            sociook = ok;
+            return socio;
         }
 
         [NonAction]
         public SpSocio SaveSocioModel(SpSocio socio) // saves data of socio model in db
         {
             SpSocio Dbsocio;
-
-            if (socio.FileApartmentLease != null) // save file if not null
-                socio.PathApartmentLease = Files.SaveFileInServer(socio.FileApartmentLease, "ApartmentLease", sStudentId, socio.PathApartmentLease);
-
-            if (socio.FileBereavedFam != null) // save file if not null
-                socio.PathBereavedFam = Files.SaveFileInServer(socio.FileBereavedFam, "BereavedFam", sStudentId, socio.PathBereavedFam);
-
-            if (socio.FileDisabilityType != null) // save file if not null
-                socio.PathDisabilityType = Files.SaveFileInServer(socio.FileDisabilityType, "DisabilityType", sStudentId, socio.PathDisabilityType);
-
-            if (socio.FileMilitaryService != null) // save file if not null
-                socio.PathMilitaryService = Files.SaveFileInServer(socio.FileMilitaryService, "MilitaryService", sStudentId, socio.PathMilitaryService);
-
-            if (socio.FileNewcomer != null) // save file if not null
-                socio.PathNewcomer = Files.SaveFileInServer(socio.FileNewcomer, "Newcomer", sStudentId, socio.PathNewcomer);
-
-            if (socio.FileReserveMilitaryService != null) // save file if not null
-                socio.PathReserveMilitaryService = Files.SaveFileInServer(socio.FileReserveMilitaryService, "ReserveMilitaryService", sStudentId, socio.PathReserveMilitaryService);
-
-            if (socio.FileSingleParent != null) // save file if not null
-                socio.PathSingleParent = Files.SaveFileInServer(socio.FileSingleParent, "SingleParent", sStudentId, socio.PathSingleParent);
-
-            if (socio.FileBankAccount != null) // save file if not null
-                socio.PathBankAccount = Files.SaveFileInServer(socio.FileBankAccount, "BankAccount", sStudentId, socio.PathBankAccount);
 
             using (DikanDbContext ctx = new DikanDbContext())
             {

@@ -229,11 +229,11 @@ new SelectList(Enum.GetNames(typeof(Common.Enums.SchoolYear))), "", new { @class
 
 <div class="row">
     <div class="form-group">
-        <span>נכות?</span>
-        <input type="radio" name="DisabilityType" onclick="showHidenPortion('true' ,'DisabilityType')" checked="@(!Model.DisabilityType.IsEmpty())" /> כן
-        <input type="radio" name="DisabilityType" onclick="showHidenPortion('false' ,'DisabilityType')" checked="@(Model.DisabilityType.IsEmpty())" /> לא
+        @Html.LabelFor(model => model.HasDisability, htmlAttributes: new { @class = "control-label" })
+        @Html.RadioButtonFor(model => model.HasDisability, true, new { mode = "true", @onclick = "showHidenPortion(this.getAttribute('mode'),'HasDisability')" })  כן
+        @Html.RadioButtonFor(model => model.HasDisability, false, new { @mode = "false", @onclick = "showHidenPortion(this.getAttribute('mode'),'HasDisability')" })  לא
     </div>
-    <div id="DisabilityType" style="display:@(Model.DisabilityType.IsEmpty() ? "none" : "")" class="row mx-5 box-open">
+    <div id="HasDisability" style="display@(Model.HasDisability ? "" : "none")" class="row mx-5 box-open">
         <div class="form-group">
             @Html.LabelFor(model => model.DisabilityType, htmlAttributes: new { @class = "control-label" })
             <div class="">
@@ -261,16 +261,18 @@ new SelectList(Enum.GetNames(typeof(Common.Enums.SchoolYear))), "", new { @class
         </div>
     </div>
 </div>
+
 <div class="row">
     <div class="col-xl-3 col-lg-3 col-md-4 col-12 ">
         @Html.LabelFor(model => model.BankStatus, htmlAttributes: new { @class = "control-label col-12" })
         @Html.EditorFor(model => model.BankStatus, new { htmlAttributes = new { @class = "form-control must m-1 mt-0" } })
         @Html.ValidationMessageFor(model => model.BankStatus, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.PathBankAccount)
     </div>
     <div class="col-xl-3 col-lg-3 col-md-4 col-12">
         @Html.LabelFor(model => model.FileBankAccount, htmlAttributes: new { @class = "control-label col-12 must-sign", @for = "" })
         <div class="chose-file m-1 mt-0">
-            @Html.TextBoxFor(model => model.FileBankAccount, new { @class = "form-control must", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;", @path = Model.PathBankAccount })
+            @Html.TextBoxFor(model => model.FileBankAccount, new { @class = "form-control must", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;" })
             <label for="FileBankAccount">
                 <i class="ml-1 material-icons">add_photo_alternate</i>
                 בחר קובץ
@@ -278,11 +280,12 @@ new SelectList(Enum.GetNames(typeof(Common.Enums.SchoolYear))), "", new { @class
         </div>
         @Html.ValidationMessageFor(model => model.FileBankAccount, "", new { @class = "text-danger" })
     </div>
+    @*
     <div class="col-xl-3 col-lg-3 col-md-4 col-12" style="display:@(Model.PathBankAccount != null ? "" : "none")">
         <label class="control-label col-12" for="">קובץ שמור</label>
         <a name="@Model.PathBankAccount" class="btn btn-light btn-file m-1 mt-0">צפייה בקובץ שמור</a>
-    </div>
-    @Html.HiddenFor(model => model.PathBankAccount)
+    </div>*@
+
 </div>
 
 <div class="form-group">
