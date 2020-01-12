@@ -17,18 +17,20 @@
     </ul>
     <!-- fieldsets -->
     <fieldset>
-        @using (Ajax.BeginForm("SaveSocioDetails", "Student", new AjaxOptions { HttpMethod = "POST", OnSuccess = "firstsuccess",OnFailure = "sociodetailsfail", UpdateTargetId="partialsocio" ,LoadingElementId = "div_loading" }, new { @enctype = "multipart/form-data" }))
+        @using (Ajax.BeginForm("SaveSocioDetails", "Student", new AjaxOptions { HttpMethod = "POST", OnSuccess = "firstsuccess", OnFailure = "sociodetailsfail", UpdateTargetId = "partialsocio", LoadingElementId = "div_loading" }, new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
-        <div id="partialsocio">
-            @Html.Action("PartialSocioDetails", "Student", new { SpId = ViewBag.SpId })
+        <div id="partialsocio" enctype="multipart/form-data">
+            @{Html.RenderAction("PartialSocioDetails", "Student", new { SpId = ViewBag.SpId });}
+            
         </div>
                 <div id="div_loading" style="display:none;">
                 <img src="@Url.Content("~/Content/Pic/Spinner.gif")" alt="" />
             </div>
-            <button class="btn btn-primary" type="submit">המשך</button>
-        }
+            
+        <button class="btn btn-primary" id="sociodetsub">המשך</button>
         <input type="button" name="next" class="next action-button bg-primary" hidden value="Next" id="sociodetnext" />
+        }
     </fieldset>
     <fieldset>
         @using (Ajax.BeginForm("StudentFinance", "Student", new AjaxOptions { HttpMethod = "POST", OnSuccess = "secondsuccess();" }))
@@ -90,20 +92,40 @@
 
 @section scripts{
     <script>
-       $(document).ready(function ()
-        {
+        $(document).ready(function () {
+
+            /*$('#sociodetsub').click(function () { 
+                var form = $("Form#partialsocio");
+
+                $.ajax({
+                    url: 'Url.Action("SaveSocioDetails", "Student")',
+                    data: form.serialize(),
+                    type: 'POST',
+                    success: function (data) {
+                        console.log(data);
+                                    $('#partialsocio').html("");
+            $('#partialsocio').html(data);
+                    }
+                });
+            });*/
         });
 
-        function firstsuccess() {
+
+
+
+        function firstsuccess(bdata) {
             console.log('this is ajaxSuccess');
-            $("#sociodetnext").click();
+            console.log(bdata);
+            $('#partialsocio').html("");
+            $('#partialsocio').html(bdata);
+            //$("#sociodetnext").click();
         }
 
         function sociodetailsfail(bdata) {
             console.log('this is ajaxfail');
             console.log(bdata.responseText);
+            $('#partialsocio').html("");
             $('#partialsocio').html(bdata.responseText);
-            console.log($('#path').val());
         }
     </script>
 }

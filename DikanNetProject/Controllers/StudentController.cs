@@ -449,7 +449,7 @@ namespace DikanNetProject.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Student")]
-        public PartialViewResult PartialSocioDetails(int SpId) // get partial view of socio details
+        public ActionResult PartialSocioDetails(int SpId) // get partial view of socio details
         {
             SpSocio Socio;
             Socio = FindSocioSp(SpId); // search object spsocio in db
@@ -457,7 +457,7 @@ namespace DikanNetProject.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult SaveSocioDetails(SpSocio socio) // ajax for 1 step in socio
         {
             bool sociook = false;
@@ -470,7 +470,8 @@ namespace DikanNetProject.Controllers
                 Response.StatusCode = 200;
             }
             else
-               Response.StatusCode = 300; // return error to client the model is not valid
+               Response.StatusCode = 200; // return error to client the model is not valid
+            socio.PathBankAccount = "rrr";
             return PartialView("~/Views/Student/Socio/SocioDetails.cshtml", socio); // return the partial view of the forn with validation messages
         }
 
