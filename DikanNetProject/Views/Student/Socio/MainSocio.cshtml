@@ -20,17 +20,16 @@
         @using (Ajax.BeginForm("SaveSocioDetails", "Student", new AjaxOptions { HttpMethod = "POST", OnSuccess = "firstsuccess", OnFailure = "sociodetailsfail", UpdateTargetId = "partialsocio", LoadingElementId = "div_loading" }, new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
-        <div id="partialsocio" enctype="multipart/form-data">
-            @{Html.RenderAction("PartialSocioDetails", "Student", new { SpId = ViewBag.SpId });}
-            
-        </div>
-                <div id="div_loading" style="display:none;">
+            <div id="partialsocio">
+                @{Html.RenderAction("PartialSocioDetails", "Student", new { SpId = ViewBag.SpId });}
+            </div>
+            <div id="div_loading" style="display:none;">
                 <img src="@Url.Content("~/Content/Pic/Spinner.gif")" alt="" />
             </div>
-            
-        <button class="btn btn-primary" id="sociodetsub">המשך</button>
-        <input type="button" name="next" class="next action-button bg-primary" hidden value="Next" id="sociodetnext" />
+
+            <button class="btn btn-primary" id="sociodetsub">המשך</button>
         }
+        <input type="button" name="next" class="next action-button" value="Next" />
     </fieldset>
     <fieldset>
         @using (Ajax.BeginForm("StudentFinance", "Student", new AjaxOptions { HttpMethod = "POST", OnSuccess = "secondsuccess();" }))

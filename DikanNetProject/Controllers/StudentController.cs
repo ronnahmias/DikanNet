@@ -453,6 +453,7 @@ namespace DikanNetProject.Controllers
         {
             SpSocio Socio;
             Socio = FindSocioSp(SpId); // search object spsocio in db
+            Socio.PathBankAccount = "check";
             return PartialView("~/Views/Student/Socio/SocioDetails.cshtml", Socio);
         }
 
@@ -472,6 +473,7 @@ namespace DikanNetProject.Controllers
             else
                Response.StatusCode = 200; // return error to client the model is not valid
             socio.PathBankAccount = "rrr";
+            socio.BankStatus = 258888;
             return PartialView("~/Views/Student/Socio/SocioDetails.cshtml", socio); // return the partial view of the forn with validation messages
         }
 
@@ -691,14 +693,18 @@ namespace DikanNetProject.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // error model not valid
         }
 
-        [HttpDelete]
-        public ActionResult DeleteFund(int FundId) // delete fund with fund id
+        [HttpPost]
+        public ActionResult DeleteFund(string FundId) // delete fund with fund id
         {
-            if(FundId == 0)
+            Funding fund = null;
+            if (FundId == null || !int.TryParse(FundId, out int fundid))
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // no fund id correct
             using (DikanDbContext ctx = new DikanDbContext())
             {
-                ctx.Fundings.Remove(new Funding { FundingId = FundId }); // remove fund from db
+                fund = ctx.Fundings.Where(s => s.FundingId == fundid && s.StudentId == sStudentId).FirstOrDefault();
+                if(fund == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // no fund id correct or student id not match
+                ctx.Fundings.Remove(fund); // remove fund from db
                 ctx.SaveChanges();
             }
             return new HttpStatusCodeResult(HttpStatusCode.OK); // fund deleted return ok
@@ -1726,7 +1732,7 @@ namespace DikanNetProject.Controllers
         }
 
         [Authorize(Roles = "Student")]
-        public ActionResult DeleteFund(string FundId) // delete row of fund
+        public ActionResult DeleteFund(string FundId,string k) // delete row of fund
         {
             Funding tempfund;
             int pFundId = int.Parse(FundId);

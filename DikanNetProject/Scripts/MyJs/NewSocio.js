@@ -202,10 +202,10 @@ $(document).ajaxComplete(function () {
         let btn = $(this);
         data = btn.attr('data-id');
         $.ajax({
-            type: "DELETE",
+            type: "POST",
             url: '/Student/DeleteFund',
-            dataType: "json",
-            data: data,
+            dataType: "text",
+            data: { FundId: data },
             beforeSend: function () {
                 btn.attr('disabled', true); // disabel the button
             },
