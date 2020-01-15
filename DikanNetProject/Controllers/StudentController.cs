@@ -422,12 +422,7 @@ namespace DikanNetProject.Controllers
 
         [HttpGet]
         public ActionResult MainSocio(int scholarshipid, bool open = false) // main view of socio sp
-        {
-            /*SocioAdd sociomodel = new SocioAdd();
-            using (DikanDbContext ctx = new DikanDbContext())
-            {
-                sociomodel = new SocioAdd() // new socio add model get the matrial status in construstor
-                {
+        {/*
                     SocioMod = new SpSocio(),
                     ListCarStudent = new List<CarStudent>(),
                     ListFundings = new List<Funding>(),
@@ -435,7 +430,6 @@ namespace DikanNetProject.Controllers
                     ListFamMemFin = new List<FamilyMember>(), // family with finance
                     ListFamMem = new List<FamilyMember>(),
                     MatrialStatus = ctx.Students.Where(s => s.StudentId == sStudentId).FirstOrDefault().MaritalStatus
-                };
             }*/
             SpSocio tempsocio;
             tempsocio = FindSocioSp(scholarshipid); // search spsocio in db
@@ -726,6 +720,70 @@ namespace DikanNetProject.Controllers
                 ctx.SaveChanges();
             }
             return new HttpStatusCodeResult(HttpStatusCode.OK); // fund deleted return ok
+        }
+
+        #endregion
+
+        #region Socio - Cars Api
+
+        [HttpGet]
+        public ActionResult PartialCars() // partial view of cars
+        {
+            return View("~/Views/Student/Socio/Cars.cshtml");
+        }
+
+        [HttpGet]
+        public ActionResult GetCars(int SpId) // get all stored cars by spid and student id with ajax
+        {
+            List<CarStudent> data = null;
+            using (DikanDbContext ctx = new DikanDbContext())
+            {
+                ctx.Configuration.ProxyCreationEnabled = false;
+                ctx.Configuration.LazyLoadingEnabled = false;
+                data = ctx.CarStudents.Where(s => s.StudentId == sStudentId && s.SpId == SpId).ToList(); // find the stored cars objects
+            }
+            return Json(new { data }, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [HttpPost]
+        public ActionResult AddEditCar(CarStudent obj) // get new/edit existing car object model by ajax call
+        {
+            if (obj == null || obj.SpId == 0 || obj.CarNumber == null) // object null or spid didnt come from client or no car number correct
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            obj.StudentId = sStudentId; // bind student id to car object
+            if (ModelState.IsValid)
+            {
+                using (DikanDbContext ctx = new DikanDbContext())
+                {
+                    CarStudent cardb = ctx.CarStudents.Where(s => s.StudentId == obj.StudentId && s.CarNumber == obj.CarNumber).FirstOrDefault(); // find if the car is already stored in db
+                    if(cardb != null) // update car
+                        ctx.Entry(cardb).CurrentValues.SetValues(obj);// update car exists
+                    else // new car insert
+                        ctx.CarStudents.Add(obj);
+                    ctx.SaveChanges(); // save changes
+                }
+                return Json(new { obj }, JsonRequestBehavior.AllowGet); // all have been saved return the object
+            }
+            else
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // error model not valid
+        }
+
+        [HttpPost]
+        public ActionResult DeleteCar(string CarNumber) // delete car with car number
+        {
+            CarStudent car = null;
+            if (CarNumber == null || CarNumber == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // no carnumber correct
+            using (DikanDbContext ctx = new DikanDbContext())
+            {
+                car = ctx.CarStudents.Where(s => s.CarNumber == CarNumber && s.StudentId == sStudentId).FirstOrDefault();
+                if (car == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // no car number correct or student id not match
+                ctx.CarStudents.Remove(car); // remove car from db
+                ctx.SaveChanges();
+            }
+            return new HttpStatusCodeResult(HttpStatusCode.OK); // car deleted return ok
         }
 
         #endregion
@@ -1468,8 +1526,8 @@ namespace DikanNetProject.Controllers
             foreach (var car in DbList)
             {
                 TempDbCar = ClientList.Where(s => s.CarNumber == car.CarNumber).FirstOrDefault();
-                if (TempDbCar == null)
-                    DeleteCar(car.CarNumber);
+               // if (TempDbCar == null)
+                    //DeleteCar(car.CarNumber);
             }
         }
 
@@ -1732,7 +1790,7 @@ namespace DikanNetProject.Controllers
         #region Delete Rows Functions
 
         [Authorize(Roles = "Student")]
-        public ActionResult DeleteCar(string CarNum) // delete row of car
+        public ActionResult DeleteCar(string CarNum, string i) // delete row of car
         {
             CarStudent tempcar;
             using (DikanDbContext ctx = new DikanDbContext())

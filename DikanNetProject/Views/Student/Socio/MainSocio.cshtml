@@ -4,16 +4,17 @@
     ViewBag.Title = "סוציואקונומית";
     Layout = "~/Views/Student/_Sp_Layout.cshtml";
 }
-<h2>מלגת סוציואקונומית חדשה</h2>
+<h2>מלגת סוציואקונומית</h2>
 
 <input id="spid" value="@ViewBag.SpId" hidden />
 
 <div id="msform">
     <!-- progressbar -->
     <ul id="progressbar">
-        <li class="active">Account Setup</li>
-        <li>Social Profiles</li>
-        <li>Personal Details</li>
+        <li class="active">פרטים אישיים - הרחבה</li>
+        <li>הכנסות סטודנט</li>
+        <li>מקורות מימון</li>
+        <li>רכבים</li>
     </ul>
     <!-- fieldsets -->
     <fieldset>
@@ -23,8 +24,6 @@
             <div id="partialsocio">
                 @Html.Action("PartialSocioDetails", "Student", new { SpId = ViewBag.SpId })
             </div>
-
-
             <button class="btn btn-primary" id="sociodetsub">המשך</button>
         }
         <input id="sociodetnext" type="button" name="next" class="next action-button" value="Next" />
@@ -45,6 +44,14 @@
         @Html.AntiForgeryToken()
         <div id="partialfundings">
             @Html.Action("PartialFundings", "Student")
+        </div>
+        <input type="button" name="previous" class="previous action-button" value="Previous" />
+        <input type="button" name="next" class="next action-button" value="Next" />
+    </fieldset>    
+    <fieldset>
+        @Html.AntiForgeryToken()
+        <div id="partialcars">
+            @Html.Action("PartialCars", "Student")
         </div>
         <input type="button" name="previous" class="previous action-button" value="Previous" />
         <input type="button" name="next" class="next action-button" value="Next" />

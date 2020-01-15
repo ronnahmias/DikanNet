@@ -13,7 +13,7 @@ namespace DataEntities
     [Table("CarStudent")]
     public class CarStudent
     {
-        [Key, Display(Name ="מספר רכב"),Required(ErrorMessage ="חובה להזין מספר רכב - ללא תווים")]
+        [Key, Display(Name ="מספר רכב"),Required(ErrorMessage ="חובה להזין מספר רכב - ללא תווים"), MinLength(7), MaxLength(8)]
         public string CarNumber { get; set; }
 
         public string StudentId { get; set; }
