@@ -453,27 +453,24 @@ namespace DikanNetProject.Controllers
         {
             SpSocio Socio;
             Socio = FindSocioSp(SpId); // search object spsocio in db
-            Socio.PathBankAccount = "check";
             return PartialView("~/Views/Student/Socio/SocioDetails.cshtml", Socio);
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public ActionResult SaveSocioDetails(SpSocio socio) // ajax for 1 step in socio
         {
+            ModelState.Clear();
             bool sociook = false;
             socio.StudentId = sStudentId; // bind student id to socio model
-            socio = SocioDetValid(ref sociook,socio);
-            // add validation
-            if (ModelState.IsValid && sociook)
+            socio = SocioDetValid(ref sociook,socio); // checks socio model
+            if (ModelState.IsValid) // add model error if needed
             {
-                socio = SaveSocioModel(socio);
+                socio = SaveSocioModel(socio); // save socio model in db
                 Response.StatusCode = 200;
             }
             else
-               Response.StatusCode = 200; // return error to client the model is not valid
-            socio.PathBankAccount = "rrr";
-            socio.BankStatus = 258888;
+                Response.StatusCode = 300; // return error to client the model is not valid
             return PartialView("~/Views/Student/Socio/SocioDetails.cshtml", socio); // return the partial view of the forn with validation messages
         }
 
@@ -482,6 +479,13 @@ namespace DikanNetProject.Controllers
         {
             bool ok = true;
             //checks on socio model validation and save also the files
+
+            if(socio.SchoolYear == null) // school year validation
+                ModelState.AddModelError("SchoolYear", "חובה לבחור שנת לימוד");
+
+            if(socio.WorkSt == null) // working status validation
+                ModelState.AddModelError("WorkSt", "חובה לבחור סטטוס עבודה");
+
 
             //apartment validation and save
             if (socio.Apartment)
@@ -501,6 +505,9 @@ namespace DikanNetProject.Controllers
             // new comer validation and save
             if (socio.Newcomer)
             {
+                if(socio.DateImmigration == null) // date immigration validation
+                    ModelState.AddModelError("DateImmigration", "חובה להזין תאריך עלייה");
+
                 if (socio.FileNewcomer == null) // if there is no file
                 {
                     if (socio.PathNewcomer == null) // check if he upload file already - if not add error message
@@ -546,6 +553,9 @@ namespace DikanNetProject.Controllers
             // disability validation and save
             if (socio.HasDisability)
             {
+                if(socio.DisabilityType == null)
+                    ModelState.AddModelError("DisabilityType", "חובה להזין סוג נכות");
+
                 if (socio.FileDisabilityType == null) // if there is no file
                 {
                     if (socio.PathDisabilityType == null) // check if he upload file already - if not add error message
@@ -582,6 +592,14 @@ namespace DikanNetProject.Controllers
             }
             else // upload new the file
                 socio.PathBankAccount = Files.SaveFileInServer(socio.FileBankAccount, "BankAccount", sStudentId, socio.PathBankAccount);
+
+            // military service validation
+            if(socio.MilitaryService == null)
+                ModelState.AddModelError("MilitaryService", "חובה לבחור סוג שירות");
+
+            if(socio.MilitaryService == "אחר- ")
+                ModelState.AddModelError("MilitaryService", "יש לפרט את סוג השירות");
+
 
             // military service validation and save
             if (socio.FileMilitaryService == null) // if there is no file

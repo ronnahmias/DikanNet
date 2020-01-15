@@ -6,7 +6,7 @@
 }
 <h2>מלגת סוציואקונומית חדשה</h2>
 
-<input id="spid" value="@ViewBag.SpId"  hidden/>
+<input id="spid" value="@ViewBag.SpId" hidden />
 
 <div id="msform">
     <!-- progressbar -->
@@ -17,37 +17,55 @@
     </ul>
     <!-- fieldsets -->
     <fieldset>
-        @using (Ajax.BeginForm("SaveSocioDetails", "Student", new AjaxOptions { HttpMethod = "POST", OnSuccess = "firstsuccess", OnFailure = "sociodetailsfail", UpdateTargetId = "partialsocio", LoadingElementId = "div_loading" }, new { enctype = "multipart/form-data" }))
+        @using (Ajax.BeginForm("SaveSocioDetails", "Student", new AjaxOptions { HttpMethod = "POST", OnSuccess = "sociodetsuccess", OnFailure = "sociodetfail", OnBegin = "loadingajax", OnComplete = "completeajax" }, new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
             <div id="partialsocio">
-                @{Html.RenderAction("PartialSocioDetails", "Student", new { SpId = ViewBag.SpId });}
+                @Html.Action("PartialSocioDetails", "Student", new { SpId = ViewBag.SpId })
             </div>
-            <div id="div_loading" style="display:none;">
-                <img src="@Url.Content("~/Content/Pic/Spinner.gif")" alt="" />
-            </div>
+
 
             <button class="btn btn-primary" id="sociodetsub">המשך</button>
         }
-        <input type="button" name="next" class="next action-button" value="Next" />
+        <input id="sociodetnext" type="button" name="next" class="next action-button" value="Next" />
     </fieldset>
     <fieldset>
         @using (Ajax.BeginForm("StudentFinance", "Student", new AjaxOptions { HttpMethod = "POST", OnSuccess = "secondsuccess();" }))
         {
             @Html.AntiForgeryToken()
-       
-            @Html.Action("PartialStudentFinance", "Student")
+            <div id="partialstudfinance">
+                @Html.Action("PartialStudentFinance", "Student")
+            </div>
             <button class="btn btn-primary" type="submit" value="Submit">שלח</button>
         }
         <input type="button" name="previous" class="previous action-button" value="Previous" />
         <input type="button" name="next" class="next action-button" value="Next" />
     </fieldset>
-    <fieldset class="active">
-            @Html.AntiForgeryToken()
+    <fieldset>
+        @Html.AntiForgeryToken()
+        <div id="partialfundings">
             @Html.Action("PartialFundings", "Student")
-            <input type="button" name="previous" class="previous action-button" value="Previous" />
-            <input type="button" name="next" class="next action-button" value="Next" />
+        </div>
+        <input type="button" name="previous" class="previous action-button" value="Previous" />
+        <input type="button" name="next" class="next action-button" value="Next" />
     </fieldset>
+</div>
+
+<!-- Loading Modal -->
+<div class="modal" id="loadingmodal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h2 class="modal-title m-auto">אנא המתן</h2>
+            </div>
+
+            <!-- body - loading spinner -->
+            <div class="modal-body text-center">
+                <img src="@Url.Content("~/Content/Pic/Spinner.gif")" alt="" />
+            </div>
+        </div>
+    </div>
 </div>
 
 @*
@@ -93,7 +111,7 @@
     <script>
         $(document).ready(function () {
 
-            /*$('#sociodetsub').click(function () { 
+            /*$('#sociodetsub').click(function () {
                 var form = $("Form#partialsocio");
 
                 $.ajax({
@@ -110,21 +128,25 @@
         });
 
 
-
-
-        function firstsuccess(bdata) {
-            console.log('this is ajaxSuccess');
-            console.log(bdata);
-            $('#partialsocio').html("");
-            $('#partialsocio').html(bdata);
-            //$("#sociodetnext").click();
+        function loadingajax() { // loading modal - show spinner
+            $('#loadingmodal').modal('show');
         }
 
-        function sociodetailsfail(bdata) {
+        function completeajax() { // loading modal - dismiss spinner
+            $('#loadingmodal').modal('hide');
+        }
+
+        function sociodetsuccess(bdata) { // if ajax return success
+            console.log('this is ajaxSuccess');
+            $('#partialsocio').empty(); // empty the div of sociodet
+            $('#partialsocio').html(bdata); // show partial view that have returned - if the user will click previous
+            $("#sociodetnext").click();
+        }
+
+        function sociodetfail(bdata) { // if ajax return failed
             console.log('this is ajaxfail');
-            console.log(bdata.responseText);
-            $('#partialsocio').html("");
-            $('#partialsocio').html(bdata.responseText);
+            $('#partialsocio').empty(); // empty the div of sociodet
+            $('#partialsocio').html(bdata.responseText); // show partial view that have returned - with errors
         }
     </script>
 }
