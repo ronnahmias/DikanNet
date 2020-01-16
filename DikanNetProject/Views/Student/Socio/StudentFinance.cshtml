@@ -1,43 +1,45 @@
 ﻿@model List<DataEntities.StudentFinance>
 
-
-
     <div class="studfin">
         @for (int i = 0; i < Model.Count; i++)
         {
-            <div class="text-center">
-                <h3><span class="box-title"></span> מס' @(i + 1)</h3>
-            </div>
+            <div>
+                <div class="text-center">
+                    <h1>הכנסה</h1>
+                    <h3><span class="box-title"></span> מס' @(i + 1)</h3>
+                </div>
 
-            <div class="text-center my-2">
-                @Html.DropDownListFor(model => model[i].Year, ViewBag.YearsList as SelectList, "", htmlAttributes: new { @class = "must control-label chosen", @data_placeholder = "שנה" })
-                @Html.ValidationMessageFor(model => model[i].Year, "", new { @class = "text-danger" })
-            </div>
-            <div class="text-center my-2">
-                @Html.DropDownListFor(model => model[i].Month, ViewBag.MonthList as SelectList, "", htmlAttributes: new { @class = "must control-label chosen", @data_placeholder = "חודש" })
-                @Html.ValidationMessageFor(model => model[i].Month, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-row text-center w-75 mx-auto">
-                @Html.EditorFor(model => model[i].Salary, new { htmlAttributes = new { @class = "must control-label pos-num" } })
-                @Html.LabelFor(model => model[i].Salary, htmlAttributes: new { @class = "title" })
-                @Html.ValidationMessageFor(model => model[i].Salary, "", new { @class = "text-danger" })
-            </div>
-            <p>קובץ <span class="box-title"></span></p>
-            <div class="half-row">
-                <div class="form-row chose-file-warp">
-                    <div class="chose-file text-center">
-                        @Html.TextBoxFor(model => model[i].FileSalary, new { @class = "must control-label", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;", @path = Model[i].PathSalary })
-                        <label for="@Html.IdFor(m => m[i].FileSalary)">
-                            <i class="ml-1 material-icons">add_photo_alternate</i>
-                            בחר קובץ
-                        </label>
-                        @Html.ValidationMessage("Salary1", "", new { @class = "text-danger" })
+                <div class="text-center my-2">
+                    @Html.DropDownListFor(model => model[i].Year, ViewBag.YearsList as SelectList, "", htmlAttributes: new { @class = "must control-label chosen", @data_placeholder = "שנה" })
+                    @Html.ValidationMessageFor(model => model[i].Year, "", new { @class = "text-danger" })
+                </div>
+                <div class="text-center my-2">
+                    @Html.DropDownListFor(model => model[i].Month, ViewBag.MonthList as SelectList, "", htmlAttributes: new { @class = "must control-label chosen", @data_placeholder = "חודש" })
+                    @Html.ValidationMessageFor(model => model[i].Month, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-row text-center w-75 mx-auto">
+                    @Html.EditorFor(model => model[i].Salary, new { htmlAttributes = new { @class = "must control-label pos-num" } })
+                    @Html.LabelFor(model => model[i].Salary, htmlAttributes: new { @class = "title" })
+                    @Html.ValidationMessageFor(model => model[i].Salary, "", new { @class = "text-danger" })
+                </div>
+                <p>קובץ <span class="box-title"></span></p>
+                <div class="half-row">
+                    <div class="form-row chose-file-warp">
+                        <div class="chose-file text-center">
+                            @Html.TextBoxFor(model => model[i].FileSalary, new { @class = "must control-label", @type = "file", @accept = "image/jpeg,image/jpg,image/png,application/pdf", @style = "display:none;", @path = Model[i].PathSalary })
+                            <label for="@Html.IdFor(m => m[i].FileSalary)">
+                                <i class="ml-1 material-icons">add_photo_alternate</i>
+                                בחר קובץ
+                            </label>
+                            @Html.ValidationMessageFor(model => model[i].FileSalary, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="text-center form-row ">
+                        <a name="@Model[i].PathSalary" style="display:@(Model[i].PathSalary != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
                     </div>
                 </div>
-                <div class="text-center form-row ">
-                    <a name="@Model[i].PathSalary" style="display:@(Model[i].PathSalary != null ? "" : "none")" class="btn btn-light btn-file">צפייה בקובץ שמור</a>
-                </div>
+                @Html.HiddenFor(model => model[i].FinNo)
             </div>
-            @Html.HiddenFor(model => model[i].FinNo)
         }
+        <button class="btn btn-primary" type="submit" value="Submit">שלח</button>
     </div>

@@ -634,7 +634,7 @@ namespace DikanNetProject.Controllers
 
 
         [Authorize(Roles = "Student")]
-        public PartialViewResult PartialStudentFinance() // partial view of student finance
+        public PartialViewResult PartialStudentFinance(string WorkSt) // partial view of student finance
         {
             ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
             ViewBag.MonthList = new SelectList(MonthsSelectList(), null, "Text"); // to show month list in drop down
