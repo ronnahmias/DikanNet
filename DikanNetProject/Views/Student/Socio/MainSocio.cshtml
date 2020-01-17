@@ -107,7 +107,8 @@
             $('#partialsocio').empty(); // empty the div of sociodet
             $('#partialsocio').html(bdata); // show partial view that have returned - if the user will click previous
             var workst = $('input[name=WorkSt]:checked').val(); // get work status for student finance
-            getstudentfinancepartial(workst);
+            var spid = $('#spid').val();
+            getstudentfinancepartial(workst, spid);
             $("#sociodetnext").click();
         }
 
@@ -117,11 +118,11 @@
             $('#partialsocio').html(bdata.responseText); // show partial view that have returned - with errors
         }
 
-        function getstudentfinancepartial(workst) {
+        function getstudentfinancepartial(workst, spid) {
              $.ajax({
                     url: '@Url.Action("PartialStudentFinance", "Student")',
                     type: 'GET',
-                    data: { WorkSt: workst},
+                    data: { WorkSt: workst, SpId: spid},
                     success: function (data) {
                         console.log("get student finance");
                         $('#partialstudfinance').empty();

@@ -634,14 +634,59 @@ namespace DikanNetProject.Controllers
 
 
         [Authorize(Roles = "Student")]
-        public PartialViewResult PartialStudentFinance(string WorkSt) // partial view of student finance
+        public PartialViewResult PartialStudentFinance(string WorkSt, string SpId) // partial view of student finance get work status
         {
+            List<StudentFinance> fin = new List<StudentFinance>();
             ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
             ViewBag.MonthList = new SelectList(MonthsSelectList(), null, "Text"); // to show month list in drop down
-            List<StudentFinance> fin = new List<StudentFinance>();
-            fin.Add(new StudentFinance { StudentId = "33" });
-            fin.Add(new StudentFinance { StudentId = "33" });
-            fin.Add(new StudentFinance { StudentId = "33" });
+            if(!Enum.TryParse(WorkSt, out Enums.WorkingStatus workstatus)) // parse work status to enum if not parse = default will be שכיר
+                workstatus = Enums.WorkingStatus.שכיר;
+            if(int.TryParse(SpId, out int spid)) // if the spid parse - find the stored finance in db
+            {
+                using (DikanDbContext ctx = new DikanDbContext())
+                {
+                    fin = ctx.StudentFinances.Where(s => s.StudentId == sStudentId && s.SpId == spid).ToList(); // find in db finance of student
+                }
+            }
+            int numofrows = 3; // num of rows for finance
+            switch(workstatus) // set the number of rows that need to be
+            {
+                case Enums.WorkingStatus.שכיר:
+                    numofrows = 3;
+                    break;
+                case Enums.WorkingStatus.אחר:
+                case Enums.WorkingStatus.חבר_קיבוץ:
+                case Enums.WorkingStatus.לא_עובד:
+                case Enums.WorkingStatus.נכה:
+                case Enums.WorkingStatus.עצמאי:
+                    numofrows = 2;
+                    break;
+                case Enums.WorkingStatus.פנסיונר:
+                    numofrows = 1;
+                    break;
+            }
+            if (numofrows > fin.Count()) // if the rows in db dont enough -> add rows
+            {
+                do
+                {
+                    fin.Add(new StudentFinance()); // add rows according to numofrows var
+                } while (fin.Count() == numofrows);
+            }else
+            {
+                if(numofrows < fin.Count()) // if here is over rows -> delete rows
+                {
+                    do
+                    {
+                        using(DikanDbContext ctx = new DikanDbContext())
+                        {
+                            if (fin[fin.Count()-1].PathSalary != null) // remove the file before removing row
+                                Files.Delete(fin[fin.Count()-1].PathSalary, sStudentId); // remove file
+                            ctx.StudentFinances.Remove(fin[fin.Count()-1]); // remove row in db ********* problem
+                            ctx.SaveChanges();
+                        }
+                    } while (fin.Count() == numofrows);
+                }
+            }
             return PartialView("~/Views/Student/Socio/StudentFinance.cshtml", fin);
         }
 
