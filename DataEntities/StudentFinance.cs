@@ -22,7 +22,7 @@ namespace DataEntities
         public int Month { get; set; }
 
         [Display(Name = "סכום הכנסה חודשית")]
-        public int Salary { get; set; }
+        public int? Salary { get; set; }
 
         [Display(Name = "קובץ משכורת שמור")]
         public string PathSalary { get; set; }

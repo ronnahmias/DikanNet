@@ -29,7 +29,7 @@
         <input id="sociodetnext" type="button" name="next" class="next action-button" value="Next" />
     </fieldset>
     <fieldset>
-        @using (Ajax.BeginForm("StudentFinance", "Student", new AjaxOptions { HttpMethod = "POST", OnSuccess = "secondsuccess();" }))
+        @using (Ajax.BeginForm("StudentFinance", "Student",new { SpId = @ViewBag.SpId }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "studentfinancesuccess", OnFailure="studentfinancefail", OnBegin = "loadingajax", OnComplete = "completeajax" } , new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
             <div id="partialstudfinance">
@@ -76,21 +76,6 @@
 @section scripts{
     <script>
         $(document).ready(function () {
-
-            /*$('#sociodetsub').click(function () {
-                var form = $("Form#partialsocio");
-
-                $.ajax({
-                    url: 'Url.Action("SaveSocioDetails", "Student")',
-                    data: form.serialize(),
-                    type: 'POST',
-                    success: function (data) {
-                        console.log(data);
-                                    $('#partialsocio').html("");
-            $('#partialsocio').html(data);
-                    }
-                });
-            });*/
         });
 
 
@@ -102,20 +87,20 @@
             $('#loadingmodal').modal('hide');
         }
 
-        function sociodetsuccess(bdata) { // if ajax return success
+        function sociodetsuccess(data) { // if ajax return success - socio details
             console.log('this is ajaxSuccess');
             $('#partialsocio').empty(); // empty the div of sociodet
-            $('#partialsocio').html(bdata); // show partial view that have returned - if the user will click previous
+            $('#partialsocio').html(data); // show partial view that have returned - if the user will click previous
             var workst = $('input[name=WorkSt]:checked').val(); // get work status for student finance
             var spid = $('#spid').val();
             getstudentfinancepartial(workst, spid);
-            $("#sociodetnext").click();
+            $("#sociodetnext").click(); // click to go step in slider
         }
 
-        function sociodetfail(bdata) { // if ajax return failed
+        function sociodetfail(data) { // if ajax return failed - socio details
             console.log('this is ajaxfail');
             $('#partialsocio').empty(); // empty the div of sociodet
-            $('#partialsocio').html(bdata.responseText); // show partial view that have returned - with errors
+            $('#partialsocio').html(data.responseText); // show partial view that have returned - with errors
         }
 
         function getstudentfinancepartial(workst, spid) {
@@ -129,6 +114,18 @@
                         $('#partialstudfinance').html(data);
                     }
             });
+        }
+
+        function studentfinancesuccess(data) { // ajax student finance complete
+            console.log('this is ajaxSuccess');
+            $('#partialstudfinance').empty(); // empty the div of student finance
+            $('#partialstudfinance').html(data); // show partial view that have returned - if the user will click previous
+        }
+
+        function studentfinancefail(data) { // ajax student finance complete
+            console.log('this is ajaxSuccess');
+            $('#partialstudfinance').empty(); // empty the div of student finance
+            $('#partialstudfinance').html(data.responseText); // show partial view that have returned - if the user will click previous
         }
     </script>
 }

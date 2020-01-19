@@ -172,7 +172,7 @@ namespace DikanNetProject.Controllers
                     List<StudentFinance> studfin = ctx.StudentFinances.Where(s => s.StudentId == socio.StudentId && s.SpId == socio.ScholarshipDefinition.ScholarshipID).ToList();
                     foreach(var fin in studfin) // add to sum student finance
                     {
-                        sumincome += fin.Salary;
+                        sumincome += (int)fin.Salary;
                     }
                     List<FamilyStudentFinance> familyfinance = ctx.FamilyStudentFinances.Include(i=>i.FamilyMember).Where(s => s.FamilyMember.StudentId == socio.StudentId && s.SpId == socio.ScholarshipDefinition.ScholarshipID).ToList();
                     foreach (var fin in familyfinance) // add to sum family member finance

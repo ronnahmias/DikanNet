@@ -423,8 +423,8 @@ namespace DikanNetProject.Controllers
         [HttpGet]
         public ActionResult MainSocio(int scholarshipid, bool open = false) // main view of socio sp
         {/*
-                    SocioMod = new SpSocio(),
-                    ListCarStudent = new List<CarStudent>(),
+                    SocioMod = new SpSocio(), V
+                    ListCarStudent = new List<CarStudent>(), 
                     ListFundings = new List<Funding>(),
                     ListStudentFinances = new List<StudentFinance>(),
                     ListFamMemFin = new List<FamilyMember>(), // family with finance
@@ -455,9 +455,8 @@ namespace DikanNetProject.Controllers
         public ActionResult SaveSocioDetails(SpSocio socio) // ajax for 1 step in socio
         {
             ModelState.Clear();
-            bool sociook = false;
             socio.StudentId = sStudentId; // bind student id to socio model
-            socio = SocioDetValid(ref sociook,socio); // checks socio model
+            socio = SocioDetValid(socio); // checks socio model
             if (ModelState.IsValid) // add model error if needed
             {
                 socio = SaveSocioModel(socio); // save socio model in db
@@ -469,9 +468,8 @@ namespace DikanNetProject.Controllers
         }
 
         [NonAction]
-        public SpSocio SocioDetValid(ref bool sociook, SpSocio socio) // add model error in the form of socio details return true if the form is valid - and save files
+        public SpSocio SocioDetValid(SpSocio socio) // add model error in the form of socio details return true if the form is valid - and save files
         {
-            bool ok = true;
             //checks on socio model validation and save also the files
 
             if(socio.SchoolYear == null) // school year validation
@@ -487,10 +485,7 @@ namespace DikanNetProject.Controllers
                 if (socio.FileApartmentLease == null) // if there is no file
                 {
                     if (socio.PathApartmentLease == null) // check if he upload file already - if not add error message
-                    {
                         ModelState.AddModelError("FileApartmentLease", "חובה לצרף קובץ");
-                        ok = false;
-                    }
                 }
                 else // upload new the file
                     socio.PathApartmentLease = Files.SaveFileInServer(socio.FileApartmentLease, "ApartmentLease", sStudentId, socio.PathApartmentLease);
@@ -505,10 +500,7 @@ namespace DikanNetProject.Controllers
                 if (socio.FileNewcomer == null) // if there is no file
                 {
                     if (socio.PathNewcomer == null) // check if he upload file already - if not add error message
-                    {
                         ModelState.AddModelError("FileNewcomer", "חובה לצרף קובץ");
-                        ok = false;
-                    }
                 }
                 else // upload new the file
                     socio.PathNewcomer = Files.SaveFileInServer(socio.FileNewcomer, "Newcomer", sStudentId, socio.PathNewcomer);
@@ -520,10 +512,7 @@ namespace DikanNetProject.Controllers
                 if (socio.FileSingleParent == null)// if there is no file
                 {
                     if (socio.PathSingleParent == null) // check if he upload file already - if not add error message
-                    {
                         ModelState.AddModelError("FileSingleParent", "חובה לצרף קובץ");
-                        ok = false;
-                    }
                 }
                 else // upload new the file
                     socio.PathSingleParent = Files.SaveFileInServer(socio.FileSingleParent, "SingleParent", sStudentId, socio.PathSingleParent);
@@ -535,10 +524,7 @@ namespace DikanNetProject.Controllers
                 if (socio.FileBereavedFam == null) // if there is no file
                 {
                     if (socio.PathBereavedFam == null) // check if he upload file already - if not add error message
-                    {
                         ModelState.AddModelError("FileBereavedFam", "חובה לצרף קובץ");
-                        ok = false;
-                    }
                 }
                 else // upload new the file
                     socio.PathBereavedFam = Files.SaveFileInServer(socio.FileBereavedFam, "BereavedFam", sStudentId, socio.PathBereavedFam);
@@ -553,10 +539,7 @@ namespace DikanNetProject.Controllers
                 if (socio.FileDisabilityType == null) // if there is no file
                 {
                     if (socio.PathDisabilityType == null) // check if he upload file already - if not add error message
-                    {
                         ModelState.AddModelError("FileDisabilityType", "חובה לצרף קובץ");
-                        ok = false;
-                    }
                 }
             }
 
@@ -566,10 +549,7 @@ namespace DikanNetProject.Controllers
                 if (socio.FileReserveMilitaryService == null) // if there is no file
                 {
                     if (socio.PathReserveMilitaryService == null) // check if he upload file already - if not add error message
-                    {
                         ModelState.AddModelError("FileReserveMilitaryService", "חובה לצרף קובץ");
-                        ok = false;
-                    }
                 }
                 else // upload new the file
                     socio.PathReserveMilitaryService = Files.SaveFileInServer(socio.FileReserveMilitaryService, "ReserveMilitaryService", sStudentId, socio.PathReserveMilitaryService);
@@ -579,10 +559,7 @@ namespace DikanNetProject.Controllers
             if (socio.FileBankAccount == null) // if there is no file
             {
                 if (socio.PathBankAccount == null) // check if he upload file already - if not add error message
-                {
                     ModelState.AddModelError("FileBankAccount", "חובה לצרף קובץ"); 
-                    ok = false;
-                }
             }
             else // upload new the file
                 socio.PathBankAccount = Files.SaveFileInServer(socio.FileBankAccount, "BankAccount", sStudentId, socio.PathBankAccount);
@@ -599,15 +576,10 @@ namespace DikanNetProject.Controllers
             if (socio.FileMilitaryService == null) // if there is no file
             {
                 if (socio.PathMilitaryService == null) // check if he upload file already - if not add error message
-                {
                     ModelState.AddModelError("FileMilitaryService", "חובה לצרף קובץ");
-                    ok = false;
-                }
             }
             else // upload new the file
                 socio.PathMilitaryService = Files.SaveFileInServer(socio.FileMilitaryService, "MilitaryService", sStudentId, socio.PathMilitaryService);
-
-            sociook = ok;
             return socio;
         }
 
@@ -665,15 +637,15 @@ namespace DikanNetProject.Controllers
                     numofrows = 1;
                     break;
             }
-            if (numofrows > fin.Count()) // if the rows in db dont enough -> add rows
+            if (fin.Count() < numofrows) // if the rows in db dont enough -> add rows
             {
                 do
                 {
-                    fin.Add(new StudentFinance()); // add rows according to numofrows var
-                } while (fin.Count() == numofrows);
+                    fin.Add(new StudentFinance { FinNo = fin.Count(), Salary = new int?() }); // add rows according to numofrows var
+                } while (fin.Count() < numofrows) ;
             }else
             {
-                if(numofrows < fin.Count()) // if here is over rows -> delete rows
+                if(fin.Count() > numofrows) // if here is over rows -> delete rows
                 {
                     do
                     {
@@ -681,10 +653,19 @@ namespace DikanNetProject.Controllers
                         {
                             if (fin[fin.Count()-1].PathSalary != null) // remove the file before removing row
                                 Files.Delete(fin[fin.Count()-1].PathSalary, sStudentId); // remove file
-                            ctx.StudentFinances.Remove(fin[fin.Count()-1]); // remove row in db ********* problem
+                            int lastindex = fin.Count() - 1;
+                            StudentFinance curfin = fin[lastindex];
+                            StudentFinance studdb = ctx.StudentFinances.Where(s=>s.StudentId == curfin.StudentId && s.Month == curfin.Month && s.Year == curfin.Year).FirstOrDefault(); // find the last row in student finance
+                            if (studdb != null)
+                            {
+                                ctx.StudentFinances.Remove(studdb); // remove row in db 
+                                fin.Remove(curfin); // remove the fin row in the list that going to client
+                            }
+                            else
+                                break; // if it has problem to remove get out from loop -> for not endless loop
                             ctx.SaveChanges();
                         }
-                    } while (fin.Count() == numofrows);
+                    } while (fin.Count() > numofrows);
                 }
             }
             return PartialView("~/Views/Student/Socio/StudentFinance.cshtml", fin);
@@ -692,12 +673,87 @@ namespace DikanNetProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult StudentFinance(List<StudentFinance> studentfinance) // ajax for 2 step in socio
+        public ActionResult StudentFinance(List<StudentFinance> StudFinListClient, string SpId) // ajax for second step in socio
         {
-            if (ModelState.IsValid) { }
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
+            if(!int.TryParse(SpId, out int spid)) // try to parse spid to int
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
+            ViewBag.YearsList = new SelectList(YearsSelectList(), null, "Text"); // to show years list in drop down
+            ViewBag.MonthList = new SelectList(MonthsSelectList(), null, "Text"); // to show month list in drop down
+            ModelState.Clear();
+            StudFinListClient = StudentFinValid(StudFinListClient, spid); // validation of rows of finance 
+            if (ModelState.IsValid) // add model error if needed
+            {
+                //socio = SaveSocioModel(socio); // save socio model in db
+                Response.StatusCode = 200;
+            }
+            else
+                Response.StatusCode = 300; // return error to client the model is not valid
+            return PartialView("~/Views/Student/Socio/StudentFinance.cshtml", StudFinListClient); // return the partial view of the form with validation messages
         }
 
+        private List<StudentFinance> StudentFinValid(List<StudentFinance> StudFinListClient, int SpId)
+        {
+            string[] salarypath = new string[3]; // path of files of salary that in db
+            List<StudentFinance> studentfinlist = null; // list that will make validation of duplicate month and year
+
+            // first section - save the path of files in temp array to dont miss the files
+            using (DikanDbContext ctx = new DikanDbContext())
+            {
+                List<StudentFinance> studentFinancesdb = ctx.StudentFinances.Where(s => s.StudentId == sStudentId && s.SpId == SpId).ToList(); // get all row of finance that belongs to spid and student id
+                if(studentFinancesdb != null) // of there is rows in db 
+                {
+                    foreach(var fin in studentFinancesdb) // each path will be saved in temp array to dont miss the files
+                    {
+                        if (fin.PathSalary != null)
+                            salarypath[fin.FinNo] = fin.PathSalary; // save the path of the file in array
+                        ctx.StudentFinances.Remove(fin); // remove the row
+                        ctx.SaveChanges();
+                    }
+                }
+            }
+
+            // second check validation of the new rows from client and save the files
+            for(var finrow = 0; finrow < StudFinListClient.Count(); finrow ++)
+            {
+                StudFinListClient[finrow].StudentId = sStudentId; // bind student id to each row
+                StudFinListClient[finrow].SpId = SpId; // bind spid to each row
+                
+                if (StudFinListClient[finrow].Salary == null) // if salary is null - add error
+                    ModelState.AddModelError("["+ StudFinListClient[finrow].FinNo + "].Salary", "חובה להזין משכורת");
+
+                if (StudFinListClient[finrow].Month == 0) // if month is 0 - add error
+                    ModelState.AddModelError("["+ StudFinListClient[finrow].FinNo + "].Month", "חובה לבחור חודש");
+
+                if (StudFinListClient[finrow].Year == 0) // if month is 0 - add error
+                    ModelState.AddModelError("["+ StudFinListClient[finrow].FinNo + "].Year", "חובה לבחור שנה");
+
+                if (StudFinListClient[finrow].FileSalary == null) // if not file upload
+                {
+                    if (StudFinListClient[finrow].PathSalary == null) // if not file upload previously
+                        if (salarypath[StudFinListClient[finrow].FinNo] == null) // if not file uploaded in db
+                            ModelState.AddModelError("[" + StudFinListClient[finrow].FinNo + "].FileSalary", "חובה לצרף קובץ");
+                        else
+                            StudFinListClient[finrow].PathSalary = salarypath[StudFinListClient[finrow].FinNo]; // add the path of the file that already saved of server
+                }
+                else
+                    StudFinListClient[finrow].PathSalary = Files.SaveFileInServer(StudFinListClient[finrow].FileSalary, "Salary" + StudFinListClient[finrow].FinNo, sStudentId, StudFinListClient[finrow].PathSalary); // save file on server
+
+                // check duplicate rows with the same year and month
+                studentfinlist = new List<StudentFinance>(StudFinListClient); // add the whole rows for next check of duplicate month and year
+                studentfinlist.Remove(StudFinListClient[finrow]); // delete the row that we check duplicate now
+
+                foreach (var dupfin in studentfinlist) // validation of duplicate year and months
+                {
+                    
+                    if (StudFinListClient[finrow].Month == dupfin.Month && StudFinListClient[finrow].Year == dupfin.Year) // check if month and year is same in other rows
+                    {
+                        ModelState.AddModelError("[" + StudFinListClient[finrow].FinNo + "].Month", "אין להזין את אותו התאריך, נא לתקן");
+                        ModelState.AddModelError("[" + StudFinListClient[finrow].FinNo + "].Year", "אין להזין את אותו התאריך, נא לתקן");
+                    }
+                }
+            }
+            return StudFinListClient;
+        }
         #endregion
 
         #region Socio - Fundings Api 

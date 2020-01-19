@@ -18,21 +18,21 @@ namespace Common
 {
     public static class SendMail
     {
-        public static async Task SendEmailLink(IdentityMessage message) // send activation code
+        public static void SendEmailLink(IdentityMessage message) // send activation code
         {
             var fromEmail = new MailAddress("System@dekan.co.il", "דיקאנט");
             var toEmail = new MailAddress(message.Destination);
             var fromEmailPassword = "R&r123456789";
-           
+
             var smtp = new SmtpClient
             {
                 Host = "dekan.co.il",
                 Port = 25,
                 EnableSsl = false,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
-                Credentials = new NetworkCredential("System@dekan.co.il", fromEmailPassword,"webmail.dekan.co.il")
+                Credentials = new NetworkCredential("System@dekan.co.il", fromEmailPassword, "webmail.dekan.co.il")
             };
-           
+
             using (var message1 = new MailMessage(fromEmail, toEmail)
             {
                 Subject = message.Subject,
@@ -40,7 +40,7 @@ namespace Common
                 IsBodyHtml = true
             })
 
-            smtp.Send(message1);
+                smtp.Send(message1);
         }
 
         public static string CreateBodyEmail(string name, string link, string message) // create email body templete
