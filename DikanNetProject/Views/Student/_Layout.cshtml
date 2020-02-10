@@ -10,51 +10,53 @@
 
 </head>
 <body class="text-right" style="background-image:url('../../Content/Pic/bg.jpg');background-size:cover;background-repeat:no-repeat;">
-    <div class="row container-fluid">
-        <div class="col-xl-3 col-md-4 col-sm-12 col-12">
-            <div class="col-12 text-center">
-                <a href="@Url.Action("Index","Student")">
-                    <img src="~/Content/Pic/Logo.png" alt="דיקאנט לוגו" class="logo img-fluid " />
-                </a>
-            </div>
-            <div class="row ">
-                <div class="col-12 pb-3">
-                    <h1 class="text-center stu-name">שלום @ViewBag.StudentName </h1>
-                    <h5 class="text-center">@ViewBag.res</h5>
+    <div id="app">
+        <div class="row container-fluid">
+            <div class="col-xl-3 col-md-4 col-sm-12 col-12">
+                <div class="col-12 text-center">
+                    <a href="@Url.Action("Index","Student")">
+                        <img src="~/Content/Pic/Logo.png" alt="דיקאנט לוגו" class="logo img-fluid " />
+                    </a>
                 </div>
+                <div class="row ">
+                    <div class="col-12 pb-3">
+                        <h1 class="text-center stu-name">שלום @ViewBag.StudentName </h1>
+                        <h5 class="text-center">@ViewBag.res</h5>
+                    </div>
 
-                <div class="col-12">
-                    <!-- Nav pills -->
-                    <ul class="nav nav-pills nav-justified flex-column p-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" data-toggle="pill" href="#reqStatuses">סטטוס בקשות</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="pill" href="#reqScholarship">הגשת מלגות</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="pill" href="#reqUpdate">עדכון בקשות</a>
-                        </li>
-                        <li class="nav-item">
-                            @Html.ActionLink("עדכון פרטים", "UpdateStudent", "Student", null, new { @class = "nav-link btn-outline-primary" })
-                        </li>
-                        <li class="nav-item">
-                            @Html.ActionLink("החלפת סיסמא", "ChangePass", "Student", null, new { @class = "nav-link btn-outline-primary" })
-                        </li>
-                        <li class="nav-item">
-                            @Html.ActionLink("התנתק", "Disconnect", "Login", null, new { @class = "nav-link btn-outline-danger" })
-                        </li>
-                    </ul>
+                    <div class="col-12">
+                        <!-- Nav pills -->
+                        <ul class="nav nav-pills nav-justified flex-column p-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="pill" href="#reqStatuses">סטטוס בקשות</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#reqScholarship">הגשת מלגות</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#reqUpdate">עדכון בקשות</a>
+                            </li>
+                            <li class="nav-item">
+                                @Html.ActionLink("עדכון פרטים", "UpdateStudent", "Student", null, new { @class = "nav-link btn-outline-primary" })
+                            </li>
+                            <li class="nav-item">
+                                @Html.ActionLink("החלפת סיסמא", "ChangePass", "Student", null, new { @class = "nav-link btn-outline-primary" })
+                            </li>
+                            <li class="nav-item">
+                                @Html.ActionLink("התנתק", "Disconnect", "Login", null, new { @class = "nav-link btn-outline-danger" })
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
+
+
+            <div class="container-fluid body-content my-4 col-xl-9 col-md-8 col-sm-12 col-12">
+                <br /><br /><br /><br /><br />
+                @RenderBody()
+            </div>
+
         </div>
-
-
-        <div class="container-fluid body-content my-4 col-xl-9 col-md-8 col-sm-12 col-12">
-            <br /><br /><br /><br /><br />
-            @RenderBody()
-        </div>
-
     </div>
 
     <footer>

@@ -54,6 +54,41 @@ $(document).ready(function () {
         });
     }
 
+    //edit fundraiser click 
+    $('#fund_list').on('click', '.edit', function () {
+        $('#fund .__add_warpper input[name="name_fund"]').val($(this).attr('data-name'));
+        $('#fund .__add_warpper input[name="height_fund"]').val($(this).attr('data-height'));
+        $('#fund .__add_warpper input[name="year_funding"]').val($(this).attr('data-year'));
+        $('#fund .__add_warpper input[name="funding_id"]').val($(this).attr('data-id'));
+        $('#AddFund').html('עדכן');
+    })
+
+    //delete fundraiser click$
+    $('#fund_list').on('click', '.delete', function () {
+        let btn = $(this);
+        data = btn.attr('data-id');
+        $.ajax({
+            type: "POST",
+            url: '/Student/DeleteFund',
+            dataType: "text",
+            data: { FundId: data },
+            beforeSend: function () {
+                btn.attr('disabled', true); // disabel the button
+            },
+            success: function (res) {
+                console.log(data);
+                console.log("DELETE OK");
+                fund.list = removeArrayItem(fund.list, 'FundingId', data);
+                procces_lists(fund);
+            },
+            failure: function (errMsg) {
+                alert(errMsg);
+            },
+            complete: function () {
+                btn.removeAttr("disabled"); // enable the button
+            }
+        });
+    })
 
    
     
@@ -144,7 +179,6 @@ $(document).ready(function () {
         warrper.empty();
         warrper.append(title_of_todo);
         for (let item of list) {
-            // console.log(item);
             warrper.append(func_todo(item));
         }
     }
@@ -187,41 +221,12 @@ $(document).ready(function () {
             </li>`;
         return li;
     }
+
+
+
 });
 
 $(document).ajaxComplete(function () {
-    $('#fund_list .edit').click(function () {
-        $('#fund .__add_warpper input[name="name_fund"]').val($(this).attr('data-name'));
-        $('#fund .__add_warpper input[name="height_fund"]').val($(this).attr('data-height'));
-        $('#fund .__add_warpper input[name="year_funding"]').val($(this).attr('data-year'));
-        $('#fund .__add_warpper input[name="funding_id"]').val($(this).attr('data-id'));
-        $('#AddFund').html('עדכן');
-    })
-
-    $('#fund_list .delete').click(function () {
-        let btn = $(this);
-        data = btn.attr('data-id');
-        $.ajax({
-            type: "POST",
-            url: '/Student/DeleteFund',
-            dataType: "text",
-            data: { FundId: data },
-            beforeSend: function () {
-                btn.attr('disabled', true); // disabel the button
-            },
-            success: function (data) {
-                console.log(data);
-                console.log("DELETE OK");
-                fund.list = removeArrayItem(fund.list, 'FundingId', data);
-                procces_lists(fund);
-            },
-            failure: function (errMsg) {
-                alert(errMsg);
-            },
-            complete: function () {
-                btn.removeAttr("disabled"); // enable the button
-            }
-        });
-    })
+    
 });
 
