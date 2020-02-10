@@ -57,6 +57,7 @@
 
 /*progressbar*/
 #progressbar {
+    --steps : 4;
     margin-bottom: 30px;
     overflow: hidden;
     /*CSS counters to number the steps*/
@@ -67,7 +68,7 @@
         color: white;
         text-transform: uppercase;
         font-size: 9px;
-        width: 33.33%;
+        width: calc(100% / var(--steps));
         float: left;
         position: relative;
 

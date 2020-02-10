@@ -23,6 +23,7 @@ $(document).ready(function () {
     console.log("new socio");
 
     ajax_get_data('/Student/GetFundings?SpId=' + SP_ID, fund);//get funding data
+    ajax_get_data('/Student/GetCars?SpId=' + SP_ID, car);//get car data
 
     /*$.ajax({
         type: "GET",
@@ -173,6 +174,10 @@ $(document).ready(function () {
                 func_todo = get_fund_item;
                 title_of_todo = get_fund_title;
                 break;
+           /* case 'car':
+                func_todo = get_car_item;
+                title_of_todo = get_car_title;
+                break;*/
             default:
         }
         warrper = $(warrper);
@@ -217,6 +222,45 @@ $(document).ready(function () {
                 </div>
                 <div class="col d-flex flex-column">
                     <span class="font-weight-bold">פעולות</span>
+                </div>
+            </li>`;
+        return li;
+    }
+
+    function get_car_title() {
+        let li =
+            `<li class="row d-flex flex-row mb-3" >
+                <div class="col d-flex flex-column ">
+                    <span class="font-weight-bold">מספר רכב</span>
+                </div>
+                <div class="col d-flex flex-column mx-5">
+                    <span class="font-weight-bold">יצרן רכב</span>
+                </div>
+                <div class="col d-flex flex-column">
+                    <span class="font-weight-bold">דגם רכב</span>
+                </div>
+                <div class="col d-flex flex-column">
+                    <span class="font-weight-bold">שנת ייצור</span>
+                </div>
+            </li>`;
+        return li;
+    }
+    function get_car_item(item) {
+        let li =
+            `<li class="row d-flex flex-row mb-3" >
+                <input type="hidden" name="fund_id" value="${item.FundingId}" />
+                <div class="col d-flex flex-column ">
+                    <span class="">${item.FinancingInstitution}</span>
+                </div>
+                <div class="col d-flex flex-column mx-5">
+                    <span class="">${item.FinancingHeight}</span>
+                </div>
+                <div class="col d-flex flex-column">
+                    <span class="">${item.YearFinancing}</span>
+                </div>
+                <div class="col d-flex flex-row justify-content-around">
+                    <button class="edit btn btn-warning" data-id="${item.FundingId}" data-name="${item.FinancingInstitution}" data-height="${item.FinancingHeight}" data-year="${item.YearFinancing}">ערוך</button>
+                    <button class="delete btn btn-danger" data-id="${item.FundingId}">מחק</button>
                 </div>
             </li>`;
         return li;
