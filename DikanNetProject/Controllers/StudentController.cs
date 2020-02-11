@@ -853,7 +853,7 @@ namespace DikanNetProject.Controllers
             if (obj == null || obj.SpId == 0 || obj.CarNumber == null) // object null or spid didnt come from client or no car number correct
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             obj.StudentId = sStudentId; // bind student id to car object
-            if (ModelState.IsValid)
+            if (true || ModelState.IsValid)
             {
                 using (DikanDbContext ctx = new DikanDbContext())
                 {

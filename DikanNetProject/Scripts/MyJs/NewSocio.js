@@ -9,8 +9,23 @@ var car = {
     list: []
 };
 
+//the function remove item from array
 const removeArrayItem = (arr, itemToRemove, itemToRemoveData) => {
-    return arr.filter(item => item[itemToRemove] !== +itemToRemoveData)
+    return arr.filter(item => item[itemToRemove] !== itemToRemoveData)
+}
+
+// the function procces whitch element need to be deleted
+const removeArrayItemProcces = (handler, id) => {
+    console.log('removeArrayItemProcces');
+    switch (handler.title) {
+        case 'funding':
+            handler.list = removeArrayItem(handler.list, 'FundingId', +id);
+            break;
+         case 'car':
+            handler.list = removeArrayItem(handler.list, 'CarNumber', id);
+             break;
+        default:
+    }
 }
 
 const SP_ID = $('#spid').val();
@@ -24,20 +39,6 @@ $(document).ready(function () {
 
     ajax_get_data('/Student/GetFundings?SpId=' + SP_ID, fund);//get funding data
     ajax_get_data('/Student/GetCars?SpId=' + SP_ID, car);//get car data
-
-    /*$.ajax({
-        type: "GET",
-        url: '/Student/GetFundings',
-        dataType: "json",
-        contentType: "application/json; charset=utf-8",
-        success: function (data) {
-            console.log(data);
-            fund.list = data.fund;
-            console.log({ fund });
-            procces_lists(fund);
-        },
-        failure: function (errMsg) { alert(errMsg); }
-    });*/
 
     function ajax_get_data(pUrl, pElement) {
         $.ajax({
@@ -55,6 +56,60 @@ $(document).ready(function () {
         });
     }
 
+    function ajax_post_data(pUrl,pData, pElement, pBtn, pId) {
+        $.ajax({
+            type: "POST",
+            url: pUrl,
+            dataType: "json",
+            data: pData,
+            beforeSend: function () {
+                pBtn.attr('disabled', true); // disabel the button
+            },
+            success: function (data) {
+                if (pId > 0) {
+                    removeArrayItemProcces(pElement, pId);
+                };
+                //console.log(data);
+                console.log("OK");
+                pElement.list.push(data.obj);
+                procces_lists(pElement);
+                clear_data(pElement);
+            },
+            failure: function (errMsg) {
+                console.log(errMsg);
+            },
+            complete: function () {
+                pBtn.html('הוסף');
+                pBtn.removeAttr("disabled"); // enable the button
+            }
+        });        
+    }
+
+    function ajax_delete_data(pUrl, pData, pElement, pBtn, pId) {
+        $.ajax({
+            type: "POST",
+            url: pUrl,
+            dataType: "text",
+            data: pData,
+            beforeSend: function () {
+                pBtn.attr('disabled', true); // disabel the button
+            },
+            success: function (data) {
+                //console.log('delete success');
+                removeArrayItemProcces(pElement, pId);
+                procces_lists(pElement);
+            },
+            failure: function (errMsg) {
+                console.log(errMsg);
+            },
+            complete: function () {
+                pBtn.removeAttr("disabled"); // enable the button
+            }
+        });
+    }
+
+
+
     //edit fundraiser click 
     $('#fund_list').on('click', '.edit', function () {
         $('#fund .__add_warpper input[name="name_fund"]').val($(this).attr('data-name'));
@@ -64,31 +119,12 @@ $(document).ready(function () {
         $('#AddFund').html('עדכן');
     })
 
-    //delete fundraiser click$
+    //delete fundraiser click
     $('#fund_list').on('click', '.delete', function () {
         let btn = $(this);
-        data = btn.attr('data-id');
-        $.ajax({
-            type: "POST",
-            url: '/Student/DeleteFund',
-            dataType: "text",
-            data: { FundId: data },
-            beforeSend: function () {
-                btn.attr('disabled', true); // disabel the button
-            },
-            success: function (res) {
-                console.log(data);
-                console.log("DELETE OK");
-                fund.list = removeArrayItem(fund.list, 'FundingId', data);
-                procces_lists(fund);
-            },
-            failure: function (errMsg) {
-                alert(errMsg);
-            },
-            complete: function () {
-                btn.removeAttr("disabled"); // enable the button
-            }
-        });
+        id = btn.attr('data-id');
+        data = { FundId: id };
+        ajax_delete_data('/Student/DeleteFund', data, fund, btn, id);       
     })
 
    
@@ -117,38 +153,50 @@ $(document).ready(function () {
 
 
         var btn = $(this);
-
-        var success = false;
-        $.ajax({
-            type: "POST",
-            url: '/Student/AddEditFund',
-            dataType: "json",
-            data: data,
-            beforeSend: function () {
-                //console.log(btn);
-                btn.attr('disabled', true); // disabel the button
-            },
-            success: function (data) {
-                if (funding_id > 0) {
-                    fund.list = removeArrayItem(fund.list, 'FundingId', funding_id);
-                };
-                //console.log(data);
-                console.log("OK");
-                fund.list.push(data.obj);
-                console.log({ fund });
-
-                procces_lists(fund);
-                clear_data(fund);
-            },
-            failure: function (errMsg) {
-                alert(errMsg);
-            },
-            complete: function () {
-                btn.html('הוסף');
-                btn.removeAttr("disabled"); // enable the button
-            }         
-        });        
+        ajax_post_data('/Student/AddEditFund', data, fund, btn, funding_id);       
     });
+
+    $('#AddCar').click(function () {
+
+        console.log('add car');
+
+        var car_number = $('#cars .__add_warpper input[name="car_number"]').val();
+        var car_company = $('#cars .__add_warpper input[name="car_company"]').val();
+        var car_model = $('#cars .__add_warpper input[name="car_model"]').val();
+        var car_year = $('#cars .__add_warpper input[name="car_year"]').val();
+
+        if (car_number == '' || car_company == '' || car_model == '' || car_year == '') return;
+
+        var data = {
+            SpId: SP_ID,
+            CarNumber: car_number,
+            CarCompany: car_company,
+            CarModel: car_model,
+            CarYear: car_year
+        };
+
+
+        var btn = $(this);
+
+        ajax_post_data('/Student/AddEditCar', data, car, btn, car_number);
+    });
+
+    //edit car click 
+    $('#car_list').on('click', '.edit', function () {
+        $('#cars .__add_warpper input[name="car_number"]').val($(this).data('car-number'));
+        $('#cars .__add_warpper input[name="car_company"]').val($(this).data('company'));
+        $('#cars .__add_warpper input[name="car_model"]').val($(this).data('model'));
+        $('#cars .__add_warpper input[name="car_year"]').val($(this).data('year'));
+        $('#AddCar').html('עדכן');
+    })
+
+    //delete fundraiser click
+    $('#car_list').on('click', '.delete', function () {
+        let btn = $(this);
+        id = btn.attr('data-id');
+        data = { CarNumber: id };
+        ajax_delete_data('/Student/DeleteCar', data, car, btn, id);
+    })
 
     function clear_data(pEl) {
         switch (pEl.title) {
@@ -158,6 +206,14 @@ $(document).ready(function () {
                 $('#fund .__add_warpper input[name="year_funding"]').val('');
                 $('#fund .__add_warpper input[name="funding_id"]').val('0');
                 break;
+
+            case 'car':
+                $('#cars .__add_warpper input[name="car_number"]').val('');
+                $('#cars .__add_warpper input[name="car_company"]').val('');
+                $('#cars .__add_warpper input[name="car_model"]').val('');
+                $('#cars .__add_warpper input[name="car_year"]').val('');
+                break;
+
             default:
         }
     }
@@ -174,10 +230,10 @@ $(document).ready(function () {
                 func_todo = get_fund_item;
                 title_of_todo = get_fund_title;
                 break;
-           /* case 'car':
+            case 'car':
                 func_todo = get_car_item;
                 title_of_todo = get_car_title;
-                break;*/
+                break;
             default:
         }
         warrper = $(warrper);
@@ -248,19 +304,19 @@ $(document).ready(function () {
     function get_car_item(item) {
         let li =
             `<li class="row d-flex flex-row mb-3" >
-                <input type="hidden" name="fund_id" value="${item.FundingId}" />
+                <input type="hidden" name="fund_id" value="${item.CarNumber}" />
                 <div class="col d-flex flex-column ">
-                    <span class="">${item.FinancingInstitution}</span>
+                    <span class="">${item.CarCompany}</span>
                 </div>
                 <div class="col d-flex flex-column mx-5">
-                    <span class="">${item.FinancingHeight}</span>
+                    <span class="">${item.CarModel}</span>
                 </div>
                 <div class="col d-flex flex-column">
-                    <span class="">${item.YearFinancing}</span>
+                    <span class="">${item.CarYear}</span>
                 </div>
                 <div class="col d-flex flex-row justify-content-around">
-                    <button class="edit btn btn-warning" data-id="${item.FundingId}" data-name="${item.FinancingInstitution}" data-height="${item.FinancingHeight}" data-year="${item.YearFinancing}">ערוך</button>
-                    <button class="delete btn btn-danger" data-id="${item.FundingId}">מחק</button>
+                    <button class="edit btn btn-warning" data-car-number="${item.CarNumber}" data-company="${item.CarCompany}" data-model="${item.CarModel}" data-year="${item.CarYear}">ערוך</button>
+                    <button class="delete btn btn-danger" data-id="${item.CarNumber}">מחק</button>
                 </div>
             </li>`;
         return li;
