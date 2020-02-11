@@ -298,13 +298,18 @@ $(document).ready(function () {
                 <div class="col d-flex flex-column">
                     <span class="font-weight-bold">שנת ייצור</span>
                 </div>
+                <div class="col d-flex flex-column">
+                    <span class="font-weight-bold">פעולות</span>
+                </div>
             </li>`;
         return li;
     }
     function get_car_item(item) {
         let li =
             `<li class="row d-flex flex-row mb-3" >
-                <input type="hidden" name="fund_id" value="${item.CarNumber}" />
+                <div class="col d-flex flex-column ">
+                    <span class="">${item.CarNumber}</span>
+                </div>
                 <div class="col d-flex flex-column ">
                     <span class="">${item.CarCompany}</span>
                 </div>
