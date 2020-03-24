@@ -4,6 +4,62 @@
 
 
 <h3>בני משפחה</h3>
+
+
+<div id="family_mem">
+    <div class="__add_warpper">
+        <input type="text" name="family_mem_id" class="only-numbers" value="" placeholder="ת.ז" />
+        <input type="text" name="family_mem_name" value="" placeholder="שם מלא" />
+        <select name="family_mem_relationship">
+            <option value="" disabled>קשר משפחתי</option>
+            <option value="אב">אב</option>
+            <option value="אם">אם</option>
+            <option value="אח">אח</option>
+            <option value="אחות">אחות</option>
+            <option value="בעל">בעל</option>
+            <option value="אשה">אשה</option>
+            <option value="בן">בן</option>
+            <option value="בת">בת</option>
+        </select>
+        <select name="family_mem_gender">
+            <option value="" disabled>מגדר</option>
+            <option value="זכר">זכר</option>
+            <option value="נקבה">נקבה</option>
+            <option value="מסרב">מסרב</option>
+        </select>
+        <input type="date" name="family_mem_birthday"class="only-numbers" />
+        <div>
+            <button id="AddFamily_mem" class="btn btn-primary mt-3">הוסף</button>
+        </div>
+    </div>
+
+    <div class="__list_warrper">
+        <ul id="family_mem_list" class="p-0 my-5">
+            <li class="row d-flex flex-row mb-3">
+                <div class="col d-flex flex-column ">
+                    <span class="font-weight-bold">ת.ז</span>
+                    <span class="">0123456789</span>
+                </div>
+                <div class="col d-flex flex-column ">
+                    <span class="font-weight-bold">שם מלא</span>
+                    <span class="">אלי אליהו</span>
+                </div>
+                <div class="col d-flex flex-column">
+                    <span class="font-weight-bold">קשר משפחתי</span>
+                    <span class="">אב</span>
+                </div>
+                <div class="col d-flex flex-column">
+                    <span class="font-weight-bold">מגדר</span>
+                    <span class="">זכר</span>
+                </div>
+                <div class="col d-flex flex-column">
+                    <span class="font-weight-bold">תאריך לידה</span>
+                    <span class="">22/12/1999</span>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
 <!--family member
  *family member id
     *full name

@@ -28,7 +28,7 @@ namespace DataEntities
         public string Realationship { get; set; }
 
         [Display(Name = "תאריך לידה")]
-        [DataType(DataType.Date),Required,
+        [DataType(DataType.Date),Required]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true, ConvertEmptyStringToNull = true)]
         public DateTime? BirthDay { get; set; }
 

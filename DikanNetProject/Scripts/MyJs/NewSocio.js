@@ -8,6 +8,11 @@ var car = {
     el: '#car_list',
     list: []
 };
+var familyMem = {
+    title: 'family_mem',
+    el: '#family_mem',
+    list: []
+};
 
 //the function remove item from array
 const removeArrayItem = (arr, itemToRemove, itemToRemoveData) => {
@@ -39,6 +44,7 @@ $(document).ready(function () {
 
     ajax_get_data('/Student/GetFundings?SpId=' + SP_ID, fund);//get funding data
     ajax_get_data('/Student/GetCars?SpId=' + SP_ID, car);//get car data
+    ajax_get_data('/Student/FamilyMem?SpId=' + SP_ID, familyMem);//get family mem data
 
     function ajax_get_data(pUrl, pElement) {
         $.ajax({
@@ -181,6 +187,36 @@ $(document).ready(function () {
         ajax_post_data('/Student/AddEditCar', data, car, btn, car_number);
     });
 
+    $('#AddFamily_mem').click(function () {
+
+        console.log('add family mem');
+
+        var id = $('#family_mem .__add_warpper input[name="family_mem_id"]').val();
+        var name = $('#family_mem .__add_warpper input[name="family_mem_name"]').val();
+        var relationship = $('#family_mem .__add_warpper select[name="family_mem_relationship"]').val();
+        var gender = $('#family_mem .__add_warpper select[name="family_mem_gender"]').val(); 
+        var birthday = $('#family_mem .__add_warpper input[name="family_mem_birthday"]').val(); 
+
+        if (id == '' || name == '' || relationship == '' || gender == '' || birthday == '') return;
+
+        var data = {
+            SpId: SP_ID,
+            FamilyMemberId: id,
+            Name: name,
+            Realationship: relationship,
+            Gender = gender,
+            BirthDay: birthday
+        };
+
+        console.log({ data });
+        //return;
+
+
+        var btn = $(this);
+
+        ajax_post_data('/Student/AddEditFamilyMem', data, family_mem , btn, id);
+    });
+
     //edit car click 
     $('#car_list').on('click', '.edit', function () {
         $('#cars .__add_warpper input[name="car_number"]').val($(this).data('car-number'));
@@ -201,19 +237,17 @@ $(document).ready(function () {
     function clear_data(pEl) {
         switch (pEl.title) {
             case 'funding':
-                $('#fund .__add_warpper input[name="name_fund"]').val('');
-                $('#fund .__add_warpper input[name="height_fund"]').val('');
-                $('#fund .__add_warpper input[name="year_funding"]').val('');
+                $('#fund .__add_warpper input').val('');
                 $('#fund .__add_warpper input[name="funding_id"]').val('0');
                 break;
 
             case 'car':
-                $('#cars .__add_warpper input[name="car_number"]').val('');
-                $('#cars .__add_warpper input[name="car_company"]').val('');
-                $('#cars .__add_warpper input[name="car_model"]').val('');
-                $('#cars .__add_warpper input[name="car_year"]').val('');
+                $('#cars .__add_warpper input').val('');
                 break;
 
+            case 'family_mem':
+                $('#family_mem .__add_warpper input').val('');
+               // $('#family_mem .__add_warpper input').val('');
             default:
         }
     }
@@ -233,6 +267,10 @@ $(document).ready(function () {
             case 'car':
                 func_todo = get_car_item;
                 title_of_todo = get_car_title;
+                break;
+            case 'family_mem':
+                func_todo = get_family_mem_item;
+                title_of_todo = get_family_mem_title;
                 break;
             default:
         }
@@ -322,6 +360,54 @@ $(document).ready(function () {
                 <div class="col d-flex flex-row justify-content-around">
                     <button class="edit btn btn-warning" data-car-number="${item.CarNumber}" data-company="${item.CarCompany}" data-model="${item.CarModel}" data-year="${item.CarYear}">ערוך</button>
                     <button class="delete btn btn-danger" data-id="${item.CarNumber}">מחק</button>
+                </div>
+            </li>`;
+        return li;
+    }
+
+
+    function get_family_mem_title() {
+        let li =
+            `<li class="row d-flex flex-row mb-3">
+                <div class="col d-flex flex-column ">
+                    <span class="font-weight-bold">ת.ז</span>
+                </div>
+                <div class="col d-flex flex-column ">
+                    <span class="font-weight-bold">שם מלא</span>
+                </div>
+                <div class="col d-flex flex-column">
+                    <span class="font-weight-bold">קשר משפחתי</span>
+                </div>
+                <div class="col d-flex flex-column">
+                    <span class="font-weight-bold">מגדר</span>
+                </div>
+                <div class="col d-flex flex-column">
+                    <span class="font-weight-bold">תאריך לידה</span>
+                </div>
+            </li>`;
+        return li;
+    }
+    function get_family_mem_item(item) {
+        let li =
+            `<li class="row d-flex flex-row mb-3" >
+                <div class="col d-flex flex-column ">
+                    <span class="">${item.FamilyMemberId}</span>
+                </div>
+                <div class="col d-flex flex-column ">
+                    <span class="">${item.Name}</span>
+                </div>
+                <div class="col d-flex flex-column mx-5">
+                    <span class="">${item.Realationship}</span>
+                </div>
+                <div class="col d-flex flex-column">
+                    <span class="">${item.Gender}</span>
+                </div>
+                <div class="col d-flex flex-column">
+                    <span class="">${item.BirthDay}</span>
+                </div>
+                <div class="col d-flex flex-row justify-content-around">
+                    <button class="edit btn btn-warning" data-id="${item.FamilyMemberId}" data-name="${item.Name}" data-relationship="${item.Realationship}" data-gender="${item.Gender}" data-birthDay="${item.BirthDay}">ערוך</button>
+                    <button class="delete btn btn-danger" data-id="${item.FamilyMemberId}">מחק</button>
                 </div>
             </li>`;
         return li;
