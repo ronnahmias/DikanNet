@@ -15,6 +15,7 @@
         <li>הכנסות סטודנט</li>
         <li>מקורות מימון</li>
         <li>רכבים</li>
+        <li>בני משפחה</li>
     </ul>
     <!-- fieldsets -->
     <fieldset>
@@ -53,6 +54,14 @@
         </div>
         <input type="button" name="previous" class="previous action-button" value="Previous" />
         <input type="button" name="next" class="next action-button" value="Next" />
+    </fieldset>    
+    <fieldset>
+        @Html.AntiForgeryToken()
+        <div id="partialfamilymember">
+            @Html.Action("PartialFamilyMem", "Student")
+        </div>
+        <input type="button" name="previous" class="previous action-button" value="Previous" />
+        <input type="button" name="next" class="next action-button" value="Next" />
     </fieldset>
 </div>
 
@@ -77,7 +86,6 @@
     <script>
         $(document).ready(function () {
         });
-
 
         function loadingajax() { // loading modal - show spinner
             $('#loadingmodal').modal('show');

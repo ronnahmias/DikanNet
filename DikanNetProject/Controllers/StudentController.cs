@@ -846,14 +846,13 @@ namespace DikanNetProject.Controllers
             return Json(new { data }, JsonRequestBehavior.AllowGet);
         }
 
-
         [HttpPost]
         public ActionResult AddEditCar(CarStudent obj) // get new/edit existing car object model by ajax call
         {
             if (obj == null || obj.SpId == 0 || obj.CarNumber == null) // object null or spid didnt come from client or no car number correct
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             obj.StudentId = sStudentId; // bind student id to car object
-            if (true || ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 using (DikanDbContext ctx = new DikanDbContext())
                 {
@@ -889,6 +888,78 @@ namespace DikanNetProject.Controllers
 
         #endregion
 
+        #region Socio - Family Members Api
+
+        [HttpGet]
+        public ActionResult PartialFamilyMem() // partial view of family members
+        {
+            return View("~/Views/Student/Socio/FamilyMem.cshtml");
+        }
+
+        [HttpGet]
+        public ActionResult GetFamilyMem() // get all stored family members by  student id with ajax
+        {
+            List<FamilyMember> data = null;
+            using (DikanDbContext ctx = new DikanDbContext())
+            {
+                ctx.Configuration.ProxyCreationEnabled = false;
+                ctx.Configuration.LazyLoadingEnabled = false;
+                data = ctx.FamilyMembers.Where(s => s.StudentId == sStudentId).ToList(); // find the stored family members objects
+            }
+            return Json(new { data }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult AddEditFamilyMem(FamilyMember obj) // get new/edit existing familymember object model by ajax call
+        {
+            if (obj == null || obj.FamilyMemberId == string.Empty || obj.Realationship == null) // object null or id didnt come from client
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            obj.StudentId = sStudentId; // bind student id to family member object
+            if (ModelState.IsValid)
+            {
+                using (DikanDbContext ctx = new DikanDbContext())
+                {
+                    FamilyMember familydb = ctx.FamilyMembers.Where(s => s.StudentId == obj.StudentId && s.FamilyMemberId == obj.FamilyMemberId).FirstOrDefault(); // find if the familymember is already stored in db
+                    if (familydb != null) // update family member
+                        ctx.Entry(familydb).CurrentValues.SetValues(obj);// update family member exists
+                    else // new family member insert
+                        ctx.FamilyMembers.Add(obj);
+                    ctx.SaveChanges(); // save changes
+                }
+                return Json(new { obj }, JsonRequestBehavior.AllowGet); // all have been saved return the object
+            }
+            else
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // error model not valid
+        }
+
+        [HttpPost]
+        public ActionResult DeleteFamilyMem(string FamilyMemId) // delete family member with family member id
+        {
+            FamilyMember familymem = null;
+            if (FamilyMemId == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // no familymemberid correct
+            using (DikanDbContext ctx = new DikanDbContext())
+            {
+                familymem = ctx.FamilyMembers.Where(s => s.FamilyMemberId == FamilyMemId && s.StudentId == sStudentId).FirstOrDefault();
+                if (familymem == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // no family member id correct or student id not match
+                List<FamilyStudentFinance> familyfin = ctx.FamilyStudentFinances.Where(s => s.FamilyMemberId == FamilyMemId).ToList(); // check if there is rows of finance to delete before delete family member
+                if(familyfin.Count() > 0) // delete the rows of finance
+                {
+                    foreach(var fin in familyfin)
+                    {
+                        //add files delete of salary amd expense
+                        ctx.FamilyStudentFinances.Remove(fin); // delete the fin of family member
+                        ctx.SaveChanges();
+                    }
+                }
+                ctx.FamilyMembers.Remove(familymem); // remove family member from db
+                ctx.SaveChanges();
+            }
+            return new HttpStatusCodeResult(HttpStatusCode.OK); // family member deleted return ok
+        }
+
+        #endregion
 
         #endregion
 

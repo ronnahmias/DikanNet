@@ -12,30 +12,30 @@ namespace DataEntities
     [Table("FamilyMember")]
     public class FamilyMember
     {
-        [Key,Display(Name ="תעודת זהות")]
+        [Key,Display(Name ="תעודת זהות"),MinLength(9),MaxLength(9),Required]
         public string FamilyMemberId { get; set; }
 
+        [Required]
         public string StudentId { get; set; }
 
         [Display(Name = "קובץ שמור")]
         public string PathFmId { get; set; }
 
-        [Column("Namee"),Display(Name = "שם מלא")]
+        [Required,Column("Namee"),Display(Name = "שם מלא")]
         public string Name { get; set; }
 
-        [Display(Name ="סוג קרבה")]
+        [Display(Name ="סוג קרבה"),Required]
         public string Realationship { get; set; }
 
         [Display(Name = "תאריך לידה")]
-        [DataType(DataType.Date)]
-        //[Range(typeof(DateTime), "1/2/2019", "3/12/2019", ErrorMessage = "{0} חייב להיות בין התאריכים {1} - {2}")]
+        [DataType(DataType.Date),Required,
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true, ConvertEmptyStringToNull = true)]
         public DateTime? BirthDay { get; set; }
 
         [Display(Name = "סוג עבודה")]
         public string WorkSt { get; set; }
 
-        [Display(Name = "מגדר")]
+        [Display(Name = "מגדר"),Required]
         public string Gender { get; set; }
 
         [NotMapped, Display(Name = "קובץ תז בן משפחה")]
