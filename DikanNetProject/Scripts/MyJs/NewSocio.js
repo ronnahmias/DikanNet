@@ -44,7 +44,7 @@ $(document).ready(function () {
 
     ajax_get_data('/Student/GetFundings?SpId=' + SP_ID, fund);//get funding data
     ajax_get_data('/Student/GetCars?SpId=' + SP_ID, car);//get car data
-    ajax_get_data('/Student/FamilyMem?SpId=' + SP_ID, familyMem);//get family mem data
+    ajax_get_data('/Student/GetFamilyMem', familyMem);//get family mem data
 
     function ajax_get_data(pUrl, pElement) {
         $.ajax({
@@ -204,7 +204,7 @@ $(document).ready(function () {
             FamilyMemberId: id,
             Name: name,
             Realationship: relationship,
-            Gender = gender,
+            Gender: gender,
             BirthDay: birthday
         };
 
