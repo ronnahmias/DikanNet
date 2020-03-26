@@ -200,7 +200,6 @@ $(document).ready(function () {
         if (id == '' || name == '' || relationship == '' || gender == '' || birthday == '') return;
 
         var data = {
-            SpId: SP_ID,
             FamilyMemberId: id,
             Name: name,
             Realationship: relationship,
@@ -249,7 +248,7 @@ $(document).ready(function () {
     $('#family_mem_list').on('click', '.delete', function () {
         let btn = $(this);
         id = btn.attr('data-id');
-        data = { CarNumber: id };
+        data = { FamilyMemId: id };
         ajax_delete_data('/Student/DeleteFamilyMem', data, familyMem, btn, id);
     })
 
