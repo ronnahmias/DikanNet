@@ -10,7 +10,7 @@ var car = {
 };
 var familyMem = {
     title: 'family_mem',
-    el: '#family_mem',
+    el: '#family_mem_list',
     list: []
 };
 
@@ -226,12 +226,31 @@ $(document).ready(function () {
         $('#AddCar').html('עדכן');
     })
 
-    //delete fundraiser click
+    //delete car click
     $('#car_list').on('click', '.delete', function () {
         let btn = $(this);
         id = btn.attr('data-id');
         data = { CarNumber: id };
         ajax_delete_data('/Student/DeleteCar', data, car, btn, id);
+    })
+
+
+    //edit family_mem_list click
+    $('#family_mem_list').on('click', '.edit', function () {
+        $('#family_mem .__add_warpper input[name="family_mem_id"]').val($(this).data('id'));
+        $('#family_mem .__add_warpper input[name="family_mem_name"]').val($(this).data('name'));
+        $('#family_mem .__add_warpper select[name="family_mem_relationship"]').val($(this).data('relationship'));
+        $('#family_mem .__add_warpper select[name="family_mem_gender"]').val($(this).data('gender'));
+        $('#family_mem .__add_warpper input[name="family_mem_birthday"]').val($(this).data('birthday'));
+        $('#AddCar').html('עדכן');
+    })
+
+    //delete family_mem_list click
+    $('#family_mem_list').on('click', '.delete', function () {
+        let btn = $(this);
+        id = btn.attr('data-id');
+        data = { CarNumber: id };
+        ajax_delete_data('/Student/DeleteFamilyMem', data, familyMem, btn, id);
     })
 
     function clear_data(pEl) {
