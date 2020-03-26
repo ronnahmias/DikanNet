@@ -15,7 +15,6 @@ namespace DataEntities
         [Key,Display(Name ="תעודת זהות"),MinLength(9),MaxLength(9),Required]
         public string FamilyMemberId { get; set; }
 
-        [Required]
         public string StudentId { get; set; }
 
         [Display(Name = "קובץ שמור")]

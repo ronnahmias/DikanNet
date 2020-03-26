@@ -75,7 +75,9 @@ $(document).ready(function () {
                 if (pId > 0) {
                     removeArrayItemProcces(pElement, pId);
                 };
-                //console.log(data);
+                console.log(data.obj.BirthDay);
+                var date = new Date(parseInt(data.obj.BirthDay.substr(6)));
+                console.log(date);
                 console.log("OK");
                 pElement.list.push(data.obj);
                 procces_lists(pElement);
