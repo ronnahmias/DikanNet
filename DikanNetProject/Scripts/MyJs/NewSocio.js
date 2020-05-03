@@ -75,10 +75,8 @@ $(document).ready(function () {
                 if (pId > 0) {
                     removeArrayItemProcces(pElement, pId);
                 };
-                console.log(data.obj.BirthDay);
-                var date = new Date(parseInt(data.obj.BirthDay.substr(6)));
-                console.log(date);
-                console.log("OK");
+                console.log('pelment list');
+                console.log({pElement});
                 pElement.list.push(data.obj);
                 procces_lists(pElement);
                 clear_data(pElement);
@@ -209,13 +207,9 @@ $(document).ready(function () {
             BirthDay: birthday
         };
 
-        console.log({ data });
-        //return;
-
-
         var btn = $(this);
 
-        ajax_post_data('/Student/AddEditFamilyMem', data, family_mem , btn, id);
+        ajax_post_data('/Student/AddEditFamilyMem', data, familyMem , btn, id);
     });
 
     //edit car click 
@@ -243,7 +237,7 @@ $(document).ready(function () {
         $('#family_mem .__add_warpper select[name="family_mem_relationship"]').val($(this).data('relationship'));
         $('#family_mem .__add_warpper select[name="family_mem_gender"]').val($(this).data('gender'));
         $('#family_mem .__add_warpper input[name="family_mem_birthday"]').val($(this).data('birthday'));
-        $('#AddCar').html('עדכן');
+        $('#AddFamily_mem').html('עדכן');
     })
 
     //delete family_mem_list click
@@ -408,6 +402,7 @@ $(document).ready(function () {
         return li;
     }
     function get_family_mem_item(item) {
+        var BirthDay = formatDate(new Date(parseInt(item.BirthDay.substr(6))));
         let li =
             `<li class="row d-flex flex-row mb-3" >
                 <div class="col d-flex flex-column ">
@@ -423,16 +418,29 @@ $(document).ready(function () {
                     <span class="">${item.Gender}</span>
                 </div>
                 <div class="col d-flex flex-column">
-                    <span class="">${item.BirthDay}</span>
+                    <span class="">${BirthDay}</span>
                 </div>
                 <div class="col d-flex flex-row justify-content-around">
-                    <button class="edit btn btn-warning" data-id="${item.FamilyMemberId}" data-name="${item.Name}" data-relationship="${item.Realationship}" data-gender="${item.Gender}" data-birthDay="${item.BirthDay}">ערוך</button>
+                    <button class="edit btn btn-warning" data-id="${item.FamilyMemberId}" data-name="${item.Name}" data-relationship="${item.Realationship}" data-gender="${item.Gender}" data-birthDay="${BirthDay}">ערוך</button>
                     <button class="delete btn btn-danger" data-id="${item.FamilyMemberId}">מחק</button>
                 </div>
             </li>`;
         return li;
     }
 
+    function formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+
+        return [year, month, day].join('-');
+    }
 
 
 });
