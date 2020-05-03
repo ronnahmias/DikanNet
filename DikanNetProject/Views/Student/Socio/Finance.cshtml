@@ -2,4 +2,47 @@
     Layout = null;
 }
 
-<h2>finance</h2>
+<h3>הכנסות</h3>
+
+
+<div id="finance">
+    <div class="__add_warpper">
+        <select name="family_mem_id">
+            <option value=""></option>
+        </select>
+        <input type="number" name="finance_amount" value="" placeholder="הכנסה בתלוש" class="only-numbers" />
+        <input type="number" name="finance_mounth" value="" min="1" max="12" placeholder="חודש תלוש" class="only-numbers" />
+        <input type="number" name="finance_year" value="" placeholder="שנה תלוש" class="only-numbers" />
+        <input type="file" name="finance_file" value="" />
+        <div>
+            <button id="Addfinance" class="btn btn-primary mt-3">הוסף</button>
+        </div>
+    </div>
+
+    <div class="__list_warrper">
+        <ul id="finance_list" class="p-0 my-5">
+            <li class="row d-flex flex-row mb-3">
+                <div class="col d-flex flex-column ">
+                    <span class="font-weight-bold">הכנסה של</span>
+                    <span class="">0123456789</span>
+                </div>
+                <div class="col d-flex flex-column ">
+                    <span class="font-weight-bold">גובה הכנסה</span>
+                    <span class="">אלי אליהו</span>
+                </div>
+                <div class="col d-flex flex-column">
+                    <span class="font-weight-bold">חודש</span>
+                    <span class="">אב</span>
+                </div>
+                <div class="col d-flex flex-column">
+                    <span class="font-weight-bold">שנה</span>
+                    <span class="">זכר</span>
+                </div>
+                <div class="col d-flex flex-column">
+                    <span class="font-weight-bold">קובץ מצורף</span>
+                    <span class="">22/12/1999</span>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

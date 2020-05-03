@@ -13,6 +13,11 @@ var familyMem = {
     el: '#family_mem_list',
     list: []
 };
+var finance = {
+    title: 'finance',
+    el: '#finance_list',
+    list: []
+};
 
 //the function remove item from array
 const removeArrayItem = (arr, itemToRemove, itemToRemoveData) => {
@@ -28,7 +33,10 @@ const removeArrayItemProcces = (handler, id) => {
             break;
          case 'car':
             handler.list = removeArrayItem(handler.list, 'CarNumber', id);
-             break;
+            break;
+        case 'family_mem':
+            handler.list = removeArrayItem(handler.list, 'FamilyMemberId', id);
+            break;
         default:
     }
 }
@@ -261,7 +269,7 @@ $(document).ready(function () {
 
             case 'family_mem':
                 $('#family_mem .__add_warpper input').val('');
-               // $('#family_mem .__add_warpper input').val('');
+                $('#family_mem .__add_warpper select').val(-1);
             default:
         }
     }
@@ -441,6 +449,18 @@ $(document).ready(function () {
 
         return [year, month, day].join('-');
     }
+
+    $('#NextToFinance').click(function () {
+        var RealationshipArr = ['אב', 'אם', 'אשה', 'בעל'];
+        var optionsArr = familyMem.list.filter(item => jQuery.inArray(item, RealationshipArr) !== -1);  
+        var options = '';
+        $.each(optionsArr, function (i , val) {
+            options += ` <option value="${val.FamilyMemberId}">${val.Name}</option>`;
+        })
+
+        $('select[name=family_mem_id]').html(options);
+
+    })
 
 
 });
