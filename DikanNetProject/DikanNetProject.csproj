@@ -672,7 +672,7 @@
     <Content Include="Views\Student\Socio\MainSocio.cshtml" />
     <Content Include="src\sass\formSlider.scss" />
     <Content Include="Views\Student\Socio\SocioDetails.cshtml" />
-    <Content Include="Views\Student\Socio\StudentFinance.cshtml" />
+    <Content Include="Views\Student\Socio\Finance.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\footer.cshtml" />
     <Content Include="Views\Login\Contact.cshtml" />

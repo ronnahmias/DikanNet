@@ -12,10 +12,11 @@
     <!-- progressbar -->
     <ul id="progressbar">
         <li class="active">פרטים אישיים - הרחבה</li>
-        <li>הכנסות סטודנט</li>
+        <li>בני משפחה</li>
+        <li>הכנסות</li>
         <li>מקורות מימון</li>
         <li>רכבים</li>
-        <li>בני משפחה</li>
+        <li>אישור פרטים</li>
     </ul>
     <!-- fieldsets -->
     <fieldset>
@@ -30,19 +31,17 @@
         <input id="sociodetnext" type="button" name="next" class="next action-button" value="Next" />
     </fieldset>
     <fieldset>
-        @using (Ajax.BeginForm("StudentFinance1", "Student", new { SpId = @ViewBag.SpId }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "studentfinancesuccess", OnFailure = "studentfinancefail", OnBegin = "loadingajax", OnComplete = "completeajax" }, new { enctype = "multipart/form-data" }))
-        {
-            @Html.AntiForgeryToken()
-            <div id="partialstudfinance">
-            </div>
-        }
+        @Html.AntiForgeryToken()
+        <div id="partialfamilymember">
+            @Html.Action("PartialFamilyMem", "Student")
+        </div>
         <input type="button" name="previous" class="previous action-button" value="Previous" />
         <input type="button" name="next" class="next action-button" value="Next" />
     </fieldset>
     <fieldset>
         @Html.AntiForgeryToken()
-        <div id="partialfundings">
-            @Html.Action("PartialStudentFinance", "Student")
+        <div id="partialfinance">
+            @Html.Action("PartialFinance", "Student")
         </div>
         <input type="button" name="previous" class="previous action-button" value="Previous" />
         <input type="button" name="next" class="next action-button" value="Next" />
@@ -59,14 +58,6 @@
         @Html.AntiForgeryToken()
         <div id="partialcars">
             @Html.Action("PartialCars", "Student")
-        </div>
-        <input type="button" name="previous" class="previous action-button" value="Previous" />
-        <input type="button" name="next" class="next action-button" value="Next" />
-    </fieldset>
-    <fieldset>
-        @Html.AntiForgeryToken()
-        <div id="partialfamilymember">
-            @Html.Action("PartialFamilyMem", "Student")
         </div>
         <input type="button" name="previous" class="previous action-button" value="Previous" />
         <input type="button" name="next" class="next action-button" value="Next" />
@@ -107,9 +98,9 @@
             console.log('this is ajaxSuccess');
             $('#partialsocio').empty(); // empty the div of sociodet
             $('#partialsocio').html(data); // show partial view that have returned - if the user will click previous
-            var workst = $('input[name=WorkSt]:checked').val(); // get work status for student finance
-            var spid = $('#spid').val();
-            getstudentfinancepartial(workst, spid);
+            //var workst = $('input[name=WorkSt]:checked').val(); // get work status for student finance
+            //var spid = $('#spid').val();
+            //getstudentfinancepartial(workst, spid);
             $("#sociodetnext").click(); // click to go step in slider
         }
 
@@ -117,31 +108,6 @@
             console.log('this is ajaxfail');
             $('#partialsocio').empty(); // empty the div of sociodet
             $('#partialsocio').html(data.responseText); // show partial view that have returned - with errors
-        }
-
-        function getstudentfinancepartial(workst, spid) {
-             $.ajax({
-                    url: '@Url.Action("PartialStudentFinance", "Student")',
-                    type: 'GET',
-                    data: { WorkSt: workst, SpId: spid},
-                    success: function (data) {
-                        console.log("get student finance");
-                        $('#partialstudfinance').empty();
-                        $('#partialstudfinance').html(data);
-                    }
-            });
-        }
-
-        function studentfinancesuccess(data) { // ajax student finance complete
-            console.log('this is ajaxSuccess');
-            $('#partialstudfinance').empty(); // empty the div of student finance
-            $('#partialstudfinance').html(data); // show partial view that have returned - if the user will click previous
-        }
-
-        function studentfinancefail(data) { // ajax student finance complete
-            console.log('this is ajaxSuccess');
-            $('#partialstudfinance').empty(); // empty the div of student finance
-            $('#partialstudfinance').html(data.responseText); // show partial view that have returned - if the user will click previous
         }
     </script>
 }
