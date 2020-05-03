@@ -30,7 +30,7 @@
         <input id="sociodetnext" type="button" name="next" class="next action-button" value="Next" />
     </fieldset>
     <fieldset>
-        @using (Ajax.BeginForm("StudentFinance", "Student",new { SpId = @ViewBag.SpId }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "studentfinancesuccess", OnFailure="studentfinancefail", OnBegin = "loadingajax", OnComplete = "completeajax" } , new { enctype = "multipart/form-data" }))
+        @using (Ajax.BeginForm("StudentFinance1", "Student", new { SpId = @ViewBag.SpId }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "studentfinancesuccess", OnFailure = "studentfinancefail", OnBegin = "loadingajax", OnComplete = "completeajax" }, new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
             <div id="partialstudfinance">
@@ -42,11 +42,19 @@
     <fieldset>
         @Html.AntiForgeryToken()
         <div id="partialfundings">
+            @Html.Action("PartialStudentFinance", "Student")
+        </div>
+        <input type="button" name="previous" class="previous action-button" value="Previous" />
+        <input type="button" name="next" class="next action-button" value="Next" />
+    </fieldset>
+    <fieldset>
+        @Html.AntiForgeryToken()
+        <div id="partialfundings">
             @Html.Action("PartialFundings", "Student")
         </div>
         <input type="button" name="previous" class="previous action-button" value="Previous" />
         <input type="button" name="next" class="next action-button" value="Next" />
-    </fieldset>    
+    </fieldset>
     <fieldset>
         @Html.AntiForgeryToken()
         <div id="partialcars">
@@ -54,7 +62,7 @@
         </div>
         <input type="button" name="previous" class="previous action-button" value="Previous" />
         <input type="button" name="next" class="next action-button" value="Next" />
-    </fieldset>    
+    </fieldset>
     <fieldset>
         @Html.AntiForgeryToken()
         <div id="partialfamilymember">
