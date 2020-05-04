@@ -688,14 +688,25 @@ namespace DikanNetProject.Controllers
             {
                 ctx.Configuration.ProxyCreationEnabled = false;
                 ctx.Configuration.LazyLoadingEnabled = false;
-                data.StudentFinancesList = ctx.StudentFinances.Where(s => s.StudentId == sStudentId && s.SpId == SpId).ToList(); // find the stored student finance objects
+                Student student = ctx.Students.Where(s => s.StudentId == sStudentId).FirstOrDefault();
+                data.FamilyMembersIdNames.Add(sStudentId, student.FirstName + " " + student.LastName); // add to list name and id of the student
+                List<FamilyMember> familymem = ctx.FamilyMembers.Where(s => s.StudentId == sStudentId &&
+                (s.Realationship == Enums.Realationship.אב.ToString() ||
+                s.Realationship == Enums.Realationship.אם.ToString() ||
+                s.Realationship == Enums.Realationship.בעל.ToString() ||
+                s.Realationship == Enums.Realationship.אישה.ToString())).ToList(); // get all family mem that need to import expense in the form
+
+                foreach (var fammem in familymem) // insert all names and id of family members that need to insert expense
+                    data.FamilyMembersIdNames.Add(fammem.FamilyMemberId, fammem.Name);
+
+                data.StudentFinancesList = ctx.StudentFinances.Include(s=>s.Student).Where(s => s.StudentId == sStudentId && s.SpId == SpId).ToList(); // find the stored student finance objects
                 data.FamilyStudentFinancesList = ctx.FamilyStudentFinances.Include(s=>s.FamilyMember).Where(s => s.FamilyMember.StudentId == sStudentId && s.SpId == SpId).ToList(); // get all family member finance rows
             }
             return Json(new { data }, JsonRequestBehavior.AllowGet);
         }
 
 
-        [Authorize(Roles = "Student")]
+        /*[Authorize(Roles = "Student")]
         [HttpGet]
         public PartialViewResult PartialsFinance(string WorkSt, string SpId) // partial view of student finance get work status
         {
@@ -844,7 +855,7 @@ namespace DikanNetProject.Controllers
                 }
             }
             return StudFinListClient;
-        }
+        }*/
         #endregion
 
         #region Socio - Fundings Api 
