@@ -686,13 +686,39 @@ namespace DikanNetProject.Controllers
         [HttpGet]
         public ActionResult GetFinance(int SpId) // get all stored student finance and family member finance by spid and student id with ajax
         {
-            Finance data = new Finance();
+            List<Finance> data = new List<Finance>();
             using (DikanDbContext ctx = new DikanDbContext())
             {
                 ctx.Configuration.ProxyCreationEnabled = false;
                 ctx.Configuration.LazyLoadingEnabled = false;
-                data.StudentFinancesList = ctx.StudentFinances.Include(s=>s.Student).Where(s => s.StudentId == sStudentId && s.SpId == SpId).ToList(); // find the stored student finance objects
-                data.FamilyStudentFinancesList = ctx.FamilyStudentFinances.Include(s=>s.FamilyMember).Where(s => s.FamilyMember.StudentId == sStudentId && s.SpId == SpId).ToList(); // get all family member finance rows
+                List<StudentFinance> studentfinance = ctx.StudentFinances.Where(s => s.StudentId == sStudentId && s.SpId == SpId).ToList(); // find the stored student finance objects
+                List<FamilyStudentFinance> familyfinance = ctx.FamilyStudentFinances.Where(s => s.FamilyMember.StudentId == sStudentId && s.SpId == SpId).ToList(); // get all family member finance rows
+                foreach (var fin in studentfinance)
+                    data.Add(new Finance
+                    {
+                        Id = fin.StudentId,
+                        SpId = fin.SpId,
+                        FileSalary = fin.FileSalary,
+                        FinNo = fin.FinNo,
+                        Month = fin.Month,
+                        PathSalary = fin.PathSalary,
+                        Salary = fin.Salary,
+                        Year = fin.Year
+                    });
+
+                foreach (var fin in familyfinance)
+                    data.Add(new Finance
+                    {
+                        Id = fin.FamilyMemberId,
+                        SpId = fin.SpId,
+                        FileSalary = fin.FileSalary,
+                        FinNo = fin.FinNo,
+                        Month = fin.Month,
+                        PathSalary = fin.PathSalary,
+                        Salary = fin.Salary,
+                        Year = fin.Year
+                    });
+
             }
             return Json(new { data }, JsonRequestBehavior.AllowGet);
         }
