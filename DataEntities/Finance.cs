@@ -11,7 +11,5 @@ namespace DataEntities
         public List<StudentFinance> StudentFinancesList { get; set; }
 
         public List<FamilyStudentFinance> FamilyStudentFinancesList { get; set; }
-
-        public Dictionary<string,string> FamilyMembersIdNames { get; set; }
     }
 }
