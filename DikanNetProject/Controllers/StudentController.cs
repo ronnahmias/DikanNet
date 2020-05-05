@@ -433,6 +433,9 @@ namespace DikanNetProject.Controllers
             if (tempsocio.DateSubmitScholarship != null && !open) // if already has entered this milga and not exception open
                 return RedirectToAction("Index");
             ViewBag.SpId = scholarshipid; // send to client the SpId
+            ViewBag.StudentId = sStudentId; // send to cliend student id
+            var user = UserManager.FindByName(sStudentId);
+            ViewBag.StudentName = user.FirstName + " " + user.LastName; // send the name of student to client
                 return View("~/Views/Student/Socio/MainSocio.cshtml");
         }
 
