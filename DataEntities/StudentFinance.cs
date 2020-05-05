@@ -33,6 +33,7 @@ namespace DataEntities
         [Key, Column("SpId", Order = 3)]
         public int SpId { get; set; }
 
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int FinNo { get; set; }
 
 

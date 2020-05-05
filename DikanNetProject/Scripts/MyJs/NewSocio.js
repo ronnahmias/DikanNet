@@ -263,10 +263,8 @@ $(document).ready(function () {
 
         console.log({ data });
 
-        return;
 
-
-        ajax_post_data('/Student/AddEditFamilyMem', data, finance, btn, id);
+        ajax_post_data('/Student/AddEditFinance', data, finance, btn, id);
     });
 
     //edit car click 

@@ -723,6 +723,62 @@ namespace DikanNetProject.Controllers
             return Json(new { data }, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public ActionResult AddEditFinance(StudentFinance obj = null, FamilyStudentFinance objj = null) 
+        {
+            if (obj == null &&  objj == null ) // chech the 2 objects null didnt come from client
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            if (obj.StudentId != null)
+            {
+                AddEditStudentFinance(obj); // go to add or edit student finance row
+                return Json(new { obj }, JsonRequestBehavior.AllowGet); // all have been saved return the object
+            }
+            else
+            {
+                if (objj.FamilyMemberId != null)
+                    AddEditFamilyMemFinance(objj); // go to add or edit family member finance row
+                else
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest); //  no id num return error
+            }
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // error model not valid
+        }
+
+        [NonAction]
+        StudentFinance AddEditStudentFinance(StudentFinance FinanceRow)
+        {
+            StudentFinance DbRow = null;
+            using (DikanDbContext ctx = new DikanDbContext())
+            {
+                if(FinanceRow.FinNo != -1) // if the row already exists
+                    DbRow = ctx.StudentFinances.Where(s => s.StudentId == FinanceRow.StudentId && s.FinNo == FinanceRow.FinNo).FirstOrDefault(); // find the row in the db
+                if (DbRow == null) // no row saved on db -> add new row to db
+                    FinanceRow = ctx.StudentFinances.Add(FinanceRow); // add new row to db
+                else
+                    ctx.Entry(DbRow).CurrentValues.SetValues(FinanceRow);// update row exists
+                ctx.SaveChanges();
+            }
+            return FinanceRow;
+        }
+
+        [NonAction]
+        FamilyStudentFinance AddEditFamilyMemFinance(FamilyStudentFinance FinanceRow)
+        {
+            FamilyStudentFinance DbRow = null;
+            using (DikanDbContext ctx = new DikanDbContext())
+            {
+                if(FinanceRow.FinNo != -1) // if the row already exists
+                    DbRow = ctx.FamilyStudentFinances.Where(s => s.FamilyMemberId == FinanceRow.FamilyMemberId && s.FinNo == FinanceRow.FinNo).FirstOrDefault(); // find the row in the db
+                if (DbRow == null) // no row saved on db -> add new row to db
+                    FinanceRow = ctx.FamilyStudentFinances.Add(FinanceRow); // add new row to db
+                else
+                    ctx.Entry(DbRow).CurrentValues.SetValues(FinanceRow);// update row exists
+                ctx.SaveChanges();
+            }
+            return FinanceRow;
+        }
+
+
 
         /*[Authorize(Roles = "Student")]
         [HttpGet]
