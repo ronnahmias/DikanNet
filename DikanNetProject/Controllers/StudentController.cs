@@ -433,6 +433,9 @@ namespace DikanNetProject.Controllers
             if (tempsocio.DateSubmitScholarship != null && !open) // if already has entered this milga and not exception open
                 return RedirectToAction("Index");
             ViewBag.SpId = scholarshipid; // send to client the SpId
+            ViewBag.StudentId = sStudentId; // send to cliend student id
+            var user = UserManager.FindByName(sStudentId);
+            ViewBag.StudentName = user.FirstName + " " + user.LastName; // send the name of student to client
                 return View("~/Views/Student/Socio/MainSocio.cshtml");
         }
 
@@ -683,24 +686,39 @@ namespace DikanNetProject.Controllers
         [HttpGet]
         public ActionResult GetFinance(int SpId) // get all stored student finance and family member finance by spid and student id with ajax
         {
-            Finance data = new Finance();
+            List<Finance> data = new List<Finance>();
             using (DikanDbContext ctx = new DikanDbContext())
             {
                 ctx.Configuration.ProxyCreationEnabled = false;
                 ctx.Configuration.LazyLoadingEnabled = false;
-                Student student = ctx.Students.Where(s => s.StudentId == sStudentId).FirstOrDefault();
-                data.FamilyMembersIdNames.Add(sStudentId, student.FirstName + " " + student.LastName); // add to list name and id of the student
-                List<FamilyMember> familymem = ctx.FamilyMembers.Where(s => s.StudentId == sStudentId &&
-                (s.Realationship == Enums.Realationship.אב.ToString() ||
-                s.Realationship == Enums.Realationship.אם.ToString() ||
-                s.Realationship == Enums.Realationship.בעל.ToString() ||
-                s.Realationship == Enums.Realationship.אישה.ToString())).ToList(); // get all family mem that need to import expense in the form
+                List<StudentFinance> studentfinance = ctx.StudentFinances.Where(s => s.StudentId == sStudentId && s.SpId == SpId).ToList(); // find the stored student finance objects
+                List<FamilyStudentFinance> familyfinance = ctx.FamilyStudentFinances.Where(s => s.FamilyMember.StudentId == sStudentId && s.SpId == SpId).ToList(); // get all family member finance rows
+                foreach (var fin in studentfinance)
+                    data.Add(new Finance
+                    {
+                        Id = fin.StudentId,
+                        SpId = fin.SpId,
+                        FileSalary = fin.FileSalary,
+                        FinNo = fin.FinNo,
+                        Month = fin.Month,
+                        PathSalary = fin.PathSalary,
+                        Salary = fin.Salary,
+                        Year = fin.Year
+                    });
 
-                foreach (var fammem in familymem) // insert all names and id of family members that need to insert expense
-                    data.FamilyMembersIdNames.Add(fammem.FamilyMemberId, fammem.Name);
+                foreach (var fin in familyfinance)
+                    data.Add(new Finance
+                    {
+                        Id = fin.FamilyMemberId,
+                        SpId = fin.SpId,
+                        FileSalary = fin.FileSalary,
+                        FinNo = fin.FinNo,
+                        Month = fin.Month,
+                        PathSalary = fin.PathSalary,
+                        Salary = fin.Salary,
+                        Year = fin.Year
+                    });
 
-                data.StudentFinancesList = ctx.StudentFinances.Include(s=>s.Student).Where(s => s.StudentId == sStudentId && s.SpId == SpId).ToList(); // find the stored student finance objects
-                data.FamilyStudentFinancesList = ctx.FamilyStudentFinances.Include(s=>s.FamilyMember).Where(s => s.FamilyMember.StudentId == sStudentId && s.SpId == SpId).ToList(); // get all family member finance rows
             }
             return Json(new { data }, JsonRequestBehavior.AllowGet);
         }
