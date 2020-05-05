@@ -294,6 +294,10 @@ $(document).ready(function () {
                 func_todo = get_family_mem_item;
                 title_of_todo = get_family_mem_title;
                 break;
+            case 'finance':
+                func_todo = get_finance_item;
+                title_of_todo = get_finance_title;
+                break;
             default:
         }
         warrper = $(warrper);
@@ -436,6 +440,53 @@ $(document).ready(function () {
         return li;
     }
 
+    function get_finance_title() {
+        let li =
+            `<li class="row d-flex flex-row mb-3">
+                <div class="col d-flex flex-column ">
+                    <span class="font-weight-bold">ת.ז</span>
+                </div>
+                <div class="col d-flex flex-column ">
+                    <span class="font-weight-bold">שם מלא</span>
+                </div>
+                <div class="col d-flex flex-column">
+                    <span class="font-weight-bold">קשר משפחתי</span>
+                </div>
+                <div class="col d-flex flex-column">
+                    <span class="font-weight-bold">מגדר</span>
+                </div>
+                <div class="col d-flex flex-column">
+                    <span class="font-weight-bold">תאריך לידה</span>
+                </div>
+            </li>`;
+        return li;
+    }
+    function get_finance_item(item) {
+        let li =
+            `<li class="row d-flex flex-row mb-3" >
+                <div class="col d-flex flex-column ">
+                    <span class="">${item.FamilyMemberId}</span>
+                </div>
+                <div class="col d-flex flex-column ">
+                    <span class="">${item.Name}</span>
+                </div>
+                <div class="col d-flex flex-column mx-5">
+                    <span class="">${item.Realationship}</span>
+                </div>
+                <div class="col d-flex flex-column">
+                    <span class="">${item.Gender}</span>
+                </div>
+                <div class="col d-flex flex-column">
+                    <span class="">${BirthDay}</span>
+                </div>
+                <div class="col d-flex flex-row justify-content-around">
+                    <button class="edit btn btn-warning" data-id="${item.FamilyMemberId}" data-name="${item.Name}" data-relationship="${item.Realationship}" data-gender="${item.Gender}" data-birthDay="${BirthDay}">ערוך</button>
+                    <button class="delete btn btn-danger" data-id="${item.FamilyMemberId}">מחק</button>
+                </div>
+            </li>`;
+        return li;
+    }
+
     function formatDate(date) {
         var d = new Date(date),
             month = '' + (d.getMonth() + 1),
@@ -452,7 +503,7 @@ $(document).ready(function () {
 
     $('#NextToFinance').click(function () {
         var RealationshipArr = ['אב', 'אם', 'אשה', 'בעל'];
-        var optionsArr = familyMem.list.filter(item => jQuery.inArray(item, RealationshipArr) !== -1);  
+        var optionsArr = familyMem.list.filter(item => jQuery.inArray(item.Realationship, RealationshipArr) !== -1);  
         var options = '';
         $.each(optionsArr, function (i , val) {
             options += ` <option value="${val.FamilyMemberId}">${val.Name}</option>`;
