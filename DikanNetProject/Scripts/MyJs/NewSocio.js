@@ -19,6 +19,10 @@ var finance = {
     list: []
 };
 
+const SP_ID = $('#spid').val();
+const StudentName = $('#studentname').val();
+const StudentID = $('#studentid').val();
+
 //the function remove item from array
 const removeArrayItem = (arr, itemToRemove, itemToRemoveData) => {
     return arr.filter(item => item[itemToRemove] !== itemToRemoveData)
@@ -41,7 +45,7 @@ const removeArrayItemProcces = (handler, id) => {
     }
 }
 
-const SP_ID = $('#spid').val();
+
 
 
 
@@ -53,6 +57,7 @@ $(document).ready(function () {
     ajax_get_data('/Student/GetFundings?SpId=' + SP_ID, fund);//get funding data
     ajax_get_data('/Student/GetCars?SpId=' + SP_ID, car);//get car data
     ajax_get_data('/Student/GetFamilyMem', familyMem);//get family mem data
+    ajax_get_data('/Student/GetFinance?SpId=' + SP_ID, finance);//get finance data
 
     function ajax_get_data(pUrl, pElement) {
         $.ajax({
@@ -121,7 +126,6 @@ $(document).ready(function () {
             }
         });
     }
-
 
 
     //edit fundraiser click 
@@ -218,6 +222,51 @@ $(document).ready(function () {
         var btn = $(this);
 
         ajax_post_data('/Student/AddEditFamilyMem', data, familyMem , btn, id);
+    });
+
+    $('#Addfinance').click(function () {
+
+        console.log('Addfinance');
+
+        var id = $('#finance .__add_warpper select[name="family_mem_id"]').val();
+        var salary = $('#finance .__add_warpper input[name="finance_amount"]').val();
+        var month = $('#finance .__add_warpper input[name="finance_mounth"]').val();
+        var year = $('#finance .__add_warpper input[name="finance_year"]').val();
+        var filesalary = $('#finance .__add_warpper input[name="finance_file"]').val();
+        var fin_no = $('#finance .__add_warpper input[name="fin_no"]').val();
+        /*
+            Id = fin.StudentId,
+            SpId = fin.SpId,
+            FileSalary = fin.FileSalary,
+            FinNo = fin.FinNo,
+            Month = fin.Month,
+            PathSalary = fin.PathSalary,
+            Salary = fin.Salary,
+            Year = fin.Year
+        */
+        if (id == '' || month == '' || year == '' || filesalary == '') return;
+
+        var data = {
+            SpId: SP_ID,
+            FinNo: fin_no,
+            Salary: salary,
+            Month: month,
+            Year: year
+        };
+
+        if (id == StudentID)
+            data.StudentId = id
+        else
+            data.FamilyMemberId = id
+
+        var btn = $(this);
+
+        console.log({ data });
+
+        return;
+
+
+        ajax_post_data('/Student/AddEditFamilyMem', data, finance, btn, id);
     });
 
     //edit car click 
@@ -505,6 +554,7 @@ $(document).ready(function () {
         var RealationshipArr = ['אב', 'אם', 'אשה', 'בעל'];
         var optionsArr = familyMem.list.filter(item => jQuery.inArray(item.Realationship, RealationshipArr) !== -1);  
         var options = '';
+        options += ` <option value="${StudentID}">${StudentName}</option>`;
         $.each(optionsArr, function (i , val) {
             options += ` <option value="${val.FamilyMemberId}">${val.Name}</option>`;
         })
