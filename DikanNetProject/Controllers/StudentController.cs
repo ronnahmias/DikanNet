@@ -737,11 +737,13 @@ namespace DikanNetProject.Controllers
             else
             {
                 if (objj.FamilyMemberId != null)
+                {
                     AddEditFamilyMemFinance(objj); // go to add or edit family member finance row
+                    return Json(new { obj = objj }, JsonRequestBehavior.AllowGet); // all have been saved return the object
+                }
                 else
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest); //  no id num return error
             }
-            return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // error model not valid
         }
 
         [NonAction]
@@ -778,6 +780,32 @@ namespace DikanNetProject.Controllers
             return FinanceRow;
         }
 
+
+        [HttpPost]
+        public ActionResult DeleteFinance(string FinNo, bool isStudent) // delete family member with family member id
+        {
+            FamilyStudentFinance familyfin = null;
+            StudentFinance studentfinance = null;
+            if (FinNo == null || isStudent)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // no finno and no bool is student correct
+            int finno = int.Parse(FinNo); // parse fin no to int
+            using (DikanDbContext ctx = new DikanDbContext())
+            {
+                if(isStudent)
+                {
+                    studentfinance = ctx.StudentFinances.Where(s => s.FinNo == finno).FirstOrDefault(); // find student finance row
+                    if (studentfinance == null)
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // no student finance row found
+                }
+                else
+                {
+                    familyfin = ctx.FamilyStudentFinances.Where(s => s.FinNo == finno).FirstOrDefault();
+                    if (familyfin == null)
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // no family member id correct or student id not match
+                }
+            }
+            return new HttpStatusCodeResult(HttpStatusCode.OK); // family member deleted return ok
+        }
 
 
         /*[Authorize(Roles = "Student")]
