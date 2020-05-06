@@ -796,13 +796,16 @@ namespace DikanNetProject.Controllers
                     studentfinance = ctx.StudentFinances.Where(s => s.FinNo == finno).FirstOrDefault(); // find student finance row
                     if (studentfinance == null)
                         return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // no student finance row found
+                    ctx.StudentFinances.Remove(studentfinance); // delete row
                 }
                 else
                 {
                     familyfin = ctx.FamilyStudentFinances.Where(s => s.FinNo == finno).FirstOrDefault();
                     if (familyfin == null)
                         return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // no family member id correct or student id not match
+                    ctx.FamilyStudentFinances.Remove(familyfin); // delete row
                 }
+                ctx.SaveChanges();
             }
             return new HttpStatusCodeResult(HttpStatusCode.OK); // family member deleted return ok
         }
