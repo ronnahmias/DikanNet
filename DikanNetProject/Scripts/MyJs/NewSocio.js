@@ -18,6 +18,7 @@ var finance = {
     el: '#finance_list',
     list: []
 };
+var optionsFinanceArr = [];
 
 const SP_ID = $('#spid').val();
 const StudentName = $('#studentname').val();
@@ -40,6 +41,9 @@ const removeArrayItemProcces = (handler, id) => {
             break;
         case 'family_mem':
             handler.list = removeArrayItem(handler.list, 'FamilyMemberId', id);
+            break;
+        case 'finance':
+            handler.list = removeArrayItem(handler.list, 'FinNo', id);
             break;
         default:
     }
@@ -234,16 +238,7 @@ $(document).ready(function () {
         var year = $('#finance .__add_warpper input[name="finance_year"]').val();
         var filesalary = $('#finance .__add_warpper input[name="finance_file"]').val();
         var fin_no = $('#finance .__add_warpper input[name="fin_no"]').val();
-        /*
-            Id = fin.StudentId,
-            SpId = fin.SpId,
-            FileSalary = fin.FileSalary,
-            FinNo = fin.FinNo,
-            Month = fin.Month,
-            PathSalary = fin.PathSalary,
-            Salary = fin.Salary,
-            Year = fin.Year
-        */
+
         if (id == '' || month == '' || year == '' || filesalary == '') return;
 
         var data = {
@@ -301,6 +296,29 @@ $(document).ready(function () {
         id = btn.attr('data-id');
         data = { FamilyMemId: id };
         ajax_delete_data('/Student/DeleteFamilyMem', data, familyMem, btn, id);
+    })
+
+
+    //edit family_mem_list click
+    $('#finance').on('click', '.edit', function () {
+        $('#finance .__add_warpper input[name="family_mem_id"]').val($(this).data('id'));
+        $('#finance .__add_warpper input[name="family_mem_name"]').val($(this).data('name'));
+        $('#finance .__add_warpper select[name="family_mem_relationship"]').val($(this).data('relationship'));
+        $('#finance .__add_warpper select[name="family_mem_gender"]').val($(this).data('gender'));
+        $('#finance .__add_warpper input[name="family_mem_birthday"]').val($(this).data('birthday'));
+        $('#Addfinance').html('עדכן');
+    })
+
+    //delete family_mem_list click
+    $('#finance').on('click', '.delete', function () {
+        let btn = $(this);
+        id = btn.data('finno');
+        data = {
+            FinNo: id,
+            isStudent: btn.data('menid') == StudentID
+        };
+        console.log(data);
+        ajax_delete_data('/Student/DeleteFamilyMem', data, finance, btn, id);
     })
 
     function clear_data(pEl) {
@@ -457,6 +475,9 @@ $(document).ready(function () {
                 <div class="col d-flex flex-column">
                     <span class="font-weight-bold">תאריך לידה</span>
                 </div>
+                <div class="col d-flex flex-column">
+                    <span class="font-weight-bold">פעולות</span>
+                </div>
             </li>`;
         return li;
     }
@@ -491,19 +512,22 @@ $(document).ready(function () {
         let li =
             `<li class="row d-flex flex-row mb-3">
                 <div class="col d-flex flex-column ">
-                    <span class="font-weight-bold">ת.ז</span>
+                    <span class="font-weight-bold">הכנסה של</span>
                 </div>
                 <div class="col d-flex flex-column ">
-                    <span class="font-weight-bold">שם מלא</span>
+                    <span class="font-weight-bold">גובה הכנסה</span>
                 </div>
                 <div class="col d-flex flex-column">
-                    <span class="font-weight-bold">קשר משפחתי</span>
+                    <span class="font-weight-bold">חודש</span>
                 </div>
                 <div class="col d-flex flex-column">
-                    <span class="font-weight-bold">מגדר</span>
+                    <span class="font-weight-bold">שנה</span>
                 </div>
                 <div class="col d-flex flex-column">
-                    <span class="font-weight-bold">תאריך לידה</span>
+                    <span class="font-weight-bold">קובץ מצורף</span>
+                </div>
+                <div class="col d-flex flex-column">
+                    <span class="font-weight-bold">פעולות</span>
                 </div>
             </li>`;
         return li;
@@ -512,23 +536,23 @@ $(document).ready(function () {
         let li =
             `<li class="row d-flex flex-row mb-3" >
                 <div class="col d-flex flex-column ">
-                    <span class="">${item.FamilyMemberId}</span>
+                    <span class="">${nameById(item.Id)}</span>
                 </div>
                 <div class="col d-flex flex-column ">
-                    <span class="">${item.Name}</span>
+                    <span class="">${item.Salary}</span>
                 </div>
                 <div class="col d-flex flex-column mx-5">
-                    <span class="">${item.Realationship}</span>
+                    <span class="">${item.Month}</span>
                 </div>
                 <div class="col d-flex flex-column">
-                    <span class="">${item.Gender}</span>
+                    <span class="">${item.Year}</span>
                 </div>
                 <div class="col d-flex flex-column">
-                    <span class="">${BirthDay}</span>
+                    <span class=""></span>
                 </div>
                 <div class="col d-flex flex-row justify-content-around">
-                    <button class="edit btn btn-warning" data-id="${item.FamilyMemberId}" data-name="${item.Name}" data-relationship="${item.Realationship}" data-gender="${item.Gender}" data-birthDay="${BirthDay}">ערוך</button>
-                    <button class="delete btn btn-danger" data-id="${item.FamilyMemberId}">מחק</button>
+                    <button class="edit btn btn-warning" data-finno="${item.FinNo}" data-menid="${item.Id}" data-salary="${item.Salary}" data-month="${item.Month}" data-year="${item.Year}">ערוך</button>
+                    <button class="delete btn btn-danger" data-finno="${item.FinNo}" data-menid="${item.Id}">מחק</button>
                 </div>
             </li>`;
         return li;
@@ -550,16 +574,23 @@ $(document).ready(function () {
 
     $('#NextToFinance').click(function () {
         var RealationshipArr = ['אב', 'אם', 'אשה', 'בעל'];
-        var optionsArr = familyMem.list.filter(item => jQuery.inArray(item.Realationship, RealationshipArr) !== -1);  
+        optionsFinanceArr = familyMem.list.filter(item => jQuery.inArray(item.Realationship, RealationshipArr) !== -1);  
         var options = '';
         options += ` <option value="${StudentID}">${StudentName}</option>`;
-        $.each(optionsArr, function (i , val) {
+        $.each(optionsFinanceArr, function (i , val) {
             options += ` <option value="${val.FamilyMemberId}">${val.Name}</option>`;
         })
-
         $('select[name=family_mem_id]').html(options);
-
+        procces_lists(finance);
     })
+
+    function nameById(id) {
+        if (id == StudentID)
+            return StudentName;
+        item = optionsFinanceArr.filter(item => item.FamilyMemberId == id);
+        if (item[0])
+            return item[0].Name;
+    }
 
 
 });
