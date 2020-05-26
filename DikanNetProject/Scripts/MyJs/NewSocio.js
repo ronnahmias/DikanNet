@@ -131,24 +131,6 @@ $(document).ready(function () {
         });
     }
 
-    //file upload
-    function uploadFile(pUrl, pData) {
-        $.ajax({
-            type: "POST",
-            url: pUrl,
-            dataType: "json",
-            data: pData,
-            success: function (data) {
-                console.log('upload success');
-            },
-            failure: function (errMsg) {
-                console.log(errMsg);
-            },
-            complete: function () {
-            }
-        });
-    }
-
 
     //edit fundraiser click 
     $('#fund_list').on('click', '.edit', function () {
@@ -255,7 +237,7 @@ $(document).ready(function () {
         var salary = $('#finance .__add_warpper input[name="finance_amount"]').val();
         var month = $('#finance .__add_warpper input[name="finance_mounth"]').val();
         var year = $('#finance .__add_warpper input[name="finance_year"]').val();
-        var filesalary = $('#finance .__add_warpper input[name="finance_file"]');
+        var filesalary = $('#finance .__add_warpper input[name="finance_file"]').get(0);
         var fin_no = $('#finance .__add_warpper input[name="fin_no"]').val();
 
         if (id == '' || month == '' || year == '' || filesalary == '') return;
@@ -280,10 +262,38 @@ $(document).ready(function () {
 
         ajax_post_data('/Student/AddEditFinance', data, finance, btn, id);
 
+        // ford data for the file to be uploaded
         var formdata = new FormData();
-        formdata.append('finance_file', filesalary[0].files[0]);
+        var file = filesalary.files;
+        formdata.append(file[0].name, file[0]);
+
+        // Adding one more key to FormData object as id of the file that need to  be associate
+        //formdata.append('userid', id);
+
+        console.log({ formdata });
+
         uploadFile('/Student/FileUpload', formdata);
     });
+
+    //file upload
+    function uploadFile(pUrl, pData) {
+        $.ajax({
+            type: "POST",
+            url: pUrl,
+            dataType: "json",
+            contentType: false,
+            processData: false,
+            data: pData,
+            success: function (data) {
+                console.log('upload success');
+            },
+            failure: function (errMsg) {
+                console.log(errMsg);
+            },
+            complete: function () {
+            }
+        });
+    }
 
     //edit car click 
     $('#car_list').on('click', '.edit', function () {

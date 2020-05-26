@@ -811,18 +811,28 @@ namespace DikanNetProject.Controllers
         }
 
         [HttpPost]
-        public JsonResult FileUpload()
+        public ActionResult FileUpload()
         {
-                HttpPostedFileBase file = Request.Files[0]; //Uploaded file
-                                                            //Use the following properties to get file's name, size and MIMEType
-                //int fileSize = file.ContentLength;
-               // string fileName = file.FileName;
-               // string mimeType = file.ContentType;
-               // System.IO.Stream fileContent = file.InputStream;
-                //To save file, use SaveAs method
-                //file.SaveAs(Server.MapPath("~/") + fileName); //File will be saved in application root
+            // Checking no of files injected in Request object
+            if (Request.Files.Count > 0)
+            {
+                try
+                {
+                    // get the data to associate the file to person
+                    //var data = Request.Files[Request.Files.Count-1];
 
-            return Json("Uploaded " + Request.Files.Count + " files");
+                    //  Get all files from Request object  
+                    HttpPostedFileBase file = Request.Files[0];
+                    //Files.SaveFileInServer(file, "Finance")
+
+                    return new HttpStatusCodeResult(HttpStatusCode.OK);
+                }
+                catch (Exception ex)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                }
+            }
+            return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
         }
 
         #endregion
